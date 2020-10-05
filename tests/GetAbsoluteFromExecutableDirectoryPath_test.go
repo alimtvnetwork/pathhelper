@@ -16,7 +16,7 @@ func TestGetAbsoluteFromExecutableDirectoryPath(t *testing.T) {
 			So(pathhelper.GetAbsoluteFromExecutableDirectoryPath("\\whatever"), ShouldNotBeBlank)
 			So(pathhelper.GetAbsoluteFromExecutableDirectoryPath("\\whatever"), ShouldNotBeEmpty)
 			So(pathhelper.GetAbsoluteFromExecutableDirectoryPath("\\whatever"), ShouldNotBeNil)
-			So(pathhelper.GetExecutableDirectory(), ShouldContainSubstring, "C:\\Users\\Naureen\\AppData\\Local\\Temp\\go-build")
+			So(pathhelper.GetExecutablePath(), ShouldContainSubstring, "C:\\Users\\Naureen\\AppData\\Local\\Temp\\go-build")
 		})
 
 	})

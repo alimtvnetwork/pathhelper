@@ -7,6 +7,6 @@ import (
 )
 
 func main() {
-	fmt.Println("Hello World from main")
+	fmt.Println("GetExecutablePath")
 	fmt.Println(pathhelper.GetExecutableDirectory())
 }
