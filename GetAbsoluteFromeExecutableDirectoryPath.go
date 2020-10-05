@@ -1,7 +1,7 @@
 package pathhelper
 
 func GetAbsoluteFromExecutableDirectoryPath(relativePath string) string {
-	basePath := GetExecutableDirectory()
+	basePath := GetExecutablePath()
 
 	return GetAbsolutePath(basePath, relativePath)
 }
