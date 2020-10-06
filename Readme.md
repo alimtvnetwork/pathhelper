@@ -5,7 +5,7 @@ path helper utility tool
 
 ## Git Clone
 
-`git clone YourModuleName.git`
+`git clone https://gitlab.com/evatix-go/pathhelper.git`
 
 ### Prerequisites
 
@@ -14,7 +14,7 @@ path helper utility tool
 
 ## Installation
 
-`go get YourModuleName`
+`go get gitlab.com/evatix-go/pathhelper`
 
 ## Why YourModuleName?
 
