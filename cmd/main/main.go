@@ -2,12 +2,11 @@ package main
 
 import (
 	"fmt"
-
-	"gitlab.com/evatix-go/pathhelper/pathhelpercore"
+	"os"
 )
 
 func main() {
 	fmt.Println("IsGoModuleOn")
-	var x string = "      "
-	fmt.Println(pathhelpercore.IsEmptyPath(x))
+	fmt.Println(os.ExpandEnv("%JAVA_HOME%"))
+	fmt.Println(os.ExpandEnv("~/home"))
 }

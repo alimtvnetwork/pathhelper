@@ -3,10 +3,8 @@ package pathhelpercore
 import (
 	"errors"
 	"os"
-)
 
-const (
-	invalidEmptyPathErrorMessage = "Invalid : Empty path given, cannot process it."
+	"gitlab.com/evatix-go/pathhelper/constants"
 )
 
 type FileInfoWrapper struct {
@@ -23,7 +21,7 @@ func NewFileWrapperInfo(rawPath string) *FileInfoWrapper {
 	isEmptyPath := IsEmptyPath(rawPath)
 
 	if isEmptyPath {
-		emptyFileError := errors.New(invalidEmptyPathErrorMessage)
+		emptyFileError := errors.New(constants.InvalidEmptyPathErrorMessage)
 
 		return &FileInfoWrapper{
 			FileInfo:    nil,
