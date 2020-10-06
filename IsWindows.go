@@ -1,7 +1,11 @@
 package pathhelper
 
-import "runtime"
+import (
+	"runtime"
+
+	"gitlab.com/evatix-go/pathhelper/constants"
+)
 
 func IsWindows() bool {
-	return runtime.GOOS == WindowsOS
+	return runtime.GOOS == constants.WindowsOS
 }

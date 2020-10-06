@@ -1,12 +1,14 @@
 package pathhelper
 
-import "strings"
+import (
+	"gitlab.com/evatix-go/pathhelper/constants"
+)
 
-func GetPathFromUri(path string) string {
-	if IsWindows() {
-		return strings.ReplaceAll(NormalizePath(path), Prefix, "")
-	}
+var uriRemoverMap = []string{
+	constants.UriSchemePrefixStandard,
+	constants.UriSchemePrefixTwoSlashes,
+}
 
-	// Todo  check prefix difference for other OS
-	return strings.ReplaceAll(NormalizePath(path), Prefix, "")
+func GetPathFromUri(path string, isNormalizePath bool) string {
+	return RemoveFromPath(path, &uriRemoverMap, isNormalizePath)
 }

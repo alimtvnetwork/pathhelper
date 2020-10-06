@@ -28,6 +28,10 @@ Any other packages used
 
 ## Links
 
+- [What are conventions for filenames in Go? - Stack Overflow](https://stackoverflow.com/questions/25161774/what-are-conventions-for-filenames-in-go)
+- [go - Pass method argument to function - Stack Overflow](https://stackoverflow.com/questions/38897529/pass-method-argument-to-function)
+- [exec.Command() in Go with environment variable - Stack Overflow](https://stackoverflow.com/questions/51015569/exec-command-in-go-with-environment-variable)
+
 ## Notes
 
 ## Contributors

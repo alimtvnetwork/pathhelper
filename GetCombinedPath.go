@@ -1,14 +1,18 @@
 package pathhelper
 
 import (
-	"strings"
+	"gitlab.com/evatix-go/pathhelper/pathhelpercore"
 )
 
 // @isIgnoreEmptyPath if true then ignore empty string (nil, "", or any empty spaces "  ")
-func GetCombinedPath(separator string, isIgnoreEmptyPath bool, paths ...string) string {
-	if !isIgnoreEmptyPath {
-		return strings.Join(paths, separator)
+func GetCombinedPath(separator string, isIgnoreEmptyPath bool, isNormalize bool, paths ...string) string {
+	pathConfig := &pathhelpercore.PathConfig{
+		Separator:         separator,
+		IsNormalize:       isNormalize,
+		IsIgnoreEmptyPath: isIgnoreEmptyPath,
 	}
 
-	return GetCombinedOfNonEmptyPaths(separator, paths)
+	return getCombinedPathUsingConfigInternal(
+		pathConfig,
+		paths)
 }

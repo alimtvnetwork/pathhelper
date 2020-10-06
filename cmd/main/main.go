@@ -3,10 +3,11 @@ package main
 import (
 	"fmt"
 
-	"gitlab.com/evatix-go/pathhelper"
+	"gitlab.com/evatix-go/pathhelper/pathhelpercore"
 )
 
 func main() {
-	fmt.Println("GetExecutablePath")
-	fmt.Println(pathhelper.GetExecutableDirectory())
+	fmt.Println("IsGoModuleOn")
+	var x string = "      "
+	fmt.Println(pathhelpercore.IsEmptyPath(x))
 }

@@ -1,11 +1,18 @@
 package pathhelper
 
-import "strings"
+import (
+	"strings"
 
-func GetPathAsUri(path string) string {
-	if IsWindows() {
-		return PrefixForWindowsURI + strings.ReplaceAll(NormalizePath(path), Slash, BackSlash)
+	"gitlab.com/evatix-go/pathhelper/constants"
+)
+
+func GetPathAsUri(path string, isNormalizePath bool) string {
+	if isNormalizePath {
+		path = NormalizePath(path)
 	}
 
-	return Prefix + strings.ReplaceAll(NormalizePath(path), BackSlash, Slash)
+	return constants.UriSchemePrefixStandard + strings.ReplaceAll(
+		path,
+		constants.BackSlash,
+		constants.ForwardSlash)
 }

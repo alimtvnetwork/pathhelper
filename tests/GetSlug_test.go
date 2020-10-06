@@ -17,6 +17,7 @@ func TestGetSlug(t *testing.T) {
 	})
 
 	Convey("if given isSlug(string) is false", t, func() {
+
 		Convey("it should return string without forbidden array", func() {
 			So(pathhelper.GetSlug("%&^2093073070271 b21 2987$#&^^&$(*&$(", "_"), ShouldEqual, "_2093073070271_b21_2987_")
 			So(pathhelper.GetSlug("%&^2093073070271 b21 2987$#&^^&$(*&$(", "-"), ShouldEqual, "-2093073070271-b21-2987-")
@@ -24,6 +25,7 @@ func TestGetSlug(t *testing.T) {
 			So(pathhelper.GetSlug("%&^2093*73070271 b21 2987$#&^^&$(*&$(", "-"), ShouldEqual, "-2093-73070271-b21-2987-")
 			So(pathhelper.GetSlug("%&^20930__070271 b21 2987$#&^^&$(*&$(", "_"), ShouldEqual, "_20930_070271_b21_2987_")
 		})
+
 	})
 
 }
