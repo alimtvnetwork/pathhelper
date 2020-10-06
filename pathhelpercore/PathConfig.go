@@ -1,0 +1,31 @@
+package pathhelpercore
+
+import (
+	"gitlab.com/evatix-go/pathhelper/constants"
+)
+
+// By default:
+// Separator = os.PathSeparator
+// IsNormalize = true
+// IsIgnoreEmptyPath = false
+// IsExpandEnvironmentVariables = true
+type PathConfig struct {
+	Separator                    string
+	IsNormalize                  bool
+	IsIgnoreEmptyPath            bool
+	IsExpandEnvironmentVariables bool
+}
+
+// By default:
+// Separator = os.PathSeparator
+// IsNormalize = true
+// IsIgnoreEmptyPath = false
+// IsExpandEnvironmentVariables: true
+func NewDefaultPathConfig() *PathConfig {
+	return &PathConfig{
+		Separator:                    constants.PathSeparator,
+		IsNormalize:                  true,
+		IsIgnoreEmptyPath:            false,
+		IsExpandEnvironmentVariables: true,
+	}
+}

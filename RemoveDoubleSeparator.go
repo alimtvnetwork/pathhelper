@@ -1,22 +1,26 @@
 package pathhelper
 
-import "strings"
+import (
+	"strings"
+
+	"gitlab.com/evatix-go/pathhelper/constants"
+)
 
 // TODO : Discuss this for inside the function
 func RemoveDoubleSeparator(path, separator string) string {
-	if strings.Contains(path, DoubleDash) {
+	if strings.Contains(path, constants.DoubleDash) {
 		for {
-			path = strings.ReplaceAll(path, DoubleDash, separator)
-			if !strings.Contains(path, DoubleDash) {
+			path = strings.ReplaceAll(path, constants.DoubleDash, separator)
+			if !strings.Contains(path, constants.DoubleDash) {
 				break
 			}
 		}
 	}
 
-	if strings.Contains(path, DoubleUnderscore) {
+	if strings.Contains(path, constants.DoubleUnderscore) {
 		for {
-			path = strings.ReplaceAll(path, DoubleUnderscore, separator)
-			if !strings.Contains(path, DoubleUnderscore) {
+			path = strings.ReplaceAll(path, constants.DoubleUnderscore, separator)
+			if !strings.Contains(path, constants.DoubleUnderscore) {
 				break
 			}
 		}

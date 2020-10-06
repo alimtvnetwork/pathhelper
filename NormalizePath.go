@@ -4,8 +4,13 @@ import (
 	"path"
 	"strings"
 
+	"gitlab.com/evatix-go/pathhelper/constants"
 	"gitlab.com/evatix-go/pathhelper/pathhelpercore"
 )
+
+var normalizeMap = map[string]string{
+	constants.UriSchemePrefixStandard: "",
+}
 
 func NormalizePath(givenPath string) string {
 	if pathhelpercore.IsEmptyPath(givenPath) {
@@ -18,7 +23,7 @@ func NormalizePath(givenPath string) string {
 	}
 
 	// when givenPath contains file
-	pathWithoutPrefix := strings.Replace(givenPath, Prefix, "", 1)
+	pathWithoutPrefix := strings.Replace(givenPath, constants.UriSchemePrefixStandard, "", 1)
 
 	// removing doubles
 	pathWithoutDouble := RemovingDouble(pathWithoutPrefix)
@@ -27,9 +32,9 @@ func NormalizePath(givenPath string) string {
 	var pathWithCorrectSeparator string
 
 	if IsWindows() {
-		pathWithCorrectSeparator = strings.ReplaceAll(pathWithoutDouble, Slash, BackSlash)
+		pathWithCorrectSeparator = strings.ReplaceAll(pathWithoutDouble, constants.ForwardSlash, constants.BackSlash)
 	} else {
-		pathWithCorrectSeparator = strings.ReplaceAll(pathWithoutDouble, BackSlash, Slash)
+		pathWithCorrectSeparator = strings.ReplaceAll(pathWithoutDouble, constants.BackSlash, constants.ForwardSlash)
 	}
 
 	return RemovingDouble(strings.TrimSpace(pathWithCorrectSeparator))
