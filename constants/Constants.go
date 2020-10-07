@@ -27,4 +27,6 @@ const (
 	// "on"
 	On            = "on"
 	PathSeparator = string(os.PathSeparator)
+
+	InvalidEmptyPathErrorMessage = "Invalid : Empty path given, cannot process it."
 )

@@ -6,6 +6,7 @@ ConfigDirectoryForWindows = configs
 
 all: create-windows-bin win-copy-config build run
 run-l: run-linux
+runl: run-linux
 run-linux: create-bin copy-config build linux-run
 run-ps: create-windows-bin win-copy-config build run-direct
 
@@ -41,7 +42,16 @@ linux-run:
 
 run-tests:
 	cd tests && go test -v
+	
+cat-ssh:
+	cat ~/.ssh/id_rsa.pub
 
+ssh-sample:
+	echo "ssh-keygen -t rsa -b 4096 -C 'Your email'"
+	
+modify-authorized-keys:
+	sudo vim ~/.ssh/authorized_keys
+	
 git-clean-get:
 	git reset --hard
 	git clean -df
