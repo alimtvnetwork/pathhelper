@@ -2,7 +2,6 @@ package pathhelper
 
 import (
 	"os"
-	"strings"
 )
 
 func expandEnvironmentVariable(variableForExapanding []string) map[string]string {
@@ -12,11 +11,11 @@ func expandEnvironmentVariable(variableForExapanding []string) map[string]string
 		_, exists := os.LookupEnv(keyName)
 
 		if !exists {
-			expandedPath["$"+keyName] = ""
+			expandedPath["$"+keyName] = "$" + keyName
 		}
 
 		if exists {
-			expandedPath["$"+keyName] = os.Getenv(strings.ToLower(keyName))
+			expandedPath["$"+keyName] = os.Getenv(keyName)
 		}
 	}
 
