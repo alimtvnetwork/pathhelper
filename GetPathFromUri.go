@@ -4,11 +4,11 @@ import (
 	"gitlab.com/evatix-go/pathhelper/constants"
 )
 
-var uriRemoverMap = []string{
+var uriRemovePrefixes = []string{
 	constants.UriSchemePrefixStandard,
 	constants.UriSchemePrefixTwoSlashes,
 }
 
 func GetPathFromUri(path string, isNormalizePath bool) string {
-	return RemoveFromPath(path, &uriRemoverMap, isNormalizePath)
+	return RemoveFromPath(path, &uriRemovePrefixes, isNormalizePath)
 }
