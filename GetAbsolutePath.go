@@ -1,11 +1,19 @@
 package pathhelper
 
-import "strings"
+import (
+	"strings"
+
+	"gitlab.com/evatix-go/pathhelper/pathhelpercore"
+)
 
 func GetAbsolutePath(basePath, relativePath string) string {
-	if !strings.HasSuffix(basePath, GetPathSeparator()) || !strings.HasPrefix(relativePath, GetPathSeparator()) {
-		return RemovingDouble(RemovingDouble(basePath) + GetPathSeparator() + RemovingDouble(relativePath))
+	if pathhelpercore.IsEmptyPath(basePath) && pathhelpercore.IsEmptyPath(relativePath) {
+		panic("Empty paths provided!")
 	}
 
-	return RemovingDouble(RemovingDouble(basePath) + RemovingDouble(relativePath))
+	if !strings.HasSuffix(basePath, GetPathSeparator()) || !strings.HasPrefix(relativePath, GetPathSeparator()) {
+		return RemovingDoubleSeparator(RemovingDoubleSeparator(basePath) + GetPathSeparator() + RemovingDoubleSeparator(relativePath))
+	}
+
+	return RemovingDoubleSeparator(RemovingDoubleSeparator(basePath) + RemovingDoubleSeparator(relativePath))
 }

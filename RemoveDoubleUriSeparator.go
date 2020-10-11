@@ -6,8 +6,7 @@ import (
 	"gitlab.com/evatix-go/pathhelper/constants"
 )
 
-// TODO : Discuss this for inside the function
-func RemoveDoubleSeparator(path, separator string) string {
+func RemoveDoubleUriSeparator(path, separator string) string {
 	if strings.Contains(path, constants.DoubleDash) {
 		for {
 			path = strings.ReplaceAll(path, constants.DoubleDash, separator)

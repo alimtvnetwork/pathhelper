@@ -2,44 +2,55 @@ package tests
 
 import (
 	"testing"
+	"fmt"
 
 	. "github.com/smartystreets/goconvey/convey"
 
 	"gitlab.com/evatix-go/pathhelper"
 )
 
+type hasPathIssuesTestCaseWrapper struct {
+	input, expectedMessage string
+	expected  bool
+}
+
+var hasPathIssuesTestCaseWrappers  = []hasPathIssuesTestCaseWrapper{
+	{
+		input: "file:///C:/",
+		expected: true,
+		expectedMessage: "ShouldBeTrue",
+	},
+	{
+		input: "//C:\\win",
+		expected: true,
+		expectedMessage: "ShouldBeTrue",
+	},
+	{
+		input: "file:///C:\\win\\users",
+		expected: true,
+		expectedMessage: "ShouldBeTrue",
+	},
+	{
+		input: "C://windows/",
+		expected: false,
+		expectedMessage: "ShouldBeFalse",
+	},
+}
+
 func TestHasPathIssues(t *testing.T) {
+	for _, testCase := range hasPathIssuesTestCaseWrappers{
+		// Arrange
+		testCaseMessage := fmt.Sprintf("[HasPathIssues] inputs (%s) expects (%s)", testCase.input, testCase.expectedMessage)
 
-	Convey("If given string has prefix", t, func() {
+		Convey(testCaseMessage, t, func(){
+			// Act
+			actual := pathhelper.HasPathIssues(testCase.input)
 
-		Convey("it should return true", func() {
-			So(pathhelper.HasPathIssues("file:///C:/"), ShouldBeTrue)
+			// Arrange
+			// HasPathIssues returns true if argument has prefix or double forward and backward slashes  or both
+			So(actual, ShouldNotBeNil)
+			So(actual, ShouldNotBeEmpty)
+			So(actual, ShouldEqual, testCase.expected)
 		})
-
-	})
-
-	Convey("if given string has slash and backslash at the same time", t, func() {
-
-		Convey("it should return true", func() {
-			So(pathhelper.HasPathIssues("//C:\\win"), ShouldBeTrue)
-		})
-
-	})
-
-	Convey("if given string has prefix and/or slash and backslash at the same time", t, func() {
-
-		Convey("it should return true", func() {
-			So(pathhelper.HasPathIssues("file:///C:\\win\\users"), ShouldBeTrue)
-		})
-
-	})
-
-	Convey("if given string does not have prefix and/or slash and backslash at the same time", t, func() {
-
-		Convey("it should return false", func() {
-			So(pathhelper.HasPathIssues("C://windows/"), ShouldBeFalse)
-		})
-
-	})
-
+	}
 }

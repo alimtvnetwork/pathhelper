@@ -5,10 +5,10 @@ import (
 	"strings"
 )
 
-func expandEnvironmentVariable(variableForExapanding []string) map[string]string {
+func expandEnvironmentVariable(variableToExpand []string) map[string]string {
 	var expandedPath = map[string]string{}
 
-	for _, keyName := range variableForExapanding {
+	for _, keyName := range variableToExpand {
 		_, exists := os.LookupEnv(keyName)
 
 		if !exists {

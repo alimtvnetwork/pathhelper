@@ -12,21 +12,21 @@ var normalizeMap = map[string]string{
 	constants.UriSchemePrefixStandard: "",
 }
 
-func NormalizePath(givenPath string) string {
-	if pathhelpercore.IsEmptyPath(givenPath) {
-		return givenPath
+func NormalizePath(Path string) string {
+	if pathhelpercore.IsEmptyPath(Path) {
+		return Path
 	}
 
-	// if givenPath does not contain file prefixes
-	if !HasPathIssues(givenPath) {
-		return path.Clean(givenPath)
+	// if Path does not contain file prefixes
+	if !HasPathIssues(Path) {
+		return path.Clean(Path)
 	}
 
-	// when givenPath contains file
-	pathWithoutPrefix := strings.Replace(givenPath, constants.UriSchemePrefixStandard, "", 1)
+	// when Path contains file
+	pathWithoutPrefix := strings.Replace(Path, constants.UriSchemePrefixStandard, "", 1)
 
 	// removing doubles
-	pathWithoutDouble := RemovingDouble(pathWithoutPrefix)
+	pathWithoutDouble := RemovingDoubleSeparator(pathWithoutPrefix)
 
 	// replacing with correct separator
 	var pathWithCorrectSeparator string
@@ -37,5 +37,5 @@ func NormalizePath(givenPath string) string {
 		pathWithCorrectSeparator = strings.ReplaceAll(pathWithoutDouble, constants.BackSlash, constants.ForwardSlash)
 	}
 
-	return RemovingDouble(strings.TrimSpace(pathWithCorrectSeparator))
+	return RemovingDoubleSeparator(strings.TrimSpace(pathWithCorrectSeparator))
 }

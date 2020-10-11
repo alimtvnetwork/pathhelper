@@ -14,8 +14,8 @@ func TestGetPathAsURI(t *testing.T) {
 		Convey("if GetPathAsUri is run", func() {
 
 			Convey("it should return", func() {
-				So(pathhelper.GetPathAsUri("c:\\windows"), ShouldEqual, "file:\\\\c:\\windows")
-				So(pathhelper.GetPathAsUri("c:/windows"), ShouldEqual, "file:\\\\c:\\windows")
+				So(pathhelper.GetPathAsUri("c:\\windows", true), ShouldEqual, "file:\\\\c:\\windows")
+				So(pathhelper.GetPathAsUri("c:/windows", true), ShouldEqual, "file:\\\\c:\\windows")
 			})
 		})
 	})
@@ -24,7 +24,7 @@ func TestGetPathAsURI(t *testing.T) {
 		So(pathhelper.IsWindows(), ShouldBeTrue)
 		Convey("it should return", func() {
 			Convey("it should return", func() {
-				So(pathhelper.GetPathAsUri("c:/windows"), ShouldNotEqual, "file://c:/windows")
+				So(pathhelper.GetPathAsUri("c:/windows", true), ShouldNotEqual, "file://c:/windows")
 			})
 		})
 	})
