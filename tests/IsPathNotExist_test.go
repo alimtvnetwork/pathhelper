@@ -40,11 +40,14 @@ var pathNotExistTestCaseWrappers = []pathNotExistTestCaseWrapper{
 }
 
 func TestIsPathNotExist_Windows(t *testing.T) {
+	if !pathhelper.IsWindows() {
+		t.Skip("Windows tests ignored in Unix.")
+	}
+
 	for _, testCase := range pathNotExistTestCaseWrappers {
 		// Arrange
-		fmt.Println("check  if its Unix", pathhelper.IsUnixCase(testCase.operatingSystem))
 		if pathhelper.IsUnixCase(testCase.operatingSystem) {
-			t.Skip("Unix tests ignored in Windows.")
+			continue
 		}
 
 		testCaseMessage := fmt.Sprintf("(%s)[IsPathNotExist] inputs (%s) expects (%s)", testCase.operatingSystemMessage, testCase.input, testCase.expectedMessage)
@@ -54,10 +57,14 @@ func TestIsPathNotExist_Windows(t *testing.T) {
 }
 
 func TestIsPathNotExist_Unix(t *testing.T) {
+	if pathhelper.IsWindows() {
+		t.Skip("Unix tests ignored in Windows.")
+	}
+
 	for _, testCase := range pathNotExistTestCaseWrappers {
 		// Arrange
 		if pathhelper.IsWindowsCase(testCase.operatingSystem) {
-			t.Skip("Windows tests ignored in Unix.")
+			continue
 		}
 
 		testCaseMessage := fmt.Sprintf("(%s)[IsPathNotExist] inputs (%s) expects (%s)", testCase.operatingSystemMessage, testCase.input, testCase.expectedMessage)

@@ -48,18 +48,6 @@ func TestGetPathSeparator_Windows(t *testing.T) {
 	}
 }
 
-func executeTestCaseForGetPathSeparator(t *testing.T, testCaseMessage string, testCase pathSeparatorTestCaseWrapper) {
-	Convey(testCaseMessage, t, func() {
-		// Act
-		actual := pathhelper.GetPathSeparator()
-
-		// Assert
-		So(actual, ShouldNotBeEmpty)
-		So(actual, ShouldNotBeNil)
-		So(actual[0], ShouldEqual, testCase.expected[0])
-	})
-}
-
 func TestGetPathSeparator_Unix(t *testing.T) {
 	if pathhelper.IsWindows() {
 		t.Skip("Unix tests ignored in Windows.")
@@ -75,4 +63,16 @@ func TestGetPathSeparator_Unix(t *testing.T) {
 
 		executeTestCaseForGetPathSeparator(t, testCaseMessage, testCase)
 	}
+}
+
+func executeTestCaseForGetPathSeparator(t *testing.T, testCaseMessage string, testCase pathSeparatorTestCaseWrapper) {
+	Convey(testCaseMessage, t, func() {
+		// Act
+		actual := pathhelper.GetPathSeparator()
+
+		// Assert
+		So(actual, ShouldNotBeEmpty)
+		So(actual, ShouldNotBeNil)
+		So(actual[0], ShouldEqual, testCase.expected[0])
+	})
 }

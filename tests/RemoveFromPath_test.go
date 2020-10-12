@@ -7,70 +7,91 @@ import (
 	. "github.com/smartystreets/goconvey/convey"
 
 	"gitlab.com/evatix-go/pathhelper"
+	"gitlab.com/evatix-go/pathhelper/enums"
 	"gitlab.com/evatix-go/pathhelper/pathhelpercore"
 )
 
 type removeFromPathTestCaseWrapper struct {
-	inputPath, expected, expectedMessage, operatingSystem string
-	inputBool bool
+	inputPath, expected, expectedMessage, operatingSystemMessage string
+	inputBool                                                    bool
+	operatingSystem                                              enums.OperatingSystem
 }
 
-var removingArray =  []string {"/"}
+var removingArray = []string{"/"}
 
 var removeFromPathTestCaseWrappers = []removeFromPathTestCaseWrapper{
 	{
-		inputPath: "",
-		expected: "",
-		expectedMessage: "empty return",
-		operatingSystem:  "Any OS",
+		inputPath:              "",
+		expected:               "",
+		expectedMessage:        "empty return",
+		operatingSystemMessage: "Any OS",
+		operatingSystem:        enums.Windows,
 	},
 	{
-		inputPath: "c://win/etc/",
-		inputBool: false,
-		expected: "c:winetc",
-		expectedMessage: "c:winetc",
-		operatingSystem:  "Any OS",
+		inputPath:              "c:\\win\\etc",
+		inputBool:              true,
+		expected:               "c:\\win\\etc",
+		expectedMessage:        "c:\\win\\etc",
+		operatingSystemMessage: "Windows OS",
+		operatingSystem:        enums.Windows,
 	},
 	{
-		inputPath: "c:\\win\\etc",
-		inputBool: true,
-		expected: "c:\\win\\etc",
-		expectedMessage: "c:\\win\\etc",
-		operatingSystem:  "OS is windows",
-	},
-	{
-		inputPath: "c:\\\\win\\\\etc",
-		inputBool: true,
-		expected: "c:/win/etc",
-		expectedMessage: "c:/win/etc",
-		operatingSystem:  "OS other than windows",
+		inputPath:              "c:\\\\win\\\\etc",
+		inputBool:              true,
+		expected:               "c:/win/etc",
+		expectedMessage:        "c:/win/etc",
+		operatingSystemMessage: "Unix OS",
+		operatingSystem:        enums.Ubuntu,
 	},
 }
 
-func TestRemoveFromPath(t *testing.T){
+func TestRemoveFromPath_windows(t *testing.T) {
+	if !pathhelper.IsWindows() {
+		t.Skip("Windows tests ignored in Unix.")
+	}
+
 	for _, testCase := range removeFromPathTestCaseWrappers {
 		// Arrange
-		testCaseMessage := fmt.Sprintf("(%s) [RemoveFromPath] inputs (%s, %v) expects (%s)", testCase.operatingSystem, testCase.inputPath, testCase.inputBool, testCase.expectedMessage)
+		if pathhelper.IsUnixCase(testCase.operatingSystem) {
+			continue
+		}
 
-		Convey(testCaseMessage, t, func() {
-			// Act
-			actual := pathhelper.RemoveFromPath(testCase.inputPath, &removingArray, testCase.inputBool)
+		testCaseMessage := fmt.Sprintf("(%s) [RemoveFromPath] inputs (%s, %v) expects (%s)", testCase.operatingSystemMessage, testCase.inputPath, testCase.inputBool, testCase.expectedMessage)
 
-			// Assert
-			if pathhelpercore.IsEmptyPath(testCase.inputPath){
-				So(actual, ShouldBeEmpty)
-				So(actual[1], ShouldEqual, testCase.expected[1])
-			}
-
-			if !pathhelpercore.IsEmptyPath(testCase.inputPath) {
-				if pathhelper.IsWindows() {
-					So(actual[2], ShouldEqual, testCase.expected[2])
-				}
-
-				if !pathhelper.IsWindows() {
-					So(actual[3], ShouldEqual, testCase.expected[3])
-				}
-			}
-		})
+		executeTestCaseForRemoveFromPath(t, testCaseMessage, testCase)
 	}
+}
+
+func TestRemoveFromPath_unix(t *testing.T) {
+	if pathhelper.IsWindows() {
+		t.Skip("Windows tests ignored in Unix.")
+	}
+
+	for _, testCase := range removeFromPathTestCaseWrappers {
+		// Arrange
+		if pathhelper.IsWindowsCase(testCase.operatingSystem) {
+			continue
+		}
+
+		testCaseMessage := fmt.Sprintf("(%s) [RemoveFromPath] inputs (%s, %v) expects (%s)", testCase.operatingSystemMessage, testCase.inputPath, testCase.inputBool, testCase.expectedMessage)
+
+		executeTestCaseForRemoveFromPath(t, testCaseMessage, testCase)
+	}
+}
+
+func executeTestCaseForRemoveFromPath(t *testing.T, testCaseMessage string, testCase removeFromPathTestCaseWrapper) {
+	Convey(testCaseMessage, t, func() {
+		// Act
+		actual := pathhelper.RemoveFromPath(testCase.inputPath, &removingArray, testCase.inputBool)
+
+		// Assert
+		if pathhelpercore.IsEmptyPath(testCase.inputPath) {
+			So(actual, ShouldBeEmpty)
+		}
+
+		if !pathhelpercore.IsEmptyPath(testCase.inputPath) {
+			So(actual, ShouldNotBeEmpty)
+			So(actual, ShouldEqual, testCase.expected)
+		}
+	})
 }

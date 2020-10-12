@@ -17,32 +17,18 @@ type pathExistTestCaseWrapper struct {
 }
 
 var pathExistTestCaseWrappers = []pathExistTestCaseWrapper{
-	// {
-	// 	input:           "",
-	// 	expected:        true,
-	// 	expectedMessage: "true",
-	// 	operatingSystemMessage: "any OS",
-	// },
+	{
+		input:                  "",
+		expected:               false,
+		expectedMessage:        "false",
+		operatingSystemMessage: "any OS",
+	},
 	{
 		input:                  "c:\\sampleSomething",
 		expected:               false,
 		expectedMessage:        "false",
 		operatingSystemMessage: "OS is Windows",
 		operatingSystem:        enums.Windows,
-	},
-	{
-		input:                  "C:\\Users",
-		expected:               true,
-		expectedMessage:        "true",
-		operatingSystemMessage: "OS is Windows",
-		operatingSystem:        enums.Windows,
-	},
-	{
-		input:                  "c:\\windows\\etc",
-		expected:               false,
-		expectedMessage:        "false",
-		operatingSystemMessage: "OS is Unix",
-		operatingSystem:        enums.Ubuntu,
 	},
 	{
 		input:                  "~/home",
@@ -54,10 +40,14 @@ var pathExistTestCaseWrappers = []pathExistTestCaseWrapper{
 }
 
 func TestIsPathExist_Windows(t *testing.T) {
+	if !pathhelper.IsWindows() {
+		t.Skip("Windows tests ignored in Unix.")
+	}
+
 	for _, testCase := range pathExistTestCaseWrappers {
 		// Arrange
 		if pathhelper.IsUnixCase(testCase.operatingSystem) {
-			t.Skip("Unix tests ignored in Windows.")
+			continue
 		}
 
 		testCaseMessage := fmt.Sprintf("(%s)[IsPathExist] inputs (%s) expects (%s)", testCase.operatingSystemMessage, testCase.input, testCase.expectedMessage)
@@ -67,10 +57,14 @@ func TestIsPathExist_Windows(t *testing.T) {
 }
 
 func TestIsPathExist_Unix(t *testing.T) {
+	if pathhelper.IsWindows() {
+		t.Skip("Unix tests ignored in Windows.")
+	}
+
 	for _, testCase := range pathExistTestCaseWrappers {
 		// Arrange
 		if pathhelper.IsWindowsCase(testCase.operatingSystem) {
-			t.Skip("Windows tests ignored in Unix.")
+			continue
 		}
 
 		testCaseMessage := fmt.Sprintf("(%s)[IsPathExist] inputs (%s) expects (%s)", testCase.operatingSystemMessage, testCase.input, testCase.expectedMessage)
