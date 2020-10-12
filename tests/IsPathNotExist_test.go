@@ -7,48 +7,72 @@ import (
 	. "github.com/smartystreets/goconvey/convey"
 
 	"gitlab.com/evatix-go/pathhelper"
+	"gitlab.com/evatix-go/pathhelper/enums"
 )
 
-type isPathNotExistTestCaseWrapper struct {
-	input, expectedMessage, operatingSystem string
-	expected                                bool
+type pathNotExistTestCaseWrapper struct {
+	input, expectedMessage, operatingSystemMessage string
+	expected                                       bool
+	operatingSystem                                enums.OperatingSystem
 }
 
-var isPathNotExistTestCaseWrappers = []isPathNotExistTestCaseWrapper{
+var pathNotExistTestCaseWrappers = []pathNotExistTestCaseWrapper{
+	// {
+	// 	input:           "",
+	// 	expected:        true,
+	// 	expectedMessage: "true",
+	// 	operatingSystemMessage: "any OS",
+	// },
 	{
-		input:           "",
-		expected:        true,
-		expectedMessage: "true",
-		operatingSystem: "any OS",
+		input:                  "C:\\Users",
+		expected:               false,
+		expectedMessage:        "false",
+		operatingSystemMessage: "OS is Windows",
+		operatingSystem:        enums.Windows,
 	},
 	{
-		input:           "C:\\Users",
-		expected:        false,
-		expectedMessage: "false",
-		operatingSystem: "OS is windows",
-	},
-	{
-		input:           "home/user",
-		expected:        false,
-		expectedMessage: "false",
-		operatingSystem: "OS is linux",
+		input:                  "home/user",
+		expected:               false,
+		expectedMessage:        "false",
+		operatingSystemMessage: "OS is Unix",
+		operatingSystem:        enums.Ubuntu,
 	},
 }
 
-func TestIsPathNotExist(t *testing.T) {
-	for _, testCase := range isPathNotExistTestCaseWrappers {
+func TestIsPathNotExist_Windows(t *testing.T) {
+	for _, testCase := range pathNotExistTestCaseWrappers {
 		// Arrange
-		testCaseMessage := fmt.Sprintf("(%s)[IsPathNotExist] inputs (%s) expects (%s)", testCase.operatingSystem, testCase.input, testCase.expectedMessage)
+		fmt.Println("check  if its Unix", pathhelper.IsUnixCase(testCase.operatingSystem))
+		if pathhelper.IsUnixCase(testCase.operatingSystem) {
+			t.Skip("Unix tests ignored in Windows.")
+		}
 
-		Convey(testCaseMessage, t, func() {
-			// Act
-			actual := pathhelper.IsPathNotExist(testCase.input)
+		testCaseMessage := fmt.Sprintf("(%s)[IsPathNotExist] inputs (%s) expects (%s)", testCase.operatingSystemMessage, testCase.input, testCase.expectedMessage)
 
-			// Assert
-			So(actual, ShouldNotBeEmpty)
-			if pathhelper.IsWindows() {
-				So(actual, ShouldEqual, testCase.expected)
-			}
-		})
+		executeTestCaseForIsPathNotExist(t, testCaseMessage, testCase)
 	}
+}
+
+func TestIsPathNotExist_Unix(t *testing.T) {
+	for _, testCase := range pathNotExistTestCaseWrappers {
+		// Arrange
+		if pathhelper.IsWindowsCase(testCase.operatingSystem) {
+			t.Skip("Windows tests ignored in Unix.")
+		}
+
+		testCaseMessage := fmt.Sprintf("(%s)[IsPathNotExist] inputs (%s) expects (%s)", testCase.operatingSystemMessage, testCase.input, testCase.expectedMessage)
+
+		executeTestCaseForIsPathNotExist(t, testCaseMessage, testCase)
+	}
+}
+
+func executeTestCaseForIsPathNotExist(t *testing.T, testCaseMessage string, testCase pathNotExistTestCaseWrapper) {
+	Convey(testCaseMessage, t, func() {
+		// Act
+		actual := pathhelper.IsPathNotExist(testCase.input)
+
+		// Assert
+		So(actual, ShouldNotBeEmpty)
+		So(actual, ShouldEqual, testCase.expected)
+	})
 }

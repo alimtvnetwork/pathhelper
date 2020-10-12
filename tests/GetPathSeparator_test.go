@@ -35,6 +35,19 @@ func TestGetPathSeparator_Windows(t *testing.T) {
 	for _, testCase := range pathSeparatorTestCaseWrappers {
 		// Arrange
 		if pathhelper.IsUnixCase(testCase.operatingSystem) {
+			t.Skip("Unix tests ignored in Windows.")
+		}
+
+		testCaseMessage := fmt.Sprintf("(%s) [GetPathSeparator] inputs () expects (%s)", testCase.operatingSystemMessage, testCase.expectedMessage)
+
+		executeTestCaseForGetPathSeparator(t, testCaseMessage, testCase)
+	}
+}
+
+func TestGetPathSeparator_Unix(t *testing.T) {
+	for _, testCase := range pathSeparatorTestCaseWrappers {
+		// Arrange
+		if pathhelper.IsWindowsCase(testCase.operatingSystem) {
 			t.Skip("Windows tests ignored in Unix.")
 		}
 
@@ -52,19 +65,6 @@ func executeTestCaseForGetPathSeparator(t *testing.T, testCaseMessage string, te
 		// Assert
 		So(actual, ShouldNotBeEmpty)
 		So(actual, ShouldNotBeNil)
-		So(actual[0], ShouldEqual, testCase.expected[0])
+		So(actual, ShouldEqual, testCase.expected)
 	})
-}
-
-func TestGetPathSeparator_Unix(t *testing.T) {
-	for _, testCase := range pathSeparatorTestCaseWrappers {
-		// Arrange
-		if pathhelper.IsWindowsCase(testCase.operatingSystem) {
-			t.Skip("Windows tests ignored in Unix.")
-		}
-
-		testCaseMessage := fmt.Sprintf("(%s) [GetPathSeparator] inputs () expects (%s)", testCase.operatingSystemMessage, testCase.expectedMessage)
-
-		executeTestCaseForGetPathSeparator(t, testCaseMessage, testCase)
-	}
 }
