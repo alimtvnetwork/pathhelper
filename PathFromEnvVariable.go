@@ -1,7 +1,7 @@
 package pathhelper
 
 func PathFromEnvVariable(stringToCheck string) string {
-	keyNameArray := getVariables(stringToCheck)
+	keyNameArray := GetVariables(stringToCheck)
 
 	replacementMap := expandEnvironmentVariable(keyNameArray)
 
