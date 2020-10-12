@@ -22,8 +22,11 @@ func NormalizePath(givenPath string) string {
 		return path.Clean(givenPath)
 	}
 
-	// when givenPath contains file
+	// when givenPath contains UriSchemePrefixStandard
 	pathWithoutPrefix := strings.Replace(givenPath, constants.UriSchemePrefixStandard, "", 1)
+
+	// when givenPath contains UriSchemePrefixTwoSlashes
+	pathWithoutPrefix = strings.Replace(pathWithoutPrefix, constants.UriSchemePrefixTwoSlashes, "", 1)
 
 	// removing doubles
 	pathWithoutDouble := RemovingDouble(pathWithoutPrefix)

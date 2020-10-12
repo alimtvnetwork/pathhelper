@@ -26,26 +26,31 @@ filepath independent of platform.
 
 ## Examples
 
-```
+```go
 package main
 
 import (
 	"fmt"
 	"gitlab.com/evatix-go/pathhelper"
+	"gitlab.com/evatix-go/pathhelper/pathhelpercore"
 )
 
 func main() {
+	// Checking if path is empty
+	pathhelpercore.IsEmptyPath("") // returns true
+
 	samplePath := "C:\\users\\"
 
 	// Checking if path exists
-	isFile :=  pathhelper.IsPathExist(samplePath)
-	fmt.Println(isFile)
+	exists :=  pathhelper.IsPathExist(samplePath)
+	fmt.Println(exists) // returns true if directory or file exist on that path
 
 	// Getting path as URI
-	fmt.Println(pathhelper.GetPathAsUri(samplePath, true))
+	fmt.Println(pathhelper.GetPathAsUri(samplePath, true)) // file:///c:/users
 
-	// Getting temp directory
-	fmt.Println(pathhelper.GetTempDirectory())
+	// Normalize path
+	pathToNormalize := "file:///C:/something/otherthing"
+	fmt.Println(pathhelper.NormalizePath(pathToNormalize)) // C:\something\otherthing if OS is windows; C:/something/otherthing if OS is Unix
 }
 ```
 
