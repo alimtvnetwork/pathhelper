@@ -16,15 +16,43 @@ path helper utility tool
 
 `go get gitlab.com/evatix-go/pathhelper`
 
-## Why YourModuleName?
+## Why *pathhelper*?
+
+Package pathhelper provides an easy and fast way to get your desired OS(operating system) functionality 
+without the hassle of considering the OS you are on, what GO packages you may need to decode a path or 
+simply find out if the path or file exists etc. We have brought features of different packages and 
+injected some new features to make this package a complete solution for obtaining information regarding 
+filepath independent of platform.
 
 ## Examples
 
-`Code Smaples`
+```
+package main
+
+import (
+	"fmt"
+	"gitlab.com/evatix-go/pathhelper"
+)
+
+func main() {
+	samplePath := "C:\\users\\"
+
+	// Checking if path exists
+	isFile :=  pathhelper.IsPathExist(samplePath)
+	fmt.Println(isFile)
+
+	// Getting path as URI
+	fmt.Println(pathhelper.GetPathAsUri(samplePath, true))
+
+	// Getting temp directory
+	fmt.Println(pathhelper.GetTempDirectory())
+}
+```
 
 ## Acknowledgement
 
-Any other packages used
+For this package we have mainly used OS and filepath packages of GO. For testing the package we have used 
+the very convenient package *[Go Convey](http://goconvey.co/)*.
 
 ## Links
 
