@@ -7,7 +7,7 @@ import (
 )
 
 func HasPathIssues(stringToCheck string) bool {
-	hasPrefix := strings.HasPrefix(stringToCheck, constants.UriSchemePrefixStandard)
+	hasPrefix := strings.HasPrefix(stringToCheck, constants.UriSchemePrefixStandard) || strings.HasPrefix(stringToCheck, constants.UriSchemePrefixTwoSlashes)
 	hasSlashAndBackSlash := strings.Contains(stringToCheck, constants.ForwardSlash) && strings.Contains(stringToCheck, constants.BackSlash)
 
 	return hasPrefix || hasSlashAndBackSlash
