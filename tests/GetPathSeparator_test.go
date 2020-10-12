@@ -11,12 +11,12 @@ import (
 	"gitlab.com/evatix-go/pathhelper/enums"
 )
 
-type getPathSeparatorTestCaseWrapper struct {
+type pathSeparatorTestCaseWrapper struct {
 	operatingSystem                                   enums.OperatingSystem
 	operatingSystemMessage, expected, expectedMessage string
 }
 
-var pathSeparatorTestCaseWrappers = []getPathSeparatorTestCaseWrapper{
+var pathSeparatorTestCaseWrappers = []pathSeparatorTestCaseWrapper{
 	{
 		operatingSystem:        enums.Windows,
 		operatingSystemMessage: "Os is windows",
@@ -40,16 +40,20 @@ func TestGetPathSeparator_Windows(t *testing.T) {
 
 		testCaseMessage := fmt.Sprintf("(%s) [GetPathSeparator] inputs () expects (%s)", testCase.operatingSystemMessage, testCase.expectedMessage)
 
-		Convey(testCaseMessage, t, func() {
-			// Act
-			actual := pathhelper.GetPathSeparator()
-
-			// Assert
-			So(actual, ShouldNotBeEmpty)
-			So(actual, ShouldNotBeNil)
-			So(actual[0], ShouldEqual, testCase.expected[0])
-		})
+		executeTestCaseForGetPathSeparator(t, testCaseMessage, testCase)
 	}
+}
+
+func executeTestCaseForGetPathSeparator(t *testing.T, testCaseMessage string, testCase pathSeparatorTestCaseWrapper) {
+	Convey(testCaseMessage, t, func() {
+		// Act
+		actual := pathhelper.GetPathSeparator()
+
+		// Assert
+		So(actual, ShouldNotBeEmpty)
+		So(actual, ShouldNotBeNil)
+		So(actual[0], ShouldEqual, testCase.expected[0])
+	})
 }
 
 func TestGetPathSeparator_Unix(t *testing.T) {
@@ -61,14 +65,6 @@ func TestGetPathSeparator_Unix(t *testing.T) {
 
 		testCaseMessage := fmt.Sprintf("(%s) [GetPathSeparator] inputs () expects (%s)", testCase.operatingSystemMessage, testCase.expectedMessage)
 
-		Convey(testCaseMessage, t, func() {
-			// Act
-			actual := pathhelper.GetPathSeparator()
-
-			// Assert
-			So(actual, ShouldNotBeEmpty)
-			So(actual, ShouldNotBeNil)
-			So(actual[0], ShouldEqual, testCase.expected[0])
-		})
+		executeTestCaseForGetPathSeparator(t, testCaseMessage, testCase)
 	}
 }
