@@ -11,26 +11,27 @@ import (
 )
 
 type getPathSeparatorTestCaseWrapper struct {
-	operatingSystem, expected, expectedMessage string
+	operatingSystem:
+	operatingSystemMessage, expected, expectedMessage string
 }
 
 var pathSeparatorTestCaseWrappers = []getPathSeparatorTestCaseWrapper{
 	{
-		operatingSystem: "Os is windows",
-		expected: constants.BackSlash,
-		expectedMessage: constants.BackSlash,
+		operatingSystemMessage: "Os is windows",
+		expected:               constants.BackSlash,
+		expectedMessage:        constants.BackSlash,
 	},
 	{
-		operatingSystem: "OS other than windows",
-		expected: constants.ForwardSlash,
-		expectedMessage: constants.ForwardSlash,
+		operatingSystemMessage: "OS other than windows",
+		expected:               constants.ForwardSlash,
+		expectedMessage:        constants.ForwardSlash,
 	},
 }
 
 func TestGetPathSeparator(t *testing.T) {
 	for _, testCase := range pathSeparatorTestCaseWrappers{
 		// Arrange
-		testCaseMessage := fmt.Sprintf("(%s) [GetPathSeparator] inputs () expects (%s)", testCase.operatingSystem, testCase.expectedMessage)
+		testCaseMessage := fmt.Sprintf("(%s) [GetPathSeparator] inputs () expects (%s)", testCase.operatingSystemMessage, testCase.expectedMessage)
 
 		Convey(testCaseMessage, t, func(){
 			// Act
@@ -39,14 +40,7 @@ func TestGetPathSeparator(t *testing.T) {
 			// Assert
 			So(actual, ShouldNotBeEmpty)
 			So(actual, ShouldNotBeNil)
-
-			if pathhelper.IsWindows() {
-				So(actual[0], ShouldEqual, testCase.expected[0])
-			}
-
-			if !pathhelper.IsWindows() {
-				So(actual[1], ShouldEqual, testCase.expected[1])
-			}
+			So(actual[0], ShouldEqual, testCase.expected[0])
 		})
 	}
 }

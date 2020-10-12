@@ -2,7 +2,6 @@ package pathhelper
 
 import (
 	"fmt"
-	"os"
 	"testing"
 
 	. "github.com/smartystreets/goconvey/convey"
@@ -16,40 +15,41 @@ type pathFromEnvVariableTestCaseWrapper struct {
 
 var pathFromEnvVariableTestCaseWrappers = []pathFromEnvVariableTestCaseWrapper{
 	{
-		input: "",
-		expected: "",
+		input:           "",
+		expected:        "",
 		expectedMessage: "",
 	},
 	{
-		input: "$home $sys hello world $what",
-		expected: "",
+		input:           "$home $sys hello world $what",
+		expected:        "",
 		expectedMessage: "",
 	},
 	{
-		input: "$ComSpec hello $no",
-		expected: "",
+		input:           "$ComSpec hello $no",
+		expected:        "",
 		expectedMessage: "",
 	},
 }
-func TestPathFromEnvVariable(t *testing.T){
-	for _, testCase := range pathFromEnvVariableTestCaseWrappers{
+
+func TestPathFromEnvVariable(t *testing.T) {
+	for _, testCase := range pathFromEnvVariableTestCaseWrappers {
 		// Arrange
 		testCaseMessage := fmt.Sprintf("[getWindowsBuild] inputs (%s) expects (%s)", testCase.input, testCase.expectedMessage)
 
-		Convey(testCaseMessage, t, func(){
+		Convey(testCaseMessage, t, func() {
 			// Act
 			actual := PathFromEnvVariable(testCase.input)
 
 			// Assert
-			if pathhelpercore.IsEmptyPath(testCase.input){
+			if pathhelpercore.IsEmptyPath(testCase.input) {
 				So(actual, ShouldBeEmpty)
 			}
 
 			if !pathhelpercore.IsEmptyPath(testCase.input) {
 				So(actual, ShouldNotBeEmpty)
-				if os.LookupEnv("home") { // how to check
-					So(actual, ShouldEqual, testCase.expected)
-				}
+				// if os.LookupEnv("home") { // how to check
+				// 	So(actual, ShouldEqual, testCase.expected)
+				// }
 			}
 		})
 

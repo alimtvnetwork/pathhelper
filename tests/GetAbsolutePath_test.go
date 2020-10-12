@@ -9,8 +9,8 @@ import (
 	"gitlab.com/evatix-go/pathhelper"
 )
 
-type getAbsolutePathTestCaseWrapper struct{
-	inputBasepath, inputRelativePath, expected, expectedMessage, operatingSystem  string
+type getAbsolutePathTestCaseWrapper struct {
+	inputBasepath, inputRelativePath, expected, expectedMessage, operatingSystem string
 }
 
 var getAbsoltePathTestCaseWrappers = []getAbsolutePathTestCaseWrapper{
@@ -19,44 +19,44 @@ var getAbsoltePathTestCaseWrappers = []getAbsolutePathTestCaseWrapper{
 	// 	inputRelativePath: "",
 	// 	expected: "",
 	// 	expectedMessage: "empty return",
-	// 	operatingSystem:  "For any OS",
+	// 	operatingSystemMessage:  "For any OS",
 	// },
 	{
-		inputBasepath: "c:\\Windows\\",
+		inputBasepath:     "c:\\Windows\\",
 		inputRelativePath: "\\whatever",
-		expected: "c:\\Windows\\whatever",
-		expectedMessage: "non-empty return of (c:\\Windows\\whatever)",
-		operatingSystem:  "OS is windows",
+		expected:          "c:\\Windows\\whatever",
+		expectedMessage:   "non-empty return of (c:\\Windows\\whatever)",
+		operatingSystem:   "OS is windows",
 	},
 	{
-		inputBasepath: "c:\\Windows\\",
+		inputBasepath:     "c:\\Windows\\",
 		inputRelativePath: "whatever",
-		expected: "c:\\Windows\\whatever",
-		expectedMessage: "non-empty return of (c:\\Windows\\whatever)",
-		operatingSystem:  "OS is windows",
+		expected:          "c:\\Windows\\whatever",
+		expectedMessage:   "non-empty return of (c:\\Windows\\whatever)",
+		operatingSystem:   "OS is windows",
 	},
 	{
-		inputBasepath: "/home/your_user_name/my_script/",
+		inputBasepath:     "/home/your_user_name/my_script/",
 		inputRelativePath: "/whatever",
-		expected: "/home/your_user_name/my_script/whatever",
-		expectedMessage: "non-empty return of (/home/your_user_name/my_script/whatever)",
-		operatingSystem:  "OS other than windows",
+		expected:          "/home/your_user_name/my_script/whatever",
+		expectedMessage:   "non-empty return of (/home/your_user_name/my_script/whatever)",
+		operatingSystem:   "OS other than windows",
 	},
 	{
-		inputBasepath: "/home/your_user_name/my_script",
+		inputBasepath:     "/home/your_user_name/my_script",
 		inputRelativePath: "/whatever",
-		expected: "/home/your_user_name/my_script/whatever",
-		expectedMessage: "non-empty return of (/home/your_user_name/my_script/whatever)",
-		operatingSystem:  "OS other than windows",
+		expected:          "/home/your_user_name/my_script/whatever",
+		expectedMessage:   "non-empty return of (/home/your_user_name/my_script/whatever)",
+		operatingSystem:   "OS other than windows",
 	},
 }
 
 func TestGetAbsolutePath(t *testing.T) {
-	for _, testCase := range getAbsoltePathTestCaseWrappers{
+	for _, testCase := range getAbsoltePathTestCaseWrappers {
 		// Arrange
 		testCaseMessage := fmt.Sprintf("(%s) [GetAbsolutePath] inputs (%s, %s) expects (%s)", testCase.operatingSystem, testCase.inputBasepath, testCase.inputRelativePath, testCase.expectedMessage)
 
-		Convey(testCaseMessage, t, func(){
+		Convey(testCaseMessage, t, func() {
 			// Act
 			actual := pathhelper.GetAbsolutePath(testCase.inputBasepath, testCase.inputRelativePath)
 
