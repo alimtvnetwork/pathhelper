@@ -8,32 +8,60 @@ import (
 
 	"gitlab.com/evatix-go/pathhelper"
 	"gitlab.com/evatix-go/pathhelper/constants"
+	"gitlab.com/evatix-go/pathhelper/enums"
 )
 
 type getPathSeparatorTestCaseWrapper struct {
-	operatingSystem:
+	operatingSystem                                   enums.OperatingSystem
 	operatingSystemMessage, expected, expectedMessage string
 }
 
 var pathSeparatorTestCaseWrappers = []getPathSeparatorTestCaseWrapper{
 	{
+		operatingSystem:        enums.Windows,
 		operatingSystemMessage: "Os is windows",
 		expected:               constants.BackSlash,
 		expectedMessage:        constants.BackSlash,
 	},
 	{
-		operatingSystemMessage: "OS other than windows",
+		operatingSystem:        enums.Ubuntu,
+		operatingSystemMessage: "Unix os",
 		expected:               constants.ForwardSlash,
 		expectedMessage:        constants.ForwardSlash,
 	},
 }
 
-func TestGetPathSeparator(t *testing.T) {
-	for _, testCase := range pathSeparatorTestCaseWrappers{
+func TestGetPathSeparator_Windows(t *testing.T) {
+	for _, testCase := range pathSeparatorTestCaseWrappers {
 		// Arrange
+		if pathhelper.IsUnixCase(testCase.operatingSystem) {
+			t.Skip("Windows tests ignored in Unix.")
+		}
+
 		testCaseMessage := fmt.Sprintf("(%s) [GetPathSeparator] inputs () expects (%s)", testCase.operatingSystemMessage, testCase.expectedMessage)
 
-		Convey(testCaseMessage, t, func(){
+		Convey(testCaseMessage, t, func() {
+			// Act
+			actual := pathhelper.GetPathSeparator()
+
+			// Assert
+			So(actual, ShouldNotBeEmpty)
+			So(actual, ShouldNotBeNil)
+			So(actual[0], ShouldEqual, testCase.expected[0])
+		})
+	}
+}
+
+func TestGetPathSeparator_Unix(t *testing.T) {
+	for _, testCase := range pathSeparatorTestCaseWrappers {
+		// Arrange
+		if pathhelper.IsWindowsCase(testCase.operatingSystem) {
+			t.Skip("Windows tests ignored in Unix.")
+		}
+
+		testCaseMessage := fmt.Sprintf("(%s) [GetPathSeparator] inputs () expects (%s)", testCase.operatingSystemMessage, testCase.expectedMessage)
+
+		Convey(testCaseMessage, t, func() {
 			// Act
 			actual := pathhelper.GetPathSeparator()
 
