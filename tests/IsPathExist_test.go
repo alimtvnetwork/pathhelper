@@ -56,7 +56,6 @@ var pathExistTestCaseWrappers = []pathExistTestCaseWrapper{
 func TestIsPathExist_Windows(t *testing.T) {
 	for _, testCase := range pathExistTestCaseWrappers {
 		// Arrange
-		fmt.Println(pathhelper.IsUnixCase(testCase.operatingSystem))
 		if pathhelper.IsUnixCase(testCase.operatingSystem) {
 			t.Skip("Unix tests ignored in Windows.")
 		}
