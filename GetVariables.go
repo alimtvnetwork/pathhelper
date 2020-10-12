@@ -5,7 +5,7 @@ import (
 	"strings"
 )
 
-func getVariables(stringToCheck string) []string {
+func GetVariables(stringToCheck string) []string {
 	var envVariableKeysForMap []string
 
 	r, _ := regexp.Compile("\\$(\\w+)(\\d*)")
