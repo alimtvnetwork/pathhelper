@@ -16,12 +16,10 @@ func expandEnvironmentVariable(variableForExapanding []string) map[string]string
 
 		var envVariableKeyName string = constants.Dollar + keyName
 
-		if !exists {
-			expandedPath[envVariableKeyName] = envVariableKeyName
-		}
-
 		if exists {
 			expandedPath[envVariableKeyName] = os.Getenv(keyName)
+		} else {
+			expandedPath[envVariableKeyName] = envVariableKeyName
 		}
 	}
 

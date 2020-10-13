@@ -1,3 +1,3 @@
 package constants
 
-const RegExForEnvVar = "\\$(\\w+)(\\d*)"
+const RegExForEachWordsWithDollarSymbol = "\\$(\\w+)(\\d*)" // Selects a full word that starts with a "$" symbol
