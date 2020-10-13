@@ -27,6 +27,8 @@ const (
 	// "on"
 	On            = "on"
 	PathSeparator = string(os.PathSeparator)
+	Dollar        = "$"
+	One           = 1
 
 	InvalidEmptyPathErrorMessage = "Invalid : Empty path given, cannot process it."
 )

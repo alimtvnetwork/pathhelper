@@ -3,21 +3,23 @@ package pathhelper
 import (
 	"regexp"
 	"strings"
+
+	"gitlab.com/evatix-go/pathhelper/constants"
 )
+
+var r, _ = regexp.Compile(constants.RegExForEnvVar)
 
 func getVariables(stringToCheck string) []string {
 	var envVariableKeysForMap []string
-
-	r, _ := regexp.Compile("\\$(\\w+)(\\d*)")
 
 	if !r.MatchString(stringToCheck) {
 		return nil
 	}
 
-	envVariableRawKeys := r.FindAllString(stringToCheck, -1)
+	envVariableRawKeys := r.FindAllString(stringToCheck, constants.MinusOne)
 
 	for _, arrayItem := range envVariableRawKeys {
-		arrayItem = strings.Replace(arrayItem, "$", "", 1)
+		arrayItem = strings.Replace(arrayItem, constants.Dollar, "", constants.One)
 
 		envVariableKeysForMap = append(envVariableKeysForMap, arrayItem)
 	}
