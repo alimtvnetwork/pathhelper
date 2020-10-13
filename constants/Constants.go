@@ -10,7 +10,7 @@ const (
 	DoubleBackSlash = "\\\\"
 	BackSlash       = "\\"
 	// "//"
-	DoubleSlash = "//"
+	DoubleForwardSlash = "//"
 	// "/"
 	ForwardSlash              = "/"
 	UriSchemePrefixStandard   = "file:///"

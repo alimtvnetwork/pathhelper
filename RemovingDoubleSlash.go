@@ -7,5 +7,5 @@ import (
 )
 
 func RemovingDoubleSlash(path string) string {
-	return strings.ReplaceAll(path, constants.DoubleSlash, constants.ForwardSlash)
+	return strings.ReplaceAll(path, constants.DoubleForwardSlash, constants.ForwardSlash)
 }

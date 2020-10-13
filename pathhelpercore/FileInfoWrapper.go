@@ -52,7 +52,7 @@ func (fileInfoWrapper *FileInfoWrapper) HasError() bool {
 
 func (fileInfoWrapper *FileInfoWrapper) IsPathExists() bool {
 	if nil == fileInfoWrapper.isPathExists {
-		isPathExists := fileInfoWrapper.HasError() && (fileInfoWrapper.IsDirectory || fileInfoWrapper.IsFile)
+		isPathExists := !fileInfoWrapper.HasError() && (fileInfoWrapper.IsDirectory || fileInfoWrapper.IsFile)
 		fileInfoWrapper.isPathExists = &isPathExists
 	}
 

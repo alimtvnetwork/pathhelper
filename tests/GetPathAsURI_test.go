@@ -1,6 +1,7 @@
 package tests
 
 import (
+	"fmt"
 	"testing"
 
 	. "github.com/smartystreets/goconvey/convey"
@@ -8,24 +9,38 @@ import (
 	"gitlab.com/evatix-go/pathhelper"
 )
 
-func TestGetPathAsURI(t *testing.T) {
-	Convey("If given OS is windows", t, func() {
-		So(pathhelper.IsWindows(), ShouldBeTrue)
-		Convey("if GetPathAsUri is run", func() {
+type pathAsUriTestCaseWrapper struct {
+	input, expected, expectedMessage string
+	inputBool                        bool
+}
 
-			Convey("it should return", func() {
-				So(pathhelper.GetPathAsUri("c:\\windows"), ShouldEqual, "file:\\\\c:\\windows")
-				So(pathhelper.GetPathAsUri("c:/windows"), ShouldEqual, "file:\\\\c:\\windows")
-			})
-		})
-	})
+var pathAsUriTestCaseWrappers = []pathAsUriTestCaseWrapper{
+	{
+		input:           "c:\\windows",
+		inputBool:       true,
+		expected:        "file:///c:/windows",
+		expectedMessage: "file:///c:/windows",
+	},
+	{
+		input:           "c:/windows",
+		inputBool:       true,
+		expected:        "file:///c:/windows",
+		expectedMessage: "file:///c:/windows",
+	},
+}
 
-	Convey("if given OS is not windows", t, func() {
-		So(pathhelper.IsWindows(), ShouldBeTrue)
-		Convey("it should return", func() {
-			Convey("it should return", func() {
-				So(pathhelper.GetPathAsUri("c:/windows"), ShouldNotEqual, "file://c:/windows")
-			})
+func TestGetPathAsUri(t *testing.T) {
+	for _, testCase := range pathAsUriTestCaseWrappers {
+		// Arrange
+		testCaseMessage := fmt.Sprintf("[GetPathAsUri] inputs (%s, %v) expects (%s)", testCase.input, testCase.inputBool, testCase.expectedMessage)
+
+		Convey(testCaseMessage, t, func() {
+			// Act
+			actual := pathhelper.GetPathAsUri(testCase.input, testCase.inputBool)
+
+			// Assert
+			So(actual, ShouldNotBeNil)
+			So(actual, ShouldEqual, testCase.expected)
 		})
-	})
+	}
 }

@@ -13,9 +13,13 @@ func TestGetAbsoluteFromExecutableDirectoryPath(t *testing.T) {
 	Convey("If function is run", t, func() {
 
 		Convey("it should return absolute path", func() {
-			So(pathhelper.GetAbsoluteFromExecutableDirectoryPath("\\whatever"), ShouldNotBeBlank)
-			So(pathhelper.GetAbsoluteFromExecutableDirectoryPath("\\whatever"), ShouldNotBeEmpty)
-			So(pathhelper.GetAbsoluteFromExecutableDirectoryPath("\\whatever"), ShouldNotBeNil)
+			// Act
+			actual := pathhelper.GetAbsoluteFromExecutableDirectoryPath("\\whatever")
+
+			// Assert
+			So(actual, ShouldNotBeBlank)
+			So(actual, ShouldNotBeEmpty)
+			So(actual, ShouldNotBeNil)
 			So(pathhelper.GetExecutablePath(), ShouldContainSubstring, "C:\\Users\\Naureen\\AppData\\Local\\Temp\\go-build")
 		})
 
