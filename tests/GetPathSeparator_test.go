@@ -55,7 +55,7 @@ func TestGetPathSeparator_Unix(t *testing.T) {
 
 	for _, testCase := range pathSeparatorTestCaseWrappers {
 		// Arrange
-		if !pathhelper.IsWindowsCase(testCase.operatingSystem) {
+		if pathhelper.IsWindowsCase(testCase.operatingSystem) {
 			continue
 		}
 

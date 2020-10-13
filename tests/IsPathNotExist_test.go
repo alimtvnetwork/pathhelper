@@ -17,12 +17,12 @@ type pathNotExistTestCaseWrapper struct {
 }
 
 var pathNotExistTestCaseWrappers = []pathNotExistTestCaseWrapper{
-	// {
-	// 	input:           "",
-	// 	expected:        true,
-	// 	expectedMessage: "true",
-	// 	operatingSystemMessage: "any OS",
-	// },
+	{
+		input:                  "",
+		expected:               true,
+		expectedMessage:        "true",
+		operatingSystemMessage: "any OS",
+	},
 	{
 		input:                  "C:\\Users",
 		expected:               false,

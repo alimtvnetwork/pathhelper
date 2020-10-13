@@ -1,8 +1,8 @@
 package tests
 
 import (
-	"testing"
 	"fmt"
+	"testing"
 
 	. "github.com/smartystreets/goconvey/convey"
 
@@ -11,38 +11,38 @@ import (
 
 type hasPathIssuesTestCaseWrapper struct {
 	input, expectedMessage string
-	expected  bool
+	expected               bool
 }
 
-var hasPathIssuesTestCaseWrappers  = []hasPathIssuesTestCaseWrapper{
+var hasPathIssuesTestCaseWrappers = []hasPathIssuesTestCaseWrapper{
 	{
-		input: "file:///C:/",
-		expected: true,
+		input:           "file:///C:/",
+		expected:        true,
 		expectedMessage: "ShouldBeTrue",
 	},
 	{
-		input: "//C:\\win",
-		expected: true,
+		input:           "//C:\\win",
+		expected:        true,
 		expectedMessage: "ShouldBeTrue",
 	},
 	{
-		input: "file:///C:\\win\\users",
-		expected: true,
+		input:           "file:///C:\\win\\users",
+		expected:        true,
 		expectedMessage: "ShouldBeTrue",
 	},
 	{
-		input: "C://windows/",
-		expected: false,
+		input:           "C:/windows/",
+		expected:        false,
 		expectedMessage: "ShouldBeFalse",
 	},
 }
 
 func TestHasPathIssues(t *testing.T) {
-	for _, testCase := range hasPathIssuesTestCaseWrappers{
+	for _, testCase := range hasPathIssuesTestCaseWrappers {
 		// Arrange
 		testCaseMessage := fmt.Sprintf("[HasPathIssues] inputs (%s) expects (%s)", testCase.input, testCase.expectedMessage)
 
-		Convey(testCaseMessage, t, func(){
+		Convey(testCaseMessage, t, func() {
 			// Act
 			actual := pathhelper.HasPathIssues(testCase.input)
 
