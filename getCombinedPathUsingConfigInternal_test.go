@@ -6,7 +6,6 @@ import (
 
 	. "github.com/smartystreets/goconvey/convey"
 
-	"gitlab.com/evatix-go/pathhelper/constants"
 	"gitlab.com/evatix-go/pathhelper/enums"
 	"gitlab.com/evatix-go/pathhelper/pathhelpercore"
 )
@@ -42,12 +41,6 @@ var combinedPathUsingConfigInternalTestCaseWrappers = []combinedPathUsingConfigI
 		expectedMessage:        "home/somethingelse/etc",
 		operatingSystemMessage: "Unix OS",
 		operatingSystem:        enums.Ubuntu,
-	},
-	{
-		inputPathConfig: &pathhelpercore.PathConfig{},
-		inputPaths:      []string{},
-		expected:        "Empty paths given",
-		expectedMessage: "should panic with Empty paths given",
 	},
 }
 
@@ -91,11 +84,10 @@ func executeTestCaseForGetCombinedPathUsingConfigInternal(
 	testCase combinedPathUsingConfigInternalTestCaseWrapper,
 ) {
 	Convey(testCaseMessage, t, func() {
-		// Act , Assert
-		if len(testCase.inputPaths) == 0 {
-			So(getCombinedPathUsingConfigInternal(testCase.inputPathConfig, testCase.inputPaths), ShouldPanicWith, constants.InvalidEmptyPathErrorMessage)
-		} else {
-			So(getCombinedPathUsingConfigInternal(testCase.inputPathConfig, testCase.inputPaths), ShouldEqual, testCase.expected)
-		}
+		// Act
+		actual := getCombinedPathUsingConfigInternal(testCase.inputPathConfig, testCase.inputPaths)
+
+		// Assert
+		So(actual, ShouldEqual, testCase.expected)
 	})
 }
