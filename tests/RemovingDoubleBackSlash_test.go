@@ -9,9 +9,9 @@ import (
 )
 
 func TestRemovingDoubleBackSlash(t *testing.T) {
-	Convey("If given argument is  \"c:\\win\"", t, func() {
-		Convey("it should return \"c:\\win\"", func() {
-			So(pathhelper.RemovingDoubleBackSlash("c:\\\\win\\\\"), ShouldEqual, "c:\\win\\")
-		})
+	Convey("[RemovingDoubleBackSlash] with givenPath (c:\\\\win\\\\) expects non-empty, non-nil return of (c:\\win\\)", t, func() {
+		So(pathhelper.RemovingDoubleBackSlash("c:\\\\win\\\\"), ShouldNotBeEmpty)
+		So(pathhelper.RemovingDoubleBackSlash("c:\\\\win\\\\"), ShouldNotBeNil)
+		So(pathhelper.RemovingDoubleBackSlash("c:\\\\win\\\\"), ShouldEqual, "c:\\win\\")
 	})
 }

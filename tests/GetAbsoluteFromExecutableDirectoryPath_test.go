@@ -1,24 +1,90 @@
 package tests
 
 import (
+	"fmt"
 	"testing"
 
 	. "github.com/smartystreets/goconvey/convey"
 
 	"gitlab.com/evatix-go/pathhelper"
+	"gitlab.com/evatix-go/pathhelper/enums"
 )
 
-func TestGetAbsoluteFromExecutableDirectoryPath(t *testing.T) {
+type absoluteFromExecutableDirectoryPathTestCaseWrapper struct {
+	inputRelativePath, expected, expectedMessage, operatingSystemMessage string
+	isNormalize                                                          bool
+	operatingSystem                                                      enums.OperatingSystem
+}
 
-	Convey("If function is run", t, func() {
+// todo
+var absoluteFromExecutableDirectoryPathTestCaseWrappers = []absoluteFromExecutableDirectoryPathTestCaseWrapper{
+	{
+		inputRelativePath:      "\\Users",
+		expected:               "C:\\Users",
+		expectedMessage:        "C:\\Users",
+		operatingSystemMessage: "Windows OS",
+		operatingSystem:        enums.Windows,
+		isNormalize:            true,
+	},
+	{
+		inputRelativePath:      "\\Users",
+		expected:               "C:\\Users",
+		expectedMessage:        "C:\\Users",
+		operatingSystemMessage: "Windows OS",
+		operatingSystem:        enums.Windows,
+		isNormalize:            true,
+	},
+	{
+		inputRelativePath:      "//\\home//",
+		expected:               "/home/",
+		expectedMessage:        "/home/",
+		operatingSystemMessage: "Linux OS",
+		operatingSystem:        enums.Linux,
+		isNormalize:            true,
+	},
+}
 
-		Convey("it should return absolute path", func() {
-			So(pathhelper.GetAbsoluteFromExecutableDirectoryPath("\\whatever"), ShouldNotBeBlank)
-			So(pathhelper.GetAbsoluteFromExecutableDirectoryPath("\\whatever"), ShouldNotBeEmpty)
-			So(pathhelper.GetAbsoluteFromExecutableDirectoryPath("\\whatever"), ShouldNotBeNil)
-			So(pathhelper.GetExecutablePath(), ShouldContainSubstring, "C:\\Users\\Naureen\\AppData\\Local\\Temp\\go-build")
-		})
+func TestGetAbsoluteFromExecutableDirectoryPath_Windows(t *testing.T) {
+	SkipOnUnix(t)
 
+	for _, testCase := range absoluteFromExecutableDirectoryPathTestCaseWrappers {
+		// Arrange
+		if pathhelper.IsUnixCase(testCase.operatingSystem) {
+			continue
+		}
+
+		testCaseMessage := fmt.Sprintf("(%s) [GetAbsoluteFromExecutableDirectoryPath] inputs (%s) expects (%s)", testCase.operatingSystemMessage, testCase.inputRelativePath, testCase.expectedMessage)
+
+		executeTestCaseForGetAbsoluteFromExecutableDirectoryPath(t, testCaseMessage, testCase)
+	}
+}
+
+func TestGetAbsoluteFromExecutableDirectoryPath_Unix(t *testing.T) {
+	SkipOnWindows(t)
+
+	for _, testCase := range absoluteFromExecutableDirectoryPathTestCaseWrappers {
+		// Arrange
+		if pathhelper.IsWindowsCase(testCase.operatingSystem) {
+			continue
+		}
+
+		testCaseMessage := fmt.Sprintf("(%s) [GetAbsoluteFromExecutableDirectoryPath] inputs (%s) expects (%s)", testCase.operatingSystemMessage, testCase.inputRelativePath, testCase.expectedMessage)
+
+		executeTestCaseForGetAbsoluteFromExecutableDirectoryPath(t, testCaseMessage, testCase)
+	}
+}
+
+func executeTestCaseForGetAbsoluteFromExecutableDirectoryPath(
+	t *testing.T, testCaseMessage string, testCase absoluteFromExecutableDirectoryPathTestCaseWrapper,
+) {
+	Convey(testCaseMessage, t, func() {
+		// Act
+		actual := pathhelper.GetAbsoluteFromExecutableDirectoryPath(
+			testCase.inputRelativePath,
+			testCase.isNormalize)
+
+		// Assert
+		So(actual, ShouldNotBeEmpty)
+		So(actual, ShouldContainSubstring, testCase.expected)
 	})
-
 }

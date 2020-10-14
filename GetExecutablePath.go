@@ -2,6 +2,7 @@ package pathhelper
 
 import "os"
 
+// Represents the exact path to the executable file
 func GetExecutablePath() string {
 	exe, err := os.Executable()
 

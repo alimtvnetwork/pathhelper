@@ -1,7 +1,11 @@
 package pathhelper
 
-import "strings"
+import (
+	"strings"
+
+	"gitlab.com/evatix-go/pathhelper/constants"
+)
 
 func RemovingDoubleBackSlash(path string) string {
-	return strings.ReplaceAll(path, DoubleBackSlash, BackSlash)
+	return strings.ReplaceAll(path, constants.DoubleBackSlash, constants.BackSlash)
 }

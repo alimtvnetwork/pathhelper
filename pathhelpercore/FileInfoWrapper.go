@@ -1,23 +1,36 @@
 package pathhelpercore
 
 import (
+	"errors"
 	"os"
+
+	"gitlab.com/evatix-go/pathhelper/constants"
 )
 
 type FileInfoWrapper struct {
-	FileInfo    *os.FileInfo
-	Error       *error
-	RawPath     string
-	IsDirectory bool
-	IsFile      bool
-	IsEmptyPath bool
+	FileInfo     *os.FileInfo
+	Error        *error
+	RawPath      string
+	IsDirectory  bool
+	IsFile       bool
+	IsEmptyPath  bool
+	isPathExists *bool
 }
 
 func NewFileWrapperInfo(rawPath string) *FileInfoWrapper {
 	isEmptyPath := IsEmptyPath(rawPath)
 
 	if isEmptyPath {
-		panic("Given path is empty.")
+		emptyFileError := errors.New(constants.InvalidEmptyPathErrorMessage)
+
+		return &FileInfoWrapper{
+			FileInfo:    nil,
+			Error:       &emptyFileError,
+			RawPath:     rawPath,
+			IsDirectory: false,
+			IsFile:      false,
+			IsEmptyPath: isEmptyPath,
+		}
 	}
 
 	fileInfo, error := os.Stat(rawPath)
@@ -38,5 +51,10 @@ func (fileInfoWrapper *FileInfoWrapper) HasError() bool {
 }
 
 func (fileInfoWrapper *FileInfoWrapper) IsPathExists() bool {
-	return *fileInfoWrapper.Error == nil && (fileInfoWrapper.IsDirectory || fileInfoWrapper.IsFile)
+	if nil == fileInfoWrapper.isPathExists {
+		isPathExists := !fileInfoWrapper.HasError() && (fileInfoWrapper.IsDirectory || fileInfoWrapper.IsFile)
+		fileInfoWrapper.isPathExists = &isPathExists
+	}
+
+	return *fileInfoWrapper.isPathExists
 }

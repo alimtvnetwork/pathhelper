@@ -2,28 +2,74 @@ package tests
 
 import (
 	"testing"
+	"fmt"
 
 	. "github.com/smartystreets/goconvey/convey"
 
 	"gitlab.com/evatix-go/pathhelper"
+	"gitlab.com/evatix-go/pathhelper/constants"
 )
 
+type getSlugTestCaseWrapper struct {
+	inputPath string
+	inputSeparator string
+	expected string
+	expectedMessage string
+}
+
+var slugWrappers = []getSlugTestCaseWrapper{
+	{
+		inputPath: "",
+		inputSeparator: constants.Underscore,
+		expected: "",
+		expectedMessage: "empty",
+	},
+	{
+		inputPath: "_20971-b21-2987_",
+		inputSeparator: constants.Underscore,
+		expected: "_20971-b21-2987_",
+		expectedMessage: "non-empty return",
+	},
+	{
+		inputPath: "_20971-b21-2987_",
+		inputSeparator: constants.Underscore,
+		expected: "_20971-b21-2987_",
+		expectedMessage: "_20971-b21-2987_",
+	},
+	{
+		inputPath: "%&^2093073070271 b21 2987$#&^^&$(*&$(",
+		inputSeparator: constants.Underscore,
+		expected: "_2093073070271_b21_2987_",
+		expectedMessage: "_2093073070271_b21_2987_",
+	},
+	{
+		inputPath: "%&^2093*73070271 b21 2987$#&^^&$(*&$(",
+		inputSeparator: constants.Dash,
+		expected: "-2093-73070271-b21-2987-",
+		expectedMessage: "-2093-73070271-b21-2987-",
+	},
+}
+
 func TestGetSlug(t *testing.T) {
+	for _, testCase := range slugWrappers {
+		{
+			// Arrange
+			testCaseMessage := fmt.Sprintf("[getWindowsBuild] inputs (%s, %s) expects (%s)", testCase.inputPath, testCase.inputSeparator, testCase.expectedMessage)
 
-	Convey("If given isSlug(string) is true", t, func() {
-		Convey("it should return nil", func() {
-			So(pathhelper.GetSlug("_2093073070271-b21-2987_", "_"), ShouldEqual, "")
-		})
-	})
+			Convey(testCaseMessage, t, func() {
+				// Act
+				actual := pathhelper.GetSlug(testCase.inputPath, testCase.inputSeparator)
 
-	Convey("if given isSlug(string) is false", t, func() {
-		Convey("it should return string without forbidden array", func() {
-			So(pathhelper.GetSlug("%&^2093073070271 b21 2987$#&^^&$(*&$(", "_"), ShouldEqual, "_2093073070271_b21_2987_")
-			So(pathhelper.GetSlug("%&^2093073070271 b21 2987$#&^^&$(*&$(", "-"), ShouldEqual, "-2093073070271-b21-2987-")
-			So(pathhelper.GetSlug("%&^209307307%271 b21 2^87$#&^^&$(*&$(", "_"), ShouldEqual, "_209307307_271_b21_2_87_")
-			So(pathhelper.GetSlug("%&^2093*73070271 b21 2987$#&^^&$(*&$(", "-"), ShouldEqual, "-2093-73070271-b21-2987-")
-			So(pathhelper.GetSlug("%&^20930__070271 b21 2987$#&^^&$(*&$(", "_"), ShouldEqual, "_20930_070271_b21_2987_")
-		})
-	})
+				// Assert
+				if testCase.inputPath == "" {
+					So(actual, ShouldBeEmpty)
+				}
 
+				if testCase.inputPath != "" {
+					So(actual, ShouldNotBeEmpty)
+					So(actual, ShouldEqual, testCase.expected)
+				}
+			})
+		}
+	}
 }
