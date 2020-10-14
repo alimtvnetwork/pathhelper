@@ -84,16 +84,17 @@ func TestGetCombinedPathUsingConfigInternal_Unix(t *testing.T) {
 	}
 }
 
-func executeTestCaseForGetCombinedPathUsingConfigInternal(t *testing.T, testCaseMessage string, testCase combinedPathUsingConfigInternalTestCaseWrapper) {
+func executeTestCaseForGetCombinedPathUsingConfigInternal(
+	t *testing.T,
+	testCaseMessage string,
+	testCase combinedPathUsingConfigInternalTestCaseWrapper,
+) {
 	Convey(testCaseMessage, t, func() {
-		// Act
-		actual := getCombinedPathUsingConfigInternal(testCase.inputPathConfig, testCase.inputPaths)
-
-		// Assert
+		// Act , Assert
 		if len(testCase.inputPaths) == 0 {
-			So(actual, ShouldPanicWith, "Empty paths given")
+			So(getCombinedPathUsingConfigInternal(testCase.inputPathConfig, testCase.inputPaths), ShouldPanicWith, "Empty paths given")
+		} else {
+			So(getCombinedPathUsingConfigInternal(testCase.inputPathConfig, testCase.inputPaths), ShouldEqual, testCase.expected)
 		}
-
-		So(actual, ShouldEqual, testCase.expected)
 	})
 }
