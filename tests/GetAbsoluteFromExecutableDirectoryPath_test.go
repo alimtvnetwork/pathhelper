@@ -12,6 +12,7 @@ import (
 
 type absoluteFromExecutableDirectoryPathTestCaseWrapper struct {
 	inputRelativePath, expected, expectedMessage, operatingSystemMessage string
+	isNormalize                                                          bool
 	operatingSystem                                                      enums.OperatingSystem
 }
 
@@ -23,13 +24,23 @@ var absoluteFromExecutableDirectoryPathTestCaseWrappers = []absoluteFromExecutab
 		expectedMessage:        "C:\\Users",
 		operatingSystemMessage: "Windows OS",
 		operatingSystem:        enums.Windows,
+		isNormalize:            true,
 	},
 	{
-		inputRelativePath:      "/Users",
-		expected:               "home/",
-		expectedMessage:        "home/",
+		inputRelativePath:      "\\Users",
+		expected:               "C:\\Users",
+		expectedMessage:        "C:\\Users",
+		operatingSystemMessage: "Windows OS",
+		operatingSystem:        enums.Windows,
+		isNormalize:            true,
+	},
+	{
+		inputRelativePath:      "//\\home//",
+		expected:               "/home/",
+		expectedMessage:        "/home/",
 		operatingSystemMessage: "Linux OS",
-		operatingSystem:        enums.Ubuntu,
+		operatingSystem:        enums.Linux,
+		isNormalize:            true,
 	},
 }
 
@@ -70,7 +81,9 @@ func TestGetAbsoluteFromExecutableDirectoryPath_Unix(t *testing.T) {
 func executeTestCaseForGetAbsoluteFromExecutableDirectoryPath(t *testing.T, testCaseMessage string, testCase absoluteFromExecutableDirectoryPathTestCaseWrapper) {
 	Convey(testCaseMessage, t, func() {
 		// Act
-		actual := pathhelper.GetAbsoluteFromExecutableDirectoryPath(testCase.inputRelativePath)
+		actual := pathhelper.GetAbsoluteFromExecutableDirectoryPath(
+			testCase.inputRelativePath,
+			testCase.isNormalize)
 
 		// Assert
 		So(actual, ShouldNotBeEmpty)

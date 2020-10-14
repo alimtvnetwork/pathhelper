@@ -11,44 +11,50 @@ import (
 )
 
 type absolutePathTestCaseWrapper struct {
-	inputBasepath, inputRelativePath, expected, expectedMessage, operatingSystemMessage string
-	operatingSystem                                                                     enums.OperatingSystem
+	basePath, inputRelativePath, expected, expectedMessage, operatingSystemMessage string
+	isNormalize                                                                    bool
+	operatingSystem                                                                enums.OperatingSystem
 }
 
 var absolutePathTestCaseWrappers = []absolutePathTestCaseWrapper{
 	{
-		inputBasepath:          "",
+		basePath:               "",
 		inputRelativePath:      "",
 		expected:               "",
 		expectedMessage:        "empty return",
 		operatingSystemMessage: "Any OS",
+		operatingSystem:        enums.Any,
+		isNormalize:            true,
 	},
 	{
-		inputBasepath:          "c:\\Windows\\",
+		basePath:               "c:\\Windows\\//",
 		inputRelativePath:      "\\whatever",
 		expected:               "c:\\Windows\\whatever",
 		expectedMessage:        "non-empty return of (c:\\Windows\\whatever)",
 		operatingSystemMessage: "Windows OS",
 		operatingSystem:        enums.Windows,
+		isNormalize:            true,
 	},
 	{
-		inputBasepath:          "c:\\Windows\\",
+		basePath:               "c:\\\\Windows///",
 		inputRelativePath:      "whatever",
 		expected:               "c:\\Windows\\whatever",
 		expectedMessage:        "non-empty return of (c:\\Windows\\whatever)",
 		operatingSystemMessage: "Windows OS",
 		operatingSystem:        enums.Windows,
+		isNormalize:            true,
 	},
 	{
-		inputBasepath:          "/home/your_user_name/my_script/",
+		basePath:               "/home/\\//your_user_name/my_script/",
 		inputRelativePath:      "/whatever",
 		expected:               "/home/your_user_name/my_script/whatever",
 		expectedMessage:        "non-empty return of (/home/your_user_name/my_script/whatever)",
 		operatingSystemMessage: "Unix OS",
 		operatingSystem:        enums.Ubuntu,
+		isNormalize:            true,
 	},
 	{
-		inputBasepath:          "/home/your_user_name/my_script",
+		basePath:               "/home/your_user_name/my_script",
 		inputRelativePath:      "/whatever",
 		expected:               "/home/your_user_name/my_script/whatever",
 		expectedMessage:        "non-empty return of (/home/your_user_name/my_script/whatever)",
@@ -68,7 +74,7 @@ func TestGetAbsolutePath_Windows(t *testing.T) {
 			continue
 		}
 
-		testCaseMessage := fmt.Sprintf("(%s) [GetAbsolutePath] inputs (%s, %s) expects (%s)", testCase.operatingSystemMessage, testCase.inputBasepath, testCase.inputRelativePath, testCase.expectedMessage)
+		testCaseMessage := fmt.Sprintf("(%s) [GetAbsolutePath] inputs (%s, %s) expects (%s)", testCase.operatingSystemMessage, testCase.basePath, testCase.inputRelativePath, testCase.expectedMessage)
 
 		executeTestForGetAbsolutePath(t, testCaseMessage, testCase)
 	}
@@ -85,7 +91,7 @@ func TestGetAbsolutePath_Unix(t *testing.T) {
 			continue
 		}
 
-		testCaseMessage := fmt.Sprintf("(%s) [GetAbsolutePath] inputs (%s, %s) expects (%s)", testCase.operatingSystemMessage, testCase.inputBasepath, testCase.inputRelativePath, testCase.expectedMessage)
+		testCaseMessage := fmt.Sprintf("(%s) [GetAbsolutePath] inputs (%s, %s) expects (%s)", testCase.operatingSystemMessage, testCase.basePath, testCase.inputRelativePath, testCase.expectedMessage)
 
 		executeTestForGetAbsolutePath(t, testCaseMessage, testCase)
 	}
@@ -94,7 +100,10 @@ func TestGetAbsolutePath_Unix(t *testing.T) {
 func executeTestForGetAbsolutePath(t *testing.T, testCaseMessage string, testCase absolutePathTestCaseWrapper) {
 	Convey(testCaseMessage, t, func() {
 		// Act
-		actual := pathhelper.GetAbsolutePath(testCase.inputBasepath, testCase.inputRelativePath)
+		actual := pathhelper.GetAbsolutePath(
+			testCase.basePath,
+			testCase.inputRelativePath,
+			testCase.isNormalize)
 
 		// Assert
 		So(actual, ShouldNotBeNil)

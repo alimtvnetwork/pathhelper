@@ -68,7 +68,7 @@ func TestGetPathSeparator_Unix(t *testing.T) {
 func executeTestCaseForGetPathSeparator(t *testing.T, testCaseMessage string, testCase pathSeparatorTestCaseWrapper) {
 	Convey(testCaseMessage, t, func() {
 		// Act
-		actual := pathhelper.GetPathSeparator()
+		actual := constants.PathSeparator
 
 		// Assert
 		So(actual, ShouldNotBeEmpty)

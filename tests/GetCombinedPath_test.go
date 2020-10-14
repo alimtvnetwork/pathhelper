@@ -46,7 +46,13 @@ func TestGetCombinedPath(t *testing.T) {
 
 		Convey(testCaseMessage, t, func() {
 			// Act
-			actual := pathhelper.GetCombinedPath(testCase.inputSeparator, testCase.isIgnoreEmptyPath, testCase.isNormalize, testCase.inputPaths1, testCase.inputPaths2, testCase.inputPaths3)
+			actual := pathhelper.GetCombinedPath(
+				testCase.inputSeparator,
+				testCase.isIgnoreEmptyPath,
+				testCase.isNormalize,
+				testCase.inputPaths1,
+				testCase.inputPaths2,
+				testCase.inputPaths3)
 
 			// Assert
 			So(actual, ShouldNotBeNil)

@@ -1,39 +1,49 @@
 package tests
 
 import (
-	"testing"
 	"fmt"
+	"testing"
 
 	. "github.com/smartystreets/goconvey/convey"
 
 	"gitlab.com/evatix-go/pathhelper"
+	"gitlab.com/evatix-go/pathhelper/enums"
 )
 
 type removingDoubleSeparatorTestCaseWrapper struct {
 	input, expected, expectedMessage string
+	enums.OperatingSystem
 }
 
 var removingDoubleSeparatorTestCaseWrappers = []removingDoubleSeparatorTestCaseWrapper{
 	{
-		input: "c:\\\\win",
-		expected: "c:\\win",
+		input:           "c:\\\\win",
+		expected:        "c:\\win",
 		expectedMessage: "non-empty, non-nil, return of (c:\\win)",
+		OperatingSystem: enums.Windows,
 	},
 	{
-		input: "home//user",
-		expected: "home/user",
+		input:           "c:\\\\\\win/drive",
+		expected:        "c:\\win\\drive",
+		expectedMessage: "non-empty, non-nil, return of (c:\\win\\drive)",
+		OperatingSystem: enums.Windows,
+	},
+	{
+		input:           "home//user",
+		expected:        "home/user",
 		expectedMessage: "non-empty, non-nil, return of (home/user)",
+		OperatingSystem: enums.Ubuntu,
 	},
 }
 
-func TestRemovingDoubleSeparator(t *testing.T) {
-	for _, testCase := range removingDoubleSeparatorTestCaseWrappers{
+func TestRemoveAndFixDoubleSeparatorToOsSeparator(t *testing.T) {
+	for _, testCase := range removingDoubleSeparatorTestCaseWrappers {
 		// Arrange
-		testCaseMessage := fmt.Sprintf("[RemovingDoubleSeparator] inputs (%s) expects (%s)", testCase.input, testCase.expectedMessage)
+		testCaseMessage := fmt.Sprintf("[RemoveAndFixDoubleSeparatorToOsSeparator] inputs (%s) expects (%s)", testCase.input, testCase.expectedMessage)
 
 		Convey(testCaseMessage, t, func() {
 			// Act
-			actual := pathhelper.RemovingDoubleSeparator(testCase.input)
+			actual := pathhelper.RemoveAndFixDoubleSeparatorToOsSeparator(testCase.input)
 
 			// Assert
 			So(actual, ShouldNotBeEmpty)

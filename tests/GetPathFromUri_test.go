@@ -11,23 +11,23 @@ import (
 )
 
 type pathFromUriTestCaseWrapper struct {
-	input, expected, expectedMessage, operatingSystemMessage string
-	inputBool                                                bool
-	operatingSystem                                          enums.OperatingSystem
+	givenPath, expected, expectedMessage, operatingSystemMessage string
+	isNormalize                                                  bool
+	operatingSystem                                              enums.OperatingSystem
 }
 
 var pathFromUriTestCaseWrappers = []pathFromUriTestCaseWrapper{
 	{
-		input:                  "file://c:/windows/users/etc/more",
-		inputBool:              true,
+		givenPath:              "file://c:/windows/users/etc/more",
+		isNormalize:            true,
 		expected:               "c:\\windows\\users\\etc\\more",
 		expectedMessage:        "c:\\windows\\users\\etc\\more",
 		operatingSystemMessage: "Windows OS",
 		operatingSystem:        enums.Windows,
 	},
 	{
-		input:                  "c:\\windows\\users\\etc\\more",
-		inputBool:              true,
+		givenPath:              "c:\\windows\\users\\etc\\more",
+		isNormalize:            true,
 		expected:               "c:/windows/users/etc/more",
 		expectedMessage:        "c:/windows/users/etc/more",
 		operatingSystemMessage: "Unix OS",
@@ -46,7 +46,7 @@ func TestGetPathFromUri_Windows(t *testing.T) {
 			continue
 		}
 
-		testCaseMessage := fmt.Sprintf("(%s) [GetPathFromURI] inputs (%s, %v) expects (%s)", testCase.operatingSystemMessage, testCase.input, testCase.inputBool, testCase.expectedMessage)
+		testCaseMessage := fmt.Sprintf("(%s) [GetPathFromURI] inputs (%s, %v) expects (%s)", testCase.operatingSystemMessage, testCase.givenPath, testCase.isNormalize, testCase.expectedMessage)
 
 		executeTestCaseForGetPathFromUri(t, testCaseMessage, testCase)
 	}
@@ -63,7 +63,7 @@ func TestGetPathFromUri_Unix(t *testing.T) {
 			continue
 		}
 
-		testCaseMessage := fmt.Sprintf("(%s) [GetPathFromURI] inputs (%s, %v) expects (%s)", testCase.operatingSystemMessage, testCase.input, testCase.inputBool, testCase.expectedMessage)
+		testCaseMessage := fmt.Sprintf("(%s) [GetPathFromURI] inputs (%s, %v) expects (%s)", testCase.operatingSystemMessage, testCase.givenPath, testCase.isNormalize, testCase.expectedMessage)
 
 		executeTestCaseForGetPathFromUri(t, testCaseMessage, testCase)
 	}
@@ -72,7 +72,7 @@ func TestGetPathFromUri_Unix(t *testing.T) {
 func executeTestCaseForGetPathFromUri(t *testing.T, testCaseMessage string, testCase pathFromUriTestCaseWrapper) {
 	Convey(testCaseMessage, t, func() {
 		// Act
-		actual := pathhelper.GetPathFromUri(testCase.input, testCase.inputBool)
+		actual := pathhelper.GetPathFromUri(testCase.givenPath, testCase.isNormalize)
 
 		// Assert
 		So(actual, ShouldNotBeNil)

@@ -21,7 +21,11 @@ type PathConfig struct {
 // IsNormalize = true
 // IsIgnoreEmptyPath = false
 // IsExpandEnvironmentVariables: true
-func NewDefaultPathConfig() *PathConfig {
+func NewDefaultPathConfigOrExisting(existingConfig *PathConfig) *PathConfig {
+	if existingConfig != nil {
+		return existingConfig
+	}
+
 	return &PathConfig{
 		Separator:                    constants.PathSeparator,
 		IsNormalize:                  true,

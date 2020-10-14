@@ -3,7 +3,8 @@ package enums
 type OperatingSystem int
 
 const (
-	Debian OperatingSystem = iota
+	Any OperatingSystem = iota
+	Debian
 	Linux
 	// Darwin is Mac OS or iOS
 	DarwinOrMacOrIOS

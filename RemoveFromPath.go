@@ -14,16 +14,16 @@ func RemoveFromPath(pathTemplate string, removingList *[]string, isNormalizePath
 		return pathTemplate
 	}
 
-	if isNormalizePath {
-		pathTemplate = NormalizePath(pathTemplate)
-	}
-
 	for _, value := range *removingList {
 		pathTemplate = strings.Replace(
 			pathTemplate,
 			value,
 			constants.EmptyString,
 			constants.MinusOne)
+	}
+
+	if isNormalizePath {
+		pathTemplate = NormalizePath(pathTemplate)
 	}
 
 	return pathTemplate

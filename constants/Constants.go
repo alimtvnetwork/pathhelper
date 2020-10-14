@@ -8,9 +8,12 @@ const (
 	WindowsOS            = "windows"
 	// filePrefix              = "file:"
 	DoubleBackSlash = "\\\\"
+	TripleBackSlash = "\\\\\\"
 	BackSlash       = "\\"
 	// "//"
-	DoubleForwardSlash = "//"
+	DoubleForwardSlash        = "//"
+	TripleForwardSlash        = "///"
+	BackwardAndForwardSlashes = "\\//"
 	// "/"
 	ForwardSlash              = "/"
 	UriSchemePrefixStandard   = "file:///"
@@ -30,6 +33,4 @@ const (
 	DoublePathSeparator = PathSeparator + PathSeparator
 	Dollar              = "$"
 	One                 = 1
-
-	InvalidEmptyPathErrorMessage = "Invalid : Empty path given, cannot process it."
 )

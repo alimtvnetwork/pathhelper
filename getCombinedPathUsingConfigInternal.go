@@ -15,10 +15,7 @@ func getCombinedPathUsingConfigInternal(
 		panic(constants.InvalidEmptyPathErrorMessage)
 	}
 
-	if pathConfig == nil {
-		pathConfig = pathhelpercore.NewDefaultPathConfig()
-	}
-
+	pathConfig = pathhelpercore.NewDefaultPathConfigOrExisting(pathConfig)
 	var combinedPath string
 
 	if !pathConfig.IsIgnoreEmptyPath {
@@ -27,9 +24,10 @@ func getCombinedPathUsingConfigInternal(
 		combinedPath = GetCombinedOfNonEmptyPaths(pathConfig.Separator, paths)
 	}
 
-	if pathConfig.IsNormalize {
-		combinedPath = NormalizePath(combinedPath)
-	}
+	finalPath := NormalizePathUsingSeparatorIf(
+		pathConfig.IsNormalize,
+		pathConfig.Separator,
+		combinedPath)
 
-	return combinedPath
+	return finalPath
 }

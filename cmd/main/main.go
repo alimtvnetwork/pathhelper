@@ -17,7 +17,7 @@ func getCombinedPathUsingConfigInternal(
 	}
 
 	if pathConfig == nil {
-		pathConfig = pathhelpercore.NewDefaultPathConfig()
+		pathConfig = pathhelpercore.NewDefaultPathConfigOrExisting(nil)
 	}
 	fmt.Println(pathConfig)
 	var combinedPath string

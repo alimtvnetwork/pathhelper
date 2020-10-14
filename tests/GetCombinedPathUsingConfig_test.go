@@ -7,6 +7,7 @@ import (
 	. "github.com/smartystreets/goconvey/convey"
 
 	"gitlab.com/evatix-go/pathhelper"
+	"gitlab.com/evatix-go/pathhelper/constants"
 	"gitlab.com/evatix-go/pathhelper/enums"
 	"gitlab.com/evatix-go/pathhelper/pathhelpercore"
 )
@@ -20,7 +21,7 @@ type combinedPathUsingConfigTestCaseWrapper struct {
 
 var combinedPathUsingConfigTestCaseWrappers = []combinedPathUsingConfigTestCaseWrapper{
 	{
-		inputConfig:            &pathhelpercore.PathConfig{Separator: pathhelper.GetPathSeparator()},
+		inputConfig:            &pathhelpercore.PathConfig{Separator: constants.PathSeparator},
 		inputPaths1:            "something",
 		inputPaths2:            "more",
 		inputPaths3:            "etc",
@@ -30,7 +31,7 @@ var combinedPathUsingConfigTestCaseWrappers = []combinedPathUsingConfigTestCaseW
 		operatingSystem:        enums.Windows,
 	},
 	{
-		inputConfig:            &pathhelpercore.PathConfig{Separator: pathhelper.GetPathSeparator()},
+		inputConfig:            &pathhelpercore.PathConfig{Separator: constants.PathSeparator},
 		inputPaths1:            "something",
 		inputPaths2:            "more",
 		inputPaths3:            "etc",
@@ -75,7 +76,9 @@ func TestGetCombinedPathUsingConfig_Unix(t *testing.T) {
 	}
 }
 
-func executeTestCaseForGetCombinedPathUsingConfig(t *testing.T, testCaseMessage string, testCase combinedPathUsingConfigTestCaseWrapper) {
+func executeTestCaseForGetCombinedPathUsingConfig(
+	t *testing.T, testCaseMessage string, testCase combinedPathUsingConfigTestCaseWrapper,
+) {
 	Convey(testCaseMessage, t, func() {
 		// Act
 		actual := pathhelper.GetCombinedPathUsingConfig(testCase.inputConfig, testCase.inputPaths1, testCase.inputPaths2, testCase.inputPaths3)

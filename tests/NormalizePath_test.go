@@ -10,57 +10,53 @@ import (
 	"gitlab.com/evatix-go/pathhelper/pathhelpercore"
 )
 
-type normalizePathTestCaseWrapper struct  {
+type normalizePathTestCaseWrapper struct {
 	input, expected, expectedMessage, operatingSystem string
 }
 
 var normalizePathTestCaseWrappers = []normalizePathTestCaseWrapper{
 	{
-		input: "",
-		expected: "",
+		input:           "",
+		expected:        "",
 		expectedMessage: "empty return",
-		operatingSystem : "Any OS",
+		operatingSystem: "Any OS",
 	},
 	{
-		input: "c:/windows/system32/etc",
-		expected: "c:/windows/system32/etc",
+		input:           "c:/windows/system32/etc",
+		expected:        "c:/windows/system32/etc",
 		expectedMessage: "non-empty return (c:/windows/system32/etc)",
-		operatingSystem : "Any OS",
+		operatingSystem: "Any OS",
 	},
 	{
-		input: "c:\\windows//system32\\//etc",
-		expected: "c:\\windows\\system32\\etc",
+		input:           "c:\\windows//system32\\//etc",
+		expected:        "c:\\windows\\system32\\etc",
 		expectedMessage: "non-empty return (c:\\windows\\system32\\etc)",
-		operatingSystem : "OS is windows",
+		operatingSystem: "OS is windows",
 	},
 	{
-		input: "c:\\windows//system32\\//etc",
-		expected: "c:/windows/system32/etc",
+		input:           "c:\\windows//system32\\//etc",
+		expected:        "c:/windows/system32/etc",
 		expectedMessage: "non-empty return (c:/windows/system32/etc)",
-		operatingSystem : "OS other than windows",
+		operatingSystem: "OS other than windows",
 	},
 }
 
 func TestNormalizePath(t *testing.T) {
-	for  _,  testCase  := range normalizePathTestCaseWrappers{
+	for _, testCase := range normalizePathTestCaseWrappers {
 		// Arrange
 		testCaseMessage := fmt.Sprintf("(%s) [NormalizePath] inputs (%s) expects (%s)", testCase.operatingSystem, testCase.input, testCase.expectedMessage)
 
-		Convey(testCaseMessage, t, func(){
+		Convey(testCaseMessage, t, func() {
 			// Act
-			actual  := pathhelper.NormalizePath(testCase.input)
+			actual := pathhelper.NormalizePath(testCase.input)
 
 			// Assert
-			if pathhelpercore.IsEmptyPath(testCase.input){
+			if pathhelpercore.IsEmptyPath(testCase.input) {
 				So(actual, ShouldBeEmpty)
 			}
 
 			if !pathhelpercore.IsEmptyPath(testCase.input) {
 				So(actual, ShouldNotBeEmpty)
-
-				if !pathhelper.HasPathIssues(testCase.input) {
-					So(actual[1], ShouldEqual, testCase.expected[1])
-				}
 
 				if !pathhelper.IsWindows() {
 					So(actual[2], ShouldEqual, testCase.expected[2])

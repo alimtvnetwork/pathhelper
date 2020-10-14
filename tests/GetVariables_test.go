@@ -26,7 +26,7 @@ var getVariableTestCaseWrappers = []getVariableTestCaseWrapper{
 		expectedMessage: "nil",
 	},
 	// {
-	// 	input:           "",
+	// 	givenPath:           "",
 	// 	expected:        nil,
 	// 	expectedMessage: "nil",
 	// },

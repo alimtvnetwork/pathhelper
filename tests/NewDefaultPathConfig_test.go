@@ -21,7 +21,7 @@ func TestNewDefaultPathConfig(t *testing.T) {
 
 	Convey(testCaseMessage, t, func() {
 		// Act
-		actual := pathhelpercore.NewDefaultPathConfig()
+		actual := pathhelpercore.NewDefaultPathConfigOrExisting(nil)
 
 		// Assert
 		So(actual.IsNormalize, ShouldBeTrue)
