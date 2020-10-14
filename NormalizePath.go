@@ -11,8 +11,10 @@ import (
 var normalizeMap = map[string]string{
 	constants.UriSchemePrefixStandard:   "",
 	constants.UriSchemePrefixTwoSlashes: "",
-	constants.DoubleForwardSlash:        constants.PathSeparator,
-	constants.DoubleBackSlash:           constants.PathSeparator,
+	constants.DoubleForwardSlash:        constants.BackSlash,
+	constants.DoubleBackSlash:           constants.BackSlash,
+	constants.ForwardSlash:              constants.BackSlash,
+	constants.BackSlash:                 constants.PathSeparator,
 }
 
 func NormalizePath(givenPath string) string {

@@ -1,23 +1,10 @@
 package pathhelper
 
-import (
-	"strings"
-
-	"gitlab.com/evatix-go/pathhelper/constants"
-)
-
+// Replace both double slashes to single slash (// -> /, \\ -> \)
 func RemovingDoubleSeparator(path string) string {
-	if strings.Contains(path, constants.DoubleBackSlash) {
-		path = RemovingDoubleBackSlash(path)
-	}
 
-	if strings.Contains(path, constants.DoubleForwardSlash) {
-		path = RemovingDoubleSlash(path)
-	}
+	doubleBackSlashToSingle := RemovingDoubleBackSlash(path)
+	doubleForwardSlashToSingle := RemovingDoubleSlash(doubleBackSlashToSingle)
 
-	if strings.Contains(path, constants.DoubleBackSlash) || strings.Contains(path, constants.DoubleForwardSlash) {
-		RemovingDoubleSeparator(path)
-	}
-
-	return path
+	return doubleForwardSlashToSingle
 }
