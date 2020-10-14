@@ -42,12 +42,12 @@ var combinedPathUsingConfigInternalTestCaseWrappers = []combinedPathUsingConfigI
 		operatingSystemMessage: "Unix OS",
 		operatingSystem:        enums.Ubuntu,
 	},
-	{
-		inputPathConfig: &pathhelpercore.PathConfig{},
-		inputPaths:      []string{},
-		expected:        "Empty paths given",
-		expectedMessage: "should panic with Empty paths given",
-	},
+	// {
+	// 	inputPathConfig: &pathhelpercore.PathConfig{},
+	// 	inputPaths:      []string{},
+	// 	expected:        "Empty paths given",
+	// 	expectedMessage: "should panic with Empty paths given",
+	// },
 }
 
 func TestGetCombinedPathUsingConfigInternal_Windows(t *testing.T) {
