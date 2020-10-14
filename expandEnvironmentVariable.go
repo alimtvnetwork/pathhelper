@@ -11,7 +11,7 @@ import (
 func expandEnvironmentVariable(variableForExapanding []string) map[string]string {
 	var expandedPath = map[string]string{}
 
-	for _, keyName := range variableToExpand {
+	for _, keyName := range variableForExapanding {
 		_, exists := os.LookupEnv(keyName)
 
 		var envVariableKeyName string = constants.Dollar + keyName

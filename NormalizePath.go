@@ -13,7 +13,6 @@ var normalizeMap = map[string]string{
 	constants.UriSchemePrefixTwoSlashes: "",
 	constants.DoubleForwardSlash:        constants.PathSeparator,
 	constants.DoubleBackSlash:           constants.PathSeparator,
-	constants.DoublePathSeparator:       constants.PathSeparator,
 }
 
 func NormalizePath(givenPath string) string {
