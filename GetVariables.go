@@ -3,23 +3,27 @@ package pathhelper
 import (
 	"regexp"
 	"strings"
+
+	"gitlab.com/evatix-go/pathhelper/constants"
 )
 
-func GetVariables(stringToCheck string) []string {
+var regularExpressionForEachWordsWithDollarSymbol, _ = regexp.Compile(constants.RegExForEachWordsWithDollarSymbol)
+
+// getVariables function takes a string input and identifies every word that begins with "$" in that input
+// string then returns an array of those words. If input has no word starting with "$" then returns nil.
+func getVariables(stringToCheck string) []string {
 	var envVariableKeysForMap []string
 
-	r, _ := regexp.Compile("\\$(\\w+)(\\d*)")
-
-	if !r.MatchString(stringToCheck) {
+	if !regularExpressionForEachWordsWithDollarSymbol.MatchString(stringToCheck) {
 		return nil
 	}
 
-	envVariableRawKeys := r.FindAllString(stringToCheck, -1)
+	envVariableRawKeys := regularExpressionForEachWordsWithDollarSymbol.FindAllString(stringToCheck, constants.MinusOne)
 
-	for _, arrayItem := range envVariableRawKeys {
-		arrayItem = strings.Replace(arrayItem, "$", "", 1)
+	for _, rawEnvKeys := range envVariableRawKeys {
+		rawEnvKeys = strings.Replace(rawEnvKeys, constants.Dollar, "", constants.One)
 
-		envVariableKeysForMap = append(envVariableKeysForMap, arrayItem)
+		envVariableKeysForMap = append(envVariableKeysForMap, rawEnvKeys)
 	}
 
 	return envVariableKeysForMap
