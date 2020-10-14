@@ -8,12 +8,9 @@ import (
 
 var forbiddenArray = []string{"!", "`", "@", "#", "%", "$", "^", "&", "*", "(", ")", "{", "}", "[", "]", " "}
 
+// GetSlug from given path, usages @forbiddenArray to replace with @separatorOfChoice
 func GetSlug(path, separatorOfChoice string) string {
-	if pathhelpercore.IsEmptyPath(path){
-		return path
-	}
-
-	if IsSlug(path) {
+	if pathhelpercore.IsEmptyPath(path) {
 		return path
 	}
 
