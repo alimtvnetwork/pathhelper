@@ -25,10 +25,11 @@ const (
 	GoBinPath                 = "GOBIN"
 	Go111ModuleEnvironment    = "GO111MODULE"
 	// "on"
-	On            = "on"
-	PathSeparator = string(os.PathSeparator)
-	Dollar        = "$"
-	One           = 1
+	On                  = "on"
+	PathSeparator       = string(os.PathSeparator)
+	DoublePathSeparator = PathSeparator + PathSeparator
+	Dollar              = "$"
+	One                 = 1
 
 	InvalidEmptyPathErrorMessage = "Invalid : Empty path given, cannot process it."
 )
