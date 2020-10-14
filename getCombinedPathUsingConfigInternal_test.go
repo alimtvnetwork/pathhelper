@@ -85,7 +85,9 @@ func TestGetCombinedPathUsingConfigInternal_Unix(t *testing.T) {
 }
 
 func executeTestCaseForGetCombinedPathUsingConfigInternal(
-	t *testing.T, testCaseMessage string, testCase combinedPathUsingConfigInternalTestCaseWrapper,
+	t *testing.T,
+	testCaseMessage string,
+	testCase combinedPathUsingConfigInternalTestCaseWrapper,
 ) {
 	Convey(testCaseMessage, t, func() {
 		// Act , Assert
