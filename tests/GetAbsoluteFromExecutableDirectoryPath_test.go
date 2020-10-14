@@ -18,16 +18,16 @@ type absoluteFromExecutableDirectoryPathTestCaseWrapper struct {
 // todo
 var absoluteFromExecutableDirectoryPathTestCaseWrappers = []absoluteFromExecutableDirectoryPathTestCaseWrapper{
 	{
-		inputRelativePath:      "\\whatever",
-		expected:               "",
-		expectedMessage:        "",
+		inputRelativePath:      "\\Users",
+		expected:               "C:\\Users",
+		expectedMessage:        "C:\\Users",
 		operatingSystemMessage: "Windows OS",
 		operatingSystem:        enums.Windows,
 	},
 	{
-		inputRelativePath:      "\\whatever",
-		expected:               "",
-		expectedMessage:        "",
+		inputRelativePath:      "/Users",
+		expected:               "home/",
+		expectedMessage:        "home/",
 		operatingSystemMessage: "Linux OS",
 		operatingSystem:        enums.Ubuntu,
 	},
@@ -73,9 +73,7 @@ func executeTestCaseForGetAbsoluteFromExecutableDirectoryPath(t *testing.T, test
 		actual := pathhelper.GetAbsoluteFromExecutableDirectoryPath(testCase.inputRelativePath)
 
 		// Assert
-		So(actual, ShouldNotBeBlank)
 		So(actual, ShouldNotBeEmpty)
-		So(actual, ShouldNotBeNil)
-		So(pathhelper.GetExecutablePath(), ShouldContainSubstring, "C:\\Users\\Naureen\\AppData\\Local\\Temp\\go-build")
+		So(actual, ShouldContainSubstring, testCase.expected)
 	})
 }

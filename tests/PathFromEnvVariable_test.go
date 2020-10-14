@@ -1,4 +1,4 @@
-package pathhelper
+package tests
 
 import (
 	"fmt"
@@ -6,6 +6,7 @@ import (
 
 	. "github.com/smartystreets/goconvey/convey"
 
+	"gitlab.com/evatix-go/pathhelper"
 	"gitlab.com/evatix-go/pathhelper/pathhelpercore"
 )
 
@@ -34,11 +35,11 @@ var pathFromEnvVariableTestCaseWrappers = []pathFromEnvVariableTestCaseWrapper{
 func TestPathFromEnvVariable(t *testing.T) {
 	for _, testCase := range pathFromEnvVariableTestCaseWrappers {
 		// Arrange
-		testCaseMessage := fmt.Sprintf("[getWindowsBuild] inputs (%s) expects (%s)", testCase.input, testCase.expectedMessage)
+		testCaseMessage := fmt.Sprintf("[PathFromEnvVariable] inputs (%s) expects (%s)", testCase.input, testCase.expectedMessage)
 
 		Convey(testCaseMessage, t, func() {
 			// Act
-			actual := PathFromEnvVariable(testCase.input)
+			actual := pathhelper.PathFromEnvVariable(testCase.input)
 
 			// Assert
 			if pathhelpercore.IsEmptyPath(testCase.input) {
