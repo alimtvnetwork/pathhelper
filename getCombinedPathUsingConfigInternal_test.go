@@ -6,6 +6,7 @@ import (
 
 	. "github.com/smartystreets/goconvey/convey"
 
+	"gitlab.com/evatix-go/pathhelper/constants"
 	"gitlab.com/evatix-go/pathhelper/enums"
 	"gitlab.com/evatix-go/pathhelper/pathhelpercore"
 )
@@ -92,7 +93,7 @@ func executeTestCaseForGetCombinedPathUsingConfigInternal(
 	Convey(testCaseMessage, t, func() {
 		// Act , Assert
 		if len(testCase.inputPaths) == 0 {
-			So(getCombinedPathUsingConfigInternal(testCase.inputPathConfig, testCase.inputPaths), ShouldPanicWith, "Empty paths given")
+			So(getCombinedPathUsingConfigInternal(testCase.inputPathConfig, testCase.inputPaths), ShouldPanicWith, constants.InvalidEmptyPathErrorMessage)
 		} else {
 			So(getCombinedPathUsingConfigInternal(testCase.inputPathConfig, testCase.inputPaths), ShouldEqual, testCase.expected)
 		}

@@ -3,6 +3,7 @@ package pathhelper
 import (
 	"strings"
 
+	"gitlab.com/evatix-go/pathhelper/constants"
 	"gitlab.com/evatix-go/pathhelper/pathhelpercore"
 )
 
@@ -11,7 +12,7 @@ func getCombinedPathUsingConfigInternal(
 	paths []string,
 ) string {
 	if pathhelpercore.IsEmptyArray(paths) {
-		panic("Empty paths given.")
+		panic(constants.InvalidEmptyPathErrorMessage)
 	}
 
 	if pathConfig == nil {
