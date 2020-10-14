@@ -11,7 +11,8 @@ const (
 	windowsIgnoreMessage = "Unix tests ignored in Windows."
 )
 
-func UnixTestsSkipOnWindows(t *testing.T)  {
+// Skip tests on Windows
+func SkipOnWindows(t *testing.T)  {
 	if pathhelper.IsWindows() {
 		t.Skip(windowsIgnoreMessage)
 	}

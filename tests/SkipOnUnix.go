@@ -6,7 +6,8 @@ import (
 	"gitlab.com/evatix-go/pathhelper"
 )
 
-func WindowsTestsSkipOnUnix(t *testing.T) {
+// Skip on Unix
+func SkipOnUnix(t *testing.T) {
 	if !pathhelper.IsWindows() {
 		t.Skip(unixIgnoreMessage)
 	}

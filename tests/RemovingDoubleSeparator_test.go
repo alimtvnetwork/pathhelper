@@ -37,7 +37,7 @@ var removingDoubleSeparatorTestCaseWrappers = []removingDoubleSeparatorTestCaseW
 }
 
 func TestRemoveAndFixDoubleSeparatorToOsSeparator_Windows(t *testing.T) {
-	UnixTestsSkipOnWindows(t)
+	SkipOnUnix(t)
 
 	for _, testCase := range removingDoubleSeparatorTestCaseWrappers {
 		if pathhelper.IsUnixCase(testCase.OperatingSystem) {
@@ -54,10 +54,8 @@ func TestRemoveAndFixDoubleSeparatorToOsSeparator_Windows(t *testing.T) {
 	}
 }
 
-
-
 func TestRemoveAndFixDoubleSeparatorToOsSeparator_Unix(t *testing.T) {
-	WindowsTestsSkipOnUnix(t)
+	SkipOnWindows(t)
 
 	for _, testCase := range removingDoubleSeparatorTestCaseWrappers {
 		if pathhelper.IsWindowsCase(testCase.OperatingSystem) {

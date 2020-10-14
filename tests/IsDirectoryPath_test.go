@@ -34,7 +34,7 @@ var directoryPathTestCaseWrappers = []directoryPathTestCaseWrapper{
 }
 
 func TestIsDirectoryPath_Windows(t *testing.T) {
-	UnixTestsSkipOnWindows(t)
+	SkipOnUnix(t)
 
 	for _, testCase := range directoryPathTestCaseWrappers {
 		// Arrange
@@ -49,7 +49,7 @@ func TestIsDirectoryPath_Windows(t *testing.T) {
 }
 
 func TestIsDirectoryPath_Unix(t *testing.T) {
-	WindowsTestsSkipOnUnix(t)
+	SkipOnWindows(t)
 
 	for _, testCase := range directoryPathTestCaseWrappers {
 		// Arrange
