@@ -45,9 +45,7 @@ var absoluteFromExecutableDirectoryPathTestCaseWrappers = []absoluteFromExecutab
 }
 
 func TestGetAbsoluteFromExecutableDirectoryPath_Windows(t *testing.T) {
-	if !pathhelper.IsWindows() {
-		t.Skip("Windows tests ignored in Unix.")
-	}
+	SkipOnUnix(t)
 
 	for _, testCase := range absoluteFromExecutableDirectoryPathTestCaseWrappers {
 		// Arrange
@@ -62,9 +60,7 @@ func TestGetAbsoluteFromExecutableDirectoryPath_Windows(t *testing.T) {
 }
 
 func TestGetAbsoluteFromExecutableDirectoryPath_Unix(t *testing.T) {
-	if pathhelper.IsWindows() {
-		t.Skip("Unix tests ignored in Windows.")
-	}
+	SkipOnWindows(t)
 
 	for _, testCase := range absoluteFromExecutableDirectoryPathTestCaseWrappers {
 		// Arrange
@@ -78,7 +74,9 @@ func TestGetAbsoluteFromExecutableDirectoryPath_Unix(t *testing.T) {
 	}
 }
 
-func executeTestCaseForGetAbsoluteFromExecutableDirectoryPath(t *testing.T, testCaseMessage string, testCase absoluteFromExecutableDirectoryPathTestCaseWrapper) {
+func executeTestCaseForGetAbsoluteFromExecutableDirectoryPath(
+	t *testing.T, testCaseMessage string, testCase absoluteFromExecutableDirectoryPathTestCaseWrapper,
+) {
 	Convey(testCaseMessage, t, func() {
 		// Act
 		actual := pathhelper.GetAbsoluteFromExecutableDirectoryPath(

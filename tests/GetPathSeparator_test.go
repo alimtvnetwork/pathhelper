@@ -32,9 +32,7 @@ var pathSeparatorTestCaseWrappers = []pathSeparatorTestCaseWrapper{
 }
 
 func TestGetPathSeparator_Windows(t *testing.T) {
-	if !pathhelper.IsWindows() {
-		t.Skip("Windows tests ignored in Unix.")
-	}
+	SkipOnUnix(t)
 
 	for _, testCase := range pathSeparatorTestCaseWrappers {
 		// Arrange
@@ -49,9 +47,7 @@ func TestGetPathSeparator_Windows(t *testing.T) {
 }
 
 func TestGetPathSeparator_Unix(t *testing.T) {
-	if pathhelper.IsWindows() {
-		t.Skip("Unix tests ignored in Windows.")
-	}
+	SkipOnWindows(t)
 
 	for _, testCase := range pathSeparatorTestCaseWrappers {
 		// Arrange
