@@ -2,7 +2,6 @@ package pathhelper
 
 import (
 	"os"
-	"strings"
 )
 
 func expandEnvironmentVariable(variableToExpand []string) map[string]string {
@@ -16,7 +15,7 @@ func expandEnvironmentVariable(variableToExpand []string) map[string]string {
 		}
 
 		if exists {
-			expandedPath["$"+keyName] = os.Getenv(strings.ToLower(keyName))
+			expandedPath["$"+keyName] = os.Getenv(keyName)
 		}
 	}
 
