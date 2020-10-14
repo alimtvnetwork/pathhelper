@@ -34,9 +34,7 @@ var directoryPathTestCaseWrappers = []directoryPathTestCaseWrapper{
 }
 
 func TestIsDirectoryPath_Windows(t *testing.T) {
-	if !pathhelper.IsWindows() {
-		t.Skip("Windows tests ignored in Unix.")
-	}
+	UnixTestsSkipOnWindows(t)
 
 	for _, testCase := range directoryPathTestCaseWrappers {
 		// Arrange
@@ -51,9 +49,7 @@ func TestIsDirectoryPath_Windows(t *testing.T) {
 }
 
 func TestIsDirectoryPath_Unix(t *testing.T) {
-	if pathhelper.IsWindows() {
-		t.Skip("Unix tests ignored in Windows.")
-	}
+	WindowsTestsSkipOnUnix(t)
 
 	for _, testCase := range directoryPathTestCaseWrappers {
 		// Arrange

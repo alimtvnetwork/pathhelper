@@ -36,19 +36,51 @@ var removingDoubleSeparatorTestCaseWrappers = []removingDoubleSeparatorTestCaseW
 	},
 }
 
-func TestRemoveAndFixDoubleSeparatorToOsSeparator(t *testing.T) {
+func TestRemoveAndFixDoubleSeparatorToOsSeparator_Windows(t *testing.T) {
+	UnixTestsSkipOnWindows(t)
+
 	for _, testCase := range removingDoubleSeparatorTestCaseWrappers {
+		if pathhelper.IsUnixCase(testCase.OperatingSystem) {
+			continue
+		}
+
 		// Arrange
 		testCaseMessage := fmt.Sprintf("[RemoveAndFixDoubleSeparatorToOsSeparator] inputs (%s) expects (%s)", testCase.input, testCase.expectedMessage)
 
+		// Act , Assert
 		Convey(testCaseMessage, t, func() {
-			// Act
-			actual := pathhelper.RemoveAndFixDoubleSeparatorToOsSeparator(testCase.input)
-
-			// Assert
-			So(actual, ShouldNotBeEmpty)
-			So(actual, ShouldNotBeNil)
-			So(actual, ShouldEqual, testCase.expected)
+			internalTestRemoveAndFixDoubleSeparatorToOsSeparatorActAndAssert(testCase)
 		})
 	}
+}
+
+
+
+func TestRemoveAndFixDoubleSeparatorToOsSeparator_Unix(t *testing.T) {
+	WindowsTestsSkipOnUnix(t)
+
+	for _, testCase := range removingDoubleSeparatorTestCaseWrappers {
+		if pathhelper.IsWindowsCase(testCase.OperatingSystem) {
+			continue
+		}
+
+		// Arrange
+		testCaseMessage := fmt.Sprintf("[RemoveAndFixDoubleSeparatorToOsSeparator] inputs (%s) expects (%s)", testCase.input, testCase.expectedMessage)
+
+		// Act , Assert
+		Convey(testCaseMessage, t, func() {
+			internalTestRemoveAndFixDoubleSeparatorToOsSeparatorActAndAssert(testCase)
+		})
+	}
+}
+
+func internalTestRemoveAndFixDoubleSeparatorToOsSeparatorActAndAssert(
+	testCase removingDoubleSeparatorTestCaseWrapper) {
+	// Act
+	actual := pathhelper.RemoveAndFixDoubleSeparatorToOsSeparator(testCase.input)
+
+	// Assert
+	So(actual, ShouldNotBeEmpty)
+	So(actual, ShouldNotBeNil)
+	So(actual, ShouldEqual, testCase.expected)
 }
