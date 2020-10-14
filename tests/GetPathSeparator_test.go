@@ -73,6 +73,6 @@ func executeTestCaseForGetPathSeparator(t *testing.T, testCaseMessage string, te
 		// Assert
 		So(actual, ShouldNotBeEmpty)
 		So(actual, ShouldNotBeNil)
-		So(actual[0], ShouldEqual, testCase.expected[0])
+		So(actual, ShouldEqual, testCase.expected)
 	})
 }
