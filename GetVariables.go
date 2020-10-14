@@ -11,7 +11,7 @@ var regularExpressionForEachWordsWithDollarSymbol, _ = regexp.Compile(constants.
 
 // getVariables function takes a string input and identifies every word that begins with "$" in that input
 // string then returns an array of those words. If input has no word starting with "$" then returns nil.
-func getVariables(stringToCheck string) []string {
+func GetVariables(stringToCheck string) []string {
 	var envVariableKeysForMap []string
 
 	if !regularExpressionForEachWordsWithDollarSymbol.MatchString(stringToCheck) {

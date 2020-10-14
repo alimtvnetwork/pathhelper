@@ -1,4 +1,4 @@
-![Use Package logo](UseLogo)
+![](https://gitlab.com/evatix-go/common-assets/-/blob/pathhelper-logos/Assets/logos/pathhelper/60.png)
 # pathhelper
 
 path helper utility tool

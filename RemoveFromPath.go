@@ -7,13 +7,11 @@ import (
 	"gitlab.com/evatix-go/pathhelper/pathhelpercore"
 )
 
+// Given removingList array items will be replaced with "" empty string.
+// If pathTemplate is given as empty string or nil or whitespace then returns as is.
 func RemoveFromPath(pathTemplate string, removingList *[]string, isNormalizePath bool) string {
 	if pathhelpercore.IsEmptyPath(pathTemplate) {
 		return pathTemplate
-	}
-
-	if isNormalizePath {
-		pathTemplate = NormalizePath(pathTemplate)
 	}
 
 	for _, value := range *removingList {
@@ -22,6 +20,10 @@ func RemoveFromPath(pathTemplate string, removingList *[]string, isNormalizePath
 			value,
 			constants.EmptyString,
 			constants.MinusOne)
+	}
+
+	if isNormalizePath {
+		pathTemplate = NormalizePath(pathTemplate)
 	}
 
 	return pathTemplate

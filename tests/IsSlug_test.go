@@ -2,32 +2,54 @@ package tests
 
 import (
 	"testing"
+	"fmt"
 
 	. "github.com/smartystreets/goconvey/convey"
 
 	"gitlab.com/evatix-go/pathhelper"
 )
 
+type slugTestCaseWrapper struct{
+	input, expectedMessage string
+	expected  bool
+}
+
+var slugTestCaseWrappers = []slugTestCaseWrapper{
+	{
+		input: "",
+		expected: false,
+		expectedMessage: "should not be empty",
+	},
+	{
+		input: "",
+		expected: false,
+		expectedMessage: "should not be nil",
+	},
+	{
+		input: "xyz_",
+		expected: true,
+		expectedMessage: "true",
+	},
+	{
+		input: "%&^2093073070271 b21 2987$#&^^&$(*&$(",
+		expected: false,
+		expectedMessage: "false",
+	},
+}
+
 func TestIsSlug(t *testing.T) {
+	for _, testCase := range slugTestCaseWrappers  {
+		// Arrange
+		testCaseMessage := fmt.Sprintf("[IsSlug] inputs (%s) expects (%s)", testCase.input, testCase.expectedMessage)
 
-	Convey("given string doesn't contain anything from forbidden array", t, func() {
+		Convey(testCaseMessage, t, func() {
+			// Act
+			actual := pathhelper.IsSlug(testCase.input)
 
-		Convey("it should return true", func() {
-			So(pathhelper.IsSlug("xyz_"), ShouldEqual, true)
-			So(pathhelper.IsSlug("xyz-"), ShouldEqual, true)
-			So(pathhelper.IsSlug("xyz_"), ShouldEqual, true)
+			// Assert
+			So(actual, ShouldNotBeEmpty)
+			So(actual, ShouldNotBeNil)
+			So(actual, ShouldEqual, testCase.expected)
 		})
-
-	})
-
-	Convey("if string contains anything from forbidden array", t, func() {
-
-		Convey("it should return false", func() {
-			So(pathhelper.IsSlug("xyz_#"), ShouldEqual, false)
-			So(pathhelper.IsSlug("%&^2093073070271 b21 2987$#&^^&$(*&$("), ShouldEqual, false)
-			So(pathhelper.IsSlug("xyz*(}"), ShouldEqual, false)
-		})
-
-	})
-
+	}
 }

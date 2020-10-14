@@ -1,17 +1,22 @@
 package pathhelper
 
-import "strings"
+import (
+	"strings"
+
+	"gitlab.com/evatix-go/pathhelper/pathhelpercore"
+)
 
 var forbiddenArray = []string{"!", "`", "@", "#", "%", "$", "^", "&", "*", "(", ")", "{", "}", "[", "]", " "}
 
+// GetSlug from given path, usages @forbiddenArray to replace with @separatorOfChoice
 func GetSlug(path, separatorOfChoice string) string {
-	if IsSlug(path) {
-		return ""
+	if pathhelpercore.IsEmptyPath(path) {
+		return path
 	}
 
 	for i, _ := range forbiddenArray {
 		path = strings.ReplaceAll(path, forbiddenArray[i], separatorOfChoice)
 	}
 
-	return RemoveDoubleSeparator(path, separatorOfChoice)
+	return RemoveDoubleUriSeparator(path, separatorOfChoice)
 }
