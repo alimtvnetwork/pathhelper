@@ -39,7 +39,7 @@ func main() {
 	// fmt.Println(os.ExpandEnv("%JAVA_HOME%"))
 	// fmt.Println(os.ExpandEnv("~/home"))
 
-	fmt.Println(getCombinedPathUsingConfigInternal(&pathhelpercore.PathConfig{IsNormalize: true}, []string{"C:\\", "\\somethingelse\\", "\\etc"}))
-	fmt.Println(pathhelper.NormalizePath("c:\\\\windows\\\\users\\\\etc\\\\more"))
+	fmt.Println(pathhelper.GetExecutableEnvironmentPaths())
+	// fmt.Println(pathhelper.NormalizePath("c:\\\\windows\\\\users\\\\etc\\\\more"))
 	// fmt.Println(pathhelper.GetPathFromUri("file:\\\\c:\\windows\\users\\etc\\more", true))
 }
