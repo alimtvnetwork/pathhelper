@@ -33,4 +33,6 @@ const (
 	DoublePathSeparator = PathSeparator + PathSeparator
 	Dollar              = "$"
 	One                 = 1
+	SemiColon           = ";"
+	Path                = "PATH"
 )

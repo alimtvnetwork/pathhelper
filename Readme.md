@@ -1,4 +1,4 @@
-![](https://gitlab.com/evatix-go/common-assets/-/blob/pathhelper-logos/Assets/logos/pathhelper/60.png)
+![](https://gitlab.com/evatix-go/common-assets/-/blob/c4c6be994fab24b2cd1c2e2076b998fcda86c43d/Assets/logos/pathhelper/60.png)
 # pathhelper
 
 path helper utility tool
