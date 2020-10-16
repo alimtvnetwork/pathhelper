@@ -6,4 +6,5 @@ const (
 	CreateAction PerformingAction = iota
 	ReadAction
 	DeleteAction
+	NothingToPeform
 )

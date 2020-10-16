@@ -15,3 +15,15 @@ type DirectoryResult struct {
 	IsIgnoredAction   bool
 	Action            enums.PerformingAction
 }
+
+func NewEmptyDirectoryResult() *DirectoryResult {
+	return &DirectoryResult{
+		FileInfoWrapper:   nil,
+		Error:             nil,
+		RawPath:           "",
+		FileModeRequested: nil,
+		HasIssues:         false,
+		IsIgnoredAction:   true,
+		Action:            enums.NothingToPeform,
+	}
+}
