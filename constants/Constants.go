@@ -1,6 +1,8 @@
 package constants
 
-import "os"
+import (
+	"os"
+)
 
 const (
 	OtherPathSeparator   = "/"
@@ -28,11 +30,15 @@ const (
 	GoBinPath                 = "GOBIN"
 	Go111ModuleEnvironment    = "GO111MODULE"
 	// "on"
-	On                  = "on"
-	PathSeparator       = string(os.PathSeparator)
+	On            = "on"
+	PathSeparator = string(os.PathSeparator)
+
+	Perm                = 0777
 	DoublePathSeparator = PathSeparator + PathSeparator
 	Dollar              = "$"
 	One                 = 1
 	SemiColon           = ";"
 	Path                = "PATH"
+	Architecture64      = "X64"
+	Architecture32      = "X32"
 )
