@@ -12,12 +12,18 @@ var normalizeMap = map[string]string{
 	constants.UriSchemePrefixTwoSlashes: "",
 }
 
-func NormalizePathUsingSeparator(pathSeparator, givenPath string) string {
+func NormalizePathUsingSeparator(pathSeparator, givenPath string, isLongPathFix bool) string {
 	if pathhelpercore.IsEmptyPath(givenPath) {
 		return givenPath
 	}
 
 	firstStepNormalize := GetCompiledPath(givenPath, &normalizeMap)
 
-	return RemoveAndFixDoubleSeparatorToFinalSeparator(pathSeparator, strings.TrimSpace(firstStepNormalize))
+	result := RemoveAndFixDoubleSeparatorToFinalSeparator(pathSeparator, strings.TrimSpace(firstStepNormalize))
+
+	if isLongPathFix {
+		result = GetLongPathFixed(result)
+	}
+
+	return result
 }

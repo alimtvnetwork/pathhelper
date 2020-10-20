@@ -24,6 +24,6 @@ func NewEmptyDirectoryResult() *DirectoryResult {
 		FileModeRequested: nil,
 		HasIssues:         false,
 		IsIgnoredAction:   true,
-		Action:            enums.NothingToPeform,
+		Action:            enums.EmptyDirectoryResult,
 	}
 }

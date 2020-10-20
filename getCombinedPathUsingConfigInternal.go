@@ -25,6 +25,7 @@ func getCombinedPathUsingConfigInternal(
 	}
 
 	finalPath := NormalizePathUsingSeparatorIf(
+		pathConfig.IsLongPathFix,
 		pathConfig.IsNormalize,
 		pathConfig.Separator,
 		combinedPath)

@@ -13,6 +13,7 @@ type PathConfig struct {
 	Separator                    string
 	IsNormalize                  bool
 	IsIgnoreEmptyPath            bool
+	IsLongPathFix                bool
 	IsExpandEnvironmentVariables bool
 }
 
@@ -20,6 +21,7 @@ type PathConfig struct {
 // Separator = os.PathSeparator
 // IsNormalize = true
 // IsIgnoreEmptyPath = false
+// IsLongPathFix = true
 // IsExpandEnvironmentVariables: true
 func NewDefaultPathConfigOrExisting(existingConfig *PathConfig) *PathConfig {
 	if existingConfig != nil {
@@ -30,6 +32,7 @@ func NewDefaultPathConfigOrExisting(existingConfig *PathConfig) *PathConfig {
 		Separator:                    constants.PathSeparator,
 		IsNormalize:                  true,
 		IsIgnoreEmptyPath:            false,
+		IsLongPathFix:                true,
 		IsExpandEnvironmentVariables: true,
 	}
 }
