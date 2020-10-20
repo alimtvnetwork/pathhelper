@@ -33,12 +33,17 @@ const (
 	On            = "on"
 	PathSeparator = string(os.PathSeparator)
 
-	Perm                = 0777
-	DoublePathSeparator = PathSeparator + PathSeparator
-	Dollar              = "$"
-	One                 = 1
-	SemiColon           = ";"
-	Path                = "PATH"
-	Architecture64      = "X64"
-	Architecture32      = "X32"
+	Perm           = 0777
+	Dollar         = "$"
+	One            = 1
+	SemiColon      = ";"
+	Path           = "PATH"
+	Architecture64 = "X64"
+	Architecture32 = "X32"
+
+	// `\\?\UNC\`
+	LongPathUncPrefix = `\\?\UNC\`
+
+	// `\\?\`
+	LongPathQuestionMarkPrefix = `\\?\`
 )

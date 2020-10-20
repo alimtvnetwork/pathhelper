@@ -3,7 +3,7 @@ package pathhelpercore
 import "strings"
 
 func IsEmptyPath(path string) bool {
-	return &path == nil || path == "" || len(strings.TrimSpace(path)) == 0
+	return &path == nil || path == "" || len(path) == 0 || len(strings.TrimSpace(path)) == 0
 }
 
 func IsEmptyPathForPtr(path *string) bool {
