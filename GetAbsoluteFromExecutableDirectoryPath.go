@@ -1,7 +1,11 @@
 package pathhelper
 
-func GetAbsoluteFromExecutableDirectoryPath(relativePath string, isNormalize bool) string {
+func GetAbsoluteFromExecutableDirectoryPath(relativePath string, isLongPathFix, isNormalize bool) string {
 	basePath := GetExecutablePath()
 
-	return GetAbsolutePath(basePath, relativePath, isNormalize)
+	return GetAbsolutePath(
+		basePath,
+		relativePath,
+		isLongPathFix,
+		isNormalize)
 }

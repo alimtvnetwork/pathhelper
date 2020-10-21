@@ -1,11 +1,15 @@
 package pathhelper
 
-import "gitlab.com/evatix-go/pathhelper/pathhelpercore"
+func NormalizePathUsingSeparatorIf(isLongPathFix, isNormalize bool, pathSeparator, givenPath string) string {
+	isApplyLongPathFix := !isNormalize &&
+		isLongPathFix
 
-func NormalizePathUsingSeparatorIf(isNormalize bool, pathSeparator, givenPath string) string {
-	if !isNormalize || pathhelpercore.IsEmptyPath(givenPath) {
-		return givenPath
+	if isApplyLongPathFix {
+		return GetLongPathFixed(givenPath)
 	}
 
-	return NormalizePathUsingSeparator(pathSeparator, givenPath)
+	return NormalizePathUsingSeparator(
+		pathSeparator,
+		givenPath,
+		isLongPathFix)
 }
