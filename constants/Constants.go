@@ -30,14 +30,17 @@ const (
 	GoBinPath                 = "GOBIN"
 	Go111ModuleEnvironment    = "GO111MODULE"
 	// "on"
-	On            = "on"
-	PathSeparator = string(os.PathSeparator)
+	On                  = "on"
+	PathSeparator       = string(os.PathSeparator)
+	DoublePathSeparator = PathSeparator + PathSeparator
+	Dollar              = "$"
+	Percent             = "%"
+	One                 = 1
+	SemiColon           = ";"
+	Path                = "PATH"
 
-	Perm           = 0777
-	Dollar         = "$"
-	One            = 1
-	SemiColon      = ";"
-	Path           = "PATH"
+	Perm = 0777 // Unix permission bits. has read and write access
+
 	Architecture64 = "X64"
 	Architecture32 = "X32"
 

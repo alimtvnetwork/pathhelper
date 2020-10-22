@@ -7,21 +7,29 @@ import (
 	"gitlab.com/evatix-go/pathhelper/constants"
 )
 
-var regularExpressionForEachWordsWithDollarSymbol, _ = regexp.Compile(constants.RegExForEachWordsWithDollarSymbol)
+var (
+	regularExpressionForEachWordsWithDollarSymbol, _    = regexp.Compile(constants.RegExForEachWordsWithDollarSymbol)
+	regularExpressionForEachWordsWithinPercentSymbol, _ = regexp.Compile(constants.RegExForEachWordsWithinPercentSymbol)
+)
 
-// getVariables function takes a string input and identifies every word that begins with "$" in that input
-// string then returns an array of those words. If input has no word starting with "$" then returns nil.
+// getVariables function takes a string input and identifies every word that begins with "$" or every word within two "%"
+// in that input string then returns an array of those words. If input has no such word then returns nil.
 func GetVariables(stringToCheck string) []string {
-	var envVariableKeysForMap []string
+	var regularExpressionSymbol string
+	var envVariableKeysForMap, envVariableRawKeys []string
 
-	if !regularExpressionForEachWordsWithDollarSymbol.MatchString(stringToCheck) {
+	// Check which regular expression case is true
+	isNotRegularExpressionCase := !regularExpressionForEachWordsWithDollarSymbol.MatchString(stringToCheck) &&
+		!regularExpressionForEachWordsWithinPercentSymbol.MatchString(stringToCheck)
+
+	if isNotRegularExpressionCase {
 		return nil
 	}
 
-	envVariableRawKeys := regularExpressionForEachWordsWithDollarSymbol.FindAllString(stringToCheck, constants.MinusOne)
+	envVariableRawKeys, regularExpressionSymbol = getEnvVariableRawKeysAndRegularExpressionSymbol(stringToCheck)
 
 	for _, rawEnvKeys := range envVariableRawKeys {
-		rawEnvKeys = strings.Replace(rawEnvKeys, constants.Dollar, "", constants.One)
+		rawEnvKeys = strings.Replace(rawEnvKeys, regularExpressionSymbol, "", constants.MinusOne)
 
 		envVariableKeysForMap = append(envVariableKeysForMap, rawEnvKeys)
 	}
