@@ -10,5 +10,5 @@ func GetSystemPath() string {
 		return GetWidowsDirectory()
 	}
 
-	return GetCombinePathWith(enums.SystemUnix.Value())
+	return enums.SystemUnix.Value()
 }

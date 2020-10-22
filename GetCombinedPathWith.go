@@ -6,6 +6,7 @@ import (
 	"gitlab.com/evatix-go/pathhelper/constants"
 )
 
+// todo should be deleted
 // Returns path as string after combining all provided paths
 // By default isIgnorePath: true, isNormalize: true, and Path separator depends on the OS
 func GetCombinePathWith(paths ...string) string {
