@@ -3,16 +3,16 @@ package pathhelper
 import (
 	"os"
 
-	"gitlab.com/evatix-go/pathhelper/constants"
 	"gitlab.com/evatix-go/pathhelper/enums"
 )
 
-// Returns path to %AppData% in windows. If directory doesn't exist it creates the directory and returns the path as a string.
-// Requires further investigation for linux platform
+// Returns path to %AppData% in windows. If directory doesn't exist it still returns the path as a string.
+// Requires further investigation for linux platform: https://stackoverflow.com/questions/1510104/where-to-store-application-data-non-user-specific-on-linux,
+// https://stackoverflow.com/questions/17517131/appdata-in-non-windows
 func GetAppDataPath() string {
-	appDataPath := os.Getenv(enums.AppData.Value())
+	if IsWindows() {
+		return os.Getenv(enums.AppData.Value())
+	}
 
-	CreateDirectory(appDataPath, constants.Perm)
-
-	return appDataPath
+	return enums.AppDataUnix.Value()
 }

@@ -7,8 +7,8 @@ import (
 // Returns path to etc directory on different platforms.
 func GetEtcPath() string {
 	if IsWindows() {
-		return GetCombinePathWith(GetWidowsDirectory(), GetSystem32(), enums.Etc.Value())
+		return enums.Etc.GetPrefixCombinedWith(GetSystemDriversPath())
 	}
 
-	return GetCombinePathWith(enums.Etc.Value())
+	return enums.Etc.Value()
 }

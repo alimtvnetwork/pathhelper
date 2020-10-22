@@ -1,7 +1,6 @@
 package pathhelper
 
 import (
-	"gitlab.com/evatix-go/pathhelper/constants"
 	"gitlab.com/evatix-go/pathhelper/enums"
 )
 
@@ -18,11 +17,9 @@ func GetGitGlobal() string {
 		outputPathAlternate = GetCombinePathWith(enums.GitGlobalUnixXdg.Value())
 	}
 
-	isPathNotExist := IsAllPathNotExist(outputPath, outputPathAlternate)
-	CreateDirectoryAllIf(
-		isPathNotExist,
-		outputPath,
-		constants.Perm)
+	if !IsPathExist(outputPath) {
+		outputPath = outputPathAlternate
+	}
 
 	return outputPath
 }
