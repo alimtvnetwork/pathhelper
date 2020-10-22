@@ -7,5 +7,6 @@ import (
 )
 
 func main() {
-	fmt.Println(pathhelper.IsAllPathNotExist("C:\\", "windows\\"))
+	eep := pathhelper.GetExecutableEnvironmentPaths()
+	fmt.Println(eep)
 }
