@@ -1,17 +1,18 @@
 package enums
 
 import (
-	"gitlab.com/evatix-go/pathhelper"
 	"strings"
 
+	"gitlab.com/evatix-go/pathhelper"
 	"gitlab.com/evatix-go/pathhelper/constants"
 )
 
 type KnownDirectory string
 
 const (
+	ApacheLinuxPath  KnownDirectory = "/etc/apache/"
 	AppData          KnownDirectory = "AppData"
-	AppDataUnix          KnownDirectory = "/usr/share"
+	AppDataUnix      KnownDirectory = "/usr/share"
 	Bin              KnownDirectory = "bin"
 	BinUnix          KnownDirectory = "/usr/bin"
 	Documents        KnownDirectory = "Documents"
@@ -49,6 +50,18 @@ const (
 	Videos           KnownDirectory = "Videos"
 	WindowsDirectory KnownDirectory = "windir"
 	WindowsCDrive    KnownDirectory = "c:\\"
+
+	// for paths of nginx and  apache
+	Conf             KnownDirectory = "conf.d"
+	ConfAvailable    KnownDirectory = "conf-available"
+	ConfEnabled      KnownDirectory = "conf-enabled"
+	ModsAvailable    KnownDirectory = "mods-available"
+	ModsEnabled      KnownDirectory = "mods-enabled"
+	ModulesAvailable KnownDirectory = "modules-available"
+	ModulesEnabled   KnownDirectory = "modules-enabled"
+	SitesAvailable   KnownDirectory = "sites-available"
+	SitesEnabled     KnownDirectory = "sites-enabled"
+	MimeTypes        KnownDirectory = "mime.types"
 )
 
 func (directory KnownDirectory) Value() string {
@@ -77,4 +90,3 @@ func (directory KnownDirectory) GetPrefixCombinedWith(paths ...string) string {
 		true,
 		strings.Join(paths, constants.PathSeparator))
 }
-

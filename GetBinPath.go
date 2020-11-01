@@ -10,7 +10,7 @@ func GetBinPath() string {
 		return enums.BinUnix.Value()
 	}
 
-	binPath := enums.Bin.PreCombinedWith(GetUserPath())
+	binPath := enums.Bin.GetPrefixCombinedWith(GetUserPath())
 
 	return binPath
 }
