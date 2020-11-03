@@ -39,6 +39,9 @@ const (
 	SemiColon           = ";"
 	Path                = "PATH"
 
+	SymbolicLinkCreationCommandName = "ln"
+	SymbolicLinkCreationArgument    = "-s"
+
 	Perm = 0777 // Unix permission bits. has read and write access
 
 	Architecture64 = "X64"
