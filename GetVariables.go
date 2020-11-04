@@ -26,10 +26,10 @@ func GetVariables(stringToCheck string) []string {
 		return nil
 	}
 
-	envVariableRawKeys, regularExpressionSymbol = getEnvVariableRawKeysAndRegularExpressionSymbol(stringToCheck)
+	envVariableRawKeys, regularExpressionSymbol = getEnvironmentVarRawKeysAndRegularExpressionSymbol(stringToCheck)
 
 	for _, rawEnvKeys := range envVariableRawKeys {
-		rawEnvKeys = strings.Replace(rawEnvKeys, regularExpressionSymbol, "", constants.MinusOne)
+		rawEnvKeys = strings.Replace(rawEnvKeys, regularExpressionSymbol, constants.EmptyString, constants.MinusOne)
 
 		envVariableKeysForMap = append(envVariableKeysForMap, rawEnvKeys)
 	}

@@ -13,7 +13,7 @@ import (
 type combinedPathTestCaseWrapper struct {
 	inputSeparator, expected, expectedMessage string
 	inputPaths1, inputPaths2, inputPaths3     string
-	isIgnoreEmptyPath, isNormalize            bool
+	isIgnoreEmptyPath, isLongPathFix, isNormalize            bool
 }
 
 var combinedPathTestCaseWrappers = []combinedPathTestCaseWrapper{
@@ -26,6 +26,7 @@ var combinedPathTestCaseWrappers = []combinedPathTestCaseWrapper{
 		isNormalize:       true,
 		expected:          "something\\more\\etc",
 		expectedMessage:   "something\\more\\etc",
+		isLongPathFix : true,
 	},
 	{
 		inputSeparator:    constants.ForwardSlash,
@@ -36,6 +37,7 @@ var combinedPathTestCaseWrappers = []combinedPathTestCaseWrapper{
 		isNormalize:       true,
 		expected:          "something/more/etc",
 		expectedMessage:   "something/more/etc",
+		isLongPathFix : true,
 	},
 }
 
@@ -49,6 +51,7 @@ func TestGetCombinedPath(t *testing.T) {
 			actual := pathhelper.GetCombinedPath(
 				testCase.inputSeparator,
 				testCase.isIgnoreEmptyPath,
+				testCase.isLongPathFix,
 				testCase.isNormalize,
 				testCase.inputPaths1,
 				testCase.inputPaths2,

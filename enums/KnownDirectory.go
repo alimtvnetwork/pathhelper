@@ -1,9 +1,9 @@
 package enums
 
 import (
+	"path"
 	"strings"
 
-	"gitlab.com/evatix-go/pathhelper"
 	"gitlab.com/evatix-go/pathhelper/constants"
 )
 
@@ -68,25 +68,35 @@ func (directory KnownDirectory) Value() string {
 	return string(directory)
 }
 
+// directory.Value() + constants.PathSeparator + knownDirectories.join(constants.PathSeparator)
+// Warning: It doesn't perform complex tasks like long path normalize, long path (windows) fix, double separator to single and so on.
+func (directory KnownDirectory) CombineWithKnownDirs(knownDirectories ...KnownDirectory) string {
+	paths := make([]string, 0 , len(knownDirectories) + 2)
+	paths = append(paths, directory.Value())
+
+	for _, knownDirectory := range knownDirectories {
+		paths = append(paths, knownDirectory.Value())
+	}
+
+	return path.Clean(strings.Join(paths, constants.PathSeparator))
+}
+
 func (directory KnownDirectory) CombineWith(paths ...string) string {
 	paths = append(paths, directory.Value())
 
-	return strings.Join(paths, constants.PathSeparator)
+	return path.Clean(strings.Join(paths, constants.PathSeparator))
+}
+
+// KnownDirectory.Value() + constants.PathSeparator + paths with separator
+// Warning: It doesn't perform complex tasks like long path normalize, long path (windows) fix, double separator to single and so on.
+func (directory KnownDirectory) GetPrefixCombinedWith(paths ...string) string {
+	paths = append([]string{directory.Value()}, paths...)
+
+	return path.Clean(strings.Join(paths, constants.PathSeparator))
 }
 
 func (directory KnownDirectory) ValuePtr() *string {
 	value := directory.Value()
 
 	return &value
-}
-
-func (directory KnownDirectory) GetPrefixCombinedWith(paths ...string) string {
-	paths = append(paths, directory.Value())
-
-	return pathhelper.GetCombinedPath(
-		constants.PathSeparator,
-		true,
-		true,
-		true,
-		strings.Join(paths, constants.PathSeparator))
 }

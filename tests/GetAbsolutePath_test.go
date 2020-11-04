@@ -12,7 +12,7 @@ import (
 
 type absolutePathTestCaseWrapper struct {
 	basePath, inputRelativePath, expected, expectedMessage, operatingSystemMessage string
-	isNormalize                                                                    bool
+	isLongPathFix, isNormalize                                                     bool
 	operatingSystem                                                                enums.OperatingSystem
 }
 
@@ -25,6 +25,7 @@ var absolutePathTestCaseWrappers = []absolutePathTestCaseWrapper{
 		operatingSystemMessage: "Any OS",
 		operatingSystem:        enums.Any,
 		isNormalize:            true,
+		isLongPathFix:          true,
 	},
 	{
 		basePath:               "c:\\Windows\\//",
@@ -34,6 +35,8 @@ var absolutePathTestCaseWrappers = []absolutePathTestCaseWrapper{
 		operatingSystemMessage: "Windows OS",
 		operatingSystem:        enums.Windows,
 		isNormalize:            true,
+		isLongPathFix:          true,
+
 	},
 	{
 		basePath:               "c:\\\\Windows///",
@@ -43,6 +46,8 @@ var absolutePathTestCaseWrappers = []absolutePathTestCaseWrapper{
 		operatingSystemMessage: "Windows OS",
 		operatingSystem:        enums.Windows,
 		isNormalize:            true,
+		isLongPathFix:          true,
+
 	},
 	{
 		basePath:               "/home/\\//your_user_name/my_script/",
@@ -52,6 +57,8 @@ var absolutePathTestCaseWrappers = []absolutePathTestCaseWrapper{
 		operatingSystemMessage: "Unix OS",
 		operatingSystem:        enums.Ubuntu,
 		isNormalize:            true,
+		isLongPathFix:          true,
+
 	},
 	{
 		basePath:               "/home/your_user_name/my_script",
@@ -59,6 +66,7 @@ var absolutePathTestCaseWrappers = []absolutePathTestCaseWrapper{
 		expected:               "/home/your_user_name/my_script/whatever",
 		expectedMessage:        "non-empty return of (/home/your_user_name/my_script/whatever)",
 		operatingSystemMessage: "Unix OS",
+		isLongPathFix:          true,
 		operatingSystem:        enums.Ubuntu,
 	},
 }
@@ -99,6 +107,7 @@ func executeTestForGetAbsolutePath(t *testing.T, testCaseMessage string, testCas
 		actual := pathhelper.GetAbsolutePath(
 			testCase.basePath,
 			testCase.inputRelativePath,
+			testCase.isLongPathFix,
 			testCase.isNormalize)
 
 		// Assert

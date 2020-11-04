@@ -21,6 +21,6 @@ func getOSArchitecture() string {
 		return constants.Architecture32
 	}
 
-	message := fmt.Sprintf("Not supported Operating System, Os=%s!", "string")
+	message := fmt.Sprintf("Operating System Not supported, Os = %s!", arch)
 	panic(message)
 }

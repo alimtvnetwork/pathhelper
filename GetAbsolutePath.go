@@ -5,7 +5,10 @@ import (
 	"gitlab.com/evatix-go/pathhelper/pathhelpercore"
 )
 
-func GetAbsolutePath(basePath, relativePath string, isLongPathFix, isNormalize bool) string {
+func GetAbsolutePath(
+	basePath,
+	relativePath string,
+	isLongPathFix, isNormalize bool) string {
 	if pathhelpercore.IsEmptyPath(basePath) || pathhelpercore.IsEmptyPath(relativePath) {
 		panic(constants.InvalidAnyPathEmptyErrorMessage)
 	}

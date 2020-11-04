@@ -8,3 +8,4 @@ import (
 func GetNginxLinuxPath() string {
 	return enums.NginxLinuxPath.Value()
 }
+

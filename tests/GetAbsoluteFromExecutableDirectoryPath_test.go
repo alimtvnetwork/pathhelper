@@ -12,7 +12,7 @@ import (
 
 type absoluteFromExecutableDirectoryPathTestCaseWrapper struct {
 	inputRelativePath, expected, expectedMessage, operatingSystemMessage string
-	isNormalize                                                          bool
+	isLongPathFix, isNormalize                                           bool
 	operatingSystem                                                      enums.OperatingSystem
 }
 
@@ -25,6 +25,7 @@ var absoluteFromExecutableDirectoryPathTestCaseWrappers = []absoluteFromExecutab
 		operatingSystemMessage: "Windows OS",
 		operatingSystem:        enums.Windows,
 		isNormalize:            true,
+		isLongPathFix:          true,
 	},
 	{
 		inputRelativePath:      "\\Users",
@@ -33,6 +34,7 @@ var absoluteFromExecutableDirectoryPathTestCaseWrappers = []absoluteFromExecutab
 		operatingSystemMessage: "Windows OS",
 		operatingSystem:        enums.Windows,
 		isNormalize:            true,
+		isLongPathFix:          true,
 	},
 	{
 		inputRelativePath:      "//\\home//",
@@ -41,6 +43,7 @@ var absoluteFromExecutableDirectoryPathTestCaseWrappers = []absoluteFromExecutab
 		operatingSystemMessage: "Linux OS",
 		operatingSystem:        enums.Linux,
 		isNormalize:            true,
+		isLongPathFix:          true,
 	},
 }
 
@@ -81,6 +84,7 @@ func executeTestCaseForGetAbsoluteFromExecutableDirectoryPath(
 		// Act
 		actual := pathhelper.GetAbsoluteFromExecutableDirectoryPath(
 			testCase.inputRelativePath,
+			testCase.isLongPathFix,
 			testCase.isNormalize)
 
 		// Assert
