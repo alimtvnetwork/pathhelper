@@ -21,6 +21,7 @@ const (
 	UriSchemePrefixStandard   = "file:///"
 	UriSchemePrefixTwoSlashes = "file://"
 	Underscore                = "_"
+	Colon                     = ":"
 	Dash                      = "-"
 	DoubleDash                = "--"
 	DoubleUnderscore          = "__"
