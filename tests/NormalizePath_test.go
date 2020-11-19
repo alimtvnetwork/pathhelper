@@ -2,70 +2,83 @@ package tests
 
 import (
 	"fmt"
-	"testing"
-
 	. "github.com/smartystreets/goconvey/convey"
-
 	"gitlab.com/evatix-go/pathhelper"
-	"gitlab.com/evatix-go/pathhelper/pathhelpercore"
+	"gitlab.com/evatix-go/pathhelper/enums"
+	"testing"
 )
 
 type normalizePathTestCaseWrapper struct {
-	input, expected, expectedMessage, operatingSystem string
+	input, expected, expectedMessage, operatingSystemMessage string
+	operatingSystem                                          enums.OperatingSystem
 }
 
 var normalizePathTestCaseWrappers = []normalizePathTestCaseWrapper{
 	{
-		input:           "",
-		expected:        "",
-		expectedMessage: "empty return",
-		operatingSystem: "Any OS",
+		input:                  "",
+		expected:               "",
+		expectedMessage:        "empty return",
+		operatingSystemMessage: "Any OS",
 	},
 	{
-		input:           "c:/windows/system32/etc",
-		expected:        "c:/windows/system32/etc",
-		expectedMessage: "non-empty return (c:/windows/system32/etc)",
-		operatingSystem: "Any OS",
+		input:                  "c:/windows/system32/etc",
+		expected:               "c:/windows/system32/etc",
+		expectedMessage:        "non-empty return (c:/windows/system32/etc)",
+		operatingSystemMessage: "Any OS",
 	},
 	{
-		input:           "c:\\windows//system32\\//etc",
-		expected:        "c:\\windows\\system32\\etc",
-		expectedMessage: "non-empty return (c:\\windows\\system32\\etc)",
-		operatingSystem: "OS is windows",
+		input:                  "c:\\windows//system32\\//etc",
+		expected:               "c:\\windows\\system32\\etc",
+		expectedMessage:        "non-empty return (c:\\windows\\system32\\etc)",
+		operatingSystemMessage: "OS is windows",
+		operatingSystem:        enums.Windows,
 	},
 	{
-		input:           "c:\\windows//system32\\//etc",
-		expected:        "c:/windows/system32/etc",
-		expectedMessage: "non-empty return (c:/windows/system32/etc)",
-		operatingSystem: "OS other than windows",
+		input:                  "c:\\windows//system32\\//etc",
+		expected:               "c:/windows/system32/etc",
+		expectedMessage:        "non-empty return (c:/windows/system32/etc)",
+		operatingSystemMessage: "OS other than windows",
+		operatingSystem:        enums.Ubuntu,
 	},
 }
 
-func TestNormalizePath(t *testing.T) {
+func TestNormalizePath_Windows(t *testing.T) {
+	SkipOnUnix(t)
+
 	for _, testCase := range normalizePathTestCaseWrappers {
 		// Arrange
-		testCaseMessage := fmt.Sprintf("(%s) [NormalizePath] inputs (%s) expects (%s)", testCase.operatingSystem, testCase.input, testCase.expectedMessage)
+		if pathhelper.IsUnixCase(testCase.operatingSystem) {
+			continue
+		}
 
-		Convey(testCaseMessage, t, func() {
-			// Act
-			actual := pathhelper.NormalizePath(testCase.input)
+		testCaseMessage := fmt.Sprintf("(%s)[NormalizePath] inputs (%s) expects (%s)", testCase.operatingSystemMessage, testCase.input, testCase.expectedMessage)
 
-			// Assert
-			if pathhelpercore.IsEmptyPath(testCase.input) {
-				So(actual, ShouldBeEmpty)
-			}
-
-			if !pathhelpercore.IsEmptyPath(testCase.input) {
-				So(actual, ShouldNotBeEmpty)
-
-				if !pathhelper.IsWindows() {
-					So(actual[2], ShouldEqual, testCase.expected[2])
-				}
-
-				if !pathhelper.IsWindows() {
-					So(actual[3], ShouldEqual, testCase.expected[3])
-				}
-			}
-		})
+		executeTestNormalizePath(t, testCaseMessage, testCase)
 	}
+}
+
+func TestNormalizePath_Unix(t *testing.T) {
+	SkipOnWindows(t)
+
+	for _, testCase := range normalizePathTestCaseWrappers {
+		// Arrange
+		if pathhelper.IsWindowsCase(testCase.operatingSystem) {
+			continue
+		}
+
+		testCaseMessage := fmt.Sprintf("(%s)[IsPathExist] inputs (%s) expects (%s)", testCase.operatingSystemMessage, testCase.input, testCase.expectedMessage)
+
+		executeTestNormalizePath(t, testCaseMessage, testCase)
+	}
+}
+
+func executeTestNormalizePath(t *testing.T, testCaseMessage string, testCase normalizePathTestCaseWrapper) {
+	Convey(testCaseMessage, t, func() {
+		// Act
+		actual := pathhelper.NormalizePath(testCase.input)
+
+		// Assert
+		So(actual, ShouldNotBeEmpty)
+		So(actual, ShouldEqual, testCase.expected)
+	})
 }

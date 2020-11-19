@@ -7,5 +7,9 @@ import (
 
 // returns /etc/apache/conf-available as a string
 func GetConfAvailable() string {
-	return enums.ConfAvailable.GetPrefixCombinedWith(pathhelper.GetApacheLinuxPath())
+	if !pathhelper.IsUnix() {
+		panic("Path only available for Unix OS")
+	}
+
+	return enums.ConfAvailable.CombineWith(pathhelper.GetApacheLinuxPath())
 }

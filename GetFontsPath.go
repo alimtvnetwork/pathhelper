@@ -5,8 +5,8 @@ import "gitlab.com/evatix-go/pathhelper/enums"
 // Returns path to Fonts directory on different platforms.
 func GetFontsPath() string {
 	if IsWindows() {
-		return enums.Fonts.GetPrefixCombinedWith(GetWidowsDirectory())
+		return enums.Fonts.CombineWith(GetWidowsDirectory())
 	}
 
-	return enums.FontsUnix.Value()
+	return enums.FontsUnix.CombineWith(GetUnixRoot())
 }

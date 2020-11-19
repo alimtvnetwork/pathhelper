@@ -23,7 +23,7 @@ var combinedOfNonEmptyPathsTestCaseWrappers = []combinedOfNonEmptyPathsTestCaseW
 	},
 	{
 		inputSeparator:  "/",
-		inputPaths:      []string{"home", "user", "etc"},
+		inputPaths:      []string{"home", "user", "", "etc"},
 		expected:        "home/user/etc",
 		expectedMessage: "home/user/etc",
 	},

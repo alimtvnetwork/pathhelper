@@ -13,7 +13,7 @@ func GetTempPath() string {
 		return os.Getenv(enums.Temp.Value())
 	}
 
-	desiredTempPathUnix := enums.TempDir.GetPrefixCombinedWith(GetUserPath())
+	desiredTempPathUnix := enums.TempDir.CombineWith(GetUserPath())
 
 	// Checking if temp directory is available
 	tempUnix := os.Getenv(enums.TempDir.Value())

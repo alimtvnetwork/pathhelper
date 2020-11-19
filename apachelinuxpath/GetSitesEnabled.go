@@ -7,5 +7,9 @@ import (
 
 // returns /etc/apache/sites-enabled as a string
 func GetSitesEnabled() string {
-	return enums.SitesEnabled.GetPrefixCombinedWith(pathhelper.GetApacheLinuxPath())
+	if !pathhelper.IsUnix() {
+		panic("Path only available for Unix OS")
+	}
+
+	return enums.SitesEnabled.CombineWith(pathhelper.GetApacheLinuxPath())
 }

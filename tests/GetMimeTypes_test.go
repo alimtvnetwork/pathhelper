@@ -1,0 +1,16 @@
+package tests
+
+import (
+	"gitlab.com/evatix-go/pathhelper/nginxlinuxpath"
+	"testing"
+)
+
+var getMimeTypesPathTestCaseData = pathTestCaseDataWrapper{
+	OSName:   "Unix OS",
+	funcName: "GetMimeTypes",
+	expected: "/etc/nginx/mime.types",
+}
+
+func TestGetMimeTypes(t *testing.T) {
+	pathTestCaseInternal_linux(t, getMimeTypesPathTestCaseData, nginxlinuxpath.GetMimeTypes)
+}

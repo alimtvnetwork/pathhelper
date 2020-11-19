@@ -7,5 +7,9 @@ import (
 
 // returns /etc/nginx/mime.types as a string
 func GetMimeTypes() string {
-	return enums.MimeTypes.GetPrefixCombinedWith(pathhelper.GetNginxLinuxPath())
+	if !pathhelper.IsUnix() {
+		panic("Path only available for Unix OS")
+	}
+
+	return enums.MimeTypes.CombineWith(pathhelper.GetNginxLinuxPath())
 }

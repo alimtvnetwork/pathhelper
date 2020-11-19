@@ -39,6 +39,11 @@ const (
 	One                 = 1
 	SemiColon           = ";"
 	Path                = "PATH"
+	Unix                = "Unix OS"
+	Windows             = "Windows OS"
+
+	SymbolicLinkCreationCommandName = "ln"
+	SymbolicLinkCreationArgument    = "-s"
 
 	SymbolicLinkCreationCommandName = "ln"
 	SymbolicLinkCreationArgument    = "-s"

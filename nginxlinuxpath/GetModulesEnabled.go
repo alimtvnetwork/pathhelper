@@ -7,5 +7,9 @@ import (
 
 // returns /etc/nginx/modules-enabled as a string
 func GetModulesEnabled() string {
-	return enums.ModulesEnabled.GetPrefixCombinedWith(pathhelper.GetNginxLinuxPath())
+	if !pathhelper.IsUnix() {
+		panic("Path only available for Unix OS")
+	}
+
+	return enums.ModulesEnabled.CombineWith(pathhelper.GetNginxLinuxPath())
 }

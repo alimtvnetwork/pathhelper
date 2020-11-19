@@ -11,5 +11,5 @@ func main() {
 	eep := pathhelper.GetExecutableEnvironmentPaths()
 	fmt.Println(eep)
 
-	fmt.Println(nginxlinuxpath.GetConf())
+	fmt.Println(pathhelper.GetWidowsDirectory())
 }

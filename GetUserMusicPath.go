@@ -6,5 +6,5 @@ import (
 
 // Returns Music directory path as a string.
 func GetUserMusicPath() string {
-	return enums.Music.GetPrefixCombinedWith(GetUserPath())
+	return enums.Music.CombineWith(GetUserPath())
 }

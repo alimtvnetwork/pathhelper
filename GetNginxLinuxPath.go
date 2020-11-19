@@ -6,6 +6,10 @@ import (
 
 // "/etc/nginx/"
 func GetNginxLinuxPath() string {
+	if !IsUnix() {
+		return ""
+	}
+
 	return enums.NginxLinuxPath.Value()
 }
 

@@ -6,5 +6,5 @@ import (
 
 // Returns documents directory path as a string.
 func GetUserDocumentsPath() string {
-	return enums.Documents.GetPrefixCombinedWith(GetUserPath())
+	return enums.Documents.CombineWith(GetUserPath())
 }
