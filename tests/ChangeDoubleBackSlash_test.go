@@ -32,7 +32,7 @@ var doubleBackSlashTestCaseWrappers = []doubleBackSlashTestCaseWrapper{
 }
 
 func TestChangeDoubleBackSlash(t *testing.T) {
-	for _, testCase := range doubleBackSlashTestCaseWrappers {
+	for i, testCase := range doubleBackSlashTestCaseWrappers {
 		// Arrange
 		testCaseMessage := fmt.Sprintf("[ChangeDoubleBackSlash] inputs (%s, %s) expects (%s)", testCase.inputPath, testCase.inputSeparator, testCase.expected)
 
@@ -41,7 +41,9 @@ func TestChangeDoubleBackSlash(t *testing.T) {
 			actual := pathhelper.ChangeDoubleBackSlash(testCase.inputPath, testCase.inputSeparator)
 
 			// Assert
-			So(actual, ShouldEqual, testCase.expected)
+			Convey(pathhelper.GetAssertMessage(actual, testCase.expected, i), func() {
+				So(actual, ShouldEqual, testCase.expected)
+			})
 		})
 	}
 }

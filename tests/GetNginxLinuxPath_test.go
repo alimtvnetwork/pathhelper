@@ -12,5 +12,5 @@ var getNginxLinuxTestCaseData = pathTestCaseDataWrapper{
 }
 
 func TestGetNginxLinuxPath(t *testing.T) {
-	pathTestCaseInternal_linux(t, getNginxLinuxTestCaseData, pathhelper.GetNginxLinuxPath)
+	getPathTestCommonMethod_linux(t, getNginxLinuxTestCaseData, pathhelper.GetNginxLinuxPath)
 }

@@ -73,7 +73,7 @@ var absolutePathTestCaseWrappers = []absolutePathTestCaseWrapper{
 func TestGetAbsolutePath_Windows(t *testing.T) {
 	SkipOnUnix(t)
 
-	for _, testCase := range absolutePathTestCaseWrappers {
+	for i, testCase := range absolutePathTestCaseWrappers {
 		// Arrange
 		if pathhelper.IsUnixCase(testCase.operatingSystem) {
 			continue
@@ -81,14 +81,14 @@ func TestGetAbsolutePath_Windows(t *testing.T) {
 
 		testCaseMessage := fmt.Sprintf("(%s) [GetAbsolutePath] inputs (%s, %s) expects (%s)", testCase.operatingSystemMessage, testCase.basePath, testCase.inputRelativePath, testCase.expectedMessage)
 
-		executeTestForGetAbsolutePath(t, testCaseMessage, testCase)
+		executeTestForGetAbsolutePath(t, testCaseMessage, testCase, i)
 	}
 }
 
 func TestGetAbsolutePath_Unix(t *testing.T) {
 	SkipOnWindows(t)
 
-	for _, testCase := range absolutePathTestCaseWrappers {
+	for i, testCase := range absolutePathTestCaseWrappers {
 		// Arrange
 		if pathhelper.IsWindowsCase(testCase.operatingSystem) {
 			continue
@@ -96,11 +96,11 @@ func TestGetAbsolutePath_Unix(t *testing.T) {
 
 		testCaseMessage := fmt.Sprintf("(%s) [GetAbsolutePath] inputs (%s, %s) expects (%s)", testCase.operatingSystemMessage, testCase.basePath, testCase.inputRelativePath, testCase.expectedMessage)
 
-		executeTestForGetAbsolutePath(t, testCaseMessage, testCase)
+		executeTestForGetAbsolutePath(t, testCaseMessage, testCase, i)
 	}
 }
 
-func executeTestForGetAbsolutePath(t *testing.T, testCaseMessage string, testCase absolutePathTestCaseWrapper) {
+func executeTestForGetAbsolutePath(t *testing.T, testCaseMessage string, testCase absolutePathTestCaseWrapper, i int) {
 	Convey(testCaseMessage, t, func() {
 		// Act
 		actual := pathhelper.GetAbsolutePath(
@@ -110,7 +110,9 @@ func executeTestForGetAbsolutePath(t *testing.T, testCaseMessage string, testCas
 			testCase.isNormalize)
 
 		// Assert
-		So(actual, ShouldNotBeNil)
-		So(actual, ShouldEqual, testCase.expected)
+		Convey(pathhelper.GetAssertMessage(actual, testCase.expected, i), func() {
+			So(actual, ShouldNotBeNil)
+			So(actual, ShouldEqual, testCase.expected)
+		})
 	})
 }

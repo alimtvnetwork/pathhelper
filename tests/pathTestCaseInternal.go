@@ -10,7 +10,7 @@ type pathTestCaseDataWrapper struct {
 	OSName, funcName, expected string
 }
 
-func pathTestCaseInternal_linux(t *testing.T, testData pathTestCaseDataWrapper, actualFuncCall func() string) {
+func getPathTestCommonMethod_linux(t *testing.T, testData pathTestCaseDataWrapper, callingFunctionToBeTested func() string) {
 	// Arrange
 	SkipOnWindows(t)
 
@@ -18,7 +18,7 @@ func pathTestCaseInternal_linux(t *testing.T, testData pathTestCaseDataWrapper, 
 
 	Convey(testMessage, t, func() {
 		// Act
-		actual := actualFuncCall()
+		actual := callingFunctionToBeTested()
 
 		// Assert
 		So(actual, ShouldEqual, testData.expected)
@@ -28,6 +28,6 @@ func pathTestCaseInternal_linux(t *testing.T, testData pathTestCaseDataWrapper, 
 func pathTestCaseInternalFromWrappers(t *testing.T, testData []pathTestCaseDataWrapper, actualFuncCall func() string) {
 	for _, testCase := range testData {
 		fmt.Println(testCase)
-		pathTestCaseInternal_linux(t, testCase, actualFuncCall)
+		getPathTestCommonMethod_linux(t, testCase, actualFuncCall)
 	}
 }

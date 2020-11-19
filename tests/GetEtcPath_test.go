@@ -24,25 +24,25 @@ var etcPathTestCaseDataWrappers = []generalizedPathWithoutInputTestCaseDataWrapp
 func TestGetEtcPath_Windows(t *testing.T) {
 	SkipOnUnix(t)
 
-	for _, testCase := range etcPathTestCaseDataWrappers {
+	for i, testCase := range etcPathTestCaseDataWrappers {
 		// Arrange
 		if pathhelper.IsUnixCase(testCase.operatingSystem) {
 			continue
 		}
 
-		executeTestForGeneralizedPathWithoutInput(t, testCase, pathhelper.GetEtcPath)
+		executeTestForGeneralizedPathWithoutInput(t, testCase, pathhelper.GetEtcPath, i)
 	}
 }
 
 func TestGetEtcPath_Unix(t *testing.T) {
 	SkipOnWindows(t)
 
-	for _, testCase := range etcPathTestCaseDataWrappers {
+	for i, testCase := range etcPathTestCaseDataWrappers {
 		// Arrange
 		if pathhelper.IsWindowsCase(testCase.operatingSystem) {
 			continue
 		}
 
-		executeTestForGeneralizedPathWithoutInput(t, testCase, pathhelper.GetEtcPath)
+		executeTestForGeneralizedPathWithoutInput(t, testCase, pathhelper.GetEtcPath, i)
 	}
 }

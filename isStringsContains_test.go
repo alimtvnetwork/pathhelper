@@ -51,7 +51,7 @@ var stringsContainTestCaseWrappers = []stringsContainsTestCaseWrapper{
 }
 
 func TestIsStringsContains(t *testing.T) {
-	for _, testCase := range stringsContainTestCaseWrappers {
+	for i, testCase := range stringsContainTestCaseWrappers {
 		// Arrange
 		testcaseMessage := fmt.Sprintf("[IsStringsContains] inputs (%s, %s) expects (%s)\"", testCase.arrayWhereToSearch, testCase.findingItem, testCase.expectedMessage)
 
@@ -60,9 +60,11 @@ func TestIsStringsContains(t *testing.T) {
 			actual := isStringsContains(testCase.arrayWhereToSearch, testCase.findingItem)
 
 			// Assert
-			So(actual, ShouldNotBeEmpty)
-			So(actual, ShouldNotBeNil)
-			So(actual, ShouldEqual, testCase.expected)
+			Convey(GetAssertMessage(actual, testCase.expected, i), func() {
+				So(actual, ShouldNotBeEmpty)
+				So(actual, ShouldNotBeNil)
+				So(actual, ShouldEqual, testCase.expected)
+			})
 		})
 	}
 }

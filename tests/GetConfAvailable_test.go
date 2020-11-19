@@ -12,5 +12,5 @@ var getConfAvailablePathTestCaseData = pathTestCaseDataWrapper{
 }
 
 func TestGetConfAvailable(t *testing.T) {
-	pathTestCaseInternal_linux(t, getConfAvailablePathTestCaseData, apachelinuxpath.GetConfAvailable)
+	getPathTestCommonMethod_linux(t, getConfAvailablePathTestCaseData, apachelinuxpath.GetConfAvailable)
 }

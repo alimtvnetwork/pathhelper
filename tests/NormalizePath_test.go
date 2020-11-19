@@ -45,7 +45,7 @@ var normalizePathTestCaseWrappers = []normalizePathTestCaseWrapper{
 func TestNormalizePath_Windows(t *testing.T) {
 	SkipOnUnix(t)
 
-	for _, testCase := range normalizePathTestCaseWrappers {
+	for i, testCase := range normalizePathTestCaseWrappers {
 		// Arrange
 		if pathhelper.IsUnixCase(testCase.operatingSystem) {
 			continue
@@ -53,14 +53,14 @@ func TestNormalizePath_Windows(t *testing.T) {
 
 		testCaseMessage := fmt.Sprintf("(%s)[NormalizePath] inputs (%s) expects (%s)", testCase.operatingSystemMessage, testCase.input, testCase.expectedMessage)
 
-		executeTestNormalizePath(t, testCaseMessage, testCase)
+		executeTestNormalizePath(t, testCaseMessage, testCase, i)
 	}
 }
 
 func TestNormalizePath_Unix(t *testing.T) {
 	SkipOnWindows(t)
 
-	for _, testCase := range normalizePathTestCaseWrappers {
+	for i, testCase := range normalizePathTestCaseWrappers {
 		// Arrange
 		if pathhelper.IsWindowsCase(testCase.operatingSystem) {
 			continue
@@ -68,8 +68,21 @@ func TestNormalizePath_Unix(t *testing.T) {
 
 		testCaseMessage := fmt.Sprintf("(%s)[IsPathExist] inputs (%s) expects (%s)", testCase.operatingSystemMessage, testCase.input, testCase.expectedMessage)
 
-		executeTestNormalizePath(t, testCaseMessage, testCase)
+		executeTestNormalizePath(t, testCaseMessage, testCase, i)
 	}
+}
+
+func executeTestNormalizePath(t *testing.T, testCaseMessage string, testCase normalizePathTestCaseWrapper, i int) {
+	Convey(testCaseMessage, t, func() {
+		// Act
+		actual := pathhelper.NormalizePath(testCase.input)
+
+		// Assert
+		Convey(pathhelper.GetAssertMessage(actual, testCase.expected, i), func() {
+			So(actual, ShouldNotBeEmpty)
+			So(actual, ShouldEqual, testCase.expected)
+		})
+	})
 }
 
 func executeTestNormalizePath(t *testing.T, testCaseMessage string, testCase normalizePathTestCaseWrapper) {

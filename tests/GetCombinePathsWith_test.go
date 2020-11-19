@@ -44,7 +44,7 @@ var combinePathsWithTestCaseWrappers = []combinePathsWithTestCaseDataWrapper{
 func TestGetCombinePathsWith_Windows(t *testing.T) {
 	SkipOnUnix(t)
 
-	for _, testCase := range combinePathsWithTestCaseWrappers {
+	for i, testCase := range combinePathsWithTestCaseWrappers {
 		// Arrange
 		if pathhelper.IsUnixCase(testCase.operatingSystem) {
 			continue
@@ -52,14 +52,14 @@ func TestGetCombinePathsWith_Windows(t *testing.T) {
 
 		testCaseMessage := fmt.Sprintf("(%s) [GetCombinePathsWith] inputs (%s, %s, %s) expects (%s)", testCase.operatingSystemMessage, testCase.inputPath1, testCase.inputPath2, testCase.inputPath3, testCase.expected)
 
-		executeTestForGetCombinePathsWith(t, testCaseMessage, testCase)
+		executeTestForGetCombinePathsWith(t, testCaseMessage, testCase, i)
 	}
 }
 
 func TestGetCombinePathsWith_Unix(t *testing.T) {
 	SkipOnWindows(t)
 
-	for _, testCase := range combinePathsWithTestCaseWrappers {
+	for i, testCase := range combinePathsWithTestCaseWrappers {
 		// Arrange
 		if pathhelper.IsWindowsCase(testCase.operatingSystem) {
 			continue
@@ -67,11 +67,11 @@ func TestGetCombinePathsWith_Unix(t *testing.T) {
 
 		testCaseMessage := fmt.Sprintf("(%s) [GetCombinePathsWith] inputs (%s, %s, %s) expects (%s)", testCase.operatingSystemMessage, testCase.inputPath1, testCase.inputPath2, testCase.inputPath3, testCase.expected)
 
-		executeTestForGetCombinePathsWith(t, testCaseMessage, testCase)
+		executeTestForGetCombinePathsWith(t, testCaseMessage, testCase, i)
 	}
 }
 
-func executeTestForGetCombinePathsWith(t *testing.T, testCaseMessage string, testCase combinePathsWithTestCaseDataWrapper) {
+func executeTestForGetCombinePathsWith(t *testing.T, testCaseMessage string, testCase combinePathsWithTestCaseDataWrapper, i int) {
 	Convey(testCaseMessage, t, func() {
 		// Act
 		actual := pathhelper.GetCombinePathsWith(
@@ -80,7 +80,9 @@ func executeTestForGetCombinePathsWith(t *testing.T, testCaseMessage string, tes
 			testCase.inputPath3)
 
 		// Assert
-		So(actual, ShouldNotBeNil)
-		So(actual, ShouldEqual, testCase.expected)
+		Convey(pathhelper.GetAssertMessage(actual, testCase.expected, i), func() {
+			So(actual, ShouldNotBeNil)
+			So(actual, ShouldEqual, testCase.expected)
+		})
 	})
 }

@@ -12,5 +12,5 @@ var getConfPathTestCaseData = pathTestCaseDataWrapper{
 }
 
 func TestGetConf(t *testing.T) {
-	pathTestCaseInternal_linux(t, getConfPathTestCaseData, nginxlinuxpath.GetConf)
+	getPathTestCommonMethod_linux(t, getConfPathTestCaseData, nginxlinuxpath.GetConf)
 }

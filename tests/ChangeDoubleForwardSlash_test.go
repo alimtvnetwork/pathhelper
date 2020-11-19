@@ -32,7 +32,7 @@ var doubleForwardSlashTestCaseWrappers = []doubleForwardSlashTestCaseWrapper{
 }
 
 func TestChangeDoubleForwardSlash(t *testing.T) {
-	for _, testCase := range doubleForwardSlashTestCaseWrappers {
+	for i, testCase := range doubleForwardSlashTestCaseWrappers {
 		// Arrange
 		testCaseMessage := fmt.Sprintf("[ChangeDoubleForwardSlash] inputs (%s, %s) expects (%s)", testCase.inputPath, testCase.inputSeparator, testCase.expected)
 
@@ -41,7 +41,9 @@ func TestChangeDoubleForwardSlash(t *testing.T) {
 			actual := pathhelper.ChangeDoubleForwardSlash(testCase.inputPath, testCase.inputSeparator)
 
 			// Assert
-			So(actual, ShouldEqual, testCase.expected)
+			Convey(pathhelper.GetAssertMessage(actual, testCase.expected, i), func() {
+				So(actual, ShouldEqual, testCase.expected)
+			})
 		})
 	}
 }

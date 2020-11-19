@@ -50,7 +50,7 @@ var absoluteFromExecutableDirectoryPathTestCaseWrappers = []absoluteFromExecutab
 func TestGetAbsoluteFromExecutableDirectoryPath_Windows(t *testing.T) {
 	SkipOnUnix(t)
 
-	for _, testCase := range absoluteFromExecutableDirectoryPathTestCaseWrappers {
+	for i, testCase := range absoluteFromExecutableDirectoryPathTestCaseWrappers {
 		// Arrange
 		if pathhelper.IsUnixCase(testCase.operatingSystem) {
 			continue
@@ -58,14 +58,14 @@ func TestGetAbsoluteFromExecutableDirectoryPath_Windows(t *testing.T) {
 
 		testCaseMessage := fmt.Sprintf("(%s) [GetAbsoluteFromExecutableDirectoryPath] inputs (%s) expects (%s)", testCase.operatingSystemMessage, testCase.inputRelativePath, testCase.expectedMessage)
 
-		executeTestCaseForGetAbsoluteFromExecutableDirectoryPath(t, testCaseMessage, testCase)
+		executeTestCaseForGetAbsoluteFromExecutableDirectoryPath(t, testCaseMessage, testCase, i)
 	}
 }
 
 func TestGetAbsoluteFromExecutableDirectoryPath_Unix(t *testing.T) {
 	SkipOnWindows(t)
 
-	for _, testCase := range absoluteFromExecutableDirectoryPathTestCaseWrappers {
+	for i, testCase := range absoluteFromExecutableDirectoryPathTestCaseWrappers {
 		// Arrange
 		if pathhelper.IsWindowsCase(testCase.operatingSystem) {
 			continue
@@ -73,12 +73,12 @@ func TestGetAbsoluteFromExecutableDirectoryPath_Unix(t *testing.T) {
 
 		testCaseMessage := fmt.Sprintf("(%s) [GetAbsoluteFromExecutableDirectoryPath] inputs (%s) expects (%s)", testCase.operatingSystemMessage, testCase.inputRelativePath, testCase.expectedMessage)
 
-		executeTestCaseForGetAbsoluteFromExecutableDirectoryPath(t, testCaseMessage, testCase)
+		executeTestCaseForGetAbsoluteFromExecutableDirectoryPath(t, testCaseMessage, testCase, i)
 	}
 }
 
 func executeTestCaseForGetAbsoluteFromExecutableDirectoryPath(
-	t *testing.T, testCaseMessage string, testCase absoluteFromExecutableDirectoryPathTestCaseWrapper,
+	t *testing.T, testCaseMessage string, testCase absoluteFromExecutableDirectoryPathTestCaseWrapper, i int,
 ) {
 	Convey(testCaseMessage, t, func() {
 		// Act
@@ -88,7 +88,9 @@ func executeTestCaseForGetAbsoluteFromExecutableDirectoryPath(
 			testCase.isNormalize)
 
 		// Assert
-		So(actual, ShouldNotBeEmpty)
-		So(actual, ShouldContainSubstring, testCase.expected)
+		Convey(pathhelper.GetAssertMessage(actual, testCase.expected, i), func() {
+			So(actual, ShouldNotBeEmpty)
+			So(actual, ShouldContainSubstring, testCase.expected)
+		})
 	})
 }

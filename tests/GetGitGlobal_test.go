@@ -24,25 +24,25 @@ var gitGlobalPathTestCaseDataWrappers = []generalizedPathWithoutInputTestCaseDat
 func TestGetGitGlobal_Windows(t *testing.T) {
 	SkipOnUnix(t)
 
-	for _, testCase := range gitGlobalPathTestCaseDataWrappers {
+	for i, testCase := range gitGlobalPathTestCaseDataWrappers {
 		// Arrange
 		if pathhelper.IsUnixCase(testCase.operatingSystem) {
 			continue
 		}
 
-		executeTestForGeneralizedPathWithoutInput(t, testCase, pathhelper.GetGitGlobal)
+		executeTestForGeneralizedPathWithoutInput(t, testCase, pathhelper.GetGitGlobal, i)
 	}
 }
 
 func TestGetGitGlobal_Unix(t *testing.T) {
 	SkipOnWindows(t)
 
-	for _, testCase := range gitGlobalPathTestCaseDataWrappers {
+	for i, testCase := range gitGlobalPathTestCaseDataWrappers {
 		// Arrange
 		if pathhelper.IsWindowsCase(testCase.operatingSystem) {
 			continue
 		}
 
-		executeTestForGeneralizedPathWithoutInput(t, testCase, pathhelper.GetGitGlobal)
+		executeTestForGeneralizedPathWithoutInput(t, testCase, pathhelper.GetGitGlobal, i)
 	}
 }

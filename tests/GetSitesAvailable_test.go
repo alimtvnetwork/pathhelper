@@ -12,5 +12,5 @@ var getSitesAvailablePathTestCaseData = pathTestCaseDataWrapper{
 }
 
 func TestGetSitesAvailable(t *testing.T) {
-	pathTestCaseInternal_linux(t, getSitesAvailablePathTestCaseData, nginxlinuxpath.GetSitesAvailable)
+	getPathTestCommonMethod_linux(t, getSitesAvailablePathTestCaseData, nginxlinuxpath.GetSitesAvailable)
 }

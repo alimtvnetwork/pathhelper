@@ -35,7 +35,7 @@ var changeSeparatorTestCaseWrappers = []changeSeparatorTestCaseWrapper{
 }
 
 func TestChangeSeparator(t *testing.T) {
-	for _, testCase := range changeSeparatorTestCaseWrappers {
+	for i, testCase := range changeSeparatorTestCaseWrappers {
 		// Arrange
 		testCaseMessage := fmt.Sprintf("[ChangeSeparator] inputs (%s, %s, %s) expects (%s)", testCase.inputPath, testCase.inputCurrentSeparator, testCase.inputChangeSeparator, testCase.expected)
 
@@ -44,7 +44,9 @@ func TestChangeSeparator(t *testing.T) {
 			actual := pathhelper.ChangeSeparator(testCase.inputPath, testCase.inputCurrentSeparator, testCase.inputChangeSeparator)
 
 			// Assert
-			So(actual, ShouldEqual, testCase.expected)
+			Convey(pathhelper.GetAssertMessage(actual, testCase.expected, i), func() {
+				So(actual, ShouldEqual, testCase.expected)
+			})
 		})
 	}
 }

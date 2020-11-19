@@ -36,7 +36,7 @@ var numberTestCaseWrappers = []numberTestCaseWrapper{
 }
 
 func TestIsNumber(t *testing.T) {
-	for _, testCase := range numberTestCaseWrappers {
+	for i, testCase := range numberTestCaseWrappers {
 		// Arrange
 		testCaseMessage := fmt.Sprintf("[isNumber] inputs (%s) expects (%s)", testCase.input, testCase.expectedMessage)
 
@@ -45,8 +45,10 @@ func TestIsNumber(t *testing.T) {
 			actual := isNumber(testCase.input)
 
 			// Assert
-			So(actual, ShouldNotBeEmpty)
-			So(actual, ShouldEqual, testCase.expected)
+			Convey(GetAssertMessage(actual, testCase.expected, i), func() {
+				So(actual, ShouldNotBeEmpty)
+				So(actual, ShouldEqual, testCase.expected)
+			})
 		})
 	}
 }

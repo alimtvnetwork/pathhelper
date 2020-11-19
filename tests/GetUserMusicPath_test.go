@@ -24,25 +24,25 @@ var userMusicPathTestCaseDataWrappers = []generalizedPathWithoutInputTestCaseDat
 func TestGetUserMusicPath_Windows(t *testing.T) {
 	SkipOnUnix(t)
 
-	for _, testCase := range userMusicPathTestCaseDataWrappers {
+	for i, testCase := range userMusicPathTestCaseDataWrappers {
 		// Arrange
 		if pathhelper.IsUnixCase(testCase.operatingSystem) {
 			continue
 		}
 
-		executeTestForGeneralizedPathWithoutInput(t, testCase, pathhelper.GetUserMusicPath)
+		executeTestForGeneralizedPathWithoutInput(t, testCase, pathhelper.GetUserMusicPath, i)
 	}
 }
 
 func TestGetUserMusicPath_Unix(t *testing.T) {
 	SkipOnWindows(t)
 
-	for _, testCase := range userMusicPathTestCaseDataWrappers {
+	for i, testCase := range userMusicPathTestCaseDataWrappers {
 		// Arrange
 		if pathhelper.IsWindowsCase(testCase.operatingSystem) {
 			continue
 		}
 
-		executeTestForGeneralizedPathWithoutInput(t, testCase, pathhelper.GetUserMusicPath)
+		executeTestForGeneralizedPathWithoutInput(t, testCase, pathhelper.GetUserMusicPath, i)
 	}
 }

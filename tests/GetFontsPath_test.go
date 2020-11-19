@@ -24,25 +24,25 @@ var fontsPathTestCaseDataWrappers = []generalizedPathWithoutInputTestCaseDataWra
 func TestGetFontsPath_Windows(t *testing.T) {
 	SkipOnUnix(t)
 
-	for _, testCase := range fontsPathTestCaseDataWrappers {
+	for i, testCase := range fontsPathTestCaseDataWrappers {
 		// Arrange
 		if pathhelper.IsUnixCase(testCase.operatingSystem) {
 			continue
 		}
 
-		executeTestForGeneralizedPathWithoutInput(t, testCase, pathhelper.GetFontsPath)
+		executeTestForGeneralizedPathWithoutInput(t, testCase, pathhelper.GetFontsPath, i)
 	}
 }
 
 func TestGetFontsPath_Unix(t *testing.T) {
 	SkipOnWindows(t)
 
-	for _, testCase := range fontsPathTestCaseDataWrappers {
+	for i, testCase := range fontsPathTestCaseDataWrappers {
 		// Arrange
 		if pathhelper.IsWindowsCase(testCase.operatingSystem) {
 			continue
 		}
 
-		executeTestForGeneralizedPathWithoutInput(t, testCase, pathhelper.GetFontsPath)
+		executeTestForGeneralizedPathWithoutInput(t, testCase, pathhelper.GetFontsPath, i)
 	}
 }

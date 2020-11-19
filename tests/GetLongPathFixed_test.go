@@ -31,7 +31,7 @@ var longPathFixedTestCaseDataWrappers = []longPathFixedTestCaseDataWrapper{
 }
 
 func TestGetLongPathFixed(t *testing.T) {
-	for _, testCase := range longPathFixedTestCaseDataWrappers {
+	for i, testCase := range longPathFixedTestCaseDataWrappers {
 		// Arrange
 		testCaseMessage := fmt.Sprintf("[GetLongPathFixed] inputs (%s) expects (%s)", testCase.input, testCase.expected)
 
@@ -40,7 +40,9 @@ func TestGetLongPathFixed(t *testing.T) {
 			actual := pathhelper.GetLongPathFixed(testCase.input)
 
 			// Assert
-			So(actual, ShouldEqual, testCase.expected)
+			Convey(pathhelper.GetAssertMessage(actual, testCase.expected, i), func() {
+				So(actual, ShouldEqual, testCase.expected)
+			})
 		})
 	}
 }

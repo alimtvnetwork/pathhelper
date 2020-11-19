@@ -37,7 +37,7 @@ var normalizePathUsingSeparatorIfTestCaseWrappers = []normalizePathUsingSeparato
 }
 
 func TestNormalizePathUsingSeparatorIf(t *testing.T) {
-	for _, testCase := range normalizePathUsingSeparatorIfTestCaseWrappers {
+	for i, testCase := range normalizePathUsingSeparatorIfTestCaseWrappers {
 		// Arrange
 		testCaseMessage := fmt.Sprintf("[NormalizePathUsingSeparatorIf] inputs (%s, %s, %v, %v) expects (%s)", testCase.inputString, testCase.inputSeparator, testCase.isLongPathFixed, testCase.isNormalize, testCase.expected)
 
@@ -50,7 +50,9 @@ func TestNormalizePathUsingSeparatorIf(t *testing.T) {
 				testCase.inputString)
 
 			// Assert
-			So(actual, ShouldEqual, testCase.expected)
+			Convey(pathhelper.GetAssertMessage(actual, testCase.expected, i), func() {
+				So(actual, ShouldEqual, testCase.expected)
+			})
 		})
 	}
 }

@@ -24,25 +24,25 @@ var localPathTestCaseDataWrappers = []generalizedPathWithoutInputTestCaseDataWra
 func TestGetLocalPath_Windows(t *testing.T) {
 	SkipOnUnix(t)
 
-	for _, testCase := range localPathTestCaseDataWrappers {
+	for i, testCase := range localPathTestCaseDataWrappers {
 		// Arrange
 		if pathhelper.IsUnixCase(testCase.operatingSystem) {
 			continue
 		}
 
-		executeTestForGeneralizedPathWithoutInput(t, testCase, pathhelper.GetLocalPath)
+		executeTestForGeneralizedPathWithoutInput(t, testCase, pathhelper.GetLocalPath, i)
 	}
 }
 
 func TestGetLocalPath_Unix(t *testing.T) {
 	SkipOnWindows(t)
 
-	for _, testCase := range localPathTestCaseDataWrappers {
+	for i, testCase := range localPathTestCaseDataWrappers {
 		// Arrange
 		if pathhelper.IsWindowsCase(testCase.operatingSystem) {
 			continue
 		}
 
-		executeTestForGeneralizedPathWithoutInput(t, testCase, pathhelper.GetLocalPath)
+		executeTestForGeneralizedPathWithoutInput(t, testCase, pathhelper.GetLocalPath, i)
 	}
 }

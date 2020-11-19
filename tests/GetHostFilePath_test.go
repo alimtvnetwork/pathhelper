@@ -24,25 +24,25 @@ var hostFilePathTestCaseDataWrappers = []generalizedPathWithoutInputTestCaseData
 func TestGetHostFilePath_Windows(t *testing.T) {
 	SkipOnUnix(t)
 
-	for _, testCase := range hostFilePathTestCaseDataWrappers {
+	for i, testCase := range hostFilePathTestCaseDataWrappers {
 		// Arrange
 		if pathhelper.IsUnixCase(testCase.operatingSystem) {
 			continue
 		}
 
-		executeTestForGeneralizedPathWithoutInput(t, testCase, pathhelper.GetHostFilePath)
+		executeTestForGeneralizedPathWithoutInput(t, testCase, pathhelper.GetHostFilePath, i)
 	}
 }
 
 func TestGetHostFilePath_Unix(t *testing.T) {
 	SkipOnWindows(t)
 
-	for _, testCase := range hostFilePathTestCaseDataWrappers {
+	for i, testCase := range hostFilePathTestCaseDataWrappers {
 		// Arrange
 		if pathhelper.IsWindowsCase(testCase.operatingSystem) {
 			continue
 		}
 
-		executeTestForGeneralizedPathWithoutInput(t, testCase, pathhelper.GetHostFilePath)
+		executeTestForGeneralizedPathWithoutInput(t, testCase, pathhelper.GetHostFilePath, i)
 	}
 }

@@ -26,25 +26,25 @@ var sshGlobalTestCaseDataWrappers = []generalizedPathWithoutInputTestCaseDataWra
 func TestGetSSHGlobal_Windows(t *testing.T) {
 	SkipOnUnix(t)
 
-	for _, testCase := range sshGlobalTestCaseDataWrappers {
+	for i, testCase := range sshGlobalTestCaseDataWrappers {
 		// Arrange
 		if pathhelper.IsUnixCase(testCase.operatingSystem) {
 			continue
 		}
 
-		executeTestForGeneralizedPathWithoutInput(t, testCase, pathhelper.GetSSHGlobal)
+		executeTestForGeneralizedPathWithoutInput(t, testCase, pathhelper.GetSSHGlobal, i)
 	}
 }
 
 func TestGetSSHGlobal_Unix(t *testing.T) {
 	SkipOnWindows(t)
 
-	for _, testCase := range sshGlobalTestCaseDataWrappers {
+	for i, testCase := range sshGlobalTestCaseDataWrappers {
 		// Arrange
 		if pathhelper.IsWindowsCase(testCase.operatingSystem) {
 			continue
 		}
 
-		executeTestForGeneralizedPathWithoutInput(t, testCase, pathhelper.GetSSHGlobal)
+		executeTestForGeneralizedPathWithoutInput(t, testCase, pathhelper.GetSSHGlobal, i)
 	}
 }

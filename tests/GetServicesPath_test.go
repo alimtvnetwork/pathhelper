@@ -24,25 +24,25 @@ var servicesPathTestCaseDataWrappers = []generalizedPathWithoutInputTestCaseData
 func TestGetServicesPath_Windows(t *testing.T) {
 	SkipOnUnix(t)
 
-	for _, testCase := range servicesPathTestCaseDataWrappers {
+	for i, testCase := range servicesPathTestCaseDataWrappers {
 		// Arrange
 		if pathhelper.IsUnixCase(testCase.operatingSystem) {
 			continue
 		}
 
-		executeTestForGeneralizedPathWithoutInput(t, testCase, pathhelper.GetServicesPath)
+		executeTestForGeneralizedPathWithoutInput(t, testCase, pathhelper.GetServicesPath, i)
 	}
 }
 
 func TestGetServicesPath_Unix(t *testing.T) {
 	SkipOnWindows(t)
 
-	for _, testCase := range servicesPathTestCaseDataWrappers {
+	for i, testCase := range servicesPathTestCaseDataWrappers {
 		// Arrange
 		if pathhelper.IsWindowsCase(testCase.operatingSystem) {
 			continue
 		}
 
-		executeTestForGeneralizedPathWithoutInput(t, testCase, pathhelper.GetServicesPath)
+		executeTestForGeneralizedPathWithoutInput(t, testCase, pathhelper.GetServicesPath, i)
 	}
 }

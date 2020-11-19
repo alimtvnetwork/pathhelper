@@ -9,5 +9,6 @@ func GetLocalTempPath() string {
 	if IsWindows() {
 		return enums.LocalTempWin.CombineWith(GetAppDataPath())
 	}
-	return enums.LocalTempUnix.CombineWith(GetUserPath())
+
+	return enums.LocalTempUnix.CombineWith(GetUnixRoot())
 }

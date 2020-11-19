@@ -12,5 +12,5 @@ var getSitesAvailableApachePathTestCaseData = pathTestCaseDataWrapper{
 }
 
 func TestGetSitesAvailable_Apache(t *testing.T) {
-	pathTestCaseInternal_linux(t, getSitesAvailableApachePathTestCaseData, apachelinuxpath.GetSitesAvailable)
+	getPathTestCommonMethod_linux(t, getSitesAvailableApachePathTestCaseData, apachelinuxpath.GetSitesAvailable)
 }
