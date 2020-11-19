@@ -6,5 +6,5 @@ import (
 
 // Returns Roaming directory path as a string.
 func GetUserRoamingPath() string {
-	return enums.Roaming.GetPrefixCombinedWith(GetUserPath())
+	return enums.Roaming.CombineWith(GetUserPath())
 }

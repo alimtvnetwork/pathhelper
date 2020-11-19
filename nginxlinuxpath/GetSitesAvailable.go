@@ -7,5 +7,9 @@ import (
 
 // returns /etc/nginx/sites-available as a string
 func GetSitesAvailable() string {
-	return enums.SitesAvailable.GetPrefixCombinedWith(pathhelper.GetNginxLinuxPath())
+	if !pathhelper.IsUnix() {
+		panic("Path only available for Unix OS")
+	}
+
+	return enums.SitesAvailable.CombineWith(pathhelper.GetNginxLinuxPath())
 }

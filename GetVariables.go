@@ -13,10 +13,14 @@ var (
 )
 
 // getVariables function takes a string input and identifies every word that begins with "$" or every word within two "%"
-// in that input string then returns an array of those words. If input has no such word then returns nil.
+// in that input string then returns an array of those words. If input is empty or has no such word then returns nil.
 func GetVariables(stringToCheck string) []string {
 	var regularExpressionSymbol string
 	var envVariableKeysForMap, envVariableRawKeys []string
+
+	if len(stringToCheck) == 0 {
+		return nil
+	}
 
 	// Check which regular expression case is true
 	isNotRegularExpressionCase := !regularExpressionForEachWordsWithDollarSymbol.MatchString(stringToCheck) &&

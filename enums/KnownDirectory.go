@@ -5,6 +5,8 @@ import (
 	"strings"
 
 	"gitlab.com/evatix-go/pathhelper/constants"
+	"path"
+	"strings"
 )
 
 type KnownDirectory string
@@ -20,7 +22,7 @@ const (
 	Drivers          KnownDirectory = "drivers"
 	DriversUnix      KnownDirectory = "/lib/modules/$(uname -r)/kernel/drivers/"
 	Etc              KnownDirectory = "etc"
-	Fonts            KnownDirectory = "fonts"
+	Fonts            KnownDirectory = "Fonts"
 	FontsUnix        KnownDirectory = "usr/share/fonts"
 	GitGlobalWin     KnownDirectory = ".gitconfig"
 	GitGlobalUnix    KnownDirectory = "/etc/gitconfig"
@@ -49,7 +51,7 @@ const (
 	Users            KnownDirectory = "Users"
 	Videos           KnownDirectory = "Videos"
 	WindowsDirectory KnownDirectory = "windir"
-	WindowsCDrive    KnownDirectory = "c:\\"
+	WindowsCDrive    KnownDirectory = "C:\\"
 
 	// for paths of nginx and  apache
 	Conf             KnownDirectory = "conf.d"
@@ -71,7 +73,7 @@ func (directory KnownDirectory) Value() string {
 // directory.Value() + constants.PathSeparator + knownDirectories.join(constants.PathSeparator)
 // Warning: It doesn't perform complex tasks like long path normalize, long path (windows) fix, double separator to single and so on.
 func (directory KnownDirectory) CombineWithKnownDirs(knownDirectories ...KnownDirectory) string {
-	paths := make([]string, 0 , len(knownDirectories) + 2)
+	paths := make([]string, 0, len(knownDirectories)+2)
 	paths = append(paths, directory.Value())
 
 	for _, knownDirectory := range knownDirectories {

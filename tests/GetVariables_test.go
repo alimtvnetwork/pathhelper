@@ -25,11 +25,11 @@ var getVariableTestCaseWrappers = []getVariableTestCaseWrapper{
 		expected:        nil,
 		expectedMessage: "nil",
 	},
-	// {
-	// 	givenPath:           "",
-	// 	expected:        nil,
-	// 	expectedMessage: "nil",
-	// },
+	{
+		input:           "",
+		expected:        nil,
+		expectedMessage: "nil",
+	},
 }
 
 func TestGetVariables(t *testing.T) {

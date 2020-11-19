@@ -32,7 +32,7 @@ var pathExistTestCaseWrappers = []pathExistTestCaseWrapper{
 	},
 	{
 		input:                  "~/home",
-		expected:               true,
+		expected:               false,
 		expectedMessage:        "true",
 		operatingSystemMessage: "OS is Unix",
 		operatingSystem:        enums.Ubuntu,

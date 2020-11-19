@@ -6,5 +6,5 @@ import (
 
 // Returns .ssh path as string.
 func GetSSHGlobal() string {
-	return enums.SSHGlobal.GetPrefixCombinedWith(GetUserPath())
+	return enums.SSHGlobal.CombineWith(GetUserPath())
 }

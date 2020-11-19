@@ -11,10 +11,10 @@ func GetGitGlobal() string {
 	var outputPath, outputPathAlternate string
 
 	if IsWindows() {
-		outputPath = GetCombinePathsWith(homePath, enums.GitGlobalWin.Value())
+		outputPath = enums.GitGlobalWin.CombineWith(homePath)
 	} else {
-		outputPath = GetCombinePathsWith(homePath, enums.GitGlobalUnix.Value())
-		outputPathAlternate = GetCombinePathsWith(enums.GitGlobalUnixXdg.Value())
+		outputPath = enums.GitGlobalUnix.CombineWith(homePath)
+		outputPathAlternate = enums.GitGlobalUnixXdg.Value()
 	}
 
 	if !IsPathExist(outputPath) {

@@ -7,5 +7,9 @@ import (
 
 // returns /etc/nginx/conf.d as a string
 func GetConf() string {
-	return enums.Conf.GetPrefixCombinedWith(pathhelper.GetNginxLinuxPath())
+	if !pathhelper.IsUnix() {
+		panic("Path only available for Unix OS")
+	}
+
+	return enums.Conf.CombineWith(pathhelper.GetNginxLinuxPath())
 }

@@ -7,5 +7,9 @@ import (
 
 // returns /etc/apache/mods-enabled as a string
 func GetModsEnabled() string {
-	return enums.ModsEnabled.GetPrefixCombinedWith(pathhelper.GetApacheLinuxPath())
+	if !pathhelper.IsUnix() {
+		panic("Path only available for Unix OS")
+	}
+
+	return enums.ModsEnabled.CombineWith(pathhelper.GetApacheLinuxPath())
 }
