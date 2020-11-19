@@ -39,7 +39,7 @@ var removingDoubleSeparatorTestCaseWrappers = []removingDoubleSeparatorTestCaseW
 func TestRemoveAndFixDoubleSeparatorToOsSeparator_Windows(t *testing.T) {
 	SkipOnUnix(t)
 
-	for _, testCase := range removingDoubleSeparatorTestCaseWrappers {
+	for i, testCase := range removingDoubleSeparatorTestCaseWrappers {
 		if pathhelper.IsUnixCase(testCase.OperatingSystem) {
 			continue
 		}
@@ -49,7 +49,7 @@ func TestRemoveAndFixDoubleSeparatorToOsSeparator_Windows(t *testing.T) {
 
 		// Act , Assert
 		Convey(testCaseMessage, t, func() {
-			internalTestRemoveAndFixDoubleSeparatorToOsSeparatorActAndAssert(testCase)
+			internalTestRemoveAndFixDoubleSeparatorToOsSeparatorActAndAssert(testCase, i)
 		})
 	}
 }
@@ -57,7 +57,7 @@ func TestRemoveAndFixDoubleSeparatorToOsSeparator_Windows(t *testing.T) {
 func TestRemoveAndFixDoubleSeparatorToOsSeparator_Unix(t *testing.T) {
 	SkipOnWindows(t)
 
-	for _, testCase := range removingDoubleSeparatorTestCaseWrappers {
+	for i, testCase := range removingDoubleSeparatorTestCaseWrappers {
 		if pathhelper.IsWindowsCase(testCase.OperatingSystem) {
 			continue
 		}
@@ -67,18 +67,20 @@ func TestRemoveAndFixDoubleSeparatorToOsSeparator_Unix(t *testing.T) {
 
 		// Act , Assert
 		Convey(testCaseMessage, t, func() {
-			internalTestRemoveAndFixDoubleSeparatorToOsSeparatorActAndAssert(testCase)
+			internalTestRemoveAndFixDoubleSeparatorToOsSeparatorActAndAssert(testCase, i)
 		})
 	}
 }
 
 func internalTestRemoveAndFixDoubleSeparatorToOsSeparatorActAndAssert(
-	testCase removingDoubleSeparatorTestCaseWrapper) {
+	testCase removingDoubleSeparatorTestCaseWrapper, i int) {
 	// Act
 	actual := pathhelper.RemoveAndFixDoubleSeparatorToOsSeparator(testCase.input)
 
 	// Assert
-	So(actual, ShouldNotBeEmpty)
-	So(actual, ShouldNotBeNil)
-	So(actual, ShouldEqual, testCase.expected)
+	Convey(pathhelper.GetAssertMessage(actual, testCase.expected, i), func() {
+		So(actual, ShouldNotBeEmpty)
+		So(actual, ShouldNotBeNil)
+		So(actual, ShouldEqual, testCase.expected)
+	})
 }

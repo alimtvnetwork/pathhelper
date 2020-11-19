@@ -24,25 +24,25 @@ var rootTestCaseDataWrappers = []generalizedPathWithoutInputTestCaseDataWrapper{
 func TestGetRoot_Windows(t *testing.T) {
 	SkipOnUnix(t)
 
-	for _, testCase := range rootTestCaseDataWrappers {
+	for i, testCase := range rootTestCaseDataWrappers {
 		// Arrange
 		if pathhelper.IsUnixCase(testCase.operatingSystem) {
 			continue
 		}
 
-		executeTestForGeneralizedPathWithoutInput(t, testCase, pathhelper.GetRoot)
+		executeTestForGeneralizedPathWithoutInput(t, testCase, pathhelper.GetRoot, i)
 	}
 }
 
 func TestGetRoot_Unix(t *testing.T) {
 	SkipOnWindows(t)
 
-	for _, testCase := range rootTestCaseDataWrappers {
+	for i, testCase := range rootTestCaseDataWrappers {
 		// Arrange
 		if pathhelper.IsWindowsCase(testCase.operatingSystem) {
 			continue
 		}
 
-		executeTestForGeneralizedPathWithoutInput(t, testCase, pathhelper.GetRoot)
+		executeTestForGeneralizedPathWithoutInput(t, testCase, pathhelper.GetRoot, i)
 	}
 }

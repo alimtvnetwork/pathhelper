@@ -3,6 +3,7 @@ package tests
 import (
 	"fmt"
 	. "github.com/smartystreets/goconvey/convey"
+	"gitlab.com/evatix-go/pathhelper"
 	"gitlab.com/evatix-go/pathhelper/pathhelpercore"
 	"testing"
 )
@@ -31,7 +32,7 @@ var isEmptyArrayPtrTestCaseWrappers = []isEmptyArrayPtrTestCaseWrapper{
 }
 
 func TestIsEmptyArrayPtr(t *testing.T) {
-	for _, testCase := range isEmptyArrayPtrTestCaseWrappers {
+	for i, testCase := range isEmptyArrayPtrTestCaseWrappers {
 		// Arrange
 		testCaseMessage := fmt.Sprintf("[IsEmptyArrayPtr] inputs (%v) expects (%s)", testCase.input, testCase.expectedMessage)
 
@@ -40,7 +41,9 @@ func TestIsEmptyArrayPtr(t *testing.T) {
 			actual := pathhelpercore.IsEmptyArrayPtr(testCase.input)
 
 			// Assert
-			So(actual, ShouldEqual, testCase.expected)
+			Convey(pathhelper.GetAssertMessage(actual, testCase.expected, i), func() {
+				So(actual, ShouldEqual, testCase.expected)
+			})
 		})
 	}
 }

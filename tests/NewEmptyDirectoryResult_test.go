@@ -3,6 +3,7 @@ package tests
 import (
 	"fmt"
 	. "github.com/smartystreets/goconvey/convey"
+	"gitlab.com/evatix-go/pathhelper"
 	"gitlab.com/evatix-go/pathhelper/enums"
 	"gitlab.com/evatix-go/pathhelper/pathhelpercore"
 	"reflect"
@@ -37,7 +38,9 @@ func TestNewEmptyDirectoryResult(t *testing.T) {
 			actualFieldValue := GetFieldValue(actualValueOf.Field(i))
 			expectedFieldValue := GetFieldValue(reflect.ValueOf(expectedNewEmptyDirectoryResult).Field(i))
 
-			So(actualFieldValue, ShouldEqual, expectedFieldValue)
+			Convey(pathhelper.GetAssertMessage(actualFieldValue, expectedFieldValue, i), func() {
+				So(actualFieldValue, ShouldEqual, expectedFieldValue)
+			})
 		}
 	})
 }

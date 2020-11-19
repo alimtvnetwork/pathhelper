@@ -1,9 +1,6 @@
 package enums
 
 import (
-	"path"
-	"strings"
-
 	"gitlab.com/evatix-go/pathhelper/constants"
 	"path"
 	"strings"
@@ -30,7 +27,7 @@ const (
 	HostFile         KnownDirectory = "hosts"
 	Local            KnownDirectory = "Local"
 	LocalTempWin     KnownDirectory = "local\\temp"
-	LocalTempUnix    KnownDirectory = "temp"
+	LocalTempUnix    KnownDirectory = "tmp"
 	Music            KnownDirectory = "Music"
 	NginxLinuxPath   KnownDirectory = "/etc/nginx/"
 	Pictures         KnownDirectory = "Pictures"

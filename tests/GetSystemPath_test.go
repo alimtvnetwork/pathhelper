@@ -24,25 +24,25 @@ var systemPathTestCaseDataWrappers = []generalizedPathWithoutInputTestCaseDataWr
 func TestGetSystemPath_Windows(t *testing.T) {
 	SkipOnUnix(t)
 
-	for _, testCase := range systemPathTestCaseDataWrappers {
+	for i, testCase := range systemPathTestCaseDataWrappers {
 		// Arrange
 		if pathhelper.IsUnixCase(testCase.operatingSystem) {
 			continue
 		}
 
-		executeTestForGeneralizedPathWithoutInput(t, testCase, pathhelper.GetSystemPath)
+		executeTestForGeneralizedPathWithoutInput(t, testCase, pathhelper.GetSystemPath, i)
 	}
 }
 
 func TestGetSystemPath_Unix(t *testing.T) {
 	SkipOnWindows(t)
 
-	for _, testCase := range systemPathTestCaseDataWrappers {
+	for i, testCase := range systemPathTestCaseDataWrappers {
 		// Arrange
 		if pathhelper.IsWindowsCase(testCase.operatingSystem) {
 			continue
 		}
 
-		executeTestForGeneralizedPathWithoutInput(t, testCase, pathhelper.GetSystemPath)
+		executeTestForGeneralizedPathWithoutInput(t, testCase, pathhelper.GetSystemPath, i)
 	}
 }

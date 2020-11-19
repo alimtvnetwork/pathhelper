@@ -42,7 +42,7 @@ var pathNotExistTestCaseWrappers = []pathNotExistTestCaseWrapper{
 func TestIsPathNotExist_Windows(t *testing.T) {
 	SkipOnUnix(t)
 
-	for _, testCase := range pathNotExistTestCaseWrappers {
+	for i, testCase := range pathNotExistTestCaseWrappers {
 		// Arrange
 		if pathhelper.IsUnixCase(testCase.operatingSystem) {
 			continue
@@ -50,14 +50,14 @@ func TestIsPathNotExist_Windows(t *testing.T) {
 
 		testCaseMessage := fmt.Sprintf("(%s)[IsPathNotExist] inputs (%s) expects (%s)", testCase.operatingSystemMessage, testCase.input, testCase.expectedMessage)
 
-		executeTestCaseForIsPathNotExist(t, testCaseMessage, testCase)
+		executeTestCaseForIsPathNotExist(t, testCaseMessage, testCase, i)
 	}
 }
 
 func TestIsPathNotExist_Unix(t *testing.T) {
 	SkipOnWindows(t)
 
-	for _, testCase := range pathNotExistTestCaseWrappers {
+	for i, testCase := range pathNotExistTestCaseWrappers {
 		// Arrange
 		if pathhelper.IsWindowsCase(testCase.operatingSystem) {
 			continue
@@ -65,17 +65,19 @@ func TestIsPathNotExist_Unix(t *testing.T) {
 
 		testCaseMessage := fmt.Sprintf("(%s)[IsPathNotExist] inputs (%s) expects (%s)", testCase.operatingSystemMessage, testCase.input, testCase.expectedMessage)
 
-		executeTestCaseForIsPathNotExist(t, testCaseMessage, testCase)
+		executeTestCaseForIsPathNotExist(t, testCaseMessage, testCase, i)
 	}
 }
 
-func executeTestCaseForIsPathNotExist(t *testing.T, testCaseMessage string, testCase pathNotExistTestCaseWrapper) {
+func executeTestCaseForIsPathNotExist(t *testing.T, testCaseMessage string, testCase pathNotExistTestCaseWrapper, i int) {
 	Convey(testCaseMessage, t, func() {
 		// Act
 		actual := pathhelper.IsPathNotExist(testCase.input)
 
 		// Assert
-		So(actual, ShouldNotBeEmpty)
-		So(actual, ShouldEqual, testCase.expected)
+		Convey(pathhelper.GetAssertMessage(actual, testCase.expected, i), func() {
+			So(actual, ShouldNotBeEmpty)
+			So(actual, ShouldEqual, testCase.expected)
+		})
 	})
 }

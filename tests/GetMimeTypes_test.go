@@ -12,5 +12,5 @@ var getMimeTypesPathTestCaseData = pathTestCaseDataWrapper{
 }
 
 func TestGetMimeTypes(t *testing.T) {
-	pathTestCaseInternal_linux(t, getMimeTypesPathTestCaseData, nginxlinuxpath.GetMimeTypes)
+	getPathTestCommonMethod_linux(t, getMimeTypesPathTestCaseData, nginxlinuxpath.GetMimeTypes)
 }

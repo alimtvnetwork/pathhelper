@@ -24,25 +24,25 @@ var userVideosPathTestCaseDataWrappers = []generalizedPathWithoutInputTestCaseDa
 func TestGetUserVideosPath_Windows(t *testing.T) {
 	SkipOnUnix(t)
 
-	for _, testCase := range userVideosPathTestCaseDataWrappers {
+	for i, testCase := range userVideosPathTestCaseDataWrappers {
 		// Arrange
 		if pathhelper.IsUnixCase(testCase.operatingSystem) {
 			continue
 		}
 
-		executeTestForGeneralizedPathWithoutInput(t, testCase, pathhelper.GetUserVideosPath)
+		executeTestForGeneralizedPathWithoutInput(t, testCase, pathhelper.GetUserVideosPath, i)
 	}
 }
 
 func TestGetUserVideosPath_Unix(t *testing.T) {
 	SkipOnWindows(t)
 
-	for _, testCase := range userVideosPathTestCaseDataWrappers {
+	for i, testCase := range userVideosPathTestCaseDataWrappers {
 		// Arrange
 		if pathhelper.IsWindowsCase(testCase.operatingSystem) {
 			continue
 		}
 
-		executeTestForGeneralizedPathWithoutInput(t, testCase, pathhelper.GetUserVideosPath)
+		executeTestForGeneralizedPathWithoutInput(t, testCase, pathhelper.GetUserVideosPath, i)
 	}
 }

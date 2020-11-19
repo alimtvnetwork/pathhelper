@@ -10,12 +10,12 @@ import (
 	"gitlab.com/evatix-go/pathhelper/enums"
 )
 
-type widowsDirectoryTestCaseWrapper struct {
+type windowsDirectoryTestCaseWrapper struct {
 	expected, operatingSystemMessage string
 	operatingSystem                  enums.OperatingSystem
 }
 
-var widowsDirectoryTestCaseWrappers = []widowsDirectoryTestCaseWrapper{
+var windowsDirectoryTestCaseWrappers = []windowsDirectoryTestCaseWrapper{
 	{
 		expected:               "C:\\Windows",
 		operatingSystemMessage: "Windows OS",
@@ -31,7 +31,7 @@ var widowsDirectoryTestCaseWrappers = []widowsDirectoryTestCaseWrapper{
 func TestGetWidowsDirectory_Windows(t *testing.T) {
 	SkipOnUnix(t)
 
-	for _, testCase := range widowsDirectoryTestCaseWrappers {
+	for i, testCase := range windowsDirectoryTestCaseWrappers {
 		// Arrange
 		if pathhelper.IsUnixCase(testCase.operatingSystem) {
 			continue
@@ -39,14 +39,14 @@ func TestGetWidowsDirectory_Windows(t *testing.T) {
 
 		testCaseMessage := fmt.Sprintf("(%s)[GetWidowsDirectory] expects (%s)", testCase.operatingSystemMessage, testCase.expected)
 
-		executeTestCaseForGetWidowsDirectory(t, testCaseMessage, testCase)
+		executeTestCaseForGetWidowsDirectory(t, testCaseMessage, testCase, i)
 	}
 }
 
 func TestGetWidowsDirectory_Unix(t *testing.T) {
 	SkipOnWindows(t)
 
-	for _, testCase := range widowsDirectoryTestCaseWrappers {
+	for i, testCase := range windowsDirectoryTestCaseWrappers {
 		// Arrange
 		if pathhelper.IsWindowsCase(testCase.operatingSystem) {
 			continue
@@ -54,16 +54,18 @@ func TestGetWidowsDirectory_Unix(t *testing.T) {
 
 		testCaseMessage := fmt.Sprintf("(%s)[GetWidowsDirectory] expects (%s)", testCase.operatingSystemMessage, testCase.expected)
 
-		executeTestCaseForGetWidowsDirectory(t, testCaseMessage, testCase)
+		executeTestCaseForGetWidowsDirectory(t, testCaseMessage, testCase, i)
 	}
 }
 
-func executeTestCaseForGetWidowsDirectory(t *testing.T, testCaseMessage string, testCase widowsDirectoryTestCaseWrapper) {
+func executeTestCaseForGetWidowsDirectory(t *testing.T, testCaseMessage string, testCase windowsDirectoryTestCaseWrapper, i int) {
 	Convey(testCaseMessage, t, func() {
 		// Act
 		actual := pathhelper.GetWidowsDirectory()
 
 		// Assert
-		So(actual, ShouldEqual, testCase.expected)
+		Convey(pathhelper.GetAssertMessage(actual, testCase.expected, i), func() {
+			So(actual, ShouldEqual, testCase.expected)
+		})
 	})
 }

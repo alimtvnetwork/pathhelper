@@ -30,7 +30,7 @@ var compliedPathTestCaseWrappers = []compliedPathTestCaseWrapper{
 }
 
 func TestGetCompiledPath(t *testing.T) {
-	for _, testCase := range compliedPathTestCaseWrappers {
+	for i, testCase := range compliedPathTestCaseWrappers {
 		// Arrange
 		testCaseMessage := fmt.Sprintf("[GetCompiledPath] inputs (path: %s, map: %s) expects (%s)", testCase.inputPath, testCase.inputMap, testCase.expectedMessage)
 
@@ -39,8 +39,10 @@ func TestGetCompiledPath(t *testing.T) {
 			actual := pathhelper.GetCompiledPath(testCase.inputPath, &testCase.inputMap)
 
 			// Assert
-			So(actual, ShouldNotBeNil)
-			So(actual, ShouldEqual, testCase.expected)
+			Convey(pathhelper.GetAssertMessage(actual, testCase.expected, i), func() {
+				So(actual, ShouldNotBeNil)
+				So(actual, ShouldEqual, testCase.expected)
+			})
 		})
 	}
 }

@@ -24,25 +24,25 @@ var binPathTestCaseDataWrappers = []generalizedPathWithoutInputTestCaseDataWrapp
 func TestGetBinPath_Windows(t *testing.T) {
 	SkipOnUnix(t)
 
-	for _, testCase := range binPathTestCaseDataWrappers {
+	for i, testCase := range binPathTestCaseDataWrappers {
 		// Arrange
 		if pathhelper.IsUnixCase(testCase.operatingSystem) {
 			continue
 		}
 
-		executeTestForGeneralizedPathWithoutInput(t, testCase, pathhelper.GetBinPath)
+		executeTestForGeneralizedPathWithoutInput(t, testCase, pathhelper.GetBinPath, i)
 	}
 }
 
 func TestGetBinPath_Unix(t *testing.T) {
 	SkipOnWindows(t)
 
-	for _, testCase := range binPathTestCaseDataWrappers {
+	for i, testCase := range binPathTestCaseDataWrappers {
 		// Arrange
 		if pathhelper.IsWindowsCase(testCase.operatingSystem) {
 			continue
 		}
 
-		executeTestForGeneralizedPathWithoutInput(t, testCase, pathhelper.GetBinPath)
+		executeTestForGeneralizedPathWithoutInput(t, testCase, pathhelper.GetBinPath, i)
 	}
 }

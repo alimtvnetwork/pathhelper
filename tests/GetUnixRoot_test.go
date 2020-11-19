@@ -12,5 +12,5 @@ var unixRootTestCaseData = pathTestCaseDataWrapper{
 }
 
 func TestGetUnixRoot(t *testing.T) {
-	pathTestCaseInternal_linux(t, unixRootTestCaseData, pathhelper.GetUnixRoot)
+	getPathTestCommonMethod_linux(t, unixRootTestCaseData, pathhelper.GetUnixRoot)
 }

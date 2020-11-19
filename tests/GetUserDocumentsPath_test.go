@@ -24,25 +24,25 @@ var userDocumentsPathTestCaseDataWrappers = []generalizedPathWithoutInputTestCas
 func TestGetUserDocumentsPath_Windows(t *testing.T) {
 	SkipOnUnix(t)
 
-	for _, testCase := range userDocumentsPathTestCaseDataWrappers {
+	for i, testCase := range userDocumentsPathTestCaseDataWrappers {
 		// Arrange
 		if pathhelper.IsUnixCase(testCase.operatingSystem) {
 			continue
 		}
 
-		executeTestForGeneralizedPathWithoutInput(t, testCase, pathhelper.GetUserDocumentsPath)
+		executeTestForGeneralizedPathWithoutInput(t, testCase, pathhelper.GetUserDocumentsPath, i)
 	}
 }
 
 func TestGetUserDocumentsPath_Unix(t *testing.T) {
 	SkipOnWindows(t)
 
-	for _, testCase := range userDocumentsPathTestCaseDataWrappers {
+	for i, testCase := range userDocumentsPathTestCaseDataWrappers {
 		// Arrange
 		if pathhelper.IsWindowsCase(testCase.operatingSystem) {
 			continue
 		}
 
-		executeTestForGeneralizedPathWithoutInput(t, testCase, pathhelper.GetUserDocumentsPath)
+		executeTestForGeneralizedPathWithoutInput(t, testCase, pathhelper.GetUserDocumentsPath, i)
 	}
 }

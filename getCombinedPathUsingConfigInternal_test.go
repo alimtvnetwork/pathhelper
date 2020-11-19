@@ -11,20 +11,21 @@ import (
 )
 
 type combinedPathUsingConfigInternalTestCaseWrapper struct {
-	inputPathConfig                                   *pathhelpercore.PathConfig
-	inputPaths                                        []string
-	expected, expectedMessage, operatingSystemMessage string
-	operatingSystem                                   enums.OperatingSystem
+	inputPathConfig                                             *pathhelpercore.PathConfig
+	inputPaths                                                  []string
+	expected, expectedMessage, operatingSystemMessage, funcName string
+	operatingSystem                                             enums.OperatingSystem
 }
 
 var combinedPathUsingConfigInternalTestCaseWrappers = []combinedPathUsingConfigInternalTestCaseWrapper{
 	{
-		inputPathConfig:        &pathhelpercore.PathConfig{},
+		inputPathConfig:        &pathhelpercore.PathConfig{Separator: "\\"},
 		inputPaths:             []string{"C:\\", "somethingelse\\", "etc"},
 		expected:               "C:\\somethingelse\\etc",
 		expectedMessage:        "C:\\somethingelse\\etc",
 		operatingSystemMessage: "Windows OS",
 		operatingSystem:        enums.Windows,
+		funcName:               "GetCombinedPathUsingConfigInternal",
 	},
 	{
 		inputPathConfig:        nil,
@@ -33,6 +34,7 @@ var combinedPathUsingConfigInternalTestCaseWrappers = []combinedPathUsingConfigI
 		expectedMessage:        "C:\\somethingelse\\etc",
 		operatingSystemMessage: "Windows OS",
 		operatingSystem:        enums.Windows,
+		funcName:               "GetCombinedPathUsingConfigInternal",
 	},
 	{
 		inputPathConfig:        &pathhelpercore.PathConfig{IsNormalize: true},
@@ -41,6 +43,7 @@ var combinedPathUsingConfigInternalTestCaseWrappers = []combinedPathUsingConfigI
 		expectedMessage:        "home/somethingelse/etc",
 		operatingSystemMessage: "Unix OS",
 		operatingSystem:        enums.Ubuntu,
+		funcName:               "GetCombinedPathUsingConfigInternal",
 	},
 }
 
@@ -49,7 +52,7 @@ func TestGetCombinedPathUsingConfigInternal_Windows(t *testing.T) {
 		t.Skip("Windows tests ignored in Unix.")
 	}
 
-	for _, testCase := range combinedPathUsingConfigInternalTestCaseWrappers {
+	for i, testCase := range combinedPathUsingConfigInternalTestCaseWrappers {
 		// Arrange
 		if IsUnixCase(testCase.operatingSystem) {
 			continue
@@ -57,7 +60,7 @@ func TestGetCombinedPathUsingConfigInternal_Windows(t *testing.T) {
 
 		testCaseMessage := fmt.Sprintf("(%s) [GetCombinedPathUsingConfigInternal]  inputs (pathConfig: %v, paths: %s) expects (%s)", testCase.operatingSystemMessage, testCase.inputPathConfig, testCase.inputPaths, testCase.expectedMessage)
 
-		executeTestCaseForGetCombinedPathUsingConfigInternal(t, testCaseMessage, testCase)
+		executeTestCaseForGetCombinedPathUsingConfigInternal(t, testCaseMessage, testCase, i)
 	}
 }
 
@@ -66,7 +69,7 @@ func TestGetCombinedPathUsingConfigInternal_Unix(t *testing.T) {
 		t.Skip("Unix tests ignored in Windows.")
 	}
 
-	for _, testCase := range combinedPathUsingConfigInternalTestCaseWrappers {
+	for i, testCase := range combinedPathUsingConfigInternalTestCaseWrappers {
 		// Arrange
 		if IsWindowsCase(testCase.operatingSystem) {
 			continue
@@ -74,7 +77,7 @@ func TestGetCombinedPathUsingConfigInternal_Unix(t *testing.T) {
 
 		testCaseMessage := fmt.Sprintf("(%s) [GetCombinedPathUsingConfigInternal]  inputs (pathConfig: %v, paths: %s) expects (%s)", testCase.operatingSystemMessage, testCase.inputPathConfig, testCase.inputPaths, testCase.expectedMessage)
 
-		executeTestCaseForGetCombinedPathUsingConfigInternal(t, testCaseMessage, testCase)
+		executeTestCaseForGetCombinedPathUsingConfigInternal(t, testCaseMessage, testCase, i)
 	}
 }
 
@@ -82,12 +85,15 @@ func executeTestCaseForGetCombinedPathUsingConfigInternal(
 	t *testing.T,
 	testCaseMessage string,
 	testCase combinedPathUsingConfigInternalTestCaseWrapper,
+	i int,
 ) {
 	Convey(testCaseMessage, t, func() {
 		// Act
 		actual := getCombinedPathUsingConfigInternal(testCase.inputPathConfig, testCase.inputPaths)
 
 		// Assert
-		So(actual, ShouldEqual, testCase.expected)
+		Convey(GetAssertMessage(actual, testCase.expected, i), func() {
+			So(actual, ShouldEqual, testCase.expected)
+		})
 	})
 }

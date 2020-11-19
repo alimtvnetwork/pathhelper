@@ -24,25 +24,25 @@ var userRoamingPathTestCaseDataWrappers = []generalizedPathWithoutInputTestCaseD
 func TestGetUserRoamingPath_Windows(t *testing.T) {
 	SkipOnUnix(t)
 
-	for _, testCase := range userRoamingPathTestCaseDataWrappers {
+	for i, testCase := range userRoamingPathTestCaseDataWrappers {
 		// Arrange
 		if pathhelper.IsUnixCase(testCase.operatingSystem) {
 			continue
 		}
 
-		executeTestForGeneralizedPathWithoutInput(t, testCase, pathhelper.GetUserRoamingPath)
+		executeTestForGeneralizedPathWithoutInput(t, testCase, pathhelper.GetUserRoamingPath, i)
 	}
 }
 
 func TestGetUserRoamingPath_Unix(t *testing.T) {
 	SkipOnWindows(t)
 
-	for _, testCase := range userRoamingPathTestCaseDataWrappers {
+	for i, testCase := range userRoamingPathTestCaseDataWrappers {
 		// Arrange
 		if pathhelper.IsWindowsCase(testCase.operatingSystem) {
 			continue
 		}
 
-		executeTestForGeneralizedPathWithoutInput(t, testCase, pathhelper.GetUserRoamingPath)
+		executeTestForGeneralizedPathWithoutInput(t, testCase, pathhelper.GetUserRoamingPath, i)
 	}
 }

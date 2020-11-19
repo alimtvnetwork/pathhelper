@@ -13,7 +13,7 @@ func TestFileInfoWrapper(t *testing.T) {
 
 	Convey(testMessage, t, func() {
 		// Act
-		actualNew := pathhelpercore.NewFileWrapperInfo("")
+		actualNew := pathhelpercore.NewFileWrapperInfo("") //todo
 		actualHasError := actualNew.HasError()
 		actualPathExists := actualNew.IsPathExists()
 

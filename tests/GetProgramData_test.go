@@ -24,25 +24,25 @@ var programDataTestCaseDataWrappers = []generalizedPathWithoutInputTestCaseDataW
 func TestGetProgramData_Windows(t *testing.T) {
 	SkipOnUnix(t)
 
-	for _, testCase := range programDataTestCaseDataWrappers {
+	for i, testCase := range programDataTestCaseDataWrappers {
 		// Arrange
 		if pathhelper.IsUnixCase(testCase.operatingSystem) {
 			continue
 		}
 
-		executeTestForGeneralizedPathWithoutInput(t, testCase, pathhelper.GetProgramData)
+		executeTestForGeneralizedPathWithoutInput(t, testCase, pathhelper.GetProgramData, i)
 	}
 }
 
 func TestGetProgramData_Unix(t *testing.T) {
 	SkipOnWindows(t)
 
-	for _, testCase := range programDataTestCaseDataWrappers {
+	for i, testCase := range programDataTestCaseDataWrappers {
 		// Arrange
 		if pathhelper.IsWindowsCase(testCase.operatingSystem) {
 			continue
 		}
 
-		executeTestForGeneralizedPathWithoutInput(t, testCase, pathhelper.GetProgramData)
+		executeTestForGeneralizedPathWithoutInput(t, testCase, pathhelper.GetProgramData, i)
 	}
 }

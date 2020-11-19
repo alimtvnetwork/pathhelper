@@ -12,5 +12,5 @@ var getModulesAvailablePathTestCaseData = pathTestCaseDataWrapper{
 }
 
 func TestGetModulesAvailable(t *testing.T) {
-	pathTestCaseInternal_linux(t, getModulesAvailablePathTestCaseData, nginxlinuxpath.GetModulesAvailable)
+	getPathTestCommonMethod_linux(t, getModulesAvailablePathTestCaseData, nginxlinuxpath.GetModulesAvailable)
 }

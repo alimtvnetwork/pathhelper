@@ -33,7 +33,7 @@ var getVariableTestCaseWrappers = []getVariableTestCaseWrapper{
 }
 
 func TestGetVariables(t *testing.T) {
-	for _, testCase := range getVariableTestCaseWrappers {
+	for i, testCase := range getVariableTestCaseWrappers {
 		// Arrange
 		testCaseMessage := fmt.Sprintf("[getVariable] inputs (%s) expects (%s)", testCase.input, testCase.expectedMessage)
 
@@ -42,15 +42,17 @@ func TestGetVariables(t *testing.T) {
 			actual := pathhelper.GetVariables(testCase.input)
 
 			// Assert
-			So(actual, ShouldHaveSameTypeAs, []string{})
+			Convey(pathhelper.GetAssertMessage(actual, testCase.expected, i), func() {
+				So(actual, ShouldHaveSameTypeAs, []string{})
 
-			length := len(actual)
+				length := len(actual)
 
-			if length != 0 {
-				for i := 0; i < length; i++ {
-					So(actual[i], ShouldEqual, testCase.expected[i])
+				if length != 0 {
+					for i := 0; i < length; i++ {
+						So(actual[i], ShouldEqual, testCase.expected[i])
+					}
 				}
-			}
+			})
 		})
 	}
 }
