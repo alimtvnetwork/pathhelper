@@ -2,7 +2,7 @@ package pathhelper
 
 import "gitlab.com/evatix-go/pathhelper/constants"
 
-func getEnvVariableRawKeysAndRegularExpressionSymbol(stringToCheck string) ([]string, string) {
+func getEnvironmentVarRawKeysAndRegularExpressionSymbol(stringToCheck string) ([]string, string) {
 	var regularExpressionSymbol string
 	var envVariableRawKeys []string
 

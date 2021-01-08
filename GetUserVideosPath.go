@@ -6,5 +6,5 @@ import (
 
 // Returns Videos directory path as a string.
 func GetUserVideosPath() string {
-	return enums.Videos.GetPrefixCombinedWith(GetUserPath())
+	return enums.Videos.CombineWith(GetUserPath())
 }

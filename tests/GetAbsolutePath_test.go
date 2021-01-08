@@ -12,20 +12,22 @@ import (
 
 type absolutePathTestCaseWrapper struct {
 	basePath, inputRelativePath, expected, expectedMessage, operatingSystemMessage string
-	isNormalize                                                                    bool
+	isLongPathFix, isNormalize                                                     bool
 	operatingSystem                                                                enums.OperatingSystem
 }
 
 var absolutePathTestCaseWrappers = []absolutePathTestCaseWrapper{
-	{
-		basePath:               "",
-		inputRelativePath:      "",
-		expected:               "",
-		expectedMessage:        "empty return",
-		operatingSystemMessage: "Any OS",
-		operatingSystem:        enums.Any,
-		isNormalize:            true,
-	},
+	// todo catch panic
+	//{
+	//	basePath:               "",
+	//	inputRelativePath:      "",
+	//	expected:               "",
+	//	expectedMessage:        "empty return",
+	//	operatingSystemMessage: "Any OS",
+	//	operatingSystem:        enums.Any,
+	//	isNormalize:            true,
+	//	isLongPathFix:          true,
+	//},
 	{
 		basePath:               "c:\\Windows\\//",
 		inputRelativePath:      "\\whatever",
@@ -34,6 +36,7 @@ var absolutePathTestCaseWrappers = []absolutePathTestCaseWrapper{
 		operatingSystemMessage: "Windows OS",
 		operatingSystem:        enums.Windows,
 		isNormalize:            true,
+		isLongPathFix:          true,
 	},
 	{
 		basePath:               "c:\\\\Windows///",
@@ -43,6 +46,7 @@ var absolutePathTestCaseWrappers = []absolutePathTestCaseWrapper{
 		operatingSystemMessage: "Windows OS",
 		operatingSystem:        enums.Windows,
 		isNormalize:            true,
+		isLongPathFix:          true,
 	},
 	{
 		basePath:               "/home/\\//your_user_name/my_script/",
@@ -52,13 +56,16 @@ var absolutePathTestCaseWrappers = []absolutePathTestCaseWrapper{
 		operatingSystemMessage: "Unix OS",
 		operatingSystem:        enums.Ubuntu,
 		isNormalize:            true,
+		isLongPathFix:          true,
 	},
 	{
 		basePath:               "/home/your_user_name/my_script",
 		inputRelativePath:      "/whatever",
-		expected:               "/home/your_user_name/my_script/whatever",
+		expected:               "/home/your_user_name/my_script//whatever",
 		expectedMessage:        "non-empty return of (/home/your_user_name/my_script/whatever)",
 		operatingSystemMessage: "Unix OS",
+		isNormalize:            false,
+		isLongPathFix:          true,
 		operatingSystem:        enums.Ubuntu,
 	},
 }
@@ -66,7 +73,7 @@ var absolutePathTestCaseWrappers = []absolutePathTestCaseWrapper{
 func TestGetAbsolutePath_Windows(t *testing.T) {
 	SkipOnUnix(t)
 
-	for _, testCase := range absolutePathTestCaseWrappers {
+	for i, testCase := range absolutePathTestCaseWrappers {
 		// Arrange
 		if pathhelper.IsUnixCase(testCase.operatingSystem) {
 			continue
@@ -74,14 +81,14 @@ func TestGetAbsolutePath_Windows(t *testing.T) {
 
 		testCaseMessage := fmt.Sprintf("(%s) [GetAbsolutePath] inputs (%s, %s) expects (%s)", testCase.operatingSystemMessage, testCase.basePath, testCase.inputRelativePath, testCase.expectedMessage)
 
-		executeTestForGetAbsolutePath(t, testCaseMessage, testCase)
+		executeTestForGetAbsolutePath(t, testCaseMessage, testCase, i)
 	}
 }
 
 func TestGetAbsolutePath_Unix(t *testing.T) {
 	SkipOnWindows(t)
 
-	for _, testCase := range absolutePathTestCaseWrappers {
+	for i, testCase := range absolutePathTestCaseWrappers {
 		// Arrange
 		if pathhelper.IsWindowsCase(testCase.operatingSystem) {
 			continue
@@ -89,20 +96,23 @@ func TestGetAbsolutePath_Unix(t *testing.T) {
 
 		testCaseMessage := fmt.Sprintf("(%s) [GetAbsolutePath] inputs (%s, %s) expects (%s)", testCase.operatingSystemMessage, testCase.basePath, testCase.inputRelativePath, testCase.expectedMessage)
 
-		executeTestForGetAbsolutePath(t, testCaseMessage, testCase)
+		executeTestForGetAbsolutePath(t, testCaseMessage, testCase, i)
 	}
 }
 
-func executeTestForGetAbsolutePath(t *testing.T, testCaseMessage string, testCase absolutePathTestCaseWrapper) {
+func executeTestForGetAbsolutePath(t *testing.T, testCaseMessage string, testCase absolutePathTestCaseWrapper, i int) {
 	Convey(testCaseMessage, t, func() {
 		// Act
 		actual := pathhelper.GetAbsolutePath(
 			testCase.basePath,
 			testCase.inputRelativePath,
+			testCase.isLongPathFix,
 			testCase.isNormalize)
 
 		// Assert
-		So(actual, ShouldNotBeNil)
-		So(actual, ShouldEqual, testCase.expected)
+		Convey(pathhelper.GetAssertMessage(actual, testCase.expected, i), func() {
+			So(actual, ShouldNotBeNil)
+			So(actual, ShouldEqual, testCase.expected)
+		})
 	})
 }

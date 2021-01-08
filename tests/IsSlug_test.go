@@ -1,44 +1,44 @@
 package tests
 
 import (
-	"testing"
 	"fmt"
+	"testing"
 
 	. "github.com/smartystreets/goconvey/convey"
 
 	"gitlab.com/evatix-go/pathhelper"
 )
 
-type slugTestCaseWrapper struct{
+type slugTestCaseWrapper struct {
 	input, expectedMessage string
-	expected  bool
+	expected               bool
 }
 
 var slugTestCaseWrappers = []slugTestCaseWrapper{
 	{
-		input: "",
-		expected: false,
+		input:           "",
+		expected:        false,
 		expectedMessage: "should not be empty",
 	},
 	{
-		input: "",
-		expected: false,
+		input:           "",
+		expected:        false,
 		expectedMessage: "should not be nil",
 	},
 	{
-		input: "xyz_",
-		expected: true,
+		input:           "xyz_",
+		expected:        true,
 		expectedMessage: "true",
 	},
 	{
-		input: "%&^2093073070271 b21 2987$#&^^&$(*&$(",
-		expected: false,
+		input:           "%&^2093073070271 b21 2987$#&^^&$(*&$(",
+		expected:        false,
 		expectedMessage: "false",
 	},
 }
 
 func TestIsSlug(t *testing.T) {
-	for _, testCase := range slugTestCaseWrappers  {
+	for i, testCase := range slugTestCaseWrappers {
 		// Arrange
 		testCaseMessage := fmt.Sprintf("[IsSlug] inputs (%s) expects (%s)", testCase.input, testCase.expectedMessage)
 
@@ -47,9 +47,11 @@ func TestIsSlug(t *testing.T) {
 			actual := pathhelper.IsSlug(testCase.input)
 
 			// Assert
-			So(actual, ShouldNotBeEmpty)
-			So(actual, ShouldNotBeNil)
-			So(actual, ShouldEqual, testCase.expected)
+			Convey(pathhelper.GetAssertMessage(actual, testCase.expected, i), func() {
+				So(actual, ShouldNotBeEmpty)
+				So(actual, ShouldNotBeNil)
+				So(actual, ShouldEqual, testCase.expected)
+			})
 		})
 	}
 }

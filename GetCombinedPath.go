@@ -6,7 +6,11 @@ import (
 
 // @isIgnoreEmptyPath if true then ignore empty string (nil, "", or any empty spaces "  ")
 func GetCombinedPath(
-	separator string, isIgnoreEmptyPath bool, isLongPathFix, isNormalize bool, paths ...string,
+	separator string,
+	isIgnoreEmptyPath bool,
+	isLongPathFix bool,
+	isNormalize bool,
+	paths ...string,
 ) string {
 	pathConfig := &pathhelpercore.PathConfig{
 		Separator:         separator,

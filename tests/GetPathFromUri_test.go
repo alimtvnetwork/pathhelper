@@ -38,7 +38,7 @@ var pathFromUriTestCaseWrappers = []pathFromUriTestCaseWrapper{
 func TestGetPathFromUri_Windows(t *testing.T) {
 	SkipOnUnix(t)
 
-	for _, testCase := range pathFromUriTestCaseWrappers {
+	for i, testCase := range pathFromUriTestCaseWrappers {
 		// Arrange
 		if pathhelper.IsUnixCase(testCase.operatingSystem) {
 			continue
@@ -46,14 +46,14 @@ func TestGetPathFromUri_Windows(t *testing.T) {
 
 		testCaseMessage := fmt.Sprintf("(%s) [GetPathFromURI] inputs (%s, %v) expects (%s)", testCase.operatingSystemMessage, testCase.givenPath, testCase.isNormalize, testCase.expectedMessage)
 
-		executeTestCaseForGetPathFromUri(t, testCaseMessage, testCase)
+		executeTestCaseForGetPathFromUri(t, testCaseMessage, testCase, i)
 	}
 }
 
 func TestGetPathFromUri_Unix(t *testing.T) {
 	SkipOnWindows(t)
 
-	for _, testCase := range pathFromUriTestCaseWrappers {
+	for i, testCase := range pathFromUriTestCaseWrappers {
 		// Arrange
 		if pathhelper.IsWindowsCase(testCase.operatingSystem) {
 			continue
@@ -61,17 +61,19 @@ func TestGetPathFromUri_Unix(t *testing.T) {
 
 		testCaseMessage := fmt.Sprintf("(%s) [GetPathFromURI] inputs (%s, %v) expects (%s)", testCase.operatingSystemMessage, testCase.givenPath, testCase.isNormalize, testCase.expectedMessage)
 
-		executeTestCaseForGetPathFromUri(t, testCaseMessage, testCase)
+		executeTestCaseForGetPathFromUri(t, testCaseMessage, testCase, i)
 	}
 }
 
-func executeTestCaseForGetPathFromUri(t *testing.T, testCaseMessage string, testCase pathFromUriTestCaseWrapper) {
+func executeTestCaseForGetPathFromUri(t *testing.T, testCaseMessage string, testCase pathFromUriTestCaseWrapper, i int) {
 	Convey(testCaseMessage, t, func() {
 		// Act
 		actual := pathhelper.GetPathFromUri(testCase.givenPath, testCase.isNormalize)
 
 		// Assert
-		So(actual, ShouldNotBeNil)
-		So(actual, ShouldEqual, testCase.expected)
+		Convey(pathhelper.GetAssertMessage(actual, testCase.expected, i), func() {
+			So(actual, ShouldNotBeNil)
+			So(actual, ShouldEqual, testCase.expected)
+		})
 	})
 }

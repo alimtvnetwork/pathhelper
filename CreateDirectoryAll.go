@@ -27,7 +27,7 @@ func CreateDirectoryAll(path string, fileMode os.FileMode) *pathhelpercore.Direc
 		FileInfoWrapper:   fileInfoWrapper,
 		Error:             &error,
 		RawPath:           path,
-		FileModeRequested: fileMode,
+		FileModeRequested: &fileMode,
 		HasIssues:         error != nil,
 		IsIgnoredAction:   isIgnoredAction,
 		Action:            enums.CreateAction,

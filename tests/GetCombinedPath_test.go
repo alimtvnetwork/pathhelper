@@ -11,9 +11,9 @@ import (
 )
 
 type combinedPathTestCaseWrapper struct {
-	inputSeparator, expected, expectedMessage string
-	inputPaths1, inputPaths2, inputPaths3     string
-	isIgnoreEmptyPath, isNormalize            bool
+	inputSeparator, expected, expectedMessage     string
+	inputPaths1, inputPaths2, inputPaths3         string
+	isIgnoreEmptyPath, isLongPathFix, isNormalize bool
 }
 
 var combinedPathTestCaseWrappers = []combinedPathTestCaseWrapper{
@@ -26,6 +26,7 @@ var combinedPathTestCaseWrappers = []combinedPathTestCaseWrapper{
 		isNormalize:       true,
 		expected:          "something\\more\\etc",
 		expectedMessage:   "something\\more\\etc",
+		isLongPathFix:     true,
 	},
 	{
 		inputSeparator:    constants.ForwardSlash,
@@ -36,11 +37,12 @@ var combinedPathTestCaseWrappers = []combinedPathTestCaseWrapper{
 		isNormalize:       true,
 		expected:          "something/more/etc",
 		expectedMessage:   "something/more/etc",
+		isLongPathFix:     true,
 	},
 }
 
 func TestGetCombinedPath(t *testing.T) {
-	for _, testCase := range combinedPathTestCaseWrappers {
+	for i, testCase := range combinedPathTestCaseWrappers {
 		// Arrange
 		testCaseMessage := fmt.Sprintf("[GetCombinedPath] inputs (%s, %v, %v, inputPaths:  %s, %s, %s) expects (%s)", testCase.inputSeparator, testCase.isIgnoreEmptyPath, testCase.isNormalize, testCase.inputPaths1, testCase.inputPaths2, testCase.inputPaths3, testCase.expectedMessage)
 
@@ -49,14 +51,17 @@ func TestGetCombinedPath(t *testing.T) {
 			actual := pathhelper.GetCombinedPath(
 				testCase.inputSeparator,
 				testCase.isIgnoreEmptyPath,
+				testCase.isLongPathFix,
 				testCase.isNormalize,
 				testCase.inputPaths1,
 				testCase.inputPaths2,
 				testCase.inputPaths3)
 
 			// Assert
-			So(actual, ShouldNotBeNil)
-			So(actual, ShouldEqual, testCase.expected)
+			Convey(pathhelper.GetAssertMessage(actual, testCase.expected, i), func() {
+				So(actual, ShouldNotBeNil)
+				So(actual, ShouldEqual, testCase.expected)
+			})
 		})
 	}
 }

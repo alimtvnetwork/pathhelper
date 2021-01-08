@@ -6,5 +6,5 @@ import (
 
 // Returns downloads directory path as a string.
 func GetUserDownloadsPath() string {
-	return enums.Downloads.GetPrefixCombinedWith(GetUserPath())
+	return enums.Downloads.CombineWith(GetUserPath())
 }

@@ -10,7 +10,7 @@ type DirectoryResult struct {
 	FileInfoWrapper   *FileInfoWrapper
 	Error             *error
 	RawPath           string
-	FileModeRequested os.FileMode
+	FileModeRequested *os.FileMode
 	HasIssues         bool
 	IsIgnoredAction   bool
 	Action            enums.PerformingAction

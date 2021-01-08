@@ -21,6 +21,7 @@ const (
 	UriSchemePrefixStandard   = "file:///"
 	UriSchemePrefixTwoSlashes = "file://"
 	Underscore                = "_"
+	Colon                     = ":"
 	Dash                      = "-"
 	DoubleDash                = "--"
 	DoubleUnderscore          = "__"
@@ -38,6 +39,11 @@ const (
 	One                 = 1
 	SemiColon           = ";"
 	Path                = "PATH"
+	Unix                = "Unix OS"
+	Windows             = "Windows OS"
+
+	SymbolicLinkCreationCommandName = "ln"
+	SymbolicLinkCreationArgument    = "-s"
 
 	Perm = 0777 // Unix permission bits. has read and write access
 

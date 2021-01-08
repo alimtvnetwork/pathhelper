@@ -32,7 +32,7 @@ var pathExistTestCaseWrappers = []pathExistTestCaseWrapper{
 	},
 	{
 		input:                  "~/home",
-		expected:               true,
+		expected:               false,
 		expectedMessage:        "true",
 		operatingSystemMessage: "OS is Unix",
 		operatingSystem:        enums.Ubuntu,
@@ -42,7 +42,7 @@ var pathExistTestCaseWrappers = []pathExistTestCaseWrapper{
 func TestIsPathExist_Windows(t *testing.T) {
 	SkipOnUnix(t)
 
-	for _, testCase := range pathExistTestCaseWrappers {
+	for i, testCase := range pathExistTestCaseWrappers {
 		// Arrange
 		if pathhelper.IsUnixCase(testCase.operatingSystem) {
 			continue
@@ -50,14 +50,14 @@ func TestIsPathExist_Windows(t *testing.T) {
 
 		testCaseMessage := fmt.Sprintf("(%s)[IsPathExist] inputs (%s) expects (%s)", testCase.operatingSystemMessage, testCase.input, testCase.expectedMessage)
 
-		executeTestCaseForIsPathExist(t, testCaseMessage, testCase)
+		executeTestCaseForIsPathExist(t, testCaseMessage, testCase, i)
 	}
 }
 
 func TestIsPathExist_Unix(t *testing.T) {
 	SkipOnWindows(t)
 
-	for _, testCase := range pathExistTestCaseWrappers {
+	for i, testCase := range pathExistTestCaseWrappers {
 		// Arrange
 		if pathhelper.IsWindowsCase(testCase.operatingSystem) {
 			continue
@@ -65,17 +65,19 @@ func TestIsPathExist_Unix(t *testing.T) {
 
 		testCaseMessage := fmt.Sprintf("(%s)[IsPathExist] inputs (%s) expects (%s)", testCase.operatingSystemMessage, testCase.input, testCase.expectedMessage)
 
-		executeTestCaseForIsPathExist(t, testCaseMessage, testCase)
+		executeTestCaseForIsPathExist(t, testCaseMessage, testCase, i)
 	}
 }
 
-func executeTestCaseForIsPathExist(t *testing.T, testCaseMessage string, testCase pathExistTestCaseWrapper) {
+func executeTestCaseForIsPathExist(t *testing.T, testCaseMessage string, testCase pathExistTestCaseWrapper, i int) {
 	Convey(testCaseMessage, t, func() {
 		// Act
 		actual := pathhelper.IsPathExist(testCase.input)
 
 		// Assert
-		So(actual, ShouldNotBeEmpty)
-		So(actual, ShouldEqual, testCase.expected)
+		Convey(pathhelper.GetAssertMessage(actual, testCase.expected, i), func() {
+			So(actual, ShouldNotBeEmpty)
+			So(actual, ShouldEqual, testCase.expected)
+		})
 	})
 }

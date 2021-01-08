@@ -36,7 +36,7 @@ var directoryPathTestCaseWrappers = []directoryPathTestCaseWrapper{
 func TestIsDirectoryPath_Windows(t *testing.T) {
 	SkipOnUnix(t)
 
-	for _, testCase := range directoryPathTestCaseWrappers {
+	for i, testCase := range directoryPathTestCaseWrappers {
 		// Arrange
 		if pathhelper.IsUnixCase(testCase.operatingSystem) {
 			continue
@@ -44,14 +44,14 @@ func TestIsDirectoryPath_Windows(t *testing.T) {
 
 		testCaseMessage := fmt.Sprintf("(%s) [IsDirectoryPath] inputs (%s) expects (%s)", testCase.operatingSystemMessage, testCase.input, testCase.expectedMessage)
 
-		executeTestCaseForIsDirectoryPath(t, testCaseMessage, testCase)
+		executeTestCaseForIsDirectoryPath(t, testCaseMessage, testCase, i)
 	}
 }
 
 func TestIsDirectoryPath_Unix(t *testing.T) {
 	SkipOnWindows(t)
 
-	for _, testCase := range directoryPathTestCaseWrappers {
+	for i, testCase := range directoryPathTestCaseWrappers {
 		// Arrange
 		if pathhelper.IsWindowsCase(testCase.operatingSystem) {
 			continue
@@ -59,18 +59,20 @@ func TestIsDirectoryPath_Unix(t *testing.T) {
 
 		testCaseMessage := fmt.Sprintf("(%s) [IsDirectoryPath] inputs (%s) expects (%s)", testCase.operatingSystemMessage, testCase.input, testCase.expectedMessage)
 
-		executeTestCaseForIsDirectoryPath(t, testCaseMessage, testCase)
+		executeTestCaseForIsDirectoryPath(t, testCaseMessage, testCase, i)
 	}
 }
 
-func executeTestCaseForIsDirectoryPath(t *testing.T, testCaseMessage string, testCase directoryPathTestCaseWrapper) {
+func executeTestCaseForIsDirectoryPath(t *testing.T, testCaseMessage string, testCase directoryPathTestCaseWrapper, i int) {
 	Convey(testCaseMessage, t, func() {
 		// Act
 		actual := pathhelper.IsDirectoryPath(testCase.input)
 
 		// Assert
-		So(actual, ShouldNotBeEmpty)
-		So(actual, ShouldNotBeNil)
-		So(actual, ShouldEqual, testCase.expected)
+		Convey(pathhelper.GetAssertMessage(actual, testCase.expected, i), func() {
+			So(actual, ShouldNotBeEmpty)
+			So(actual, ShouldNotBeNil)
+			So(actual, ShouldEqual, testCase.expected)
+		})
 	})
 }
