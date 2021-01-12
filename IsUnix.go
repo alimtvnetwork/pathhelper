@@ -3,7 +3,7 @@ package pathhelper
 import (
 	"runtime"
 
-	"gitlab.com/evatix-go/pathhelper/constants"
+	"gitlab.com/evatix-go/core/constants"
 )
 
 func IsUnix() bool {

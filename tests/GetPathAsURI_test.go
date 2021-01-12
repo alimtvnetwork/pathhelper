@@ -30,7 +30,7 @@ var pathAsUriTestCaseWrappers = []pathAsUriTestCaseWrapper{
 }
 
 func TestGetPathAsUri(t *testing.T) {
-	for _, testCase := range pathAsUriTestCaseWrappers {
+	for i, testCase := range pathAsUriTestCaseWrappers {
 		// Arrange
 		testCaseMessage := fmt.Sprintf("[GetPathAsUri] inputs (%s, %v) expects (%s)", testCase.input, testCase.inputBool, testCase.expectedMessage)
 
@@ -39,8 +39,10 @@ func TestGetPathAsUri(t *testing.T) {
 			actual := pathhelper.GetPathAsUri(testCase.input, testCase.inputBool)
 
 			// Assert
-			So(actual, ShouldNotBeNil)
-			So(actual, ShouldEqual, testCase.expected)
+			Convey(pathhelper.GetAssertMessage(actual, testCase.expected, i), func() {
+				So(actual, ShouldNotBeNil)
+				So(actual, ShouldEqual, testCase.expected)
+			})
 		})
 	}
 }

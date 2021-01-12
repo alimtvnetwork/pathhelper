@@ -6,8 +6,9 @@ import (
 
 	. "github.com/smartystreets/goconvey/convey"
 
+	"gitlab.com/evatix-go/core/constants"
+
 	"gitlab.com/evatix-go/pathhelper"
-	"gitlab.com/evatix-go/pathhelper/constants"
 	"gitlab.com/evatix-go/pathhelper/enums"
 	"gitlab.com/evatix-go/pathhelper/pathhelpercore"
 )
@@ -45,7 +46,7 @@ var combinedPathUsingConfigTestCaseWrappers = []combinedPathUsingConfigTestCaseW
 func TestGetCombinedPathUsingConfig_Windows(t *testing.T) {
 	SkipOnUnix(t)
 
-	for _, testCase := range combinedPathUsingConfigTestCaseWrappers {
+	for i, testCase := range combinedPathUsingConfigTestCaseWrappers {
 		// Arrange
 		if pathhelper.IsUnixCase(testCase.operatingSystem) {
 			continue
@@ -53,14 +54,14 @@ func TestGetCombinedPathUsingConfig_Windows(t *testing.T) {
 
 		testCaseMessage := fmt.Sprintf("(%s) [GetCombinedPathUsingConfig] inputs (%v, %s, %s, %s) expects (%s)", testCase.operatingSystemMessage, testCase.inputConfig, testCase.inputPaths1, testCase.inputPaths2, testCase.inputPaths3, testCase.expectedMessage)
 
-		executeTestCaseForGetCombinedPathUsingConfig(t, testCaseMessage, testCase)
+		executeTestCaseForGetCombinedPathUsingConfig(t, testCaseMessage, testCase, i)
 	}
 }
 
 func TestGetCombinedPathUsingConfig_Unix(t *testing.T) {
 	SkipOnWindows(t)
 
-	for _, testCase := range combinedPathUsingConfigTestCaseWrappers {
+	for i, testCase := range combinedPathUsingConfigTestCaseWrappers {
 		// Arrange
 		if pathhelper.IsWindowsCase(testCase.operatingSystem) {
 			continue
@@ -68,19 +69,24 @@ func TestGetCombinedPathUsingConfig_Unix(t *testing.T) {
 
 		testCaseMessage := fmt.Sprintf("(%s) [GetCombinedPathUsingConfig] inputs (%v, %s, %s, %s) expects (%s)", testCase.operatingSystemMessage, testCase.inputConfig, testCase.inputPaths1, testCase.inputPaths2, testCase.inputPaths3, testCase.expectedMessage)
 
-		executeTestCaseForGetCombinedPathUsingConfig(t, testCaseMessage, testCase)
+		executeTestCaseForGetCombinedPathUsingConfig(t, testCaseMessage, testCase, i)
 	}
 }
 
 func executeTestCaseForGetCombinedPathUsingConfig(
-	t *testing.T, testCaseMessage string, testCase combinedPathUsingConfigTestCaseWrapper,
+	t *testing.T,
+	testCaseMessage string,
+	testCase combinedPathUsingConfigTestCaseWrapper,
+	i int,
 ) {
 	Convey(testCaseMessage, t, func() {
 		// Act
 		actual := pathhelper.GetCombinedPathUsingConfig(testCase.inputConfig, testCase.inputPaths1, testCase.inputPaths2, testCase.inputPaths3)
 
 		// Assert
-		So(actual, ShouldNotBeNil)
-		So(actual, ShouldEqual, testCase.expected)
+		Convey(pathhelper.GetAssertMessage(actual, testCase.expected, i), func() {
+			So(actual, ShouldNotBeNil)
+			So(actual, ShouldEqual, testCase.expected)
+		})
 	})
 }

@@ -6,8 +6,9 @@ import (
 
 	. "github.com/smartystreets/goconvey/convey"
 
+	"gitlab.com/evatix-go/core/constants"
+
 	"gitlab.com/evatix-go/pathhelper"
-	"gitlab.com/evatix-go/pathhelper/constants"
 	"gitlab.com/evatix-go/pathhelper/enums"
 )
 
@@ -34,7 +35,7 @@ var pathSeparatorTestCaseWrappers = []pathSeparatorTestCaseWrapper{
 func TestGetPathSeparator_Windows(t *testing.T) {
 	SkipOnUnix(t)
 
-	for _, testCase := range pathSeparatorTestCaseWrappers {
+	for i, testCase := range pathSeparatorTestCaseWrappers {
 		// Arrange
 		if pathhelper.IsUnixCase(testCase.operatingSystem) {
 			continue
@@ -42,14 +43,14 @@ func TestGetPathSeparator_Windows(t *testing.T) {
 
 		testCaseMessage := fmt.Sprintf("(%s) [GetPathSeparator] inputs () expects (%s)", testCase.operatingSystemMessage, testCase.expectedMessage)
 
-		executeTestCaseForGetPathSeparator(t, testCaseMessage, testCase)
+		executeTestCaseForGetPathSeparator(t, testCaseMessage, testCase, i)
 	}
 }
 
 func TestGetPathSeparator_Unix(t *testing.T) {
 	SkipOnWindows(t)
 
-	for _, testCase := range pathSeparatorTestCaseWrappers {
+	for i, testCase := range pathSeparatorTestCaseWrappers {
 		// Arrange
 		if pathhelper.IsWindowsCase(testCase.operatingSystem) {
 			continue
@@ -57,18 +58,22 @@ func TestGetPathSeparator_Unix(t *testing.T) {
 
 		testCaseMessage := fmt.Sprintf("(%s) [GetPathSeparator] inputs () expects (%s)", testCase.operatingSystemMessage, testCase.expectedMessage)
 
-		executeTestCaseForGetPathSeparator(t, testCaseMessage, testCase)
+		executeTestCaseForGetPathSeparator(t, testCaseMessage, testCase, i)
 	}
 }
 
-func executeTestCaseForGetPathSeparator(t *testing.T, testCaseMessage string, testCase pathSeparatorTestCaseWrapper) {
+func executeTestCaseForGetPathSeparator(
+	t *testing.T, testCaseMessage string, testCase pathSeparatorTestCaseWrapper, i int,
+) {
 	Convey(testCaseMessage, t, func() {
 		// Act
 		actual := constants.PathSeparator
 
 		// Assert
-		So(actual, ShouldNotBeEmpty)
-		So(actual, ShouldNotBeNil)
-		So(actual, ShouldEqual, testCase.expected)
+		Convey(pathhelper.GetAssertMessage(actual, testCase.expected, i), func() {
+			So(actual, ShouldNotBeEmpty)
+			So(actual, ShouldNotBeNil)
+			So(actual, ShouldEqual, testCase.expected)
+		})
 	})
 }

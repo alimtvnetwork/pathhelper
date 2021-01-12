@@ -31,7 +31,7 @@ var letterTestCaseWrappers = []letterTestCaseWrapper{
 }
 
 func TestIsLetter(t *testing.T) {
-	for _, testCase := range letterTestCaseWrappers {
+	for i, testCase := range letterTestCaseWrappers {
 		// Arrange
 		testCaseMessage := fmt.Sprintf("[isLetter] inputs (%s) expects (%s)", testCase.input, testCase.expectedMessage)
 
@@ -40,8 +40,10 @@ func TestIsLetter(t *testing.T) {
 			actual := isLetter(testCase.input)
 
 			// Assert
-			So(actual, ShouldNotBeEmpty)
-			So(actual, ShouldEqual, testCase.expected)
+			Convey(GetAssertMessage(actual, testCase.expected, i), func() {
+				So(actual, ShouldNotBeEmpty)
+				So(actual, ShouldEqual, testCase.expected)
+			})
 		})
 	}
 }

@@ -50,7 +50,7 @@ func TestRemoveFromPath_windows(t *testing.T) {
 		t.Skip("Windows tests ignored in Unix.")
 	}
 
-	for _, testCase := range removeFromPathTestCaseWrappers {
+	for i, testCase := range removeFromPathTestCaseWrappers {
 		// Arrange
 		if pathhelper.IsUnixCase(testCase.operatingSystem) {
 			continue
@@ -58,7 +58,7 @@ func TestRemoveFromPath_windows(t *testing.T) {
 
 		testCaseMessage := fmt.Sprintf("(%s) [RemoveFromPath] inputs (%s, %v) expects (%s)", testCase.operatingSystemMessage, testCase.inputPath, testCase.inputBool, testCase.expectedMessage)
 
-		executeTestCaseForRemoveFromPath(t, testCaseMessage, testCase)
+		executeTestCaseForRemoveFromPath(t, testCaseMessage, testCase, i)
 	}
 }
 
@@ -67,7 +67,7 @@ func TestRemoveFromPath_unix(t *testing.T) {
 		t.Skip("Windows tests ignored in Unix.")
 	}
 
-	for _, testCase := range removeFromPathTestCaseWrappers {
+	for i, testCase := range removeFromPathTestCaseWrappers {
 		// Arrange
 		if pathhelper.IsWindowsCase(testCase.operatingSystem) {
 			continue
@@ -75,23 +75,27 @@ func TestRemoveFromPath_unix(t *testing.T) {
 
 		testCaseMessage := fmt.Sprintf("(%s) [RemoveFromPath] inputs (%s, %v) expects (%s)", testCase.operatingSystemMessage, testCase.inputPath, testCase.inputBool, testCase.expectedMessage)
 
-		executeTestCaseForRemoveFromPath(t, testCaseMessage, testCase)
+		executeTestCaseForRemoveFromPath(t, testCaseMessage, testCase, i)
 	}
 }
 
-func executeTestCaseForRemoveFromPath(t *testing.T, testCaseMessage string, testCase removeFromPathTestCaseWrapper) {
+func executeTestCaseForRemoveFromPath(
+	t *testing.T, testCaseMessage string, testCase removeFromPathTestCaseWrapper, i int,
+) {
 	Convey(testCaseMessage, t, func() {
 		// Act
 		actual := pathhelper.RemoveFromPath(testCase.inputPath, &removingArray, testCase.inputBool)
 
 		// Assert
-		if pathhelpercore.IsEmptyPath(testCase.inputPath) {
-			So(actual, ShouldBeEmpty)
-		}
+		Convey(pathhelper.GetAssertMessage(actual, testCase.expected, i), func() {
+			if pathhelpercore.IsEmptyPath(testCase.inputPath) {
+				So(actual, ShouldBeEmpty)
+			}
 
-		if !pathhelpercore.IsEmptyPath(testCase.inputPath) {
-			So(actual, ShouldNotBeEmpty)
-			So(actual, ShouldEqual, testCase.expected)
-		}
+			if !pathhelpercore.IsEmptyPath(testCase.inputPath) {
+				So(actual, ShouldNotBeEmpty)
+				So(actual, ShouldEqual, testCase.expected)
+			}
+		})
 	})
 }

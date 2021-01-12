@@ -1,10 +1,12 @@
 package pathhelper
 
 import (
-	"errors"
 	"os"
 
-	"gitlab.com/evatix-go/pathhelper/constants"
+	"gitlab.com/evatix-go/core/constants"
+	"gitlab.com/evatix-go/core/msgtype"
+	"gitlab.com/evatix-go/errorwrapper"
+
 	"gitlab.com/evatix-go/pathhelper/enums"
 	"gitlab.com/evatix-go/pathhelper/pathhelpercore"
 )
@@ -13,22 +15,23 @@ import (
 func CreateDirectoryAll(path string, fileMode os.FileMode) *pathhelpercore.DirectoryResult {
 	fileInfoWrapper := GetFileInfoWrapper(path)
 	isIgnoredAction := fileInfoWrapper.IsPathExists() || fileInfoWrapper.IsEmptyPath
-	var error error
+	errorWrapper := errorwrapper.Empty(false)
 
 	if !isIgnoredAction {
-		error = os.MkdirAll(path, fileMode)
+		err := os.MkdirAll(path, fileMode)
+		errorWrapper = errorwrapper.NewFile(err)
 	}
 
 	if fileInfoWrapper.IsEmptyPath {
-		error = errors.New(constants.InvalidEmptyPathErrorMessage)
+		errorWrapper = errorwrapper.NewFilePath(msgtype.InvalidEmptyPathErrorMessage.String(), constants.EmptyString)
 	}
 
 	return &pathhelpercore.DirectoryResult{
 		FileInfoWrapper:   fileInfoWrapper,
-		Error:             &error,
+		Error:             errorWrapper,
 		RawPath:           path,
-		FileModeRequested: fileMode,
-		HasIssues:         error != nil,
+		FileModeRequested: &fileMode,
+		HasIssues:         errorWrapper.HasError(),
 		IsIgnoredAction:   isIgnoredAction,
 		Action:            enums.CreateAction,
 	}

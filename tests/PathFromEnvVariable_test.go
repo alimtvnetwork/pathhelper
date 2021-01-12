@@ -33,7 +33,7 @@ var pathFromEnvVariableTestCaseWrappers = []pathFromEnvVariableTestCaseWrapper{
 }
 
 func TestPathFromEnvVariable(t *testing.T) {
-	for _, testCase := range pathFromEnvVariableTestCaseWrappers {
+	for i, testCase := range pathFromEnvVariableTestCaseWrappers {
 		// Arrange
 		testCaseMessage := fmt.Sprintf("[PathFromEnvVariable] inputs (%s) expects (%s)", testCase.input, testCase.expectedMessage)
 
@@ -42,16 +42,15 @@ func TestPathFromEnvVariable(t *testing.T) {
 			actual := pathhelper.PathFromEnvVariable(testCase.input)
 
 			// Assert
-			if pathhelpercore.IsEmptyPath(testCase.input) {
-				So(actual, ShouldBeEmpty)
-			}
+			Convey(pathhelper.GetAssertMessage(actual, testCase.expected, i), func() { // todo check equality
+				if pathhelpercore.IsEmptyPath(testCase.input) {
+					So(actual, ShouldBeEmpty)
+				}
 
-			if !pathhelpercore.IsEmptyPath(testCase.input) {
-				So(actual, ShouldNotBeEmpty)
-				// if os.LookupEnv("home") { // how to check
-				// 	So(actual, ShouldEqual, testCase.expected)
-				// }
-			}
+				if !pathhelpercore.IsEmptyPath(testCase.input) {
+					So(actual, ShouldNotBeEmpty)
+				}
+			})
 		})
 
 	}

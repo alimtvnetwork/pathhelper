@@ -23,14 +23,14 @@ var combinedOfNonEmptyPathsTestCaseWrappers = []combinedOfNonEmptyPathsTestCaseW
 	},
 	{
 		inputSeparator:  "/",
-		inputPaths:      []string{"home", "user", "etc"},
+		inputPaths:      []string{"home", "user", "", "etc"},
 		expected:        "home/user/etc",
 		expectedMessage: "home/user/etc",
 	},
 }
 
 func TestGetCombinedOfNonEmptyPaths(t *testing.T) {
-	for _, testCase := range combinedOfNonEmptyPathsTestCaseWrappers {
+	for i, testCase := range combinedOfNonEmptyPathsTestCaseWrappers {
 		// Arrange
 		testCaseMessage := fmt.Sprintf("[GetCombinedOfNonEmptyPaths] inputs (Separator: %s, paths: %s) expects (%s)", testCase.inputSeparator, testCase.inputPaths, testCase.expectedMessage)
 
@@ -39,8 +39,10 @@ func TestGetCombinedOfNonEmptyPaths(t *testing.T) {
 			actual := pathhelper.GetCombinedOfNonEmptyPaths(testCase.inputSeparator, testCase.inputPaths)
 
 			// Assert
-			So(actual, ShouldNotBeNil)
-			So(actual, ShouldEqual, testCase.expected)
+			Convey(pathhelper.GetAssertMessage(actual, testCase.expected, i), func() {
+				So(actual, ShouldNotBeNil)
+				So(actual, ShouldEqual, testCase.expected)
+			})
 		})
 	}
 }

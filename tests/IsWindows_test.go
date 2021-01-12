@@ -9,21 +9,24 @@ import (
 )
 
 func TestIsWindows(t *testing.T) {
+	// Arrange
+	Convey("function should return true on windows OS", t, func() {
+		SkipOnUnix(t)
 
-	Convey("given OS is windows", t, func() {
+		// Act
+		actual := pathhelper.IsWindows()
 
-		Convey("it should return true", func() {
-			So(pathhelper.IsWindows(), ShouldBeTrue)
-		})
-
+		// Assert
+		So(actual, ShouldBeTrue)
 	})
 
-	Convey("if OS is not windows", t, func() {
+	Convey("function should return false on unix OS", t, func() {
+		SkipOnWindows(t)
 
-		Convey("it should return false", func() {
-			So(!pathhelper.IsWindows(), ShouldBeFalse)
-		})
+		// Act
+		actual := pathhelper.IsWindows()
 
+		// Assert
+		So(actual, ShouldBeFalse)
 	})
-
 }
