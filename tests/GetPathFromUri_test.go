@@ -65,7 +65,9 @@ func TestGetPathFromUri_Unix(t *testing.T) {
 	}
 }
 
-func executeTestCaseForGetPathFromUri(t *testing.T, testCaseMessage string, testCase pathFromUriTestCaseWrapper, i int) {
+func executeTestCaseForGetPathFromUri(
+	t *testing.T, testCaseMessage string, testCase pathFromUriTestCaseWrapper, i int,
+) {
 	Convey(testCaseMessage, t, func() {
 		// Act
 		actual := pathhelper.GetPathFromUri(testCase.givenPath, testCase.isNormalize)

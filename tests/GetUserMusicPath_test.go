@@ -1,9 +1,10 @@
 package tests
 
 import (
+	"testing"
+
 	"gitlab.com/evatix-go/pathhelper"
 	"gitlab.com/evatix-go/pathhelper/enums"
-	"testing"
 )
 
 var userMusicPathTestCaseDataWrappers = []generalizedPathWithoutInputTestCaseDataWrapper{

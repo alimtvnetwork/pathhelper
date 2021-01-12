@@ -3,7 +3,7 @@ package pathhelper
 import (
 	"os"
 
-	"gitlab.com/evatix-go/pathhelper/constants"
+	"gitlab.com/evatix-go/core/constants"
 )
 
 // Returns env go bin path

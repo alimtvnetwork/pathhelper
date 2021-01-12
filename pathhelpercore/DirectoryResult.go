@@ -3,12 +3,14 @@ package pathhelpercore
 import (
 	"os"
 
+	"gitlab.com/evatix-go/errorwrapper"
+
 	"gitlab.com/evatix-go/pathhelper/enums"
 )
 
 type DirectoryResult struct {
 	FileInfoWrapper   *FileInfoWrapper
-	Error             *error
+	Error             errorwrapper.Wrapper
 	RawPath           string
 	FileModeRequested *os.FileMode
 	HasIssues         bool
@@ -19,7 +21,7 @@ type DirectoryResult struct {
 func NewEmptyDirectoryResult() *DirectoryResult {
 	return &DirectoryResult{
 		FileInfoWrapper:   nil,
-		Error:             nil,
+		Error:             errorwrapper.Empty(false),
 		RawPath:           "",
 		FileModeRequested: nil,
 		HasIssues:         false,

@@ -6,8 +6,9 @@ import (
 
 	. "github.com/smartystreets/goconvey/convey"
 
+	"gitlab.com/evatix-go/core/constants"
+
 	"gitlab.com/evatix-go/pathhelper"
-	"gitlab.com/evatix-go/pathhelper/constants"
 	"gitlab.com/evatix-go/pathhelper/enums"
 )
 
@@ -61,7 +62,9 @@ func TestGetPathSeparator_Unix(t *testing.T) {
 	}
 }
 
-func executeTestCaseForGetPathSeparator(t *testing.T, testCaseMessage string, testCase pathSeparatorTestCaseWrapper, i int) {
+func executeTestCaseForGetPathSeparator(
+	t *testing.T, testCaseMessage string, testCase pathSeparatorTestCaseWrapper, i int,
+) {
 	Convey(testCaseMessage, t, func() {
 		// Act
 		actual := constants.PathSeparator

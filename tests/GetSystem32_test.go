@@ -2,8 +2,9 @@ package tests
 
 import (
 	"fmt"
-	"gitlab.com/evatix-go/pathhelper"
 	"testing"
+
+	"gitlab.com/evatix-go/pathhelper"
 
 	. "github.com/smartystreets/goconvey/convey"
 )

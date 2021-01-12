@@ -73,7 +73,8 @@ func TestRemoveAndFixDoubleSeparatorToOsSeparator_Unix(t *testing.T) {
 }
 
 func internalTestRemoveAndFixDoubleSeparatorToOsSeparatorActAndAssert(
-	testCase removingDoubleSeparatorTestCaseWrapper, i int) {
+	testCase removingDoubleSeparatorTestCaseWrapper, i int,
+) {
 	// Act
 	actual := pathhelper.RemoveAndFixDoubleSeparatorToOsSeparator(testCase.input)
 

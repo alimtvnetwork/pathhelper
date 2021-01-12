@@ -2,9 +2,11 @@ package tests
 
 import (
 	"fmt"
-	. "github.com/smartystreets/goconvey/convey"
-	"gitlab.com/evatix-go/pathhelper"
 	"testing"
+
+	. "github.com/smartystreets/goconvey/convey"
+
+	"gitlab.com/evatix-go/pathhelper"
 )
 
 type normalizePathUsingSeparatorIfTestCaseWrapper struct {

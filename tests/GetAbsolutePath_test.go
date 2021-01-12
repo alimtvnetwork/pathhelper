@@ -18,7 +18,7 @@ type absolutePathTestCaseWrapper struct {
 
 var absolutePathTestCaseWrappers = []absolutePathTestCaseWrapper{
 	// todo catch panic
-	//{
+	// {
 	//	basePath:               "",
 	//	inputRelativePath:      "",
 	//	expected:               "",
@@ -27,7 +27,7 @@ var absolutePathTestCaseWrappers = []absolutePathTestCaseWrapper{
 	//	operatingSystem:        enums.Any,
 	//	isNormalize:            true,
 	//	isLongPathFix:          true,
-	//},
+	// },
 	{
 		basePath:               "c:\\Windows\\//",
 		inputRelativePath:      "\\whatever",
