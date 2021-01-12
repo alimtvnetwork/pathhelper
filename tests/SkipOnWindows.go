@@ -7,14 +7,13 @@ import (
 )
 
 const (
-	unixIgnoreMessage = "Windows tests ignored in Unix."
+	unixIgnoreMessage    = "Windows tests ignored in Unix."
 	windowsIgnoreMessage = "Unix tests ignored in Windows."
 )
 
 // Skip tests on Windows
-func SkipOnWindows(t *testing.T)  {
+func SkipOnWindows(t *testing.T) {
 	if pathhelper.IsWindows() {
 		t.Skip(windowsIgnoreMessage)
 	}
 }
-

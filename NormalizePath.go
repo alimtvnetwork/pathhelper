@@ -1,7 +1,7 @@
 package pathhelper
 
 import (
-	"gitlab.com/evatix-go/pathhelper/constants"
+	"gitlab.com/evatix-go/core/constants"
 )
 
 // By default apply long path fix and regular normalize using os.PathSeparator

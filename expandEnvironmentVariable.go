@@ -3,7 +3,7 @@ package pathhelper
 import (
 	"os"
 
-	"gitlab.com/evatix-go/pathhelper/constants"
+	"gitlab.com/evatix-go/core/constants"
 )
 
 // expandEnvironmentVariable function takes an array of environment variables (string) as input

@@ -1,8 +1,9 @@
 package tests
 
 import (
-	"gitlab.com/evatix-go/pathhelper"
 	"testing"
+
+	"gitlab.com/evatix-go/pathhelper"
 )
 
 var getApacheLinuxPathTestCaseData = pathTestCaseDataWrapper{

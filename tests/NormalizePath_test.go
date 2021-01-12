@@ -2,10 +2,12 @@ package tests
 
 import (
 	"fmt"
+	"testing"
+
 	. "github.com/smartystreets/goconvey/convey"
+
 	"gitlab.com/evatix-go/pathhelper"
 	"gitlab.com/evatix-go/pathhelper/enums"
-	"testing"
 )
 
 type normalizePathTestCaseWrapper struct {
@@ -82,16 +84,5 @@ func executeTestNormalizePath(t *testing.T, testCaseMessage string, testCase nor
 			So(actual, ShouldNotBeEmpty)
 			So(actual, ShouldEqual, testCase.expected)
 		})
-	})
-}
-
-func executeTestNormalizePath(t *testing.T, testCaseMessage string, testCase normalizePathTestCaseWrapper) {
-	Convey(testCaseMessage, t, func() {
-		// Act
-		actual := pathhelper.NormalizePath(testCase.input)
-
-		// Assert
-		So(actual, ShouldNotBeEmpty)
-		So(actual, ShouldEqual, testCase.expected)
 	})
 }

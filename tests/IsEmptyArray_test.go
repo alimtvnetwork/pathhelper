@@ -2,10 +2,12 @@ package tests
 
 import (
 	"fmt"
+	"testing"
+
 	. "github.com/smartystreets/goconvey/convey"
+
 	"gitlab.com/evatix-go/pathhelper"
 	"gitlab.com/evatix-go/pathhelper/pathhelpercore"
-	"testing"
 )
 
 type isEmptyArrayTestCaseWrapper struct {

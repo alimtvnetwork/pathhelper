@@ -1,6 +1,6 @@
 package enums
 
-import "gitlab.com/evatix-go/pathhelper/constants"
+import "gitlab.com/evatix-go/core/constants"
 
 type UriSchemes string
 

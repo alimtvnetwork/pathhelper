@@ -4,12 +4,13 @@ import (
 	"regexp"
 	"strings"
 
-	"gitlab.com/evatix-go/pathhelper/constants"
+	"gitlab.com/evatix-go/core/constants"
+	"gitlab.com/evatix-go/core/regconsts"
 )
 
 var (
-	regularExpressionForEachWordsWithDollarSymbol, _    = regexp.Compile(constants.RegExForEachWordsWithDollarSymbol)
-	regularExpressionForEachWordsWithinPercentSymbol, _ = regexp.Compile(constants.RegExForEachWordsWithinPercentSymbol)
+	regularExpressionForEachWordsWithDollarSymbol    = regexp.MustCompile(regconsts.RegExForEachWordsWithDollarSymbol)
+	regularExpressionForEachWordsWithinPercentSymbol = regexp.MustCompile(regconsts.EachWordsWithinPercentSymbol)
 )
 
 // getVariables function takes a string input and identifies every word that begins with "$" or every word within two "%"

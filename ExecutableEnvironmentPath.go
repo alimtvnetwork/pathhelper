@@ -1,11 +1,12 @@
 package pathhelper
 
 import (
-	"gitlab.com/evatix-go/pathhelper/constants"
-	"gitlab.com/evatix-go/pathhelper/pathhelpercore"
-	"io/ioutil"
 	"strings"
 	"sync"
+
+	"gitlab.com/evatix-go/core/constants"
+
+	"gitlab.com/evatix-go/pathhelper/pathhelpercore"
 )
 
 type ExecutableEnvironmentPath struct {
@@ -15,7 +16,7 @@ type ExecutableEnvironmentPath struct {
 	filesAsInfos []*pathhelpercore.FileInfoWrapper
 }
 
-var mutex = &sync.Mutex{}
+var executableEnvPathMutex = &sync.Mutex{}
 
 // returns all files paths on that env directory once, caches it and returns that in later function calls
 func (eep *ExecutableEnvironmentPath) GetLazyFilePaths() []*string {
@@ -25,7 +26,7 @@ func (eep *ExecutableEnvironmentPath) GetLazyFilePaths() []*string {
 	}
 
 	// generate if not generated already
-	eep.files = GenerateFiles(eep.Expanded)
+	eep.files = GetFilesPaths(eep.Expanded)
 
 	return eep.files
 }
@@ -40,9 +41,9 @@ func (eep *ExecutableEnvironmentPath) GetFileInfosMap() map[string]*ExecutableEn
 	}
 
 	// otherwise generate
-	mutex.Lock()
-	eep.filesAsInfos = generateFileInfos(eep.Expanded) // todo add recover
-	mutex.Unlock()
+	executableEnvPathMutex.Lock()
+	eep.filesAsInfos = getFileInfos(eep.Expanded) // todo add recover
+	executableEnvPathMutex.Unlock()
 
 	return map[string]*ExecutableEnvironmentPath{
 		eep.Variable: eep,
@@ -74,33 +75,4 @@ func (eep *ExecutableEnvironmentPath) GetFilesContains(contains string) []*strin
 	}
 
 	return filePathThatContains
-}
-
-// returns filepaths as []*string. non-lazy execution.
-func GenerateFiles(path string) []*string {
-	var fileNames []*string
-
-	files, err := ioutil.ReadDir(path)
-
-	if err != nil {
-		panic(err)
-	}
-
-	for _, file := range files {
-		fileName := file.Name()
-		fileNames = append(fileNames, &fileName)
-	}
-
-	return fileNames
-}
-
-func generateFileInfos(path string) []*pathhelpercore.FileInfoWrapper {
-	var fileInfos []*pathhelpercore.FileInfoWrapper
-	paths := GenerateFiles(path) // double mutex???
-
-	for _ , eachPath := range paths {
-		fileInfos = append(fileInfos, pathhelpercore.NewFileWrapperInfo(*eachPath))
-	}
-	
-	return fileInfos
 }

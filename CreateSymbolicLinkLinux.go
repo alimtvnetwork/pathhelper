@@ -1,27 +1,46 @@
 package pathhelper
 
 import (
-	"fmt"
-	"gitlab.com/evatix-go/pathhelper/constants"
 	"os/exec"
+
+	"gitlab.com/evatix-go/errorwrapper/errdata/errbool"
+	"gitlab.com/evatix-go/errorwrapper/errtype"
+
+	"gitlab.com/evatix-go/core/constants"
 )
 
 // Creates symbolicLink of the source at the provided destination path for linux system. If destination doesn't exist it will panic.
 // sourcePath example: "/home/a/test.txt"; destinationPath example: "/home/a/go/test.txt"
 // destination need to have read and write permission for the user.
-func CreateSymbolicLinkLinux(sourcePath, destinationPath string) {
+func CreateSymbolicLinkLinux(sourcePath, destinationPath string) errbool.Result {
 	if !IsUnix() {
-		return
+		return errbool.
+			EmptyErrorResult(false)
 	}
 
-	_, err := exec.Command(
+	cmd := exec.Command(
 		constants.SymbolicLinkCreationCommandName,
 		constants.SymbolicLinkCreationArgument,
 		sourcePath,
-		destinationPath).Output()
+		destinationPath)
+
+	if cmd == nil {
+		return errbool.
+			NewSimple(
+				false,
+				errtype.CommandExecutionNotFound)
+	}
+
+	_, err := cmd.Output()
 
 	if err != nil {
-		panicMessage := fmt.Sprintf("Error found in CreateSymbolicLinkLinux function: %s", err)
-		panic(panicMessage)
+		return errbool.
+			NewErrorWithType(
+				false,
+				errtype.SymbolicLink,
+				err)
 	}
+
+	return errbool.
+		EmptyErrorResult(true)
 }

@@ -1,20 +1,20 @@
 package pathhelper
 
 // todo change filename accordingly
-func GetExecutableEnvironmentPathCollection() []ExecutableEnvironmentPath {
+func GetExecutableEnvironmentPathCollection() ExecutableEnvironmentPathCollection {
 	rawPaths := GetRawExecutableEnvironmentPathCollection()
 
-	var outputs = []ExecutableEnvironmentPath{}
+	pathsCollection := NewExecutableEnvironmentPathCollection(len(rawPaths))
 
 	for _, rawPath := range rawPaths {
 		expandedPath := PathFromEnvVariable(rawPath)
-		outputPerPath := ExecutableEnvironmentPath{
+		executableEnvironmentPath := ExecutableEnvironmentPath{
 			Variable: rawPath,
 			Expanded: expandedPath,
 		}
 
-		outputs = append(outputs, outputPerPath)
+		pathsCollection.AddPtr(&executableEnvironmentPath)
 	}
 
-	return outputs
+	return pathsCollection
 }

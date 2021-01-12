@@ -69,7 +69,9 @@ func TestIsPathNotExist_Unix(t *testing.T) {
 	}
 }
 
-func executeTestCaseForIsPathNotExist(t *testing.T, testCaseMessage string, testCase pathNotExistTestCaseWrapper, i int) {
+func executeTestCaseForIsPathNotExist(
+	t *testing.T, testCaseMessage string, testCase pathNotExistTestCaseWrapper, i int,
+) {
 	Convey(testCaseMessage, t, func() {
 		// Act
 		actual := pathhelper.IsPathNotExist(testCase.input)

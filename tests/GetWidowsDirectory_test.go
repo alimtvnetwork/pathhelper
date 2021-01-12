@@ -58,7 +58,9 @@ func TestGetWidowsDirectory_Unix(t *testing.T) {
 	}
 }
 
-func executeTestCaseForGetWidowsDirectory(t *testing.T, testCaseMessage string, testCase windowsDirectoryTestCaseWrapper, i int) {
+func executeTestCaseForGetWidowsDirectory(
+	t *testing.T, testCaseMessage string, testCase windowsDirectoryTestCaseWrapper, i int,
+) {
 	Convey(testCaseMessage, t, func() {
 		// Act
 		actual := pathhelper.GetWidowsDirectory()

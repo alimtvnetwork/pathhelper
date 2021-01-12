@@ -2,9 +2,11 @@ package tests
 
 import (
 	"fmt"
-	. "github.com/smartystreets/goconvey/convey"
-	"gitlab.com/evatix-go/pathhelper/pathhelpercore"
 	"testing"
+
+	. "github.com/smartystreets/goconvey/convey"
+
+	"gitlab.com/evatix-go/pathhelper/pathhelpercore"
 )
 
 func TestFileInfoWrapper(t *testing.T) {
@@ -13,7 +15,7 @@ func TestFileInfoWrapper(t *testing.T) {
 
 	Convey(testMessage, t, func() {
 		// Act
-		actualNew := pathhelpercore.NewFileWrapperInfo("") //todo
+		actualNew := pathhelpercore.NewFileWrapperInfo("") // todo
 		actualHasError := actualNew.HasError()
 		actualPathExists := actualNew.IsPathExists()
 

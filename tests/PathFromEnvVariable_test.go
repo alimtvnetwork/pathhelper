@@ -42,7 +42,7 @@ func TestPathFromEnvVariable(t *testing.T) {
 			actual := pathhelper.PathFromEnvVariable(testCase.input)
 
 			// Assert
-			Convey(pathhelper.GetAssertMessage(actual, testCase.expected, i), func() { //todo check equality
+			Convey(pathhelper.GetAssertMessage(actual, testCase.expected, i), func() { // todo check equality
 				if pathhelpercore.IsEmptyPath(testCase.input) {
 					So(actual, ShouldBeEmpty)
 				}

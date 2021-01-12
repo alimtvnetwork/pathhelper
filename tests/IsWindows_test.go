@@ -16,7 +16,7 @@ func TestIsWindows(t *testing.T) {
 		// Act
 		actual := pathhelper.IsWindows()
 
-		//Assert
+		// Assert
 		So(actual, ShouldBeTrue)
 	})
 
@@ -26,7 +26,7 @@ func TestIsWindows(t *testing.T) {
 		// Act
 		actual := pathhelper.IsWindows()
 
-		//Assert
+		// Assert
 		So(actual, ShouldBeFalse)
 	})
 }

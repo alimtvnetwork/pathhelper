@@ -2,15 +2,18 @@ package tests
 
 import (
 	"fmt"
-	. "github.com/smartystreets/goconvey/convey"
 	"testing"
+
+	. "github.com/smartystreets/goconvey/convey"
 )
 
 type pathTestCaseDataWrapper struct {
 	OSName, funcName, expected string
 }
 
-func getPathTestCommonMethod_linux(t *testing.T, testData pathTestCaseDataWrapper, callingFunctionToBeTested func() string) {
+func getPathTestCommonMethod_linux(
+	t *testing.T, testData pathTestCaseDataWrapper, callingFunctionToBeTested func() string,
+) {
 	// Arrange
 	SkipOnWindows(t)
 
