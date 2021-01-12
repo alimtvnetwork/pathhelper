@@ -1,8 +1,9 @@
 package tests
 
 import (
-	"gitlab.com/evatix-go/pathhelper/nginxlinuxpath"
 	"testing"
+
+	"gitlab.com/evatix-go/pathhelper/nginxlinuxpath"
 )
 
 var getModulesEnabledPathTestCaseData = pathTestCaseDataWrapper{

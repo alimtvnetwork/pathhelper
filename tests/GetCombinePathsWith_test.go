@@ -2,10 +2,12 @@ package tests
 
 import (
 	"fmt"
+	"testing"
+
 	. "github.com/smartystreets/goconvey/convey"
+
 	"gitlab.com/evatix-go/pathhelper"
 	"gitlab.com/evatix-go/pathhelper/enums"
-	"testing"
 )
 
 type combinePathsWithTestCaseDataWrapper struct {
@@ -71,7 +73,9 @@ func TestGetCombinePathsWith_Unix(t *testing.T) {
 	}
 }
 
-func executeTestForGetCombinePathsWith(t *testing.T, testCaseMessage string, testCase combinePathsWithTestCaseDataWrapper, i int) {
+func executeTestForGetCombinePathsWith(
+	t *testing.T, testCaseMessage string, testCase combinePathsWithTestCaseDataWrapper, i int,
+) {
 	Convey(testCaseMessage, t, func() {
 		// Act
 		actual := pathhelper.GetCombinePathsWith(

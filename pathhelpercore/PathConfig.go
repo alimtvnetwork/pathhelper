@@ -1,7 +1,7 @@
 package pathhelpercore
 
 import (
-	"gitlab.com/evatix-go/pathhelper/constants"
+	"gitlab.com/evatix-go/core/constants"
 )
 
 // By default:

@@ -63,7 +63,9 @@ func TestIsDirectoryPath_Unix(t *testing.T) {
 	}
 }
 
-func executeTestCaseForIsDirectoryPath(t *testing.T, testCaseMessage string, testCase directoryPathTestCaseWrapper, i int) {
+func executeTestCaseForIsDirectoryPath(
+	t *testing.T, testCaseMessage string, testCase directoryPathTestCaseWrapper, i int,
+) {
 	Convey(testCaseMessage, t, func() {
 		// Act
 		actual := pathhelper.IsDirectoryPath(testCase.input)

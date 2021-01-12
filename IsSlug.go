@@ -7,7 +7,7 @@ import (
 )
 
 func IsSlug(path string) bool {
-	if pathhelpercore.IsEmptyPath(path){
+	if pathhelpercore.IsEmptyPath(path) {
 		return false
 	}
 

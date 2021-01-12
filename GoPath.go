@@ -4,7 +4,8 @@ import (
 	"go/build"
 	"os"
 
-	"gitlab.com/evatix-go/pathhelper/constants"
+	"gitlab.com/evatix-go/core/constants"
+
 	"gitlab.com/evatix-go/pathhelper/pathhelpercore"
 )
 

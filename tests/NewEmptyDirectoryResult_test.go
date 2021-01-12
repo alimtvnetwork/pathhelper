@@ -2,12 +2,14 @@ package tests
 
 import (
 	"fmt"
+	"reflect"
+	"testing"
+
 	. "github.com/smartystreets/goconvey/convey"
+
 	"gitlab.com/evatix-go/pathhelper"
 	"gitlab.com/evatix-go/pathhelper/enums"
 	"gitlab.com/evatix-go/pathhelper/pathhelpercore"
-	"reflect"
-	"testing"
 )
 
 var (

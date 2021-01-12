@@ -4,7 +4,7 @@ import (
 	"os"
 	"strings"
 
-	"gitlab.com/evatix-go/pathhelper/constants"
+	"gitlab.com/evatix-go/core/constants"
 )
 
 func GetRawExecutableEnvironmentPathCollection() []string {

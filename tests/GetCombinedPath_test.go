@@ -6,8 +6,9 @@ import (
 
 	. "github.com/smartystreets/goconvey/convey"
 
+	"gitlab.com/evatix-go/core/constants"
+
 	"gitlab.com/evatix-go/pathhelper"
-	"gitlab.com/evatix-go/pathhelper/constants"
 )
 
 type combinedPathTestCaseWrapper struct {

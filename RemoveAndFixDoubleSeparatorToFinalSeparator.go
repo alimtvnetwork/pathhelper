@@ -1,7 +1,7 @@
 package pathhelper
 
 import (
-	"gitlab.com/evatix-go/pathhelper/constants"
+	"gitlab.com/evatix-go/core/constants"
 )
 
 var removeAndFixDoubleSeparatorToFinalSeparatorMap = map[string]string{

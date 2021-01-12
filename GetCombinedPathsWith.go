@@ -3,7 +3,7 @@ package pathhelper
 import (
 	"strings"
 
-	"gitlab.com/evatix-go/pathhelper/constants"
+	"gitlab.com/evatix-go/core/constants"
 )
 
 // Returns path as string after combining all provided paths

@@ -1,15 +1,17 @@
 package pathhelpercore
 
 import (
-	"errors"
 	"os"
 
-	"gitlab.com/evatix-go/pathhelper/constants"
+	"gitlab.com/evatix-go/core/constants"
+	"gitlab.com/evatix-go/core/msgtype"
+	"gitlab.com/evatix-go/errorwrapper"
+	"gitlab.com/evatix-go/errorwrapper/errtype"
 )
 
 type FileInfoWrapper struct {
 	FileInfo     *os.FileInfo
-	Error        *error
+	Error        errorwrapper.Wrapper
 	RawPath      string
 	IsDirectory  bool
 	IsFile       bool
@@ -21,11 +23,11 @@ func NewFileWrapperInfo(rawPath string) *FileInfoWrapper {
 	isEmptyPath := IsEmptyPath(rawPath)
 
 	if isEmptyPath {
-		emptyFileError := errors.New(constants.InvalidEmptyPathErrorMessage)
+		emptyFileError := errorwrapper.NewFilePath(msgtype.InvalidEmptyPathErrorMessage.String(), constants.EmptyString)
 
 		return &FileInfoWrapper{
 			FileInfo:    nil,
-			Error:       &emptyFileError,
+			Error:       emptyFileError,
 			RawPath:     rawPath,
 			IsDirectory: false,
 			IsFile:      false,
@@ -38,7 +40,7 @@ func NewFileWrapperInfo(rawPath string) *FileInfoWrapper {
 
 	return &FileInfoWrapper{
 		FileInfo:    &fileInfo,
-		Error:       &error,
+		Error:       errorwrapper.NewUsingError(errtype.FileOrDirectoryRelatedExecution, error),
 		RawPath:     rawPath,
 		IsDirectory: isDir,
 		IsFile:      error == nil && !isDir,
@@ -47,7 +49,7 @@ func NewFileWrapperInfo(rawPath string) *FileInfoWrapper {
 }
 
 func (fileInfoWrapper *FileInfoWrapper) HasError() bool {
-	return *fileInfoWrapper.Error != nil
+	return fileInfoWrapper.Error.HasError()
 }
 
 func (fileInfoWrapper *FileInfoWrapper) IsPathExists() bool {

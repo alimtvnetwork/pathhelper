@@ -9,7 +9,8 @@ import (
 func CreateDirectoryAllIf(
 	condition bool,
 	path string,
-	fileMode os.FileMode) *pathhelpercore.DirectoryResult {
+	fileMode os.FileMode,
+) *pathhelpercore.DirectoryResult {
 	if condition {
 		return CreateDirectoryAll(path, fileMode)
 	}

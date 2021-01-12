@@ -79,7 +79,9 @@ func TestRemoveFromPath_unix(t *testing.T) {
 	}
 }
 
-func executeTestCaseForRemoveFromPath(t *testing.T, testCaseMessage string, testCase removeFromPathTestCaseWrapper, i int) {
+func executeTestCaseForRemoveFromPath(
+	t *testing.T, testCaseMessage string, testCase removeFromPathTestCaseWrapper, i int,
+) {
 	Convey(testCaseMessage, t, func() {
 		// Act
 		actual := pathhelper.RemoveFromPath(testCase.inputPath, &removingArray, testCase.inputBool)

@@ -1,9 +1,10 @@
 package enums
 
 import (
-	"gitlab.com/evatix-go/pathhelper/constants"
 	"path"
 	"strings"
+
+	"gitlab.com/evatix-go/core/constants"
 )
 
 type KnownDirectory string
