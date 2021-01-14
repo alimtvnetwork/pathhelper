@@ -1,11 +1,15 @@
 package pathhelper
 
-import "gitlab.com/evatix-go/pathhelper/enums"
+import (
+	"gitlab.com/evatix-go/core/osconsts"
+
+	"gitlab.com/evatix-go/pathhelper/knowndir"
+)
 
 func GetProgramData() string {
-	if !IsWindows() {
+	if !osconsts.IsWindows {
 		return ""
 	}
 
-	return enums.ProgramData.CombineWith(GetWindowsRoot())
+	return knowndir.ProgramData.CombineWith(GetWindowsRoot())
 }

@@ -3,8 +3,9 @@ package tests
 import (
 	"testing"
 
+	"gitlab.com/evatix-go/core/ostype"
+
 	"gitlab.com/evatix-go/pathhelper"
-	"gitlab.com/evatix-go/pathhelper/enums"
 )
 
 var programDataTestCaseDataWrappers = []generalizedPathWithoutInputTestCaseDataWrapper{
@@ -12,13 +13,13 @@ var programDataTestCaseDataWrappers = []generalizedPathWithoutInputTestCaseDataW
 		operatingSystemMessage: "Unix OS",
 		funcName:               "GetProgramData",
 		expected:               "",
-		operatingSystem:        enums.Ubuntu,
+		operatingSystem:        ostype.Linux,
 	},
 	{
 		operatingSystemMessage: "Windows OS",
 		funcName:               "GetProgramData",
 		expected:               "C:\\\\Program Data",
-		operatingSystem:        enums.Windows,
+		operatingSystem:        ostype.Windows,
 	},
 }
 

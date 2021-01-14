@@ -1,7 +1,9 @@
 package pathhelper
 
 import (
-	"gitlab.com/evatix-go/pathhelper/enums"
+	"gitlab.com/evatix-go/core/osconsts"
+
+	"gitlab.com/evatix-go/pathhelper/knowndir"
 )
 
 // Returns path to .git. Checks for it on all possible locations. If .git doesn't exist creates it.
@@ -10,11 +12,11 @@ func GetGitGlobal() string {
 	homePath := GetUserPath()
 	var outputPath, outputPathAlternate string
 
-	if IsWindows() {
-		outputPath = enums.GitGlobalWin.CombineWith(homePath)
+	if osconsts.IsWindows {
+		outputPath = knowndir.GitGlobalWin.CombineWith(homePath)
 	} else {
-		outputPath = enums.GitGlobalUnix.CombineWith(homePath)
-		outputPathAlternate = enums.GitGlobalUnixXdg.Value()
+		outputPath = knowndir.GitGlobalUnix.CombineWith(homePath)
+		outputPathAlternate = knowndir.GitGlobalUnixXdg.Value()
 	}
 
 	if !IsPathExist(outputPath) {

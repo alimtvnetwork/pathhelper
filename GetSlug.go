@@ -14,8 +14,8 @@ func GetSlug(path, separatorOfChoice string) string {
 		return path
 	}
 
-	for i, _ := range forbiddenArray {
-		path = strings.ReplaceAll(path, forbiddenArray[i], separatorOfChoice)
+	for _, forbidden := range forbiddenArray {
+		path = strings.ReplaceAll(path, forbidden, separatorOfChoice)
 	}
 
 	return RemoveDoubleUriSeparator(path, separatorOfChoice)

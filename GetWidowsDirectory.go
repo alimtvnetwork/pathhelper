@@ -3,10 +3,10 @@ package pathhelper
 import (
 	"os"
 
-	"gitlab.com/evatix-go/pathhelper/enums"
+	"gitlab.com/evatix-go/pathhelper/knowndir"
 )
 
 // Returns windows directory path.
 func GetWidowsDirectory() string {
-	return os.Getenv(enums.WindowsDirectory.Value())
+	return os.Getenv(knowndir.WindowsDirectory.Value())
 }

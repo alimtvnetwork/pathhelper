@@ -5,14 +5,14 @@ import (
 	"testing"
 
 	. "github.com/smartystreets/goconvey/convey"
+	"gitlab.com/evatix-go/core/ostype"
 
 	"gitlab.com/evatix-go/pathhelper"
-	"gitlab.com/evatix-go/pathhelper/enums"
 )
 
 type removingDoubleSeparatorTestCaseWrapper struct {
 	input, expected, expectedMessage string
-	enums.OperatingSystem
+	OperatingSystem                  ostype.Variation
 }
 
 var removingDoubleSeparatorTestCaseWrappers = []removingDoubleSeparatorTestCaseWrapper{
@@ -20,19 +20,19 @@ var removingDoubleSeparatorTestCaseWrappers = []removingDoubleSeparatorTestCaseW
 		input:           "c:\\\\win",
 		expected:        "c:\\win",
 		expectedMessage: "non-empty, non-nil, return of (c:\\win)",
-		OperatingSystem: enums.Windows,
+		OperatingSystem: ostype.Windows,
 	},
 	{
 		input:           "c:\\\\\\win/drive",
 		expected:        "c:\\win\\drive",
 		expectedMessage: "non-empty, non-nil, return of (c:\\win\\drive)",
-		OperatingSystem: enums.Windows,
+		OperatingSystem: ostype.Windows,
 	},
 	{
 		input:           "home//user",
 		expected:        "home/user",
 		expectedMessage: "non-empty, non-nil, return of (home/user)",
-		OperatingSystem: enums.Ubuntu,
+		OperatingSystem: ostype.Linux,
 	},
 }
 
@@ -73,7 +73,8 @@ func TestRemoveAndFixDoubleSeparatorToOsSeparator_Unix(t *testing.T) {
 }
 
 func internalTestRemoveAndFixDoubleSeparatorToOsSeparatorActAndAssert(
-	testCase removingDoubleSeparatorTestCaseWrapper, i int,
+	testCase removingDoubleSeparatorTestCaseWrapper,
+	i int,
 ) {
 	// Act
 	actual := pathhelper.RemoveAndFixDoubleSeparatorToOsSeparator(testCase.input)

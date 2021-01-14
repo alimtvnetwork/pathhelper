@@ -4,8 +4,7 @@ import (
 	"testing"
 
 	. "github.com/smartystreets/goconvey/convey"
-
-	"gitlab.com/evatix-go/pathhelper"
+	"gitlab.com/evatix-go/core/osconsts"
 )
 
 func TestIsWindows(t *testing.T) {
@@ -14,7 +13,7 @@ func TestIsWindows(t *testing.T) {
 		SkipOnUnix(t)
 
 		// Act
-		actual := pathhelper.IsWindows()
+		actual := osconsts.IsWindows
 
 		// Assert
 		So(actual, ShouldBeTrue)
@@ -24,7 +23,7 @@ func TestIsWindows(t *testing.T) {
 		SkipOnWindows(t)
 
 		// Act
-		actual := pathhelper.IsWindows()
+		actual := osconsts.IsWindows
 
 		// Assert
 		So(actual, ShouldBeFalse)

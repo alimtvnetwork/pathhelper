@@ -13,5 +13,5 @@ var getSitesEnabledApachePathTestCaseData = pathTestCaseDataWrapper{
 }
 
 func TestGetSitesEnabled_Apache(t *testing.T) {
-	getPathTestCommonMethod_linux(t, getSitesEnabledApachePathTestCaseData, apachelinuxpath.GetSitesEnabled)
+	getPathTestCommonMethodLinux(t, getSitesEnabledApachePathTestCaseData, apachelinuxpath.GetSitesEnabled)
 }

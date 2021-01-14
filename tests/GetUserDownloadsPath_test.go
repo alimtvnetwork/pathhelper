@@ -3,22 +3,23 @@ package tests
 import (
 	"testing"
 
+	"gitlab.com/evatix-go/core/ostype"
+
 	"gitlab.com/evatix-go/pathhelper"
-	"gitlab.com/evatix-go/pathhelper/enums"
 )
 
 var userDownloadsPathTestCaseDataWrappers = []generalizedPathWithoutInputTestCaseDataWrapper{
 	{
 		operatingSystemMessage: "Unix OS",
 		funcName:               "GetUserDownloadsPath",
-		expected:               homepath + "/Downloads",
-		operatingSystem:        enums.Ubuntu,
+		expected:               homePath + "/Downloads",
+		operatingSystem:        ostype.Linux,
 	},
 	{
 		operatingSystemMessage: "Windows OS",
 		funcName:               "GetUserDownloadsPath",
 		expected:               "C:\\Users\\Administrator\\Downloads",
-		operatingSystem:        enums.Windows,
+		operatingSystem:        ostype.Windows,
 	},
 }
 

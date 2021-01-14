@@ -3,6 +3,7 @@ package pathhelper
 import (
 	"os/exec"
 
+	"gitlab.com/evatix-go/core/osconsts"
 	"gitlab.com/evatix-go/errorwrapper/errdata/errbool"
 	"gitlab.com/evatix-go/errorwrapper/errtype"
 
@@ -13,7 +14,7 @@ import (
 // sourcePath example: "/home/a/test.txt"; destinationPath example: "/home/a/go/test.txt"
 // destination need to have read and write permission for the user.
 func CreateSymbolicLinkLinux(sourcePath, destinationPath string) errbool.Result {
-	if !IsUnix() {
+	if osconsts.IsWindows {
 		return errbool.
 			EmptyErrorResult(false)
 	}

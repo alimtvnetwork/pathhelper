@@ -3,8 +3,9 @@ package tests
 import (
 	"testing"
 
+	"gitlab.com/evatix-go/core/ostype"
+
 	"gitlab.com/evatix-go/pathhelper"
-	"gitlab.com/evatix-go/pathhelper/enums"
 )
 
 var gitGlobalPathTestCaseDataWrappers = []generalizedPathWithoutInputTestCaseDataWrapper{
@@ -12,13 +13,13 @@ var gitGlobalPathTestCaseDataWrappers = []generalizedPathWithoutInputTestCaseDat
 		operatingSystemMessage: "Unix OS",
 		funcName:               "GetGitGlobal",
 		expected:               "XDG_CONFIG_HOME/git/config",
-		operatingSystem:        enums.Ubuntu,
+		operatingSystem:        ostype.Linux,
 	},
 	{
 		operatingSystemMessage: "Windows OS",
 		funcName:               "GetGitGlobal",
 		expected:               "C:\\Users\\Administrator\\.gitconfig",
-		operatingSystem:        enums.Windows,
+		operatingSystem:        ostype.Windows,
 	},
 }
 

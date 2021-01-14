@@ -5,14 +5,14 @@ import (
 	"testing"
 
 	. "github.com/smartystreets/goconvey/convey"
+	"gitlab.com/evatix-go/core/ostype"
 
 	"gitlab.com/evatix-go/pathhelper"
-	"gitlab.com/evatix-go/pathhelper/enums"
 )
 
 type combinePathsWithTestCaseDataWrapper struct {
 	inputPath1, inputPath2, inputPath3 string
-	operatingSystem                    enums.OperatingSystem
+	operatingSystem                    ostype.Variation
 	expected, operatingSystemMessage   string
 }
 
@@ -21,7 +21,7 @@ var combinePathsWithTestCaseWrappers = []combinePathsWithTestCaseDataWrapper{
 		inputPath1:             "something",
 		inputPath2:             "somethingElse",
 		inputPath3:             "otherThings",
-		operatingSystem:        enums.Windows,
+		operatingSystem:        ostype.Windows,
 		operatingSystemMessage: "Windows OS",
 		expected:               "something\\somethingElse\\otherThings",
 	},
@@ -29,7 +29,7 @@ var combinePathsWithTestCaseWrappers = []combinePathsWithTestCaseDataWrapper{
 		inputPath1:             "",
 		inputPath2:             "",
 		inputPath3:             "",
-		operatingSystem:        enums.Windows,
+		operatingSystem:        ostype.Windows,
 		operatingSystemMessage: "Windows OS",
 		expected:               "\\",
 	},
@@ -37,7 +37,7 @@ var combinePathsWithTestCaseWrappers = []combinePathsWithTestCaseDataWrapper{
 		inputPath1:             "something",
 		inputPath2:             "somethingElse",
 		inputPath3:             "otherThings",
-		operatingSystem:        enums.Ubuntu,
+		operatingSystem:        ostype.Linux,
 		operatingSystemMessage: "Windows OS",
 		expected:               "something/somethingElse/otherThings",
 	},

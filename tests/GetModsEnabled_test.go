@@ -13,5 +13,5 @@ var getModsEnabledPathTestCaseData = pathTestCaseDataWrapper{
 }
 
 func TestGetModsEnabled(t *testing.T) {
-	getPathTestCommonMethod_linux(t, getModsEnabledPathTestCaseData, apachelinuxpath.GetModsEnabled)
+	getPathTestCommonMethodLinux(t, getModsEnabledPathTestCaseData, apachelinuxpath.GetModsEnabled)
 }

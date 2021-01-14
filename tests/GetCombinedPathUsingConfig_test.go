@@ -5,11 +5,11 @@ import (
 	"testing"
 
 	. "github.com/smartystreets/goconvey/convey"
+	"gitlab.com/evatix-go/core/ostype"
 
 	"gitlab.com/evatix-go/core/constants"
 
 	"gitlab.com/evatix-go/pathhelper"
-	"gitlab.com/evatix-go/pathhelper/enums"
 	"gitlab.com/evatix-go/pathhelper/pathhelpercore"
 )
 
@@ -17,7 +17,7 @@ type combinedPathUsingConfigTestCaseWrapper struct {
 	inputConfig                                       *pathhelpercore.PathConfig
 	inputPaths1, inputPaths2, inputPaths3             string
 	expected, expectedMessage, operatingSystemMessage string
-	operatingSystem                                   enums.OperatingSystem
+	operatingSystem                                   ostype.Variation
 }
 
 var combinedPathUsingConfigTestCaseWrappers = []combinedPathUsingConfigTestCaseWrapper{
@@ -29,7 +29,7 @@ var combinedPathUsingConfigTestCaseWrappers = []combinedPathUsingConfigTestCaseW
 		expected:               "something\\more\\etc",
 		expectedMessage:        "something\\more\\etc",
 		operatingSystemMessage: "Windows OS",
-		operatingSystem:        enums.Windows,
+		operatingSystem:        ostype.Windows,
 	},
 	{
 		inputConfig:            &pathhelpercore.PathConfig{Separator: constants.PathSeparator},
@@ -39,7 +39,7 @@ var combinedPathUsingConfigTestCaseWrappers = []combinedPathUsingConfigTestCaseW
 		expected:               "something/more/etc",
 		expectedMessage:        "something/more/etc",
 		operatingSystemMessage: "Unix OS",
-		operatingSystem:        enums.Ubuntu,
+		operatingSystem:        ostype.Linux,
 	},
 }
 

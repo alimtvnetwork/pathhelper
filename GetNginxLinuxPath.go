@@ -1,14 +1,16 @@
 package pathhelper
 
 import (
-	"gitlab.com/evatix-go/pathhelper/enums"
+	"gitlab.com/evatix-go/core/osconsts"
+
+	"gitlab.com/evatix-go/pathhelper/knowndir"
 )
 
 // "/etc/nginx/"
 func GetNginxLinuxPath() string {
-	if !IsUnix() {
+	if osconsts.IsWindows {
 		return ""
 	}
 
-	return enums.NginxLinuxPath.Value()
+	return knowndir.NginxLinuxPath.Value()
 }

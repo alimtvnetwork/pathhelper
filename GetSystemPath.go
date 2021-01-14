@@ -1,14 +1,16 @@
 package pathhelper
 
 import (
-	"gitlab.com/evatix-go/pathhelper/enums"
+	"gitlab.com/evatix-go/core/osconsts"
+
+	"gitlab.com/evatix-go/pathhelper/knowndir"
 )
 
 // Returns path to System directory on different platforms.
 func GetSystemPath() string {
-	if IsWindows() {
+	if osconsts.IsWindows {
 		return GetWidowsDirectory()
 	}
 
-	return enums.SystemUnix.Value()
+	return knowndir.SystemUnix.Value()
 }

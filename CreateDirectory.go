@@ -6,6 +6,7 @@ import (
 	"gitlab.com/evatix-go/core/constants"
 	"gitlab.com/evatix-go/core/msgtype"
 	"gitlab.com/evatix-go/errorwrapper"
+	"gitlab.com/evatix-go/errorwrapper/errnew"
 
 	"gitlab.com/evatix-go/pathhelper/enums"
 	"gitlab.com/evatix-go/pathhelper/pathhelpercore"
@@ -15,7 +16,7 @@ import (
 func CreateDirectory(path string, fileMode os.FileMode) *pathhelpercore.DirectoryResult {
 	fileInfoWrapper := GetFileInfoWrapper(path)
 	isIgnoredAction := fileInfoWrapper.IsPathExists() || fileInfoWrapper.IsEmptyPath
-	errorWrapper := errorwrapper.Empty(false)
+	errorWrapper := errnew.Empty
 
 	if !isIgnoredAction {
 		err := os.MkdirAll(path, fileMode)
