@@ -5,8 +5,9 @@ import (
 	"testing"
 
 	. "github.com/smartystreets/goconvey/convey"
+	"gitlab.com/evatix-go/core/osconsts"
+	"gitlab.com/evatix-go/core/ostype"
 
-	"gitlab.com/evatix-go/pathhelper/enums"
 	"gitlab.com/evatix-go/pathhelper/pathhelpercore"
 )
 
@@ -14,7 +15,7 @@ type combinedPathUsingConfigInternalTestCaseWrapper struct {
 	inputPathConfig                                             *pathhelpercore.PathConfig
 	inputPaths                                                  []string
 	expected, expectedMessage, operatingSystemMessage, funcName string
-	operatingSystem                                             enums.OperatingSystem
+	operatingSystem                                             ostype.Variation
 }
 
 var combinedPathUsingConfigInternalTestCaseWrappers = []combinedPathUsingConfigInternalTestCaseWrapper{
@@ -24,7 +25,7 @@ var combinedPathUsingConfigInternalTestCaseWrappers = []combinedPathUsingConfigI
 		expected:               "C:\\somethingelse\\etc",
 		expectedMessage:        "C:\\somethingelse\\etc",
 		operatingSystemMessage: "Windows OS",
-		operatingSystem:        enums.Windows,
+		operatingSystem:        ostype.Windows,
 		funcName:               "GetCombinedPathUsingConfigInternal",
 	},
 	{
@@ -33,7 +34,7 @@ var combinedPathUsingConfigInternalTestCaseWrappers = []combinedPathUsingConfigI
 		expected:               "C:\\somethingelse\\etc",
 		expectedMessage:        "C:\\somethingelse\\etc",
 		operatingSystemMessage: "Windows OS",
-		operatingSystem:        enums.Windows,
+		operatingSystem:        ostype.Windows,
 		funcName:               "GetCombinedPathUsingConfigInternal",
 	},
 	{
@@ -42,13 +43,13 @@ var combinedPathUsingConfigInternalTestCaseWrappers = []combinedPathUsingConfigI
 		expected:               "home/somethingelse/etc",
 		expectedMessage:        "home/somethingelse/etc",
 		operatingSystemMessage: "Unix OS",
-		operatingSystem:        enums.Ubuntu,
+		operatingSystem:        ostype.Linux,
 		funcName:               "GetCombinedPathUsingConfigInternal",
 	},
 }
 
 func TestGetCombinedPathUsingConfigInternal_Windows(t *testing.T) {
-	if !IsWindows() {
+	if !osconsts.IsWindows {
 		t.Skip("Windows tests ignored in Unix.")
 	}
 
@@ -65,7 +66,7 @@ func TestGetCombinedPathUsingConfigInternal_Windows(t *testing.T) {
 }
 
 func TestGetCombinedPathUsingConfigInternal_Unix(t *testing.T) {
-	if IsWindows() {
+	if osconsts.IsWindows {
 		t.Skip("Unix tests ignored in Windows.")
 	}
 

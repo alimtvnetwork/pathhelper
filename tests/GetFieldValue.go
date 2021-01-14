@@ -12,6 +12,7 @@ func GetFieldValue(field reflect.Value) interface{} {
 	if !field.IsValid() && !isPtr {
 		return nil
 	}
+
 	if field.IsValid() && field.CanAddr() && !isPtr {
 		return field
 	}

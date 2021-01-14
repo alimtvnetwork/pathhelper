@@ -13,5 +13,5 @@ var getApacheLinuxPathTestCaseData = pathTestCaseDataWrapper{
 }
 
 func TestGetApacheLinuxPath(t *testing.T) {
-	getPathTestCommonMethod_linux(t, getApacheLinuxPathTestCaseData, pathhelper.GetApacheLinuxPath)
+	getPathTestCommonMethodLinux(t, getApacheLinuxPathTestCaseData, pathhelper.GetApacheLinuxPath)
 }

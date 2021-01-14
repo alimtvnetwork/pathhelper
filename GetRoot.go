@@ -1,7 +1,9 @@
 package pathhelper
 
+import "gitlab.com/evatix-go/core/osconsts"
+
 func GetRoot() string {
-	if IsWindows() {
+	if osconsts.IsWindows {
 		return GetWindowsRoot()
 	}
 

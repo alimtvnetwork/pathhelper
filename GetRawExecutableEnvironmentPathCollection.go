@@ -5,12 +5,13 @@ import (
 	"strings"
 
 	"gitlab.com/evatix-go/core/constants"
+	"gitlab.com/evatix-go/core/osconsts"
 )
 
 func GetRawExecutableEnvironmentPathCollection() []string {
 	pathString := os.Getenv(constants.Path)
 
-	if IsWindows() {
+	if osconsts.IsWindows {
 		return strings.Split(pathString, constants.SemiColon)
 	}
 

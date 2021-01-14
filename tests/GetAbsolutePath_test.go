@@ -5,15 +5,15 @@ import (
 	"testing"
 
 	. "github.com/smartystreets/goconvey/convey"
+	"gitlab.com/evatix-go/core/ostype"
 
 	"gitlab.com/evatix-go/pathhelper"
-	"gitlab.com/evatix-go/pathhelper/enums"
 )
 
 type absolutePathTestCaseWrapper struct {
 	basePath, inputRelativePath, expected, expectedMessage, operatingSystemMessage string
 	isLongPathFix, isNormalize                                                     bool
-	operatingSystem                                                                enums.OperatingSystem
+	operatingSystem                                                                ostype.Variation
 }
 
 var absolutePathTestCaseWrappers = []absolutePathTestCaseWrapper{
@@ -24,7 +24,7 @@ var absolutePathTestCaseWrappers = []absolutePathTestCaseWrapper{
 	//	expected:               "",
 	//	expectedMessage:        "empty return",
 	//	operatingSystemMessage: "Any OS",
-	//	operatingSystem:        enums.Any,
+	//	operatingSystem:        knowndir.Any,
 	//	isNormalize:            true,
 	//	isLongPathFix:          true,
 	// },
@@ -34,7 +34,7 @@ var absolutePathTestCaseWrappers = []absolutePathTestCaseWrapper{
 		expected:               "c:\\Windows\\whatever",
 		expectedMessage:        "non-empty return of (c:\\Windows\\whatever)",
 		operatingSystemMessage: "Windows OS",
-		operatingSystem:        enums.Windows,
+		operatingSystem:        ostype.Windows,
 		isNormalize:            true,
 		isLongPathFix:          true,
 	},
@@ -44,7 +44,7 @@ var absolutePathTestCaseWrappers = []absolutePathTestCaseWrapper{
 		expected:               "c:\\Windows\\whatever",
 		expectedMessage:        "non-empty return of (c:\\Windows\\whatever)",
 		operatingSystemMessage: "Windows OS",
-		operatingSystem:        enums.Windows,
+		operatingSystem:        ostype.Windows,
 		isNormalize:            true,
 		isLongPathFix:          true,
 	},
@@ -54,7 +54,7 @@ var absolutePathTestCaseWrappers = []absolutePathTestCaseWrapper{
 		expected:               "/home/your_user_name/my_script/whatever",
 		expectedMessage:        "non-empty return of (/home/your_user_name/my_script/whatever)",
 		operatingSystemMessage: "Unix OS",
-		operatingSystem:        enums.Ubuntu,
+		operatingSystem:        ostype.Linux,
 		isNormalize:            true,
 		isLongPathFix:          true,
 	},
@@ -66,7 +66,7 @@ var absolutePathTestCaseWrappers = []absolutePathTestCaseWrapper{
 		operatingSystemMessage: "Unix OS",
 		isNormalize:            false,
 		isLongPathFix:          true,
-		operatingSystem:        enums.Ubuntu,
+		operatingSystem:        ostype.Linux,
 	},
 }
 

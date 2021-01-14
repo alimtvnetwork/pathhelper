@@ -15,7 +15,7 @@ type stringsContainsTestCaseWrapper struct {
 }
 
 var nilArray []string
-var emptyArray = []string{}
+var emptyArray []string
 var array = []string{"hello", "world"}
 
 var stringsContainTestCaseWrappers = []stringsContainsTestCaseWrapper{

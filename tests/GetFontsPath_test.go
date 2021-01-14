@@ -3,8 +3,9 @@ package tests
 import (
 	"testing"
 
+	"gitlab.com/evatix-go/core/ostype"
+
 	"gitlab.com/evatix-go/pathhelper"
-	"gitlab.com/evatix-go/pathhelper/enums"
 )
 
 var fontsPathTestCaseDataWrappers = []generalizedPathWithoutInputTestCaseDataWrapper{
@@ -12,13 +13,13 @@ var fontsPathTestCaseDataWrappers = []generalizedPathWithoutInputTestCaseDataWra
 		operatingSystemMessage: "Unix OS",
 		funcName:               "GetFontsPath",
 		expected:               "/usr/share/fonts",
-		operatingSystem:        enums.Ubuntu,
+		operatingSystem:        ostype.Linux,
 	},
 	{
 		operatingSystemMessage: "Windows OS",
 		funcName:               "GetFontsPath",
 		expected:               "C:\\Windows\\Fonts",
-		operatingSystem:        enums.Windows,
+		operatingSystem:        ostype.Windows,
 	},
 }
 

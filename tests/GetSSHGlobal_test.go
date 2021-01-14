@@ -3,24 +3,25 @@ package tests
 import (
 	"testing"
 
+	"gitlab.com/evatix-go/core/ostype"
+
 	"gitlab.com/evatix-go/pathhelper"
-	"gitlab.com/evatix-go/pathhelper/enums"
 )
 
-var homepath = pathhelper.GetUserPath()
+var homePath = pathhelper.GetUserPath()
 
 var sshGlobalTestCaseDataWrappers = []generalizedPathWithoutInputTestCaseDataWrapper{
 	{
 		operatingSystemMessage: "Unix OS",
 		funcName:               "GetSSHGlobal",
-		expected:               homepath + "/.ssh",
-		operatingSystem:        enums.Ubuntu,
+		expected:               homePath + "/.ssh",
+		operatingSystem:        ostype.Linux,
 	},
 	{
 		operatingSystemMessage: "Windows OS",
 		funcName:               "GetSSHGlobal",
 		expected:               "C:\\Users\\Administrator\\.ssh",
-		operatingSystem:        enums.Windows,
+		operatingSystem:        ostype.Windows,
 	},
 }
 
@@ -33,7 +34,11 @@ func TestGetSSHGlobal_Windows(t *testing.T) {
 			continue
 		}
 
-		executeTestForGeneralizedPathWithoutInput(t, testCase, pathhelper.GetSSHGlobal, i)
+		executeTestForGeneralizedPathWithoutInput(
+			t,
+			testCase,
+			pathhelper.GetSSHGlobal,
+			i)
 	}
 }
 

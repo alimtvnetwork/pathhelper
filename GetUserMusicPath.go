@@ -1,10 +1,10 @@
 package pathhelper
 
 import (
-	"gitlab.com/evatix-go/pathhelper/enums"
+	"gitlab.com/evatix-go/pathhelper/knowndir"
 )
 
 // Returns Music directory path as a string.
 func GetUserMusicPath() string {
-	return enums.Music.CombineWith(GetUserPath())
+	return knowndir.Music.CombineWith(GetUserPath())
 }

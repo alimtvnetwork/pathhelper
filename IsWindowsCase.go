@@ -1,7 +1,7 @@
 package pathhelper
 
-import "gitlab.com/evatix-go/pathhelper/enums"
+import "gitlab.com/evatix-go/core/ostype"
 
-func IsWindowsCase(os enums.OperatingSystem) bool {
-	return os == enums.Windows
+func IsWindowsCase(os ostype.Variation) bool {
+	return os == ostype.Windows
 }

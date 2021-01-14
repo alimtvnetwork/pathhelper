@@ -3,8 +3,9 @@ package tests
 import (
 	"testing"
 
+	"gitlab.com/evatix-go/core/ostype"
+
 	"gitlab.com/evatix-go/pathhelper"
-	"gitlab.com/evatix-go/pathhelper/enums"
 )
 
 var binPathTestCaseDataWrappers = []generalizedPathWithoutInputTestCaseDataWrapper{
@@ -12,13 +13,13 @@ var binPathTestCaseDataWrappers = []generalizedPathWithoutInputTestCaseDataWrapp
 		operatingSystemMessage: "Unix OS",
 		funcName:               "GetBinPath",
 		expected:               "/usr/bin",
-		operatingSystem:        enums.Ubuntu,
+		operatingSystem:        ostype.Linux,
 	},
 	{
 		operatingSystemMessage: "Windows OS",
 		funcName:               "GetBinPath",
 		expected:               "C:\\Users\\Administrator\\bin",
-		operatingSystem:        enums.Windows,
+		operatingSystem:        ostype.Windows,
 	},
 }
 

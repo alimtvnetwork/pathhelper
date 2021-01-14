@@ -13,5 +13,5 @@ var getConfEnabledPathTestCaseData = pathTestCaseDataWrapper{
 }
 
 func TestGetConfEnabled(t *testing.T) {
-	getPathTestCommonMethod_linux(t, getConfEnabledPathTestCaseData, apachelinuxpath.GetConfEnabled)
+	getPathTestCommonMethodLinux(t, getConfEnabledPathTestCaseData, apachelinuxpath.GetConfEnabled)
 }

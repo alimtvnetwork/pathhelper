@@ -3,8 +3,9 @@ package tests
 import (
 	"testing"
 
+	"gitlab.com/evatix-go/core/ostype"
+
 	"gitlab.com/evatix-go/pathhelper"
-	"gitlab.com/evatix-go/pathhelper/enums"
 )
 
 var hostFilePathTestCaseDataWrappers = []generalizedPathWithoutInputTestCaseDataWrapper{
@@ -12,13 +13,13 @@ var hostFilePathTestCaseDataWrappers = []generalizedPathWithoutInputTestCaseData
 		operatingSystemMessage: "Unix OS",
 		funcName:               "GetHostFilePath",
 		expected:               "/etc/hosts",
-		operatingSystem:        enums.Ubuntu,
+		operatingSystem:        ostype.Linux,
 	},
 	{
 		operatingSystemMessage: "Windows OS",
 		funcName:               "GetHostFilePath",
 		expected:               "C:\\Windows\\System32\\drivers\\etc\\hosts",
-		operatingSystem:        enums.Windows,
+		operatingSystem:        ostype.Windows,
 	},
 }
 

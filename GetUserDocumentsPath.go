@@ -1,10 +1,10 @@
 package pathhelper
 
 import (
-	"gitlab.com/evatix-go/pathhelper/enums"
+	"gitlab.com/evatix-go/pathhelper/knowndir"
 )
 
 // Returns documents directory path as a string.
 func GetUserDocumentsPath() string {
-	return enums.Documents.CombineWith(GetUserPath())
+	return knowndir.Documents.CombineWith(GetUserPath())
 }

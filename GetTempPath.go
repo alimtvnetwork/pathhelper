@@ -3,20 +3,22 @@ package pathhelper
 import (
 	"os"
 
-	"gitlab.com/evatix-go/pathhelper/enums"
+	"gitlab.com/evatix-go/core/osconsts"
+
+	"gitlab.com/evatix-go/pathhelper/knowndir"
 )
 
 // Returns temp directory. After checking in on all possible locations, if directory doesn't exist, then doesnt create the directory
 // and returns the path as a string.
 func GetTempPath() string {
-	if IsWindows() {
-		return os.Getenv(enums.Temp.Value())
+	if osconsts.IsWindows {
+		return os.Getenv(knowndir.Temp.Value())
 	}
 
-	desiredTempPathUnix := enums.TempDir.CombineWith(GetUserPath())
+	desiredTempPathUnix := knowndir.TempDir.CombineWith(GetUserPath())
 
 	// Checking if temp directory is available
-	tempUnix := os.Getenv(enums.TempDir.Value())
+	tempUnix := os.Getenv(knowndir.TempDir.Value())
 
 	if IsAllPathNotExist(desiredTempPathUnix, tempUnix) {
 		return desiredTempPathUnix

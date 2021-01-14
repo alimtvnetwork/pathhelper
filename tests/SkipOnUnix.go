@@ -3,12 +3,10 @@ package tests
 import (
 	"testing"
 
-	"gitlab.com/evatix-go/pathhelper"
+	"gitlab.com/evatix-go/core/coretests"
 )
 
 // Skip on Unix
 func SkipOnUnix(t *testing.T) {
-	if !pathhelper.IsWindows() {
-		t.Skip(unixIgnoreMessage)
-	}
+	coretests.SkipOnUnix(t)
 }

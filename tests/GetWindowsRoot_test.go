@@ -9,7 +9,7 @@ import (
 	. "github.com/smartystreets/goconvey/convey"
 )
 
-var expectedWindowsRoot string = "C:\\"
+var expectedWindowsRoot = "C:\\"
 
 func TestGetWindowsRoot(t *testing.T) {
 	SkipOnUnix(t)

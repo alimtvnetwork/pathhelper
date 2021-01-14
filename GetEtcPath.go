@@ -1,14 +1,16 @@
 package pathhelper
 
 import (
-	"gitlab.com/evatix-go/pathhelper/enums"
+	"gitlab.com/evatix-go/core/osconsts"
+
+	"gitlab.com/evatix-go/pathhelper/knowndir"
 )
 
 // Returns path to etc directory on different platforms.
 func GetEtcPath() string {
-	if IsWindows() {
-		return enums.Etc.CombineWith(GetSystemDriversPath())
+	if osconsts.IsWindows {
+		return knowndir.Etc.CombineWith(GetSystemDriversPath())
 	}
 
-	return enums.Etc.CombineWith(GetUnixRoot())
+	return knowndir.Etc.CombineWith(GetUnixRoot())
 }

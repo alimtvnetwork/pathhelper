@@ -3,8 +3,9 @@ package tests
 import (
 	"testing"
 
+	"gitlab.com/evatix-go/core/ostype"
+
 	"gitlab.com/evatix-go/pathhelper"
-	"gitlab.com/evatix-go/pathhelper/enums"
 )
 
 var servicesPathTestCaseDataWrappers = []generalizedPathWithoutInputTestCaseDataWrapper{
@@ -12,13 +13,13 @@ var servicesPathTestCaseDataWrappers = []generalizedPathWithoutInputTestCaseData
 		operatingSystemMessage: "Unix OS",
 		funcName:               "GetServicesPath",
 		expected:               "/etc/systemd/system",
-		operatingSystem:        enums.Ubuntu,
+		operatingSystem:        ostype.Linux,
 	},
 	{
 		operatingSystemMessage: "Windows OS",
 		funcName:               "GetServicesPath",
 		expected:               "C:\\Windows\\System32\\drivers\\etc\\services",
-		operatingSystem:        enums.Windows,
+		operatingSystem:        ostype.Windows,
 	},
 }
 

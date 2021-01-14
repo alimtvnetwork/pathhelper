@@ -10,8 +10,16 @@ github.com/smartystreets/goconvey v1.6.4 h1:fv0U8FUIMPNf1L9lnHLvLhgicrIVChEkdzIK
 github.com/smartystreets/goconvey v1.6.4/go.mod h1:syvi0/a8iFYH4r/RixwvyeAJjdLS9QV7WQ/tjFTllLA=
 gitlab.com/evatix-go/core v0.0.5 h1:3MzH8dcZi3aTWDeLJRH2d9UiPSswI1GGeVkJWnqnanA=
 gitlab.com/evatix-go/core v0.0.5/go.mod h1:93AXS4RuoNYSOJMn7loF1YUqQmnLLluyYfjqfrkkuaM=
+gitlab.com/evatix-go/core v0.0.6/go.mod h1:93AXS4RuoNYSOJMn7loF1YUqQmnLLluyYfjqfrkkuaM=
+gitlab.com/evatix-go/core v0.0.7 h1:BM/UJMoUucuGsAXPqH1qE0FScw4WN6iHvJN/JgGHopE=
+gitlab.com/evatix-go/core v0.0.7/go.mod h1:93AXS4RuoNYSOJMn7loF1YUqQmnLLluyYfjqfrkkuaM=
 gitlab.com/evatix-go/errorwrapper v0.0.2 h1:bRtatRx7XwCMP4FpMkqr6q2RqeS3L2HR2p5rfwzrKU8=
 gitlab.com/evatix-go/errorwrapper v0.0.2/go.mod h1:0L9p7ApCSXFyhlpEY9NObJrXadgS8YYZyUQi/+1wiMU=
+gitlab.com/evatix-go/errorwrapper v0.0.3 h1:julvZoQhuLVsm0Maj8Bz366fAXld/vfTgE2nsBw15fw=
+gitlab.com/evatix-go/errorwrapper v0.0.3/go.mod h1:ZL1wiQBOckpiMTdJe286gEFg+nlahHBCWsFgYXYMI5Q=
+gitlab.com/evatix-go/errorwrapper v0.0.6 h1:6L81a3pI0Yl9+Y4Y6EVRMlAx9vnxWGRDcp9YidBJ4yE=
+gitlab.com/evatix-go/errorwrapper v0.0.6/go.mod h1:o9+iRnO9d7KhwpP1QRnz6cZFW+tYYFHHXRCs1OV5vd8=
+gitlab.com/evatix-go/strnumber v0.0.1/go.mod h1:Wg+yy6Kq/4doN+YdPpPy9h8kQhnybctCw7bEFC7wjSU=
 golang.org/x/crypto v0.0.0-20190308221718-c2843e01d9a2/go.mod h1:djNgcEr1/C05ACkg1iLfiJU5Ep61QUkGW8qpdssI0+w=
 golang.org/x/net v0.0.0-20190311183353-d8887717615a/go.mod h1:t9HGtf8HONx5eT2rtn7q6eTqICYqUVnKs3thJo3Qplg=
 golang.org/x/sys v0.0.0-20190215142949-d0b11bdaac8a/go.mod h1:STP8DvDyc/dI5b8T5hshtkjS+E42TnysNCUPdjciGhY=
