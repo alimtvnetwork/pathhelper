@@ -6,7 +6,10 @@ import "gitlab.com/evatix-go/pathhelper/pathhelpercore"
 // Separator = os.PathSeparator
 // IsNormalize = true
 // IsIgnoreEmptyPath = false
-func GetCombinePathFromGoPath(pathConfig *pathhelpercore.PathConfig, givenPaths ...string) string {
+func GetCombinePathFromGoPath(
+	pathConfig *pathhelpercore.PathConfig,
+	givenPaths ...string,
+) string {
 	goPath := GoPath()
 	combinedPaths := getCombinedPathUsingConfigInternal(pathConfig, givenPaths)
 
