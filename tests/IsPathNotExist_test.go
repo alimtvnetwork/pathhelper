@@ -5,15 +5,15 @@ import (
 	"testing"
 
 	. "github.com/smartystreets/goconvey/convey"
+	"gitlab.com/evatix-go/core/ostype"
 
 	"gitlab.com/evatix-go/pathhelper"
-	"gitlab.com/evatix-go/pathhelper/enums"
 )
 
 type pathNotExistTestCaseWrapper struct {
 	input, expectedMessage, operatingSystemMessage string
 	expected                                       bool
-	operatingSystem                                enums.OperatingSystem
+	operatingSystem                                ostype.Variation
 }
 
 var pathNotExistTestCaseWrappers = []pathNotExistTestCaseWrapper{
@@ -28,14 +28,14 @@ var pathNotExistTestCaseWrappers = []pathNotExistTestCaseWrapper{
 		expected:               false,
 		expectedMessage:        "false",
 		operatingSystemMessage: "OS is Windows",
-		operatingSystem:        enums.Windows,
+		operatingSystem:        ostype.Windows,
 	},
 	{
 		input:                  "home/user",
 		expected:               true,
 		expectedMessage:        "false",
 		operatingSystemMessage: "OS is Unix",
-		operatingSystem:        enums.Ubuntu,
+		operatingSystem:        ostype.Linux,
 	},
 }
 

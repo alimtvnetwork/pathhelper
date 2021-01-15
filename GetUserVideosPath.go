@@ -1,10 +1,10 @@
 package pathhelper
 
 import (
-	"gitlab.com/evatix-go/pathhelper/enums"
+	"gitlab.com/evatix-go/pathhelper/knowndir"
 )
 
 // Returns Videos directory path as a string.
 func GetUserVideosPath() string {
-	return enums.Videos.CombineWith(GetUserPath())
+	return knowndir.Videos.CombineWith(GetUserPath())
 }

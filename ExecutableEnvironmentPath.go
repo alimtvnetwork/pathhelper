@@ -65,7 +65,7 @@ func (eep *ExecutableEnvironmentPath) GetDirectories() []*string {
 
 // returns all files paths on which contains the given string. If no path is found, returns empty array.
 func (eep *ExecutableEnvironmentPath) GetFilesContains(contains string) []*string {
-	var filePathThatContains = []*string{}
+	var filePathThatContains = make([]*string, 0, len(eep.files))
 
 	// Check if contains
 	for _, eachPath := range eep.files {

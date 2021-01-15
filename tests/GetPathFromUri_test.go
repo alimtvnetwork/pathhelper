@@ -5,15 +5,15 @@ import (
 	"testing"
 
 	. "github.com/smartystreets/goconvey/convey"
+	"gitlab.com/evatix-go/core/ostype"
 
 	"gitlab.com/evatix-go/pathhelper"
-	"gitlab.com/evatix-go/pathhelper/enums"
 )
 
 type pathFromUriTestCaseWrapper struct {
 	givenPath, expected, expectedMessage, operatingSystemMessage string
 	isNormalize                                                  bool
-	operatingSystem                                              enums.OperatingSystem
+	operatingSystem                                              ostype.Variation
 }
 
 var pathFromUriTestCaseWrappers = []pathFromUriTestCaseWrapper{
@@ -23,7 +23,7 @@ var pathFromUriTestCaseWrappers = []pathFromUriTestCaseWrapper{
 		expected:               "c:\\windows\\users\\etc\\more",
 		expectedMessage:        "c:\\windows\\users\\etc\\more",
 		operatingSystemMessage: "Windows OS",
-		operatingSystem:        enums.Windows,
+		operatingSystem:        ostype.Windows,
 	},
 	{
 		givenPath:              "c:\\windows\\users\\etc\\more",
@@ -31,7 +31,7 @@ var pathFromUriTestCaseWrappers = []pathFromUriTestCaseWrapper{
 		expected:               "c:/windows/users/etc/more",
 		expectedMessage:        "c:/windows/users/etc/more",
 		operatingSystemMessage: "Unix OS",
-		operatingSystem:        enums.Ubuntu,
+		operatingSystem:        ostype.Linux,
 	},
 }
 

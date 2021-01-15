@@ -1,12 +1,16 @@
 package pathhelper
 
-import "gitlab.com/evatix-go/pathhelper/enums"
+import (
+	"gitlab.com/evatix-go/core/osconsts"
+
+	"gitlab.com/evatix-go/pathhelper/knowndir"
+)
 
 // Returns Program Files directory on windows with OS architecture x32
 func GetProgramFiles32() string {
-	if !IsWindows() {
+	if !osconsts.IsWindows {
 		return ""
 	}
 
-	return enums.ProgramFiles32.CombineWith(GetWindowsRoot())
+	return knowndir.ProgramFiles32.CombineWith(GetWindowsRoot())
 }

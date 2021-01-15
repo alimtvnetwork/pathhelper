@@ -5,15 +5,15 @@ import (
 	"testing"
 
 	. "github.com/smartystreets/goconvey/convey"
+	"gitlab.com/evatix-go/core/ostype"
 
 	"gitlab.com/evatix-go/pathhelper"
-	"gitlab.com/evatix-go/pathhelper/enums"
 )
 
 type absoluteFromExecutableDirectoryPathTestCaseWrapper struct {
 	inputRelativePath, expected, expectedMessage, operatingSystemMessage string
 	isLongPathFix, isNormalize                                           bool
-	operatingSystem                                                      enums.OperatingSystem
+	operatingSystem                                                      ostype.Variation
 }
 
 // todo
@@ -23,7 +23,7 @@ var absoluteFromExecutableDirectoryPathTestCaseWrappers = []absoluteFromExecutab
 		expected:               "C:\\Users",
 		expectedMessage:        "C:\\Users",
 		operatingSystemMessage: "Windows OS",
-		operatingSystem:        enums.Windows,
+		operatingSystem:        ostype.Windows,
 		isNormalize:            true,
 		isLongPathFix:          true,
 	},
@@ -32,7 +32,7 @@ var absoluteFromExecutableDirectoryPathTestCaseWrappers = []absoluteFromExecutab
 		expected:               "C:\\Users",
 		expectedMessage:        "C:\\Users",
 		operatingSystemMessage: "Windows OS",
-		operatingSystem:        enums.Windows,
+		operatingSystem:        ostype.Windows,
 		isNormalize:            true,
 		isLongPathFix:          true,
 	},
@@ -41,7 +41,7 @@ var absoluteFromExecutableDirectoryPathTestCaseWrappers = []absoluteFromExecutab
 		expected:               "/home/",
 		expectedMessage:        "/home/",
 		operatingSystemMessage: "Linux OS",
-		operatingSystem:        enums.Linux,
+		operatingSystem:        ostype.Linux,
 		isNormalize:            true,
 		isLongPathFix:          true,
 	},

@@ -1,10 +1,10 @@
 package pathhelper
 
 import (
-	"gitlab.com/evatix-go/pathhelper/enums"
+	"gitlab.com/evatix-go/pathhelper/knowndir"
 )
 
 // Returns Pictures directory path as a string.
 func GetUserPicturesPath() string {
-	return enums.Pictures.CombineWith(GetUserPath())
+	return knowndir.Pictures.CombineWith(GetUserPath())
 }

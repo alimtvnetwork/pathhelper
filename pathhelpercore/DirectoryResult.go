@@ -4,6 +4,7 @@ import (
 	"os"
 
 	"gitlab.com/evatix-go/errorwrapper"
+	"gitlab.com/evatix-go/errorwrapper/errnew"
 
 	"gitlab.com/evatix-go/pathhelper/enums"
 )
@@ -21,7 +22,7 @@ type DirectoryResult struct {
 func NewEmptyDirectoryResult() *DirectoryResult {
 	return &DirectoryResult{
 		FileInfoWrapper:   nil,
-		Error:             errorwrapper.Empty(false),
+		Error:             errnew.Empty,
 		RawPath:           "",
 		FileModeRequested: nil,
 		HasIssues:         false,

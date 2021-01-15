@@ -1,14 +1,16 @@
 package pathhelper
 
 import (
-	"gitlab.com/evatix-go/pathhelper/enums"
+	"gitlab.com/evatix-go/core/osconsts"
+
+	"gitlab.com/evatix-go/pathhelper/knowndir"
 )
 
 // Returns path to local temp directory. If directory doesn't exist it still returns the path as a string.
 func GetLocalTempPath() string {
-	if IsWindows() {
-		return enums.LocalTempWin.CombineWith(GetAppDataPath())
+	if osconsts.IsWindows {
+		return knowndir.LocalTempWin.CombineWith(GetAppDataPath())
 	}
 
-	return enums.LocalTempUnix.CombineWith(GetUnixRoot())
+	return knowndir.LocalTempUnix.CombineWith(GetUnixRoot())
 }

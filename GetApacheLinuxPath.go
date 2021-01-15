@@ -1,14 +1,16 @@
 package pathhelper
 
 import (
-	"gitlab.com/evatix-go/pathhelper/enums"
+	"gitlab.com/evatix-go/core/osconsts"
+
+	"gitlab.com/evatix-go/pathhelper/knowndir"
 )
 
 // "/etc/apache/"
 func GetApacheLinuxPath() string {
-	if !IsUnix() {
+	if osconsts.IsWindows {
 		panic("Path only available for Unix OS") // todo test for panic
 	}
 
-	return enums.ApacheLinuxPath.Value()
+	return knowndir.ApacheLinuxPath.Value()
 }

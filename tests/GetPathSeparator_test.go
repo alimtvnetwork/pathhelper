@@ -5,27 +5,27 @@ import (
 	"testing"
 
 	. "github.com/smartystreets/goconvey/convey"
+	"gitlab.com/evatix-go/core/ostype"
 
 	"gitlab.com/evatix-go/core/constants"
 
 	"gitlab.com/evatix-go/pathhelper"
-	"gitlab.com/evatix-go/pathhelper/enums"
 )
 
 type pathSeparatorTestCaseWrapper struct {
-	operatingSystem                                   enums.OperatingSystem
+	operatingSystem                                   ostype.Variation
 	operatingSystemMessage, expected, expectedMessage string
 }
 
 var pathSeparatorTestCaseWrappers = []pathSeparatorTestCaseWrapper{
 	{
-		operatingSystem:        enums.Windows,
+		operatingSystem:        ostype.Windows,
 		operatingSystemMessage: "Os is windows",
 		expected:               constants.BackSlash,
 		expectedMessage:        constants.BackSlash,
 	},
 	{
-		operatingSystem:        enums.Ubuntu,
+		operatingSystem:        ostype.Linux,
 		operatingSystemMessage: "Unix os",
 		expected:               constants.ForwardSlash,
 		expectedMessage:        constants.ForwardSlash,

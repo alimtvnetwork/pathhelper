@@ -1,10 +1,10 @@
 package pathhelper
 
 import (
-	"gitlab.com/evatix-go/pathhelper/enums"
+	"gitlab.com/evatix-go/pathhelper/knowndir"
 )
 
 // Returns .ssh path as string.
 func GetSSHGlobal() string {
-	return enums.SSHGlobal.CombineWith(GetUserPath())
+	return knowndir.SSHGlobal.CombineWith(GetUserPath())
 }
