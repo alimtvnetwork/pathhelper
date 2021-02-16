@@ -6,18 +6,19 @@ import (
 	"gitlab.com/evatix-go/core/ostype"
 
 	"gitlab.com/evatix-go/pathhelper"
+	"gitlab.com/evatix-go/pathhelper/knowndirget"
 )
 
 var gitGlobalPathTestCaseDataWrappers = []generalizedPathWithoutInputTestCaseDataWrapper{
 	{
 		operatingSystemMessage: "Unix OS",
-		funcName:               "GetGitGlobal",
+		funcName:               "GitGlobal",
 		expected:               "XDG_CONFIG_HOME/git/config",
 		operatingSystem:        ostype.Linux,
 	},
 	{
 		operatingSystemMessage: "Windows OS",
-		funcName:               "GetGitGlobal",
+		funcName:               "GitGlobal",
 		expected:               "C:\\Users\\Administrator\\.gitconfig",
 		operatingSystem:        ostype.Windows,
 	},
@@ -32,7 +33,7 @@ func TestGetGitGlobal_Windows(t *testing.T) {
 			continue
 		}
 
-		executeTestForGeneralizedPathWithoutInput(t, testCase, pathhelper.GetGitGlobal, i)
+		executeTestForGeneralizedPathWithoutInput(t, testCase, knowndirget.GitGlobal, i)
 	}
 }
 
@@ -45,6 +46,6 @@ func TestGetGitGlobal_Unix(t *testing.T) {
 			continue
 		}
 
-		executeTestForGeneralizedPathWithoutInput(t, testCase, pathhelper.GetGitGlobal, i)
+		executeTestForGeneralizedPathWithoutInput(t, testCase, knowndirget.GitGlobal, i)
 	}
 }

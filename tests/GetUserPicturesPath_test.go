@@ -6,18 +6,19 @@ import (
 	"gitlab.com/evatix-go/core/ostype"
 
 	"gitlab.com/evatix-go/pathhelper"
+	"gitlab.com/evatix-go/pathhelper/knowndirget"
 )
 
 var userPicturesPathTestCaseDataWrappers = []generalizedPathWithoutInputTestCaseDataWrapper{
 	{
 		operatingSystemMessage: "Unix OS",
-		funcName:               "GetUserPicturesPath",
+		funcName:               "UserPicturesPath",
 		expected:               homePath + "/Pictures",
 		operatingSystem:        ostype.Linux,
 	},
 	{
 		operatingSystemMessage: "Windows OS",
-		funcName:               "GetUserPicturesPath",
+		funcName:               "UserPicturesPath",
 		expected:               "C:\\Users\\Administrator\\Pictures",
 		operatingSystem:        ostype.Windows,
 	},
@@ -32,7 +33,7 @@ func TestGetUserPicturesPath_Windows(t *testing.T) {
 			continue
 		}
 
-		executeTestForGeneralizedPathWithoutInput(t, testCase, pathhelper.GetUserPicturesPath, i)
+		executeTestForGeneralizedPathWithoutInput(t, testCase, knowndirget.UserPicturesPath, i)
 	}
 }
 
@@ -45,6 +46,6 @@ func TestGetUserPicturesPath_Unix(t *testing.T) {
 			continue
 		}
 
-		executeTestForGeneralizedPathWithoutInput(t, testCase, pathhelper.GetUserPicturesPath, i)
+		executeTestForGeneralizedPathWithoutInput(t, testCase, knowndirget.UserPicturesPath, i)
 	}
 }

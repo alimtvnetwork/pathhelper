@@ -7,6 +7,7 @@ import (
 	. "github.com/smartystreets/goconvey/convey"
 
 	"gitlab.com/evatix-go/pathhelper"
+	"gitlab.com/evatix-go/pathhelper/expandpath"
 	"gitlab.com/evatix-go/pathhelper/pathhelpercore"
 )
 
@@ -39,7 +40,7 @@ func TestPathFromEnvVariable(t *testing.T) {
 
 		Convey(testCaseMessage, t, func() {
 			// Act
-			actual := pathhelper.PathFromEnvVariable(testCase.input)
+			actual := normalize.PathFromEnvVariable(testCase.input)
 
 			// Assert
 			Convey(pathhelper.GetAssertMessage(actual, testCase.expected, i), func() { // todo check equality

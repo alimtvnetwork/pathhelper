@@ -6,18 +6,19 @@ import (
 	"gitlab.com/evatix-go/core/ostype"
 
 	"gitlab.com/evatix-go/pathhelper"
+	"gitlab.com/evatix-go/pathhelper/knowndirget"
 )
 
 var userRoamingPathTestCaseDataWrappers = []generalizedPathWithoutInputTestCaseDataWrapper{
 	{
 		operatingSystemMessage: "Unix OS",
-		funcName:               "GetUserRoamingPath",
+		funcName:               "UserRoamingPath",
 		expected:               homePath + "/Roaming",
 		operatingSystem:        ostype.Linux,
 	},
 	{
 		operatingSystemMessage: "Windows OS",
-		funcName:               "GetUserRoamingPath",
+		funcName:               "UserRoamingPath",
 		expected:               "C:\\Users\\Administrator\\Roaming",
 		operatingSystem:        ostype.Windows,
 	},
@@ -32,7 +33,7 @@ func TestGetUserRoamingPath_Windows(t *testing.T) {
 			continue
 		}
 
-		executeTestForGeneralizedPathWithoutInput(t, testCase, pathhelper.GetUserRoamingPath, i)
+		executeTestForGeneralizedPathWithoutInput(t, testCase, knowndirget.UserRoamingPath, i)
 	}
 }
 
@@ -45,6 +46,6 @@ func TestGetUserRoamingPath_Unix(t *testing.T) {
 			continue
 		}
 
-		executeTestForGeneralizedPathWithoutInput(t, testCase, pathhelper.GetUserRoamingPath, i)
+		executeTestForGeneralizedPathWithoutInput(t, testCase, knowndirget.UserRoamingPath, i)
 	}
 }

@@ -12,12 +12,12 @@ import (
 	"gitlab.com/evatix-go/errorwrapper/errtype"
 
 	"gitlab.com/evatix-go/pathhelper"
+	"gitlab.com/evatix-go/pathhelper/dirinfo"
 	"gitlab.com/evatix-go/pathhelper/enums"
-	"gitlab.com/evatix-go/pathhelper/pathhelpercore"
 )
 
 var (
-	expectedNewEmptyDirectoryResult = pathhelpercore.DirectoryResult{
+	expectedNewEmptyDirectoryResult = fileinfo.Result{
 		FileInfoWrapper:   nil,
 		Error:             errnew.Empty,
 		RawPath:           "",
@@ -36,7 +36,7 @@ func TestNewEmptyDirectoryResult(t *testing.T) {
 
 	Convey(testMessage, t, func() {
 		// Act
-		actual := pathhelpercore.NewEmptyDirectoryResult()
+		actual := fileinfo.NewEmptyDirectoryResult()
 		expectedReflect := reflect.ValueOf(expectedNewEmptyDirectoryResult)
 
 		// Assert

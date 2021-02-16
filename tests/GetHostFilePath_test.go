@@ -6,18 +6,19 @@ import (
 	"gitlab.com/evatix-go/core/ostype"
 
 	"gitlab.com/evatix-go/pathhelper"
+	"gitlab.com/evatix-go/pathhelper/knowndirget"
 )
 
 var hostFilePathTestCaseDataWrappers = []generalizedPathWithoutInputTestCaseDataWrapper{
 	{
 		operatingSystemMessage: "Unix OS",
-		funcName:               "GetHostFilePath",
+		funcName:               "HostFilePath",
 		expected:               "/etc/hosts",
 		operatingSystem:        ostype.Linux,
 	},
 	{
 		operatingSystemMessage: "Windows OS",
-		funcName:               "GetHostFilePath",
+		funcName:               "HostFilePath",
 		expected:               "C:\\Windows\\System32\\drivers\\etc\\hosts",
 		operatingSystem:        ostype.Windows,
 	},
@@ -32,7 +33,7 @@ func TestGetHostFilePath_Windows(t *testing.T) {
 			continue
 		}
 
-		executeTestForGeneralizedPathWithoutInput(t, testCase, pathhelper.GetHostFilePath, i)
+		executeTestForGeneralizedPathWithoutInput(t, testCase, knowndirget.HostFilePath, i)
 	}
 }
 
@@ -45,6 +46,6 @@ func TestGetHostFilePath_Unix(t *testing.T) {
 			continue
 		}
 
-		executeTestForGeneralizedPathWithoutInput(t, testCase, pathhelper.GetHostFilePath, i)
+		executeTestForGeneralizedPathWithoutInput(t, testCase, knowndirget.HostFilePath, i)
 	}
 }

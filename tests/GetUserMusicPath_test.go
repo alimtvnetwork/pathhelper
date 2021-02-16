@@ -6,18 +6,19 @@ import (
 	"gitlab.com/evatix-go/core/ostype"
 
 	"gitlab.com/evatix-go/pathhelper"
+	"gitlab.com/evatix-go/pathhelper/knowndirget"
 )
 
 var userMusicPathTestCaseDataWrappers = []generalizedPathWithoutInputTestCaseDataWrapper{
 	{
 		operatingSystemMessage: "Unix OS",
-		funcName:               "GetUserMusicPath",
+		funcName:               "UserMusicPath",
 		expected:               homePath + "/Music",
 		operatingSystem:        ostype.Linux,
 	},
 	{
 		operatingSystemMessage: "Windows OS",
-		funcName:               "GetUserMusicPath",
+		funcName:               "UserMusicPath",
 		expected:               "C:\\Users\\Administrator\\Music",
 		operatingSystem:        ostype.Windows,
 	},
@@ -32,7 +33,7 @@ func TestGetUserMusicPath_Windows(t *testing.T) {
 			continue
 		}
 
-		executeTestForGeneralizedPathWithoutInput(t, testCase, pathhelper.GetUserMusicPath, i)
+		executeTestForGeneralizedPathWithoutInput(t, testCase, knowndirget.UserMusicPath, i)
 	}
 }
 
@@ -45,6 +46,6 @@ func TestGetUserMusicPath_Unix(t *testing.T) {
 			continue
 		}
 
-		executeTestForGeneralizedPathWithoutInput(t, testCase, pathhelper.GetUserMusicPath, i)
+		executeTestForGeneralizedPathWithoutInput(t, testCase, knowndirget.UserMusicPath, i)
 	}
 }

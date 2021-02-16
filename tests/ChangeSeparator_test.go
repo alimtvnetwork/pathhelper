@@ -7,6 +7,7 @@ import (
 	. "github.com/smartystreets/goconvey/convey"
 
 	"gitlab.com/evatix-go/pathhelper"
+	"gitlab.com/evatix-go/pathhelper/normalize"
 )
 
 type changeSeparatorTestCaseWrapper struct {
@@ -41,7 +42,7 @@ func TestChangeSeparator(t *testing.T) {
 
 		Convey(testCaseMessage, t, func() {
 			// Act
-			actual := pathhelper.ChangeSeparator(testCase.inputPath, testCase.inputCurrentSeparator, testCase.inputChangeSeparator)
+			actual := normalize.ChangeSeparator(testCase.inputPath, testCase.inputCurrentSeparator, testCase.inputChangeSeparator)
 
 			// Assert
 			Convey(pathhelper.GetAssertMessage(actual, testCase.expected, i), func() {

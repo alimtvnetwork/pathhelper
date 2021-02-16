@@ -5,6 +5,7 @@ import (
 
 	"gitlab.com/evatix-go/core/msgtype"
 
+	"gitlab.com/evatix-go/pathhelper/normalize"
 	"gitlab.com/evatix-go/pathhelper/pathhelpercore"
 )
 
@@ -25,7 +26,7 @@ func getCombinedPathUsingConfigInternal(
 		combinedPath = GetCombinedOfNonEmptyPaths(pathConfig.Separator, paths)
 	}
 
-	finalPath := NormalizePathUsingSeparatorIf(
+	finalPath := normalize.PathUsingSeparatorIf(
 		pathConfig.IsLongPathFix,
 		pathConfig.IsNormalize,
 		pathConfig.Separator,

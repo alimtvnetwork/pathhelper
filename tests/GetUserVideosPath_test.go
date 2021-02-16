@@ -6,18 +6,19 @@ import (
 	"gitlab.com/evatix-go/core/ostype"
 
 	"gitlab.com/evatix-go/pathhelper"
+	"gitlab.com/evatix-go/pathhelper/knowndirget"
 )
 
 var userVideosPathTestCaseDataWrappers = []generalizedPathWithoutInputTestCaseDataWrapper{
 	{
 		operatingSystemMessage: "Unix OS",
-		funcName:               "GetUserVideosPath",
+		funcName:               "UserVideosPath",
 		expected:               homePath + "/Videos",
 		operatingSystem:        ostype.Linux,
 	},
 	{
 		operatingSystemMessage: "Windows OS",
-		funcName:               "GetUserVideosPath",
+		funcName:               "UserVideosPath",
 		expected:               "C:\\Users\\Administrator\\Videos",
 		operatingSystem:        ostype.Windows,
 	},
@@ -32,7 +33,7 @@ func TestGetUserVideosPath_Windows(t *testing.T) {
 			continue
 		}
 
-		executeTestForGeneralizedPathWithoutInput(t, testCase, pathhelper.GetUserVideosPath, i)
+		executeTestForGeneralizedPathWithoutInput(t, testCase, knowndirget.UserVideosPath, i)
 	}
 }
 
@@ -45,6 +46,6 @@ func TestGetUserVideosPath_Unix(t *testing.T) {
 			continue
 		}
 
-		executeTestForGeneralizedPathWithoutInput(t, testCase, pathhelper.GetUserVideosPath, i)
+		executeTestForGeneralizedPathWithoutInput(t, testCase, knowndirget.UserVideosPath, i)
 	}
 }
