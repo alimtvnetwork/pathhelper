@@ -6,18 +6,19 @@ import (
 	"gitlab.com/evatix-go/core/ostype"
 
 	"gitlab.com/evatix-go/pathhelper"
+	"gitlab.com/evatix-go/pathhelper/knowndirget"
 )
 
 var programFiles64TestCaseDataWrappers = []generalizedPathWithoutInputTestCaseDataWrapper{
 	{
 		operatingSystemMessage: "Unix OS",
-		funcName:               "GetProgramFiles64",
+		funcName:               "ProgramFiles64",
 		expected:               "",
 		operatingSystem:        ostype.Linux,
 	},
 	{
 		operatingSystemMessage: "Windows OS",
-		funcName:               "GetProgramFiles64",
+		funcName:               "ProgramFiles64",
 		expected:               "C:\\\\Program Files (x86)",
 		operatingSystem:        ostype.Windows,
 	},
@@ -32,7 +33,7 @@ func TestGetProgramFiles64_Windows(t *testing.T) {
 			continue
 		}
 
-		executeTestForGeneralizedPathWithoutInput(t, testCase, pathhelper.GetProgramFiles64, i)
+		executeTestForGeneralizedPathWithoutInput(t, testCase, knowndirget.ProgramFiles64, i)
 	}
 }
 
@@ -45,6 +46,6 @@ func TestGetProgramFiles64_Unix(t *testing.T) {
 			continue
 		}
 
-		executeTestForGeneralizedPathWithoutInput(t, testCase, pathhelper.GetProgramFiles64, i)
+		executeTestForGeneralizedPathWithoutInput(t, testCase, knowndirget.ProgramFiles64, i)
 	}
 }

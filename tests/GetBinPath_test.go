@@ -6,18 +6,19 @@ import (
 	"gitlab.com/evatix-go/core/ostype"
 
 	"gitlab.com/evatix-go/pathhelper"
+	"gitlab.com/evatix-go/pathhelper/knowndirget"
 )
 
 var binPathTestCaseDataWrappers = []generalizedPathWithoutInputTestCaseDataWrapper{
 	{
 		operatingSystemMessage: "Unix OS",
-		funcName:               "GetBinPath",
+		funcName:               "BinPath",
 		expected:               "/usr/bin",
 		operatingSystem:        ostype.Linux,
 	},
 	{
 		operatingSystemMessage: "Windows OS",
-		funcName:               "GetBinPath",
+		funcName:               "BinPath",
 		expected:               "C:\\Users\\Administrator\\bin",
 		operatingSystem:        ostype.Windows,
 	},
@@ -32,7 +33,7 @@ func TestGetBinPath_Windows(t *testing.T) {
 			continue
 		}
 
-		executeTestForGeneralizedPathWithoutInput(t, testCase, pathhelper.GetBinPath, i)
+		executeTestForGeneralizedPathWithoutInput(t, testCase, knowndirget.BinPath, i)
 	}
 }
 
@@ -45,6 +46,6 @@ func TestGetBinPath_Unix(t *testing.T) {
 			continue
 		}
 
-		executeTestForGeneralizedPathWithoutInput(t, testCase, pathhelper.GetBinPath, i)
+		executeTestForGeneralizedPathWithoutInput(t, testCase, knowndirget.BinPath, i)
 	}
 }

@@ -8,7 +8,10 @@ import (
 	"gitlab.com/evatix-go/pathhelper/pathhelpercore"
 )
 
-func GetCompiledPath(pathTemplate string, compilingMap *map[string]string) string {
+func GetCompiledPath(
+	pathTemplate string,
+	compilingMap *map[string]string,
+) string {
 	if pathhelpercore.IsEmptyPath(pathTemplate) {
 		return pathTemplate
 	}

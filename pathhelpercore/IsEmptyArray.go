@@ -7,7 +7,3 @@ func IsEmptyArray(paths []string) bool {
 func IsEmptyArrayPtr(paths []*string) bool {
 	return paths == nil || &paths == nil || len(paths) == 0
 }
-
-func IsEmptyArrayForFileInfo(paths []*FileInfoWrapper) bool {
-	return paths == nil || &paths == nil || len(paths) == 0
-}

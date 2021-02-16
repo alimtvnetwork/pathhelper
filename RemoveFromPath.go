@@ -5,6 +5,7 @@ import (
 
 	"gitlab.com/evatix-go/core/constants"
 
+	"gitlab.com/evatix-go/pathhelper/normalize"
 	"gitlab.com/evatix-go/pathhelper/pathhelpercore"
 )
 
@@ -24,7 +25,7 @@ func RemoveFromPath(pathTemplate string, removingList *[]string, isNormalizePath
 	}
 
 	if isNormalizePath {
-		pathTemplate = NormalizePath(pathTemplate)
+		pathTemplate = normalize.Path(pathTemplate)
 	}
 
 	return pathTemplate

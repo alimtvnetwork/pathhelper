@@ -6,18 +6,19 @@ import (
 	"gitlab.com/evatix-go/core/ostype"
 
 	"gitlab.com/evatix-go/pathhelper"
+	"gitlab.com/evatix-go/pathhelper/knowndirget"
 )
 
 var localPathTestCaseDataWrappers = []generalizedPathWithoutInputTestCaseDataWrapper{
 	{
 		operatingSystemMessage: "Unix OS",
-		funcName:               "GetLocalPath",
+		funcName:               "LocalPath",
 		expected:               "/home/a",
 		operatingSystem:        ostype.Linux,
 	},
 	{
 		operatingSystemMessage: "Windows OS",
-		funcName:               "GetLocalPath",
+		funcName:               "LocalPath",
 		expected:               "C:\\Users\\Administrator\\AppData\\Roaming\\Local",
 		operatingSystem:        ostype.Windows,
 	},
@@ -32,7 +33,7 @@ func TestGetLocalPath_Windows(t *testing.T) {
 			continue
 		}
 
-		executeTestForGeneralizedPathWithoutInput(t, testCase, pathhelper.GetLocalPath, i)
+		executeTestForGeneralizedPathWithoutInput(t, testCase, knowndirget.LocalPath, i)
 	}
 }
 
@@ -45,6 +46,6 @@ func TestGetLocalPath_Unix(t *testing.T) {
 			continue
 		}
 
-		executeTestForGeneralizedPathWithoutInput(t, testCase, pathhelper.GetLocalPath, i)
+		executeTestForGeneralizedPathWithoutInput(t, testCase, knowndirget.LocalPath, i)
 	}
 }

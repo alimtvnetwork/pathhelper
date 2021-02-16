@@ -6,6 +6,7 @@ import (
 	"gitlab.com/evatix-go/core/ostype"
 
 	"gitlab.com/evatix-go/pathhelper"
+	"gitlab.com/evatix-go/pathhelper/knowndirget"
 )
 
 var systemPathTestCaseDataWrappers = []generalizedPathWithoutInputTestCaseDataWrapper{
@@ -32,7 +33,7 @@ func TestGetSystemPath_Windows(t *testing.T) {
 			continue
 		}
 
-		executeTestForGeneralizedPathWithoutInput(t, testCase, pathhelper.GetSystemPath, i)
+		executeTestForGeneralizedPathWithoutInput(t, testCase, knowndirget.GetSystemPath, i)
 	}
 }
 
@@ -45,6 +46,6 @@ func TestGetSystemPath_Unix(t *testing.T) {
 			continue
 		}
 
-		executeTestForGeneralizedPathWithoutInput(t, testCase, pathhelper.GetSystemPath, i)
+		executeTestForGeneralizedPathWithoutInput(t, testCase, knowndirget.GetSystemPath, i)
 	}
 }

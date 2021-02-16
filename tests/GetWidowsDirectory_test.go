@@ -8,6 +8,7 @@ import (
 	"gitlab.com/evatix-go/core/ostype"
 
 	"gitlab.com/evatix-go/pathhelper"
+	"gitlab.com/evatix-go/pathhelper/knowndirget"
 )
 
 type windowsDirectoryTestCaseWrapper struct {
@@ -37,7 +38,7 @@ func TestGetWidowsDirectory_Windows(t *testing.T) {
 			continue
 		}
 
-		testCaseMessage := fmt.Sprintf("(%s)[GetWidowsDirectory] expects (%s)", testCase.operatingSystemMessage, testCase.expected)
+		testCaseMessage := fmt.Sprintf("(%s)[WidowsDirectory] expects (%s)", testCase.operatingSystemMessage, testCase.expected)
 
 		executeTestCaseForGetWidowsDirectory(t, testCaseMessage, testCase, i)
 	}
@@ -52,7 +53,7 @@ func TestGetWidowsDirectory_Unix(t *testing.T) {
 			continue
 		}
 
-		testCaseMessage := fmt.Sprintf("(%s)[GetWidowsDirectory] expects (%s)", testCase.operatingSystemMessage, testCase.expected)
+		testCaseMessage := fmt.Sprintf("(%s)[WidowsDirectory] expects (%s)", testCase.operatingSystemMessage, testCase.expected)
 
 		executeTestCaseForGetWidowsDirectory(t, testCaseMessage, testCase, i)
 	}
@@ -66,7 +67,7 @@ func executeTestCaseForGetWidowsDirectory(
 ) {
 	Convey(testCaseMessage, t, func() {
 		// Act
-		actual := pathhelper.GetWidowsDirectory()
+		actual := knowndirget.WidowsDirectory()
 
 		// Assert
 		Convey(pathhelper.GetAssertMessage(actual, testCase.expected, i), func() {

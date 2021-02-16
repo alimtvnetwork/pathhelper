@@ -6,18 +6,19 @@ import (
 	"gitlab.com/evatix-go/core/ostype"
 
 	"gitlab.com/evatix-go/pathhelper"
+	"gitlab.com/evatix-go/pathhelper/knowndirget"
 )
 
 var userDownloadsPathTestCaseDataWrappers = []generalizedPathWithoutInputTestCaseDataWrapper{
 	{
 		operatingSystemMessage: "Unix OS",
-		funcName:               "GetUserDownloadsPath",
+		funcName:               "UserDownloadsPath",
 		expected:               homePath + "/Downloads",
 		operatingSystem:        ostype.Linux,
 	},
 	{
 		operatingSystemMessage: "Windows OS",
-		funcName:               "GetUserDownloadsPath",
+		funcName:               "UserDownloadsPath",
 		expected:               "C:\\Users\\Administrator\\Downloads",
 		operatingSystem:        ostype.Windows,
 	},
@@ -32,7 +33,7 @@ func TestGetUserDownloadsPath_Windows(t *testing.T) {
 			continue
 		}
 
-		executeTestForGeneralizedPathWithoutInput(t, testCase, pathhelper.GetUserDownloadsPath, i)
+		executeTestForGeneralizedPathWithoutInput(t, testCase, knowndirget.UserDownloadsPath, i)
 	}
 }
 
@@ -45,6 +46,6 @@ func TestGetUserDownloadsPath_Unix(t *testing.T) {
 			continue
 		}
 
-		executeTestForGeneralizedPathWithoutInput(t, testCase, pathhelper.GetUserDownloadsPath, i)
+		executeTestForGeneralizedPathWithoutInput(t, testCase, knowndirget.UserDownloadsPath, i)
 	}
 }

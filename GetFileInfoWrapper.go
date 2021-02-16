@@ -1,9 +1,9 @@
 package pathhelper
 
 import (
-	"gitlab.com/evatix-go/pathhelper/pathhelpercore"
+	"gitlab.com/evatix-go/pathhelper/fileinfo"
 )
 
-func GetFileInfoWrapper(path string) *pathhelpercore.FileInfoWrapper {
-	return pathhelpercore.NewFileWrapperInfo(path)
+func GetFileInfoWrapper(path string) *fileinfo.Wrapper {
+	return fileinfo.New(path)
 }

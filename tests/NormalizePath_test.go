@@ -8,6 +8,7 @@ import (
 	"gitlab.com/evatix-go/core/ostype"
 
 	"gitlab.com/evatix-go/pathhelper"
+	"gitlab.com/evatix-go/pathhelper/normalize"
 )
 
 type normalizePathTestCaseWrapper struct {
@@ -77,7 +78,7 @@ func TestNormalizePath_Unix(t *testing.T) {
 func executeTestNormalizePath(t *testing.T, testCaseMessage string, testCase normalizePathTestCaseWrapper, i int) {
 	Convey(testCaseMessage, t, func() {
 		// Act
-		actual := pathhelper.NormalizePath(testCase.input)
+		actual := normalize.Path(testCase.input)
 
 		// Assert
 		Convey(pathhelper.GetAssertMessage(actual, testCase.expected, i), func() {

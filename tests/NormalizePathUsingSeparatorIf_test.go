@@ -7,6 +7,7 @@ import (
 	. "github.com/smartystreets/goconvey/convey"
 
 	"gitlab.com/evatix-go/pathhelper"
+	"gitlab.com/evatix-go/pathhelper/normalize"
 )
 
 type normalizePathUsingSeparatorIfTestCaseWrapper struct {
@@ -45,7 +46,7 @@ func TestNormalizePathUsingSeparatorIf(t *testing.T) {
 
 		Convey(testCaseMessage, t, func() {
 			// Act
-			actual := pathhelper.NormalizePathUsingSeparatorIf(
+			actual := normalize.PathUsingSeparatorIf(
 				testCase.isLongPathFixed,
 				testCase.isNormalize,
 				testCase.inputSeparator,

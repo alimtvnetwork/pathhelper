@@ -8,12 +8,12 @@ import (
 	"gitlab.com/evatix-go/errorwrapper"
 	"gitlab.com/evatix-go/errorwrapper/errnew"
 
+	"gitlab.com/evatix-go/pathhelper/dirinfo"
 	"gitlab.com/evatix-go/pathhelper/enums"
-	"gitlab.com/evatix-go/pathhelper/pathhelpercore"
 )
 
 // Create directory and create the final directory
-func CreateDirectory(path string, fileMode os.FileMode) *pathhelpercore.DirectoryResult {
+func CreateDirectory(path string, fileMode os.FileMode) *fileinfo.Result {
 	fileInfoWrapper := GetFileInfoWrapper(path)
 	isIgnoredAction := fileInfoWrapper.IsPathExists() || fileInfoWrapper.IsEmptyPath
 	errorWrapper := errnew.Empty
@@ -27,7 +27,7 @@ func CreateDirectory(path string, fileMode os.FileMode) *pathhelpercore.Director
 		errorWrapper = errorwrapper.NewFilePath(msgtype.InvalidEmptyPathErrorMessage.String(), constants.EmptyString)
 	}
 
-	return &pathhelpercore.DirectoryResult{
+	return &fileinfo.Result{
 		FileInfoWrapper:   fileInfoWrapper,
 		Error:             errorWrapper,
 		RawPath:           path,

@@ -3,8 +3,8 @@ package apachelinuxpath
 import (
 	"gitlab.com/evatix-go/core/osconsts"
 
-	"gitlab.com/evatix-go/pathhelper"
 	"gitlab.com/evatix-go/pathhelper/knowndir"
+	"gitlab.com/evatix-go/pathhelper/knowndirget"
 )
 
 // returns /etc/apache/mods-available as a string
@@ -13,5 +13,5 @@ func GetModsAvailable() string {
 		panic("Path only available for Unix OS")
 	}
 
-	return knowndir.ModsAvailable.CombineWith(pathhelper.GetApacheLinuxPath())
+	return knowndir.ModsAvailable.CombineWith(knowndirget.ApacheLinuxPath())
 }

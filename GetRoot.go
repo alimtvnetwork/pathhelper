@@ -1,11 +1,15 @@
 package pathhelper
 
-import "gitlab.com/evatix-go/core/osconsts"
+import (
+	"gitlab.com/evatix-go/core/osconsts"
+
+	"gitlab.com/evatix-go/pathhelper/knowndirget"
+)
 
 func GetRoot() string {
 	if osconsts.IsWindows {
-		return GetWindowsRoot()
+		return knowndirget.WindowsRoot()
 	}
 
-	return GetUnixRoot()
+	return knowndirget.UnixRoot()
 }

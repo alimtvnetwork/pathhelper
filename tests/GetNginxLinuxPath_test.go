@@ -3,15 +3,15 @@ package tests
 import (
 	"testing"
 
-	"gitlab.com/evatix-go/pathhelper"
+	"gitlab.com/evatix-go/pathhelper/knowndirget"
 )
 
 var getNginxLinuxTestCaseData = pathTestCaseDataWrapper{
 	OSName:   "Unix OS",
-	funcName: "GetNginxLinuxPath",
+	funcName: "NginxLinuxPath",
 	expected: "/etc/nginx/",
 }
 
 func TestGetNginxLinuxPath(t *testing.T) {
-	getPathTestCommonMethodLinux(t, getNginxLinuxTestCaseData, pathhelper.GetNginxLinuxPath)
+	getPathTestCommonMethodLinux(t, getNginxLinuxTestCaseData, knowndirget.NginxLinuxPath)
 }

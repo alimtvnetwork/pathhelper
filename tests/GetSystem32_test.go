@@ -6,7 +6,7 @@ import (
 
 	"gitlab.com/evatix-go/core/coretests"
 
-	"gitlab.com/evatix-go/pathhelper"
+	"gitlab.com/evatix-go/pathhelper/knowndirget"
 
 	. "github.com/smartystreets/goconvey/convey"
 )
@@ -17,11 +17,11 @@ func TestGetSystem32(t *testing.T) {
 	coretests.SkipOnUnix(t)
 
 	// Arrange
-	testCaseMessage := fmt.Sprintf("[GetSystem32] expects (%s)", expectedSystem32)
+	testCaseMessage := fmt.Sprintf("[System32] expects (%s)", expectedSystem32)
 
 	Convey(testCaseMessage, t, func() {
 		// Act
-		actual := pathhelper.GetSystem32()
+		actual := knowndirget.System32()
 
 		// Assert
 		So(actual, ShouldEqual, expectedSystem32)

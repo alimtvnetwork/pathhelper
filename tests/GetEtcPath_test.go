@@ -6,18 +6,19 @@ import (
 	"gitlab.com/evatix-go/core/ostype"
 
 	"gitlab.com/evatix-go/pathhelper"
+	"gitlab.com/evatix-go/pathhelper/knowndirget"
 )
 
 var etcPathTestCaseDataWrappers = []generalizedPathWithoutInputTestCaseDataWrapper{
 	{
 		operatingSystemMessage: "Unix OS",
-		funcName:               "GetEtcPath",
+		funcName:               "EtcPath",
 		expected:               "/etc",
 		operatingSystem:        ostype.Linux,
 	},
 	{
 		operatingSystemMessage: "Windows OS",
-		funcName:               "GetEtcPath",
+		funcName:               "EtcPath",
 		expected:               "C:\\Windows\\System32\\drivers\\etc",
 		operatingSystem:        ostype.Windows,
 	},
@@ -32,7 +33,7 @@ func TestGetEtcPath_Windows(t *testing.T) {
 			continue
 		}
 
-		executeTestForGeneralizedPathWithoutInput(t, testCase, pathhelper.GetEtcPath, i)
+		executeTestForGeneralizedPathWithoutInput(t, testCase, knowndirget.EtcPath, i)
 	}
 }
 
@@ -45,6 +46,6 @@ func TestGetEtcPath_Unix(t *testing.T) {
 			continue
 		}
 
-		executeTestForGeneralizedPathWithoutInput(t, testCase, pathhelper.GetEtcPath, i)
+		executeTestForGeneralizedPathWithoutInput(t, testCase, knowndirget.EtcPath, i)
 	}
 }
