@@ -6,8 +6,8 @@ import (
 	"gitlab.com/evatix-go/errorwrapper"
 	"gitlab.com/evatix-go/errorwrapper/errnew"
 
-	"gitlab.com/evatix-go/pathhelper/enums"
 	"gitlab.com/evatix-go/pathhelper/fileinfo"
+	"gitlab.com/evatix-go/pathhelper/performing"
 )
 
 type Result struct {
@@ -17,7 +17,7 @@ type Result struct {
 	FileModeRequested *os.FileMode
 	HasIssues         bool
 	IsIgnoredAction   bool
-	Action            enums.PerformingAction
+	Action            performing.Action
 }
 
 func NewEmptyDirectoryResult() *Result {
@@ -28,6 +28,6 @@ func NewEmptyDirectoryResult() *Result {
 		FileModeRequested: nil,
 		HasIssues:         false,
 		IsIgnoredAction:   true,
-		Action:            enums.EmptyDirectoryResult,
+		Action:            performing.EmptyDirectoryResult,
 	}
 }

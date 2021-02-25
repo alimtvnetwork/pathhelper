@@ -3,14 +3,14 @@ package pathhelper
 import (
 	"strings"
 
-	"gitlab.com/evatix-go/pathhelper/pathhelpercore"
+	"gitlab.com/evatix-go/pathhelper/ispath"
 )
 
 var forbiddenArray = []string{"!", "`", "@", "#", "%", "$", "^", "&", "*", "(", ")", "{", "}", "[", "]", " "}
 
 // GetSlug from given path, usages @forbiddenArray to replace with @separatorOfChoice
 func GetSlug(path, separatorOfChoice string) string {
-	if pathhelpercore.IsEmptyPath(path) {
+	if ispath.Empty(path) {
 		return path
 	}
 

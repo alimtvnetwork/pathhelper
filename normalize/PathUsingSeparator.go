@@ -5,7 +5,7 @@ import (
 
 	"gitlab.com/evatix-go/core/osconsts"
 
-	"gitlab.com/evatix-go/pathhelper/pathhelpercore"
+	"gitlab.com/evatix-go/pathhelper/ispath"
 )
 
 // Always returns path without the separator at the end.
@@ -15,8 +15,9 @@ func PathUsingSeparator(
 	pathSeparator,
 	givenPath string,
 	isLongPathFix bool,
+	isForceLongPath bool,
 ) string {
-	if pathhelpercore.IsEmptyPath(givenPath) {
+	if ispath.Empty(givenPath) || osconsts.IsUnixGroup {
 		return givenPath
 	}
 
@@ -26,7 +27,7 @@ func PathUsingSeparator(
 		strings.TrimSpace(firstStepNormalize))
 
 	if isLongPathFix && osconsts.IsWindows {
-		result = GetLongPathFixed(result)
+		result = GetLongPathFixed(result, isForceLongPath)
 	}
 
 	if result[len(result)-1] == pathSeparator[0] {

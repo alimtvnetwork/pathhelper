@@ -16,6 +16,7 @@ func FilterMust(
 	normalizePath := normalize.PathUsingSeparator(
 		osconsts.PathSeparator,
 		rootPath,
+		true,
 		true)
 
 	paths, errWrappersCollection := recursiveinternal.GetFilterPaths(
@@ -24,7 +25,7 @@ func FilterMust(
 		isContinueOnError,
 		filter)
 
-	errWrappersCollection.Handle()
+	errWrappersCollection.HandleError()
 
 	return paths
 }

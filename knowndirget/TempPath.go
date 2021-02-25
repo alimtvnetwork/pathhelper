@@ -5,7 +5,7 @@ import (
 
 	"gitlab.com/evatix-go/core/osconsts"
 
-	"gitlab.com/evatix-go/pathhelper"
+	"gitlab.com/evatix-go/pathhelper/internal/ispathinternal"
 	"gitlab.com/evatix-go/pathhelper/knowndir"
 )
 
@@ -21,7 +21,7 @@ func TempPath() string {
 	// Checking if temp directory is available
 	tempUnix := os.Getenv(knowndir.TempDir.Value())
 
-	if pathhelper.IsAllPathNotExist(desiredTempPathUnix, tempUnix) {
+	if ispathinternal.AllNotExists(desiredTempPathUnix, tempUnix) {
 		return desiredTempPathUnix
 	}
 

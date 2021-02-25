@@ -7,7 +7,7 @@ import (
 	. "github.com/smartystreets/goconvey/convey"
 
 	"gitlab.com/evatix-go/pathhelper"
-	"gitlab.com/evatix-go/pathhelper/pathhelpercore"
+	"gitlab.com/evatix-go/pathhelper/internal/ispathinternal"
 )
 
 type isEmptyArrayTestCaseWrapper struct {
@@ -32,11 +32,11 @@ var isEmptyArrayTestCaseWrappers = []isEmptyArrayTestCaseWrapper{
 func TestIsEmptyArray(t *testing.T) {
 	for i, testCase := range isEmptyArrayTestCaseWrappers {
 		// Arrange
-		testCaseMessage := fmt.Sprintf("[IsEmptyArray] inputs (%s) expects (%s)", testCase.input, testCase.expectedMessage)
+		testCaseMessage := fmt.Sprintf("[EmptyArray] inputs (%s) expects (%s)", testCase.input, testCase.expectedMessage)
 
 		Convey(testCaseMessage, t, func() {
 			// Act
-			actual := pathhelpercore.IsEmptyArray(testCase.input)
+			actual := ispathinternal.EmptyArray(testCase.input)
 
 			// Assert
 			Convey(pathhelper.GetAssertMessage(actual, testCase.expected, i), func() {

@@ -110,14 +110,14 @@ func (filesNamesCollection *FileNamesCollection) GetFilePaths(
 func (filesNamesCollection *FileNamesCollection) GetRecursiveFilePaths(
 	separator string,
 ) *[]string {
-	filePaths, errWrappers := recursiveinternal.GetFilesPaths(
+	filePaths := recursiveinternal.GetFilesPaths(
 		separator,
 		filesNamesCollection.RootPath,
 		true)
 
-	errWrappers.Handle()
+	filePaths.ErrorWrappers.HandleError()
 
-	return filePaths
+	return filePaths.Values
 }
 
 func (filesNamesCollection *FileNamesCollection) IsParentWrappersEmpty() bool {

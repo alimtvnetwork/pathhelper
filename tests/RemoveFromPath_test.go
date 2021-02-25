@@ -9,7 +9,7 @@ import (
 	"gitlab.com/evatix-go/core/ostype"
 
 	"gitlab.com/evatix-go/pathhelper"
-	"gitlab.com/evatix-go/pathhelper/pathhelpercore"
+	"gitlab.com/evatix-go/pathhelper/ispath"
 )
 
 type removeFromPathTestCaseWrapper struct {
@@ -89,11 +89,11 @@ func executeTestCaseForRemoveFromPath(
 
 		// Assert
 		Convey(pathhelper.GetAssertMessage(actual, testCase.expected, i), func() {
-			if pathhelpercore.IsEmptyPath(testCase.inputPath) {
+			if ispath.Empty(testCase.inputPath) {
 				So(actual, ShouldBeEmpty)
 			}
 
-			if !pathhelpercore.IsEmptyPath(testCase.inputPath) {
+			if !ispath.Empty(testCase.inputPath) {
 				So(actual, ShouldNotBeEmpty)
 				So(actual, ShouldEqual, testCase.expected)
 			}

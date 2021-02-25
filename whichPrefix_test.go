@@ -6,28 +6,28 @@ import (
 
 	. "github.com/smartystreets/goconvey/convey"
 
-	"gitlab.com/evatix-go/pathhelper/enums"
+	"gitlab.com/evatix-go/pathhelper/urischemes"
 )
 
 type whichPrefixTestCaseWrapper struct {
 	input, expectedMessage string
-	expected               enums.UriSchemes
+	expected               urischemes.Type
 }
 
 var whichPrefixTestCaseWrappers = []whichPrefixTestCaseWrapper{
 	{
 		input:           "",
-		expected:        enums.UriUnknown,
+		expected:        urischemes.UriUnknown,
 		expectedMessage: "UriUnknown",
 	},
 	{
 		input:           "file:///",
-		expected:        enums.UriSchemePrefixStandard,
+		expected:        urischemes.UriSchemePrefixStandard,
 		expectedMessage: "UriSchemePrefixStandard",
 	},
 	{
 		input:           "file://",
-		expected:        enums.UriSchemePrefixTwoSlashes,
+		expected:        urischemes.UriSchemePrefixTwoSlashes,
 		expectedMessage: "UriSchemePrefixTwoSlashes",
 	},
 }

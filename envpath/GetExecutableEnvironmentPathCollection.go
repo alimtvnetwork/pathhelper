@@ -9,7 +9,7 @@ func GetExecutableEnvironmentPathCollection() ExecutableEnvironmentPathCollectio
 	pathsCollection := NewExecutableEnvironmentPathCollection(len(rawPaths))
 
 	for _, rawPath := range rawPaths {
-		expandedPath := normalize.PathFromEnvVariable(rawPath)
+		expandedPath := normalize.EnvironmentVarExpand(rawPath)
 		executableEnvironmentPath := ExecutableEnvironmentPath{
 			Variable: rawPath,
 			Expanded: expandedPath,

@@ -4,7 +4,7 @@ import (
 	"gitlab.com/evatix-go/core/constants"
 	"gitlab.com/evatix-go/core/msgtype"
 
-	"gitlab.com/evatix-go/pathhelper/pathhelpercore"
+	"gitlab.com/evatix-go/pathhelper/ispath"
 )
 
 func GetAbsolutePath(
@@ -12,7 +12,7 @@ func GetAbsolutePath(
 	relativePath string,
 	isLongPathFix, isNormalize bool,
 ) string {
-	if pathhelpercore.IsEmptyPath(basePath) || pathhelpercore.IsEmptyPath(relativePath) {
+	if ispath.Empty(basePath) || ispath.Empty(relativePath) {
 		panic(msgtype.InvalidEmptyPathErrorMessage)
 	}
 
