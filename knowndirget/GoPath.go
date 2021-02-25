@@ -6,7 +6,7 @@ import (
 
 	"gitlab.com/evatix-go/core/constants"
 
-	"gitlab.com/evatix-go/pathhelper/pathhelpercore"
+	"gitlab.com/evatix-go/pathhelper/internal/ispathinternal"
 )
 
 // Reference: https://stackoverflow.com/a/32650077
@@ -14,7 +14,7 @@ import (
 func GoPath() string {
 	goPath := os.Getenv(constants.GoPath)
 
-	if pathhelpercore.IsEmptyPath(goPath) {
+	if ispathinternal.Exists(goPath) {
 		goPath = build.Default.GOPATH
 	}
 

@@ -11,11 +11,11 @@ import (
 	"gitlab.com/evatix-go/errorwrapper/errnew"
 	"gitlab.com/evatix-go/errorwrapper/errtype"
 
-	"gitlab.com/evatix-go/pathhelper/pathhelpercore"
+	"gitlab.com/evatix-go/pathhelper/ispath"
 )
 
 func New(rawPath string) *Wrapper {
-	isEmptyPath := pathhelpercore.IsEmptyPath(rawPath)
+	isEmptyPath := ispath.Empty(rawPath)
 
 	if isEmptyPath {
 		emptyFileError := errorwrapper.NewFilePath(
@@ -49,7 +49,7 @@ func NewError(
 	filePath string,
 	err error,
 ) *Wrapper {
-	isFilePathEmpty := pathhelpercore.IsEmptyPath(filePath)
+	isFilePathEmpty := ispath.Empty(filePath)
 
 	if err != nil {
 		errWrapper := errorwrapper.NewFilePath(
@@ -85,7 +85,7 @@ func NewUsingInfo(
 	filePath string,
 	err error,
 ) *Wrapper {
-	isFilePathEmpty := pathhelpercore.IsEmptyPath(filePath)
+	isFilePathEmpty := ispath.Empty(filePath)
 
 	if err != nil || osFileInfo == nil {
 		return NewError(

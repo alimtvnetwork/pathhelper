@@ -11,14 +11,15 @@ func FilesMust(rootPath string, isContinueOnError bool) *[]string {
 	normalizePath := normalize.PathUsingSeparator(
 		osconsts.PathSeparator,
 		rootPath,
+		true,
 		true)
 
-	paths, errWrappersCollection := recursiveinternal.GetFilesPaths(
+	paths := recursiveinternal.GetFilesPaths(
 		osconsts.PathSeparator,
 		normalizePath,
 		isContinueOnError)
 
-	errWrappersCollection.Handle()
+	paths.ErrorWrappers.HandleError()
 
-	return paths
+	return paths.Values
 }

@@ -11,6 +11,7 @@ func AllMust(rootPath string, isContinueOnError bool) *[]string {
 	normalizePath := normalize.PathUsingSeparator(
 		osconsts.PathSeparator,
 		rootPath,
+		true,
 		true)
 
 	paths, errWrappersCollection := recursiveinternal.GetPaths(
@@ -18,7 +19,7 @@ func AllMust(rootPath string, isContinueOnError bool) *[]string {
 		normalizePath,
 		isContinueOnError)
 
-	errWrappersCollection.Handle()
+	errWrappersCollection.HandleError()
 
 	return paths
 }

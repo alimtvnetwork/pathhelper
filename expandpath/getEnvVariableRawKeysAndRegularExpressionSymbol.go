@@ -1,4 +1,4 @@
-package normalize
+package expandpath
 
 import (
 	"gitlab.com/evatix-go/core/constants"

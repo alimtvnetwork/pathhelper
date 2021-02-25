@@ -5,12 +5,12 @@ import (
 	"os"
 	"sync"
 
+	"gitlab.com/evatix-go/core"
 	"gitlab.com/evatix-go/core/msgtype"
 	"gitlab.com/evatix-go/errorwrapper/errnew"
 	"gitlab.com/evatix-go/errorwrapper/errtype"
 	"gitlab.com/evatix-go/errorwrapper/errwrappers"
 
-	"gitlab.com/evatix-go/pathhelper/internal/consts"
 	"gitlab.com/evatix-go/pathhelper/internal/ds"
 	"gitlab.com/evatix-go/pathhelper/pathfuncs"
 )
@@ -22,7 +22,7 @@ func GetFilterPaths(
 	filter pathfuncs.Filter,
 ) (*[]string, *errwrappers.Collection) {
 	if rootPath == "" {
-		return consts.EmptyStringsResultPtr(), errwrappers.Empty()
+		return core.EmptyStringsPtr(), errwrappers.Empty()
 	}
 
 	fileInfos, err := ioutil.ReadDir(rootPath)
@@ -50,7 +50,7 @@ func getFilterPaths(
 			"rootPath",
 			rootPath)
 	} else if err != nil {
-		return consts.EmptyStringsResultPtr(),
+		return core.EmptyStringsPtr(),
 			errwrappers.
 				Empty().
 				AddUsingMessages(
@@ -59,14 +59,14 @@ func getFilterPaths(
 	}
 
 	if initialFileInfos == nil {
-		return consts.EmptyStringsResultPtr(),
+		return core.EmptyStringsPtr(),
 			errwrappers.Empty()
 	}
 
 	length := len(initialFileInfos)
 
 	if length == 0 {
-		return consts.EmptyStringsResultPtr(),
+		return core.EmptyStringsPtr(),
 			errwrappers.Empty()
 	}
 
@@ -121,7 +121,7 @@ func getFilterPaths(
 		if result.IsBreak {
 			return results.
 					Paths.ListPtr(),
-				results.ErrWrappers
+				results.ErrorWrappersCollector
 		}
 
 		fileInfos, err3 := ioutil.ReadDir(currentPath)
@@ -146,5 +146,5 @@ func getFilterPaths(
 	results.Paths = nil
 	results = nil
 
-	return list, results.ErrWrappers
+	return list, results.ErrorWrappersCollector
 }

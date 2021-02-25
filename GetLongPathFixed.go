@@ -8,5 +8,5 @@ import (
 // Ignores prefix apply if already has it (constants.LongPathUncPrefix or constants.LongPathQuestionMarkPrefix ) or path is empty or length less than 255
 // if path starts with `\\` then replaces with constants.LongPathUncPrefix
 func GetLongPathFixed(givenAbsolutePath string) string {
-	return normalize.GetLongPathFixedPtr(&givenAbsolutePath)
+	return normalize.GetLongPathFixedPtr(&givenAbsolutePath, false)
 }

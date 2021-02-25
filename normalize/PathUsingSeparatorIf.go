@@ -1,15 +1,28 @@
 package normalize
 
-func PathUsingSeparatorIf(isLongPathFix, isNormalize bool, pathSeparator, givenPath string) string {
+func PathUsingSeparatorIf(
+	isForceLongPath,
+	isLongPathFix,
+	isNormalize bool,
+	pathSeparator,
+	givenPath string,
+) string {
 	isApplyLongPathFix := !isNormalize &&
-		isLongPathFix
+		(isLongPathFix || isForceLongPath)
 
 	if isApplyLongPathFix {
-		return GetLongPathFixed(givenPath)
+		return GetLongPathFixed(
+			givenPath,
+			isForceLongPath)
+	}
+
+	if !isNormalize {
+		return givenPath
 	}
 
 	return PathUsingSeparator(
 		pathSeparator,
 		givenPath,
-		isLongPathFix)
+		isLongPathFix,
+		isForceLongPath)
 }

@@ -11,6 +11,7 @@ func AllUsingSeparator(separator, rootPath string, isContinueOnError bool) (*[]s
 	normalizePath := normalize.PathUsingSeparator(
 		separator,
 		rootPath,
+		true,
 		true)
 
 	return recursiveinternal.GetPaths(

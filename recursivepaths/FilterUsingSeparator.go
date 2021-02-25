@@ -17,6 +17,7 @@ func FilterUsingSeparator(
 	normalizePath := normalize.PathUsingSeparator(
 		separator,
 		rootPath,
+		true,
 		true)
 
 	return recursiveinternal.GetFilterPaths(

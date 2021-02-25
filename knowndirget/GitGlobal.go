@@ -3,7 +3,7 @@ package knowndirget
 import (
 	"gitlab.com/evatix-go/core/osconsts"
 
-	"gitlab.com/evatix-go/pathhelper"
+	"gitlab.com/evatix-go/pathhelper/internal/ispathinternal"
 	"gitlab.com/evatix-go/pathhelper/knowndir"
 )
 
@@ -20,7 +20,7 @@ func GitGlobal() string {
 		outputPathAlternate = knowndir.GitGlobalUnixXdg.Value()
 	}
 
-	if !pathhelper.IsPathExist(outputPath) {
+	if !ispathinternal.Exists(outputPath) {
 		outputPath = outputPathAlternate
 	}
 

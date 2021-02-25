@@ -6,11 +6,10 @@ import (
 	"sync"
 
 	"gitlab.com/evatix-go/core/msgtype"
+	"gitlab.com/evatix-go/errorwrapper/errdata/errstr"
 	"gitlab.com/evatix-go/errorwrapper/errnew"
 	"gitlab.com/evatix-go/errorwrapper/errtype"
-	"gitlab.com/evatix-go/errorwrapper/errwrappers"
 
-	"gitlab.com/evatix-go/pathhelper/internal/consts"
 	"gitlab.com/evatix-go/pathhelper/internal/ds"
 )
 
@@ -18,9 +17,10 @@ func GetFilesPaths(
 	separator,
 	rootPath string,
 	isContinueOnEmpty bool,
-) (*[]string, *errwrappers.Collection) {
+) *errstr.ResultsWithErrorCollection {
 	if rootPath == "" {
-		return consts.EmptyStringsResultPtr(), errwrappers.Empty()
+		return errstr.
+			EmptyResultsWithErrorCollectionPtr()
 	}
 
 	fileInfos, err := ioutil.ReadDir(rootPath)
@@ -39,31 +39,28 @@ func getFilesPaths(
 	initialFileInfos []os.FileInfo,
 	err error,
 	isContinueOnError bool,
-) (*[]string, *errwrappers.Collection) {
+) *errstr.ResultsWithErrorCollection {
 	if err != nil && !isContinueOnError {
 		errnew.ErrPtr(err).HandleErrorWithRefs(
 			msgtype.FileErrorMessage.String(),
 			"rootPath",
 			rootPath)
 	} else if err != nil {
-		return consts.EmptyStringsResultPtr(),
-			errwrappers.
-				Empty().
-				AddUsingMessages(
-					errtype.FileInfo,
-					err.Error())
+		return errstr.
+			NewResultsWithErrorCollectionUsingTypeErrorPtr(
+				errtype.FileInfo, err)
 	}
 
 	if initialFileInfos == nil {
-		return consts.EmptyStringsResultPtr(),
-			errwrappers.Empty()
+		return errstr.
+			EmptyResultsWithErrorCollectionPtr()
 	}
 
 	length := len(initialFileInfos)
 
 	if length == 0 {
-		return consts.EmptyStringsResultPtr(),
-			errwrappers.Empty()
+		return errstr.
+			EmptyResultsWithErrorCollectionPtr()
 	}
 
 	nestedPathsParam := ds.NestedPathsParam{
@@ -111,10 +108,6 @@ func getFilesPaths(
 
 	wg.Wait()
 
-	list := results.Paths.ListPtr()
-
-	// clearing
-	results.Paths = nil
-
-	return list, results.ErrWrappers
+	return results.
+		ToResultsWithErrorCollection()
 }

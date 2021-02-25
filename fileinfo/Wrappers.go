@@ -32,7 +32,7 @@ func (wrappers *Wrappers) RecursivePaths(
 		wrappers.RootPath,
 		isContinueOnError)
 
-	errorCollection.Handle()
+	errorCollection.HandleError()
 
 	wrappers.recursivePaths = NewPathsUsingPaths(
 		wrappers.RootPath,
@@ -55,7 +55,7 @@ func (wrappers *Wrappers) RecursivePathsFilter(
 		isContinueOnError,
 		filter)
 
-	errorCollection.Handle()
+	errorCollection.HandleError()
 
 	newPathsCollection := NewPathsUsingPaths(
 		wrappers.RootPath,

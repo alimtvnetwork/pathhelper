@@ -40,7 +40,7 @@ func TestGetVariables(t *testing.T) {
 
 		Convey(testCaseMessage, t, func() {
 			// Act
-			actual := normalize.GetVariables(testCase.input)
+			actual := *expandpath.GetEnvironmentVariables(testCase.input)
 
 			// Assert
 			Convey(pathhelper.GetAssertMessage(actual, testCase.expected, i), func() {

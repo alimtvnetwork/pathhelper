@@ -8,7 +8,6 @@ import (
 	"gitlab.com/evatix-go/core/ostype"
 
 	"gitlab.com/evatix-go/pathhelper"
-	"gitlab.com/evatix-go/pathhelper/envpath"
 )
 
 type absoluteFromExecutableDirectoryPathTestCaseWrapper struct {
@@ -83,7 +82,7 @@ func executeTestCaseForGetAbsoluteFromExecutableDirectoryPath(
 ) {
 	Convey(testCaseMessage, t, func() {
 		// Act
-		actual := envpath.GetAbsoluteFromExecutableDirectoryPath(
+		actual := pathhelper.GetAbsoluteFromExecutableDirectoryPath(
 			testCase.inputRelativePath,
 			testCase.isLongPathFix,
 			testCase.isNormalize)

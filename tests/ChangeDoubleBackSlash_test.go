@@ -7,6 +7,7 @@ import (
 	. "github.com/smartystreets/goconvey/convey"
 
 	"gitlab.com/evatix-go/pathhelper"
+	"gitlab.com/evatix-go/pathhelper/normalize"
 )
 
 type doubleBackSlashTestCaseWrapper struct {
@@ -38,7 +39,7 @@ func TestChangeDoubleBackSlash(t *testing.T) {
 
 		Convey(testCaseMessage, t, func() {
 			// Act
-			actual := pathhelper.ChangeDoubleBackSlash(testCase.inputPath, testCase.inputSeparator)
+			actual := normalize.ChangeDoubleBackSlash(testCase.inputPath, testCase.inputSeparator)
 
 			// Assert
 			Convey(pathhelper.GetAssertMessage(actual, testCase.expected, i), func() {

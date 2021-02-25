@@ -13,7 +13,7 @@ import (
 
 	"gitlab.com/evatix-go/pathhelper"
 	"gitlab.com/evatix-go/pathhelper/dirinfo"
-	"gitlab.com/evatix-go/pathhelper/enums"
+	"gitlab.com/evatix-go/pathhelper/performing"
 )
 
 var (
@@ -24,7 +24,7 @@ var (
 		FileModeRequested: nil,
 		HasIssues:         false,
 		IsIgnoredAction:   true,
-		Action:            enums.EmptyDirectoryResult,
+		Action:            performing.EmptyDirectoryResult,
 	}
 
 	errorWrapperType = reflect.TypeOf(errorwrapper.Wrapper{})

@@ -1,11 +1,11 @@
 package fileinfo
 
 import (
+	"gitlab.com/evatix-go/core"
 	"gitlab.com/evatix-go/errorwrapper"
 	"gitlab.com/evatix-go/errorwrapper/errnew"
 	"gitlab.com/evatix-go/errorwrapper/errwrappers"
 
-	"gitlab.com/evatix-go/pathhelper/internal/consts"
 	"gitlab.com/evatix-go/pathhelper/internal/isstrsinternal"
 	"gitlab.com/evatix-go/pathhelper/internal/recursiveinternal"
 )
@@ -117,7 +117,8 @@ func (pathsCollection *PathsCollection) Directories() *[]string {
 	}
 
 	if pathsCollection.IsEmpty() {
-		pathsCollection.directories = consts.EmptyStringsResultPtr()
+		pathsCollection.directories =
+			core.EmptyStringsPtr()
 
 		return pathsCollection.directories
 	}
@@ -143,7 +144,7 @@ func (pathsCollection *PathsCollection) Files() *[]string {
 	}
 
 	if pathsCollection.IsEmpty() {
-		pathsCollection.files = consts.EmptyStringsResultPtr()
+		pathsCollection.files = core.EmptyStringsPtr()
 
 		return pathsCollection.files
 	}

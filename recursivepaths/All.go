@@ -12,6 +12,7 @@ func All(rootPath string, isContinueOnError bool) (*[]string, *errwrappers.Colle
 	normalizePath := normalize.PathUsingSeparator(
 		osconsts.PathSeparator,
 		rootPath,
+		true,
 		true)
 
 	return recursiveinternal.GetPaths(

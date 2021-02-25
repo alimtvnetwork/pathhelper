@@ -6,6 +6,7 @@ import (
 	"sync"
 
 	"gitlab.com/evatix-go/core/coredata/corestr"
+	"gitlab.com/evatix-go/errorwrapper/errdata/errstr"
 	"gitlab.com/evatix-go/errorwrapper/errtype"
 	"gitlab.com/evatix-go/errorwrapper/errwrappers"
 
@@ -18,18 +19,25 @@ const (
 )
 
 type NestedPathsResults struct {
-	param       *NestedPathsParam
-	Paths       *corestr.LinkedCollections
-	ErrWrappers *errwrappers.Collection
+	param                  *NestedPathsParam
+	Paths                  *corestr.LinkedCollections
+	ErrorWrappersCollector *errwrappers.Collection
 }
 
 func NewNestedPathsResults(param *NestedPathsParam) *NestedPathsResults {
 	paths := corestr.NewLinkedCollections()
 
 	return &NestedPathsResults{
-		param:       param,
-		Paths:       paths,
-		ErrWrappers: errwrappers.Empty(),
+		param:                  param,
+		Paths:                  paths,
+		ErrorWrappersCollector: errwrappers.Empty(),
+	}
+}
+
+func (nestedPathsResults *NestedPathsResults) ToResultsWithErrorCollection() *errstr.ResultsWithErrorCollection {
+	return &errstr.ResultsWithErrorCollection{
+		Values:        nestedPathsResults.Paths.ListPtr(),
+		ErrorWrappers: nestedPathsResults.ErrorWrappersCollector,
 	}
 }
 
@@ -40,9 +48,9 @@ func (nestedPathsResults *NestedPathsResults) Add(
 ) {
 	hasError := err != nil
 	isErrContinue := nestedPathsResults.param.IsContinueOnError
-	errWrappers := nestedPathsResults.ErrWrappers
+	errWrappers := nestedPathsResults.ErrorWrappersCollector
 	if hasError {
-		nestedPathsResults.ErrWrappers.AddUsingMessages(
+		nestedPathsResults.ErrorWrappersCollector.AddUsingMessages(
 			errtype.File,
 			err.Error(),
 			FilePath,
@@ -110,9 +118,9 @@ func (nestedPathsResults *NestedPathsResults) AddFilter(
 ) {
 	hasError := err != nil
 	isErrContinue := nestedPathsResults.param.IsContinueOnError
-	errWrappers := nestedPathsResults.ErrWrappers
+	errWrappers := nestedPathsResults.ErrorWrappersCollector
 	if hasError {
-		nestedPathsResults.ErrWrappers.AddUsingMessages(
+		nestedPathsResults.ErrorWrappersCollector.AddUsingMessages(
 			errtype.File,
 			err.Error(),
 			FilePath,
@@ -204,9 +212,9 @@ func (nestedPathsResults *NestedPathsResults) AddFile(
 ) {
 	hasError := err != nil
 	isErrContinue := nestedPathsResults.param.IsContinueOnError
-	errWrappers := nestedPathsResults.ErrWrappers
+	errWrappers := nestedPathsResults.ErrorWrappersCollector
 	if hasError {
-		nestedPathsResults.ErrWrappers.AddUsingMessages(
+		nestedPathsResults.ErrorWrappersCollector.AddUsingMessages(
 			errtype.File,
 			err.Error(),
 			FilePath,
@@ -281,9 +289,9 @@ func (nestedPathsResults *NestedPathsResults) AddDirectory(
 ) {
 	hasError := err != nil
 	isErrContinue := nestedPathsResults.param.IsContinueOnError
-	errWrappers := nestedPathsResults.ErrWrappers
+	errWrappers := nestedPathsResults.ErrorWrappersCollector
 	if hasError {
-		nestedPathsResults.ErrWrappers.AddUsingMessages(
+		nestedPathsResults.ErrorWrappersCollector.AddUsingMessages(
 			errtype.File,
 			err.Error(),
 			FilePath,

@@ -1,4 +1,4 @@
-package normalize
+package expandpath
 
 import (
 	"regexp"
