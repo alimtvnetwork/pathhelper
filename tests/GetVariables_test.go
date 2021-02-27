@@ -6,7 +6,7 @@ import (
 
 	. "github.com/smartystreets/goconvey/convey"
 
-	"gitlab.com/evatix-go/pathhelper"
+	"gitlab.com/evatix-go/pathhelper/expandpath"
 )
 
 type getVariableTestCaseWrapper struct {
@@ -39,10 +39,10 @@ func TestGetVariables(t *testing.T) {
 
 		Convey(testCaseMessage, t, func() {
 			// Act
-			actual := pathhelper.GetVariables(testCase.input)
+			actual := *expandpath.GetEnvironmentVariables(testCase.input)
 
 			// Assert
-			Convey(pathhelper.GetAssertMessage(actual, testCase.expected, i), func() {
+			Convey(GetAssertMessage(actual, testCase.expected, i), func() {
 				So(actual, ShouldHaveSameTypeAs, []string{})
 
 				length := len(actual)

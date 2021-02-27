@@ -1,4 +1,5 @@
 ![](https://gitlab.com/evatix-go/pathhelper/uploads/6d228f94832193e553ddbc24401f7a52/image.png)
+
 # pathhelper
 
 path helper utility tool
@@ -18,11 +19,10 @@ path helper utility tool
 
 ## Why *pathhelper*?
 
-Package pathhelper provides an easy and fast way to get your desired OS(operating system) functionality 
-without the hassle of considering the OS you are on, what GO packages you may need to decode a path or 
-simply find out if the path or file exists etc. We have brought features of different packages and 
-injected some new features to make this package a complete solution for obtaining information regarding 
-filepath independent of platform.
+Package pathhelper provides an easy and fast way to get your desired OS(operating system) functionality without the
+hassle of considering the OS you are on, what GO packages you may need to decode a path or simply find out if the path
+or file exists etc. We have brought features of different packages and injected some new features to make this package a
+complete solution for obtaining information regarding filepath independent of platform.
 
 ## Examples
 
@@ -31,6 +31,7 @@ package main
 
 import (
 	"fmt"
+
 	"gitlab.com/evatix-go/pathhelper"
 	"gitlab.com/evatix-go/pathhelper/pathhelpercore"
 )
@@ -42,7 +43,7 @@ func main() {
 	samplePath := "C:\\users\\"
 
 	// Checking if path exists
-	exists :=  pathhelper.IsPathExist(samplePath)
+	exists := pathhelper.IsPathExist(samplePath)
 	fmt.Println(exists) // returns true if directory or file exist on that path
 
 	// Getting path as URI
@@ -56,8 +57,8 @@ func main() {
 
 ## Acknowledgement
 
-For this package we have mainly used OS and filepath packages of GO. For testing the package we have used 
-the very convenient package *[Go Convey](http://goconvey.co/)*.
+For this package we have mainly used OS and filepath packages of GO. For testing the package we have used the very
+convenient package *[Go Convey](http://goconvey.co/)*.
 
 ## Links
 
@@ -68,6 +69,9 @@ the very convenient package *[Go Convey](http://goconvey.co/)*.
 - [jmhodges/copyfighter: Statically analyzes Go code and reports functions that are passing large structs by value](https://github.com/jmhodges/copyfighter)
 - [CodeReviewComments · golang/go Wiki](https://github.com/golang/go/wiki/CodeReviewComments#pass-values)
 - [Difference between := and = operators in Go - Stack Overflow](https://stackoverflow.com/questions/17891226/difference-between-and-operators-in-go?rq=1)
+- [How to manage Long Paths in Bash? - Stack Overflow](https://stackoverflow.com/questions/670488/how-to-manage-long-paths-in-bash)
+- [Go import cycle issue fix](https://stackoverflow.com/questions/16168601/any-good-advice-about-how-to-avoid-import-cycle-in-go)
+- [Samples for path and filename extraction](https://play.golang.org/p/EMbLKv5Jyqe)
 
 ## Notes
 

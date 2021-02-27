@@ -5,17 +5,17 @@ import (
 
 	"gitlab.com/evatix-go/core/constants"
 
-	"gitlab.com/evatix-go/pathhelper/enums"
+	"gitlab.com/evatix-go/pathhelper/urischemes"
 )
 
-func whichPrefix(stringToCheck string) enums.UriSchemes {
+func whichPrefix(stringToCheck string) urischemes.Type {
 	if strings.HasPrefix(stringToCheck, constants.UriSchemePrefixStandard) {
-		return enums.UriSchemePrefixStandard
+		return urischemes.UriSchemePrefixStandard
 	}
 
 	if strings.HasPrefix(stringToCheck, constants.UriSchemePrefixTwoSlashes) {
-		return enums.UriSchemePrefixTwoSlashes
+		return urischemes.UriSchemePrefixTwoSlashes
 	}
 
-	return enums.UriUnknown
+	return urischemes.UriUnknown
 }

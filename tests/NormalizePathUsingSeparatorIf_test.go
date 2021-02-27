@@ -6,32 +6,37 @@ import (
 
 	. "github.com/smartystreets/goconvey/convey"
 
-	"gitlab.com/evatix-go/pathhelper"
+	"gitlab.com/evatix-go/pathhelper/normalize"
 )
 
 type normalizePathUsingSeparatorIfTestCaseWrapper struct {
-	inputString, inputSeparator, expected string
-	isLongPathFixed, isNormalize          bool
+	inputString, inputSeparator, expected  string
+	isForced, isLongPathFixed, isNormalize bool
 }
 
 var normalizePathUsingSeparatorIfTestCaseWrappers = []normalizePathUsingSeparatorIfTestCaseWrapper{
 	{
 		inputString:     "file://c:\\windows//system32\\//etc",
 		inputSeparator:  "/",
+		isForced:        false,
 		isLongPathFixed: true,
 		isNormalize:     true,
 		expected:        "c:/windows/system32/etc",
 	},
 	{
-		inputString:     "c:\\sample\\somethingElseOne\\somethingElseOne\\somethingElseOne\\somethingElseOne\\somethingElseOne\\somethingElseOne\\somethingElseOne\\somethingElseOne\\somethingElseOne\\somethingElseOne\\somethingElseOne\\somethingElseOne\\somethingElseOne\\somethingElseOne\\somethingElseOne",
-		inputSeparator:  "/",
+		inputString:    "c:\\sample\\somethingElseOne\\somethingElseOne\\somethingElseOne\\somethingElseOne\\somethingElseOne\\somethingElseOne\\somethingElseOne\\somethingElseOne\\somethingElseOne\\somethingElseOne\\somethingElseOne\\somethingElseOne\\somethingElseOne\\somethingElseOne\\somethingElseOne",
+		inputSeparator: "/",
+		isForced:       false,
+
 		isLongPathFixed: true,
 		isNormalize:     false,
 		expected:        "\\\\?\\c:\\sample\\somethingElseOne\\somethingElseOne\\somethingElseOne\\somethingElseOne\\somethingElseOne\\somethingElseOne\\somethingElseOne\\somethingElseOne\\somethingElseOne\\somethingElseOne\\somethingElseOne\\somethingElseOne\\somethingElseOne\\somethingElseOne\\somethingElseOne",
 	},
 	{
-		inputString:     "",
-		inputSeparator:  "/",
+		inputString:    "",
+		inputSeparator: "/",
+		isForced:       false,
+
 		isLongPathFixed: true,
 		isNormalize:     true,
 		expected:        "",
@@ -45,14 +50,16 @@ func TestNormalizePathUsingSeparatorIf(t *testing.T) {
 
 		Convey(testCaseMessage, t, func() {
 			// Act
-			actual := pathhelper.NormalizePathUsingSeparatorIf(
+			actual := normalize.PathUsingSeparatorIf(
+				testCase.isLongPathFixed,
+
 				testCase.isLongPathFixed,
 				testCase.isNormalize,
 				testCase.inputSeparator,
 				testCase.inputString)
 
 			// Assert
-			Convey(pathhelper.GetAssertMessage(actual, testCase.expected, i), func() {
+			Convey(GetAssertMessage(actual, testCase.expected, i), func() {
 				So(actual, ShouldEqual, testCase.expected)
 			})
 		})

@@ -5,7 +5,8 @@ import (
 
 	"gitlab.com/evatix-go/core/ostype"
 
-	"gitlab.com/evatix-go/pathhelper"
+	"gitlab.com/evatix-go/pathhelper/internal/mics"
+	"gitlab.com/evatix-go/pathhelper/knowndirget"
 )
 
 var rootTestCaseDataWrappers = []generalizedPathWithoutInputTestCaseDataWrapper{
@@ -28,11 +29,11 @@ func TestGetRoot_Windows(t *testing.T) {
 
 	for i, testCase := range rootTestCaseDataWrappers {
 		// Arrange
-		if pathhelper.IsUnixCase(testCase.operatingSystem) {
+		if mics.IsUnixCase(testCase.operatingSystem) {
 			continue
 		}
 
-		executeTestForGeneralizedPathWithoutInput(t, testCase, pathhelper.GetRoot, i)
+		executeTestForGeneralizedPathWithoutInput(t, testCase, knowndirget.GetRoot, i)
 	}
 }
 
@@ -41,10 +42,10 @@ func TestGetRoot_Unix(t *testing.T) {
 
 	for i, testCase := range rootTestCaseDataWrappers {
 		// Arrange
-		if pathhelper.IsWindowsCase(testCase.operatingSystem) {
+		if mics.IsWindowsCase(testCase.operatingSystem) {
 			continue
 		}
 
-		executeTestForGeneralizedPathWithoutInput(t, testCase, pathhelper.GetRoot, i)
+		executeTestForGeneralizedPathWithoutInput(t, testCase, knowndirget.GetRoot, i)
 	}
 }

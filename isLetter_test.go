@@ -5,6 +5,8 @@ import (
 	"testing"
 
 	. "github.com/smartystreets/goconvey/convey"
+
+	"gitlab.com/evatix-go/pathhelper/tests"
 )
 
 type letterTestCaseWrapper struct {
@@ -40,7 +42,7 @@ func TestIsLetter(t *testing.T) {
 			actual := isLetter(testCase.input)
 
 			// Assert
-			Convey(GetAssertMessage(actual, testCase.expected, i), func() {
+			Convey(tests.GetAssertMessage(actual, testCase.expected, i), func() {
 				So(actual, ShouldNotBeEmpty)
 				So(actual, ShouldEqual, testCase.expected)
 			})

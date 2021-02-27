@@ -3,15 +3,15 @@ package tests
 import (
 	"testing"
 
-	"gitlab.com/evatix-go/pathhelper"
+	"gitlab.com/evatix-go/pathhelper/knowndirget"
 )
 
 var unixRootTestCaseData = pathTestCaseDataWrapper{
 	OSName:   "Unix OS",
-	funcName: "GetUnixRoot",
+	funcName: "UnixRoot",
 	expected: "/",
 }
 
 func TestGetUnixRoot(t *testing.T) {
-	getPathTestCommonMethodLinux(t, unixRootTestCaseData, pathhelper.GetUnixRoot)
+	getPathTestCommonMethodLinux(t, unixRootTestCaseData, knowndirget.UnixRoot)
 }

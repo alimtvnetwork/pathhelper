@@ -6,8 +6,8 @@ import (
 
 	. "github.com/smartystreets/goconvey/convey"
 
-	"gitlab.com/evatix-go/pathhelper"
-	"gitlab.com/evatix-go/pathhelper/pathhelpercore"
+	"gitlab.com/evatix-go/pathhelper/expandpath"
+	"gitlab.com/evatix-go/pathhelper/ispath"
 )
 
 type pathFromEnvVariableTestCaseWrapper struct {
@@ -35,19 +35,19 @@ var pathFromEnvVariableTestCaseWrappers = []pathFromEnvVariableTestCaseWrapper{
 func TestPathFromEnvVariable(t *testing.T) {
 	for i, testCase := range pathFromEnvVariableTestCaseWrappers {
 		// Arrange
-		testCaseMessage := fmt.Sprintf("[PathFromEnvVariable] inputs (%s) expects (%s)", testCase.input, testCase.expectedMessage)
+		testCaseMessage := fmt.Sprintf("[EnvironmentVarExpand] inputs (%s) expects (%s)", testCase.input, testCase.expectedMessage)
 
 		Convey(testCaseMessage, t, func() {
 			// Act
-			actual := pathhelper.PathFromEnvVariable(testCase.input)
+			actual := expandpath.EnvironmentVarExpand(testCase.input)
 
 			// Assert
-			Convey(pathhelper.GetAssertMessage(actual, testCase.expected, i), func() { // todo check equality
-				if pathhelpercore.IsEmptyPath(testCase.input) {
+			Convey(GetAssertMessage(actual, testCase.expected, i), func() { // todo check equality
+				if ispath.Empty(testCase.input) {
 					So(actual, ShouldBeEmpty)
 				}
 
-				if !pathhelpercore.IsEmptyPath(testCase.input) {
+				if !ispath.Empty(testCase.input) {
 					So(actual, ShouldNotBeEmpty)
 				}
 			})

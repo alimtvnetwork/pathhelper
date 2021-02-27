@@ -7,7 +7,8 @@ import (
 	. "github.com/smartystreets/goconvey/convey"
 	"gitlab.com/evatix-go/core/ostype"
 
-	"gitlab.com/evatix-go/pathhelper"
+	"gitlab.com/evatix-go/pathhelper/internal/mics"
+	"gitlab.com/evatix-go/pathhelper/normalize"
 )
 
 type normalizePathTestCaseWrapper struct {
@@ -49,7 +50,7 @@ func TestNormalizePath_Windows(t *testing.T) {
 
 	for i, testCase := range normalizePathTestCaseWrappers {
 		// Arrange
-		if pathhelper.IsUnixCase(testCase.operatingSystem) {
+		if mics.IsUnixCase(testCase.operatingSystem) {
 			continue
 		}
 
@@ -64,7 +65,7 @@ func TestNormalizePath_Unix(t *testing.T) {
 
 	for i, testCase := range normalizePathTestCaseWrappers {
 		// Arrange
-		if pathhelper.IsWindowsCase(testCase.operatingSystem) {
+		if mics.IsWindowsCase(testCase.operatingSystem) {
 			continue
 		}
 
@@ -77,10 +78,10 @@ func TestNormalizePath_Unix(t *testing.T) {
 func executeTestNormalizePath(t *testing.T, testCaseMessage string, testCase normalizePathTestCaseWrapper, i int) {
 	Convey(testCaseMessage, t, func() {
 		// Act
-		actual := pathhelper.NormalizePath(testCase.input)
+		actual := normalize.Path(testCase.input)
 
 		// Assert
-		Convey(pathhelper.GetAssertMessage(actual, testCase.expected, i), func() {
+		Convey(GetAssertMessage(actual, testCase.expected, i), func() {
 			So(actual, ShouldNotBeEmpty)
 			So(actual, ShouldEqual, testCase.expected)
 		})

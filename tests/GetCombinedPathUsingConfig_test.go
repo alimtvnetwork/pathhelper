@@ -10,6 +10,7 @@ import (
 	"gitlab.com/evatix-go/core/constants"
 
 	"gitlab.com/evatix-go/pathhelper"
+	"gitlab.com/evatix-go/pathhelper/internal/mics"
 	"gitlab.com/evatix-go/pathhelper/pathhelpercore"
 )
 
@@ -48,7 +49,7 @@ func TestGetCombinedPathUsingConfig_Windows(t *testing.T) {
 
 	for i, testCase := range combinedPathUsingConfigTestCaseWrappers {
 		// Arrange
-		if pathhelper.IsUnixCase(testCase.operatingSystem) {
+		if mics.IsUnixCase(testCase.operatingSystem) {
 			continue
 		}
 
@@ -63,7 +64,7 @@ func TestGetCombinedPathUsingConfig_Unix(t *testing.T) {
 
 	for i, testCase := range combinedPathUsingConfigTestCaseWrappers {
 		// Arrange
-		if pathhelper.IsWindowsCase(testCase.operatingSystem) {
+		if mics.IsWindowsCase(testCase.operatingSystem) {
 			continue
 		}
 
@@ -84,7 +85,7 @@ func executeTestCaseForGetCombinedPathUsingConfig(
 		actual := pathhelper.GetCombinedPathUsingConfig(testCase.inputConfig, testCase.inputPaths1, testCase.inputPaths2, testCase.inputPaths3)
 
 		// Assert
-		Convey(pathhelper.GetAssertMessage(actual, testCase.expected, i), func() {
+		Convey(GetAssertMessage(actual, testCase.expected, i), func() {
 			So(actual, ShouldNotBeNil)
 			So(actual, ShouldEqual, testCase.expected)
 		})

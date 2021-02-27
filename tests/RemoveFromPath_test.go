@@ -9,7 +9,8 @@ import (
 	"gitlab.com/evatix-go/core/ostype"
 
 	"gitlab.com/evatix-go/pathhelper"
-	"gitlab.com/evatix-go/pathhelper/pathhelpercore"
+	"gitlab.com/evatix-go/pathhelper/internal/mics"
+	"gitlab.com/evatix-go/pathhelper/ispath"
 )
 
 type removeFromPathTestCaseWrapper struct {
@@ -53,7 +54,7 @@ func TestRemoveFromPath_windows(t *testing.T) {
 
 	for i, testCase := range removeFromPathTestCaseWrappers {
 		// Arrange
-		if pathhelper.IsUnixCase(testCase.operatingSystem) {
+		if mics.IsUnixCase(testCase.operatingSystem) {
 			continue
 		}
 
@@ -70,7 +71,7 @@ func TestRemoveFromPath_unix(t *testing.T) {
 
 	for i, testCase := range removeFromPathTestCaseWrappers {
 		// Arrange
-		if pathhelper.IsWindowsCase(testCase.operatingSystem) {
+		if mics.IsWindowsCase(testCase.operatingSystem) {
 			continue
 		}
 
@@ -88,12 +89,12 @@ func executeTestCaseForRemoveFromPath(
 		actual := pathhelper.RemoveFromPath(testCase.inputPath, &removingArray, testCase.inputBool)
 
 		// Assert
-		Convey(pathhelper.GetAssertMessage(actual, testCase.expected, i), func() {
-			if pathhelpercore.IsEmptyPath(testCase.inputPath) {
+		Convey(GetAssertMessage(actual, testCase.expected, i), func() {
+			if ispath.Empty(testCase.inputPath) {
 				So(actual, ShouldBeEmpty)
 			}
 
-			if !pathhelpercore.IsEmptyPath(testCase.inputPath) {
+			if !ispath.Empty(testCase.inputPath) {
 				So(actual, ShouldNotBeEmpty)
 				So(actual, ShouldEqual, testCase.expected)
 			}

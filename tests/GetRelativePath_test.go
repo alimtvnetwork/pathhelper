@@ -45,7 +45,7 @@ func TestGetRelativePath(t *testing.T) {
 			actual := pathhelper.GetRelativePath(testCase.inputFullpath, testCase.inputBasepath)
 
 			// Arrange
-			Convey(pathhelper.GetAssertMessage(actual, testCase.expected, i), func() {
+			Convey(GetAssertMessage(actual, testCase.expected, i), func() {
 				if !strings.Contains(testCase.inputFullpath, testCase.inputBasepath) {
 					So(actual, ShouldBeEmpty)
 				}

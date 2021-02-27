@@ -5,8 +5,8 @@ import (
 	"gitlab.com/evatix-go/core/osconsts"
 	"gitlab.com/evatix-go/errorwrapper/errtype"
 
-	"gitlab.com/evatix-go/pathhelper"
 	"gitlab.com/evatix-go/pathhelper/knowndir"
+	"gitlab.com/evatix-go/pathhelper/knowndirget"
 )
 
 // returns /etc/apache/conf-available as a string
@@ -15,5 +15,5 @@ func GetConfAvailable() string {
 		errtype.NotSupportInWindows.PanicNoRefs(constants.EmptyString)
 	}
 
-	return knowndir.ConfAvailable.CombineWith(pathhelper.GetApacheLinuxPath())
+	return knowndir.ConfAvailable.CombineWith(knowndirget.ApacheLinuxPath())
 }

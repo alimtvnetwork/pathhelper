@@ -5,6 +5,8 @@ import (
 
 	"gitlab.com/evatix-go/core/msgtype"
 
+	"gitlab.com/evatix-go/pathhelper/internal/ispathinternal"
+	"gitlab.com/evatix-go/pathhelper/normalize"
 	"gitlab.com/evatix-go/pathhelper/pathhelpercore"
 )
 
@@ -12,7 +14,7 @@ func getCombinedPathUsingConfigInternal(
 	pathConfig *pathhelpercore.PathConfig,
 	paths []string,
 ) string {
-	if pathhelpercore.IsEmptyArray(paths) {
+	if ispathinternal.EmptyArray(paths) {
 		panic(msgtype.InvalidEmptyPathErrorMessage)
 	}
 
@@ -25,7 +27,8 @@ func getCombinedPathUsingConfigInternal(
 		combinedPath = GetCombinedOfNonEmptyPaths(pathConfig.Separator, paths)
 	}
 
-	finalPath := NormalizePathUsingSeparatorIf(
+	finalPath := normalize.PathUsingSeparatorIf(
+		pathConfig.IsLongPathFix,
 		pathConfig.IsLongPathFix,
 		pathConfig.IsNormalize,
 		pathConfig.Separator,

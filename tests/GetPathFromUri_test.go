@@ -8,6 +8,7 @@ import (
 	"gitlab.com/evatix-go/core/ostype"
 
 	"gitlab.com/evatix-go/pathhelper"
+	"gitlab.com/evatix-go/pathhelper/internal/mics"
 )
 
 type pathFromUriTestCaseWrapper struct {
@@ -40,7 +41,7 @@ func TestGetPathFromUri_Windows(t *testing.T) {
 
 	for i, testCase := range pathFromUriTestCaseWrappers {
 		// Arrange
-		if pathhelper.IsUnixCase(testCase.operatingSystem) {
+		if mics.IsUnixCase(testCase.operatingSystem) {
 			continue
 		}
 
@@ -55,7 +56,7 @@ func TestGetPathFromUri_Unix(t *testing.T) {
 
 	for i, testCase := range pathFromUriTestCaseWrappers {
 		// Arrange
-		if pathhelper.IsWindowsCase(testCase.operatingSystem) {
+		if mics.IsWindowsCase(testCase.operatingSystem) {
 			continue
 		}
 
@@ -73,7 +74,7 @@ func executeTestCaseForGetPathFromUri(
 		actual := pathhelper.GetPathFromUri(testCase.givenPath, testCase.isNormalize)
 
 		// Assert
-		Convey(pathhelper.GetAssertMessage(actual, testCase.expected, i), func() {
+		Convey(GetAssertMessage(actual, testCase.expected, i), func() {
 			So(actual, ShouldNotBeNil)
 			So(actual, ShouldEqual, testCase.expected)
 		})
