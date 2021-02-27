@@ -8,6 +8,7 @@ import (
 	"gitlab.com/evatix-go/core/ostype"
 
 	"gitlab.com/evatix-go/pathhelper"
+	"gitlab.com/evatix-go/pathhelper/internal/mics"
 )
 
 type absolutePathTestCaseWrapper struct {
@@ -75,7 +76,7 @@ func TestGetAbsolutePath_Windows(t *testing.T) {
 
 	for i, testCase := range absolutePathTestCaseWrappers {
 		// Arrange
-		if pathhelper.IsUnixCase(testCase.operatingSystem) {
+		if mics.IsUnixCase(testCase.operatingSystem) {
 			continue
 		}
 
@@ -90,7 +91,7 @@ func TestGetAbsolutePath_Unix(t *testing.T) {
 
 	for i, testCase := range absolutePathTestCaseWrappers {
 		// Arrange
-		if pathhelper.IsWindowsCase(testCase.operatingSystem) {
+		if mics.IsWindowsCase(testCase.operatingSystem) {
 			continue
 		}
 
@@ -110,7 +111,7 @@ func executeTestForGetAbsolutePath(t *testing.T, testCaseMessage string, testCas
 			testCase.isNormalize)
 
 		// Assert
-		Convey(pathhelper.GetAssertMessage(actual, testCase.expected, i), func() {
+		Convey(GetAssertMessage(actual, testCase.expected, i), func() {
 			So(actual, ShouldNotBeNil)
 			So(actual, ShouldEqual, testCase.expected)
 		})

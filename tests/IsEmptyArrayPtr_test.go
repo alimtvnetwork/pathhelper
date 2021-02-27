@@ -6,7 +6,6 @@ import (
 
 	. "github.com/smartystreets/goconvey/convey"
 
-	"gitlab.com/evatix-go/pathhelper"
 	"gitlab.com/evatix-go/pathhelper/internal/ispathinternal"
 )
 
@@ -43,7 +42,7 @@ func TestIsEmptyArrayPtr(t *testing.T) {
 			actual := ispathinternal.EmptyArrayPtr(testCase.input)
 
 			// Assert
-			Convey(pathhelper.GetAssertMessage(actual, testCase.expected, i), func() {
+			Convey(GetAssertMessage(actual, testCase.expected, i), func() {
 				So(actual, ShouldEqual, testCase.expected)
 			})
 		})

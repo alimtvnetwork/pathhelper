@@ -97,9 +97,13 @@ func (receiver *Wrapper) FileNameWithoutExtension() string {
 }
 
 func (receiver *Wrapper) initializeProperties() {
+	if receiver.baseDir != nil {
+		return
+	}
+
 	baseDir, fileNameWithExtension := pathsplitinternal.GetWithoutSlash(
 		receiver.fullPath)
-	fileNameWithoutExt := ""
+	fileNameWithoutExt := fileNameWithExtension
 
 	if receiver.HasExtension() {
 		fileNameWithoutExt = strings.Replace(
@@ -186,7 +190,8 @@ func (receiver *Wrapper) GetMoreThanExt(moreIndex int) string {
 // .mp4 reference: https://stackoverflow.com/a/64122557
 func (receiver *Wrapper) DotExtension() *string {
 	if receiver.dotExtension == nil {
-		dotExt := receiver.GetMoreThanExt(0)
+		dotExt := receiver.GetMoreThanExt(
+			constants.Zero)
 		receiver.dotExtension = &dotExt
 	}
 

@@ -8,7 +8,9 @@ import (
 	"gitlab.com/evatix-go/core/osconsts"
 	"gitlab.com/evatix-go/core/ostype"
 
+	"gitlab.com/evatix-go/pathhelper/internal/mics"
 	"gitlab.com/evatix-go/pathhelper/pathhelpercore"
+	"gitlab.com/evatix-go/pathhelper/tests"
 )
 
 type combinedPathUsingConfigInternalTestCaseWrapper struct {
@@ -55,7 +57,7 @@ func TestGetCombinedPathUsingConfigInternal_Windows(t *testing.T) {
 
 	for i, testCase := range combinedPathUsingConfigInternalTestCaseWrappers {
 		// Arrange
-		if IsUnixCase(testCase.operatingSystem) {
+		if mics.IsUnixCase(testCase.operatingSystem) {
 			continue
 		}
 
@@ -72,7 +74,7 @@ func TestGetCombinedPathUsingConfigInternal_Unix(t *testing.T) {
 
 	for i, testCase := range combinedPathUsingConfigInternalTestCaseWrappers {
 		// Arrange
-		if IsWindowsCase(testCase.operatingSystem) {
+		if mics.IsWindowsCase(testCase.operatingSystem) {
 			continue
 		}
 
@@ -93,7 +95,7 @@ func executeTestCaseForGetCombinedPathUsingConfigInternal(
 		actual := getCombinedPathUsingConfigInternal(testCase.inputPathConfig, testCase.inputPaths)
 
 		// Assert
-		Convey(GetAssertMessage(actual, testCase.expected, i), func() {
+		Convey(tests.GetAssertMessage(actual, testCase.expected, i), func() {
 			So(actual, ShouldEqual, testCase.expected)
 		})
 	})

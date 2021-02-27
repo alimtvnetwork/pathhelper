@@ -11,7 +11,6 @@ import (
 	"gitlab.com/evatix-go/errorwrapper/errnew"
 	"gitlab.com/evatix-go/errorwrapper/errtype"
 
-	"gitlab.com/evatix-go/pathhelper"
 	"gitlab.com/evatix-go/pathhelper/dirinfo"
 	"gitlab.com/evatix-go/pathhelper/performing"
 )
@@ -54,7 +53,7 @@ func TestNewEmptyDirectoryResult(t *testing.T) {
 				continue
 			}
 
-			Convey(pathhelper.GetAssertMessage(actualFieldValue, expectedFieldValue, i), func() {
+			Convey(GetAssertMessage(actualFieldValue, expectedFieldValue, i), func() {
 				So(actualFieldValue, ShouldEqual, expectedFieldValue)
 			})
 		}
@@ -71,7 +70,7 @@ func AssertErrorWrapperEqual(err1, err2 interface{}, index int) {
 	errW1 := errconv.Get(err1)
 	errW2 := errconv.GetPtr(err2)
 
-	Convey(pathhelper.GetAssertMessage(err1, err2, index), func() {
+	Convey(GetAssertMessage(err1, err2, index), func() {
 		So(errW1.Wrapper.IsEquals(errW2.Wrapper), ShouldBeTrue)
 	})
 }

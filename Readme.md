@@ -71,6 +71,7 @@ convenient package *[Go Convey](http://goconvey.co/)*.
 - [Difference between := and = operators in Go - Stack Overflow](https://stackoverflow.com/questions/17891226/difference-between-and-operators-in-go?rq=1)
 - [How to manage Long Paths in Bash? - Stack Overflow](https://stackoverflow.com/questions/670488/how-to-manage-long-paths-in-bash)
 - [Go import cycle issue fix](https://stackoverflow.com/questions/16168601/any-good-advice-about-how-to-avoid-import-cycle-in-go)
+- [Samples for path and filename extraction](https://play.golang.org/p/EMbLKv5Jyqe)
 
 ## Notes
 

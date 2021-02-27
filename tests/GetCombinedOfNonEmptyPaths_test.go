@@ -39,7 +39,7 @@ func TestGetCombinedOfNonEmptyPaths(t *testing.T) {
 			actual := pathhelper.GetCombinedOfNonEmptyPaths(testCase.inputSeparator, testCase.inputPaths)
 
 			// Assert
-			Convey(pathhelper.GetAssertMessage(actual, testCase.expected, i), func() {
+			Convey(GetAssertMessage(actual, testCase.expected, i), func() {
 				So(actual, ShouldNotBeNil)
 				So(actual, ShouldEqual, testCase.expected)
 			})

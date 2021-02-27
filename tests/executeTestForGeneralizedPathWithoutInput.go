@@ -6,8 +6,6 @@ import (
 
 	. "github.com/smartystreets/goconvey/convey"
 	"gitlab.com/evatix-go/core/ostype"
-
-	"gitlab.com/evatix-go/pathhelper"
 )
 
 type generalizedPathWithoutInputTestCaseDataWrapper struct {
@@ -28,7 +26,7 @@ func executeTestForGeneralizedPathWithoutInput(
 		actual := funcCall()
 
 		// Assert
-		Convey(pathhelper.GetAssertMessage(actual, testCase.expected, i), func() {
+		Convey(GetAssertMessage(actual, testCase.expected, i), func() {
 			So(actual, ShouldNotBeNil)
 			So(actual, ShouldEqual, testCase.expected)
 		})

@@ -39,10 +39,10 @@ func TestGetLongPathFixed(t *testing.T) {
 
 		Convey(testCaseMessage, t, func() {
 			// Act
-			actual := pathhelper.GetLongPathFixed(testCase.input)
+			actual := pathhelper.GetLongPathFixed(false, testCase.input)
 
 			// Assert
-			Convey(pathhelper.GetAssertMessage(actual, testCase.expected, i), func() {
+			Convey(GetAssertMessage(actual, testCase.expected, i), func() {
 				So(actual, ShouldEqual, testCase.expected)
 			})
 		})

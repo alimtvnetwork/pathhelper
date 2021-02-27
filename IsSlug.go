@@ -11,8 +11,8 @@ func IsSlug(path string) bool {
 		return false
 	}
 
-	for i := range forbiddenArray {
-		if strings.Contains(path, forbiddenArray[i]) {
+	for i := range slugForbiddenArray {
+		if strings.Contains(path, slugForbiddenArray[i]) {
 			return false
 		}
 	}

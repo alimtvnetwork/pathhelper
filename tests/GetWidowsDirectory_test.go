@@ -7,7 +7,7 @@ import (
 	. "github.com/smartystreets/goconvey/convey"
 	"gitlab.com/evatix-go/core/ostype"
 
-	"gitlab.com/evatix-go/pathhelper"
+	"gitlab.com/evatix-go/pathhelper/internal/mics"
 	"gitlab.com/evatix-go/pathhelper/knowndirget"
 )
 
@@ -34,7 +34,7 @@ func TestGetWidowsDirectory_Windows(t *testing.T) {
 
 	for i, testCase := range windowsDirectoryTestCaseWrappers {
 		// Arrange
-		if pathhelper.IsUnixCase(testCase.operatingSystem) {
+		if mics.IsUnixCase(testCase.operatingSystem) {
 			continue
 		}
 
@@ -49,7 +49,7 @@ func TestGetWidowsDirectory_Unix(t *testing.T) {
 
 	for i, testCase := range windowsDirectoryTestCaseWrappers {
 		// Arrange
-		if pathhelper.IsWindowsCase(testCase.operatingSystem) {
+		if mics.IsWindowsCase(testCase.operatingSystem) {
 			continue
 		}
 
@@ -70,7 +70,7 @@ func executeTestCaseForGetWidowsDirectory(
 		actual := knowndirget.WidowsDirectory()
 
 		// Assert
-		Convey(pathhelper.GetAssertMessage(actual, testCase.expected, i), func() {
+		Convey(GetAssertMessage(actual, testCase.expected, i), func() {
 			So(actual, ShouldEqual, testCase.expected)
 		})
 	})
