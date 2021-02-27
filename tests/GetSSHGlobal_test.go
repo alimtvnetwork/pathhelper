@@ -3,24 +3,26 @@ package tests
 import (
 	"testing"
 
-	"gitlab.com/evatix-go/pathhelper"
-	"gitlab.com/evatix-go/pathhelper/enums"
+	"gitlab.com/evatix-go/core/ostype"
+
+	"gitlab.com/evatix-go/pathhelper/internal/mics"
+	"gitlab.com/evatix-go/pathhelper/knowndirget"
 )
 
-var homepath = pathhelper.GetUserPath()
+var homePath = knowndirget.UserPath()
 
 var sshGlobalTestCaseDataWrappers = []generalizedPathWithoutInputTestCaseDataWrapper{
 	{
 		operatingSystemMessage: "Unix OS",
-		funcName:               "GetSSHGlobal",
-		expected:               homepath + "/.ssh",
-		operatingSystem:        enums.Ubuntu,
+		funcName:               "SSHGlobal",
+		expected:               homePath + "/.ssh",
+		operatingSystem:        ostype.Linux,
 	},
 	{
 		operatingSystemMessage: "Windows OS",
-		funcName:               "GetSSHGlobal",
+		funcName:               "SSHGlobal",
 		expected:               "C:\\Users\\Administrator\\.ssh",
-		operatingSystem:        enums.Windows,
+		operatingSystem:        ostype.Windows,
 	},
 }
 
@@ -29,11 +31,15 @@ func TestGetSSHGlobal_Windows(t *testing.T) {
 
 	for i, testCase := range sshGlobalTestCaseDataWrappers {
 		// Arrange
-		if pathhelper.IsUnixCase(testCase.operatingSystem) {
+		if mics.IsUnixCase(testCase.operatingSystem) {
 			continue
 		}
 
-		executeTestForGeneralizedPathWithoutInput(t, testCase, pathhelper.GetSSHGlobal, i)
+		executeTestForGeneralizedPathWithoutInput(
+			t,
+			testCase,
+			knowndirget.SSHGlobal,
+			i)
 	}
 }
 
@@ -42,10 +48,10 @@ func TestGetSSHGlobal_Unix(t *testing.T) {
 
 	for i, testCase := range sshGlobalTestCaseDataWrappers {
 		// Arrange
-		if pathhelper.IsWindowsCase(testCase.operatingSystem) {
+		if mics.IsWindowsCase(testCase.operatingSystem) {
 			continue
 		}
 
-		executeTestForGeneralizedPathWithoutInput(t, testCase, pathhelper.GetSSHGlobal, i)
+		executeTestForGeneralizedPathWithoutInput(t, testCase, knowndirget.SSHGlobal, i)
 	}
 }

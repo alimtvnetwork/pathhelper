@@ -5,16 +5,18 @@ import (
 	"testing"
 
 	. "github.com/smartystreets/goconvey/convey"
+	"gitlab.com/evatix-go/core/osconsts"
+	"gitlab.com/evatix-go/core/ostype"
 
 	"gitlab.com/evatix-go/pathhelper"
-	"gitlab.com/evatix-go/pathhelper/enums"
-	"gitlab.com/evatix-go/pathhelper/pathhelpercore"
+	"gitlab.com/evatix-go/pathhelper/internal/mics"
+	"gitlab.com/evatix-go/pathhelper/ispath"
 )
 
 type removeFromPathTestCaseWrapper struct {
 	inputPath, expected, expectedMessage, operatingSystemMessage string
 	inputBool                                                    bool
-	operatingSystem                                              enums.OperatingSystem
+	operatingSystem                                              ostype.Variation
 }
 
 var removingArray = []string{"/"}
@@ -25,7 +27,7 @@ var removeFromPathTestCaseWrappers = []removeFromPathTestCaseWrapper{
 		expected:               "",
 		expectedMessage:        "empty return",
 		operatingSystemMessage: "Any OS",
-		operatingSystem:        enums.Windows,
+		operatingSystem:        ostype.Windows,
 	},
 	{
 		inputPath:              "c:\\win\\etc",
@@ -33,7 +35,7 @@ var removeFromPathTestCaseWrappers = []removeFromPathTestCaseWrapper{
 		expected:               "c:\\win\\etc",
 		expectedMessage:        "c:\\win\\etc",
 		operatingSystemMessage: "Windows OS",
-		operatingSystem:        enums.Windows,
+		operatingSystem:        ostype.Windows,
 	},
 	{
 		inputPath:              "c:\\\\win\\\\etc",
@@ -41,18 +43,18 @@ var removeFromPathTestCaseWrappers = []removeFromPathTestCaseWrapper{
 		expected:               "c:/win/etc",
 		expectedMessage:        "c:/win/etc",
 		operatingSystemMessage: "Unix OS",
-		operatingSystem:        enums.Ubuntu,
+		operatingSystem:        ostype.Linux,
 	},
 }
 
 func TestRemoveFromPath_windows(t *testing.T) {
-	if !pathhelper.IsWindows() {
+	if !osconsts.IsWindows {
 		t.Skip("Windows tests ignored in Unix.")
 	}
 
 	for i, testCase := range removeFromPathTestCaseWrappers {
 		// Arrange
-		if pathhelper.IsUnixCase(testCase.operatingSystem) {
+		if mics.IsUnixCase(testCase.operatingSystem) {
 			continue
 		}
 
@@ -63,13 +65,13 @@ func TestRemoveFromPath_windows(t *testing.T) {
 }
 
 func TestRemoveFromPath_unix(t *testing.T) {
-	if pathhelper.IsWindows() {
+	if osconsts.IsWindows {
 		t.Skip("Windows tests ignored in Unix.")
 	}
 
 	for i, testCase := range removeFromPathTestCaseWrappers {
 		// Arrange
-		if pathhelper.IsWindowsCase(testCase.operatingSystem) {
+		if mics.IsWindowsCase(testCase.operatingSystem) {
 			continue
 		}
 
@@ -87,12 +89,12 @@ func executeTestCaseForRemoveFromPath(
 		actual := pathhelper.RemoveFromPath(testCase.inputPath, &removingArray, testCase.inputBool)
 
 		// Assert
-		Convey(pathhelper.GetAssertMessage(actual, testCase.expected, i), func() {
-			if pathhelpercore.IsEmptyPath(testCase.inputPath) {
+		Convey(GetAssertMessage(actual, testCase.expected, i), func() {
+			if ispath.Empty(testCase.inputPath) {
 				So(actual, ShouldBeEmpty)
 			}
 
-			if !pathhelpercore.IsEmptyPath(testCase.inputPath) {
+			if !ispath.Empty(testCase.inputPath) {
 				So(actual, ShouldNotBeEmpty)
 				So(actual, ShouldEqual, testCase.expected)
 			}

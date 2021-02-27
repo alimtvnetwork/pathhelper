@@ -3,22 +3,24 @@ package tests
 import (
 	"testing"
 
-	"gitlab.com/evatix-go/pathhelper"
-	"gitlab.com/evatix-go/pathhelper/enums"
+	"gitlab.com/evatix-go/core/ostype"
+
+	"gitlab.com/evatix-go/pathhelper/internal/mics"
+	"gitlab.com/evatix-go/pathhelper/knowndirget"
 )
 
 var userPicturesPathTestCaseDataWrappers = []generalizedPathWithoutInputTestCaseDataWrapper{
 	{
 		operatingSystemMessage: "Unix OS",
-		funcName:               "GetUserPicturesPath",
-		expected:               homepath + "/Pictures",
-		operatingSystem:        enums.Ubuntu,
+		funcName:               "UserPicturesPath",
+		expected:               homePath + "/Pictures",
+		operatingSystem:        ostype.Linux,
 	},
 	{
 		operatingSystemMessage: "Windows OS",
-		funcName:               "GetUserPicturesPath",
+		funcName:               "UserPicturesPath",
 		expected:               "C:\\Users\\Administrator\\Pictures",
-		operatingSystem:        enums.Windows,
+		operatingSystem:        ostype.Windows,
 	},
 }
 
@@ -27,11 +29,11 @@ func TestGetUserPicturesPath_Windows(t *testing.T) {
 
 	for i, testCase := range userPicturesPathTestCaseDataWrappers {
 		// Arrange
-		if pathhelper.IsUnixCase(testCase.operatingSystem) {
+		if mics.IsUnixCase(testCase.operatingSystem) {
 			continue
 		}
 
-		executeTestForGeneralizedPathWithoutInput(t, testCase, pathhelper.GetUserPicturesPath, i)
+		executeTestForGeneralizedPathWithoutInput(t, testCase, knowndirget.UserPicturesPath, i)
 	}
 }
 
@@ -40,10 +42,10 @@ func TestGetUserPicturesPath_Unix(t *testing.T) {
 
 	for i, testCase := range userPicturesPathTestCaseDataWrappers {
 		// Arrange
-		if pathhelper.IsWindowsCase(testCase.operatingSystem) {
+		if mics.IsWindowsCase(testCase.operatingSystem) {
 			continue
 		}
 
-		executeTestForGeneralizedPathWithoutInput(t, testCase, pathhelper.GetUserPicturesPath, i)
+		executeTestForGeneralizedPathWithoutInput(t, testCase, knowndirget.UserPicturesPath, i)
 	}
 }

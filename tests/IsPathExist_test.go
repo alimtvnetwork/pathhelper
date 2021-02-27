@@ -5,15 +5,16 @@ import (
 	"testing"
 
 	. "github.com/smartystreets/goconvey/convey"
+	"gitlab.com/evatix-go/core/ostype"
 
 	"gitlab.com/evatix-go/pathhelper"
-	"gitlab.com/evatix-go/pathhelper/enums"
+	"gitlab.com/evatix-go/pathhelper/internal/mics"
 )
 
 type pathExistTestCaseWrapper struct {
 	input, expectedMessage, operatingSystemMessage string
 	expected                                       bool
-	operatingSystem                                enums.OperatingSystem
+	operatingSystem                                ostype.Variation
 }
 
 var pathExistTestCaseWrappers = []pathExistTestCaseWrapper{
@@ -28,14 +29,14 @@ var pathExistTestCaseWrappers = []pathExistTestCaseWrapper{
 		expected:               false,
 		expectedMessage:        "false",
 		operatingSystemMessage: "OS is Windows",
-		operatingSystem:        enums.Windows,
+		operatingSystem:        ostype.Windows,
 	},
 	{
 		input:                  "~/home",
 		expected:               false,
 		expectedMessage:        "true",
 		operatingSystemMessage: "OS is Unix",
-		operatingSystem:        enums.Ubuntu,
+		operatingSystem:        ostype.Linux,
 	},
 }
 
@@ -44,7 +45,7 @@ func TestIsPathExist_Windows(t *testing.T) {
 
 	for i, testCase := range pathExistTestCaseWrappers {
 		// Arrange
-		if pathhelper.IsUnixCase(testCase.operatingSystem) {
+		if mics.IsUnixCase(testCase.operatingSystem) {
 			continue
 		}
 
@@ -59,7 +60,7 @@ func TestIsPathExist_Unix(t *testing.T) {
 
 	for i, testCase := range pathExistTestCaseWrappers {
 		// Arrange
-		if pathhelper.IsWindowsCase(testCase.operatingSystem) {
+		if mics.IsWindowsCase(testCase.operatingSystem) {
 			continue
 		}
 
@@ -75,7 +76,7 @@ func executeTestCaseForIsPathExist(t *testing.T, testCaseMessage string, testCas
 		actual := pathhelper.IsPathExist(testCase.input)
 
 		// Assert
-		Convey(pathhelper.GetAssertMessage(actual, testCase.expected, i), func() {
+		Convey(GetAssertMessage(actual, testCase.expected, i), func() {
 			So(actual, ShouldNotBeEmpty)
 			So(actual, ShouldEqual, testCase.expected)
 		})

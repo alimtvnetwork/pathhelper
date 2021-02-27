@@ -5,15 +5,16 @@ import (
 	"testing"
 
 	. "github.com/smartystreets/goconvey/convey"
+	"gitlab.com/evatix-go/core/ostype"
 
 	"gitlab.com/evatix-go/pathhelper"
-	"gitlab.com/evatix-go/pathhelper/enums"
+	"gitlab.com/evatix-go/pathhelper/internal/mics"
 )
 
 type pathNotExistTestCaseWrapper struct {
 	input, expectedMessage, operatingSystemMessage string
 	expected                                       bool
-	operatingSystem                                enums.OperatingSystem
+	operatingSystem                                ostype.Variation
 }
 
 var pathNotExistTestCaseWrappers = []pathNotExistTestCaseWrapper{
@@ -28,14 +29,14 @@ var pathNotExistTestCaseWrappers = []pathNotExistTestCaseWrapper{
 		expected:               false,
 		expectedMessage:        "false",
 		operatingSystemMessage: "OS is Windows",
-		operatingSystem:        enums.Windows,
+		operatingSystem:        ostype.Windows,
 	},
 	{
 		input:                  "home/user",
 		expected:               true,
 		expectedMessage:        "false",
 		operatingSystemMessage: "OS is Unix",
-		operatingSystem:        enums.Ubuntu,
+		operatingSystem:        ostype.Linux,
 	},
 }
 
@@ -44,7 +45,7 @@ func TestIsPathNotExist_Windows(t *testing.T) {
 
 	for i, testCase := range pathNotExistTestCaseWrappers {
 		// Arrange
-		if pathhelper.IsUnixCase(testCase.operatingSystem) {
+		if mics.IsUnixCase(testCase.operatingSystem) {
 			continue
 		}
 
@@ -59,7 +60,7 @@ func TestIsPathNotExist_Unix(t *testing.T) {
 
 	for i, testCase := range pathNotExistTestCaseWrappers {
 		// Arrange
-		if pathhelper.IsWindowsCase(testCase.operatingSystem) {
+		if mics.IsWindowsCase(testCase.operatingSystem) {
 			continue
 		}
 
@@ -77,7 +78,7 @@ func executeTestCaseForIsPathNotExist(
 		actual := pathhelper.IsPathNotExist(testCase.input)
 
 		// Assert
-		Convey(pathhelper.GetAssertMessage(actual, testCase.expected, i), func() {
+		Convey(GetAssertMessage(actual, testCase.expected, i), func() {
 			So(actual, ShouldNotBeEmpty)
 			So(actual, ShouldEqual, testCase.expected)
 		})

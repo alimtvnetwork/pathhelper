@@ -59,7 +59,7 @@ func TestGetCombinedPath(t *testing.T) {
 				testCase.inputPaths3)
 
 			// Assert
-			Convey(pathhelper.GetAssertMessage(actual, testCase.expected, i), func() {
+			Convey(GetAssertMessage(actual, testCase.expected, i), func() {
 				So(actual, ShouldNotBeNil)
 				So(actual, ShouldEqual, testCase.expected)
 			})

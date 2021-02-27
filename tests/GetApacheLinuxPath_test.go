@@ -3,15 +3,15 @@ package tests
 import (
 	"testing"
 
-	"gitlab.com/evatix-go/pathhelper"
+	"gitlab.com/evatix-go/pathhelper/knowndirget"
 )
 
 var getApacheLinuxPathTestCaseData = pathTestCaseDataWrapper{
 	OSName:   "Unix OS",
-	funcName: "GetApacheLinuxPath",
+	funcName: "ApacheLinuxPath",
 	expected: "/etc/apache/",
 }
 
 func TestGetApacheLinuxPath(t *testing.T) {
-	getPathTestCommonMethod_linux(t, getApacheLinuxPathTestCaseData, pathhelper.GetApacheLinuxPath)
+	getPathTestCommonMethodLinux(t, getApacheLinuxPathTestCaseData, knowndirget.ApacheLinuxPath)
 }

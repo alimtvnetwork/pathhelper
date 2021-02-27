@@ -3,11 +3,11 @@ package pathhelper
 import (
 	"strings"
 
-	"gitlab.com/evatix-go/pathhelper/pathhelpercore"
+	"gitlab.com/evatix-go/pathhelper/internal/ispathinternal"
 )
 
 func isStringsContains(array []string, findingItem string) bool {
-	if pathhelpercore.IsEmptyArray(array) {
+	if ispathinternal.EmptyArray(array) {
 		return false
 	}
 

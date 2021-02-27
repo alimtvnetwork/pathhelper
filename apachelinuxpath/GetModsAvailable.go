@@ -1,15 +1,17 @@
 package apachelinuxpath
 
 import (
-	"gitlab.com/evatix-go/pathhelper"
-	"gitlab.com/evatix-go/pathhelper/enums"
+	"gitlab.com/evatix-go/core/osconsts"
+
+	"gitlab.com/evatix-go/pathhelper/knowndir"
+	"gitlab.com/evatix-go/pathhelper/knowndirget"
 )
 
 // returns /etc/apache/mods-available as a string
 func GetModsAvailable() string {
-	if !pathhelper.IsUnix() {
+	if osconsts.IsWindows {
 		panic("Path only available for Unix OS")
 	}
 
-	return enums.ModsAvailable.CombineWith(pathhelper.GetApacheLinuxPath())
+	return knowndir.ModsAvailable.CombineWith(knowndirget.ApacheLinuxPath())
 }

@@ -3,22 +3,24 @@ package tests
 import (
 	"testing"
 
-	"gitlab.com/evatix-go/pathhelper"
-	"gitlab.com/evatix-go/pathhelper/enums"
+	"gitlab.com/evatix-go/core/ostype"
+
+	"gitlab.com/evatix-go/pathhelper/internal/mics"
+	"gitlab.com/evatix-go/pathhelper/knowndirget"
 )
 
 var userRoamingPathTestCaseDataWrappers = []generalizedPathWithoutInputTestCaseDataWrapper{
 	{
 		operatingSystemMessage: "Unix OS",
-		funcName:               "GetUserRoamingPath",
-		expected:               homepath + "/Roaming",
-		operatingSystem:        enums.Ubuntu,
+		funcName:               "UserRoamingPath",
+		expected:               homePath + "/Roaming",
+		operatingSystem:        ostype.Linux,
 	},
 	{
 		operatingSystemMessage: "Windows OS",
-		funcName:               "GetUserRoamingPath",
+		funcName:               "UserRoamingPath",
 		expected:               "C:\\Users\\Administrator\\Roaming",
-		operatingSystem:        enums.Windows,
+		operatingSystem:        ostype.Windows,
 	},
 }
 
@@ -27,11 +29,11 @@ func TestGetUserRoamingPath_Windows(t *testing.T) {
 
 	for i, testCase := range userRoamingPathTestCaseDataWrappers {
 		// Arrange
-		if pathhelper.IsUnixCase(testCase.operatingSystem) {
+		if mics.IsUnixCase(testCase.operatingSystem) {
 			continue
 		}
 
-		executeTestForGeneralizedPathWithoutInput(t, testCase, pathhelper.GetUserRoamingPath, i)
+		executeTestForGeneralizedPathWithoutInput(t, testCase, knowndirget.UserRoamingPath, i)
 	}
 }
 
@@ -40,10 +42,10 @@ func TestGetUserRoamingPath_Unix(t *testing.T) {
 
 	for i, testCase := range userRoamingPathTestCaseDataWrappers {
 		// Arrange
-		if pathhelper.IsWindowsCase(testCase.operatingSystem) {
+		if mics.IsWindowsCase(testCase.operatingSystem) {
 			continue
 		}
 
-		executeTestForGeneralizedPathWithoutInput(t, testCase, pathhelper.GetUserRoamingPath, i)
+		executeTestForGeneralizedPathWithoutInput(t, testCase, knowndirget.UserRoamingPath, i)
 	}
 }

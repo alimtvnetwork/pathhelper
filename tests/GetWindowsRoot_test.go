@@ -4,22 +4,22 @@ import (
 	"fmt"
 	"testing"
 
-	"gitlab.com/evatix-go/pathhelper"
+	"gitlab.com/evatix-go/pathhelper/knowndirget"
 
 	. "github.com/smartystreets/goconvey/convey"
 )
 
-var expectedWindowsRoot string = "C:\\"
+var expectedWindowsRoot = "C:\\"
 
 func TestGetWindowsRoot(t *testing.T) {
 	SkipOnUnix(t)
 
 	// Arrange
-	testCaseMessage := fmt.Sprintf("[GetWindowsRoot] expects (%s)", expectedWindowsRoot)
+	testCaseMessage := fmt.Sprintf("[WindowsRoot] expects (%s)", expectedWindowsRoot)
 
 	Convey(testCaseMessage, t, func() {
 		// Act
-		actual := pathhelper.GetWindowsRoot()
+		actual := knowndirget.WindowsRoot()
 
 		// Assert
 		So(actual, ShouldEqual, expectedWindowsRoot)

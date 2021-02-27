@@ -1,21 +1,10 @@
 package pathhelper
 
-import "io/ioutil"
+import (
+	"gitlab.com/evatix-go/pathhelper/fileinfo"
+)
 
-// returns filepaths as []*string. non-lazy execution.
-func GetFilesPaths(path string) []*string {
-	var fileNames []*string
-
-	files, err := ioutil.ReadDir(path)
-
-	if err != nil {
-		panic(err)
-	}
-
-	for _, file := range files {
-		fileName := file.Name()
-		fileNames = append(fileNames, &fileName)
-	}
-
-	return fileNames
+// returns file names on the path (non-lazy execution).
+func GetFileNames(path string) *fileinfo.FileNamesCollection {
+	return fileinfo.NewFileNamesUsing(path)
 }

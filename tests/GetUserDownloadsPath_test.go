@@ -3,22 +3,24 @@ package tests
 import (
 	"testing"
 
-	"gitlab.com/evatix-go/pathhelper"
-	"gitlab.com/evatix-go/pathhelper/enums"
+	"gitlab.com/evatix-go/core/ostype"
+
+	"gitlab.com/evatix-go/pathhelper/internal/mics"
+	"gitlab.com/evatix-go/pathhelper/knowndirget"
 )
 
 var userDownloadsPathTestCaseDataWrappers = []generalizedPathWithoutInputTestCaseDataWrapper{
 	{
 		operatingSystemMessage: "Unix OS",
-		funcName:               "GetUserDownloadsPath",
-		expected:               homepath + "/Downloads",
-		operatingSystem:        enums.Ubuntu,
+		funcName:               "UserDownloadsPath",
+		expected:               homePath + "/Downloads",
+		operatingSystem:        ostype.Linux,
 	},
 	{
 		operatingSystemMessage: "Windows OS",
-		funcName:               "GetUserDownloadsPath",
+		funcName:               "UserDownloadsPath",
 		expected:               "C:\\Users\\Administrator\\Downloads",
-		operatingSystem:        enums.Windows,
+		operatingSystem:        ostype.Windows,
 	},
 }
 
@@ -27,11 +29,11 @@ func TestGetUserDownloadsPath_Windows(t *testing.T) {
 
 	for i, testCase := range userDownloadsPathTestCaseDataWrappers {
 		// Arrange
-		if pathhelper.IsUnixCase(testCase.operatingSystem) {
+		if mics.IsUnixCase(testCase.operatingSystem) {
 			continue
 		}
 
-		executeTestForGeneralizedPathWithoutInput(t, testCase, pathhelper.GetUserDownloadsPath, i)
+		executeTestForGeneralizedPathWithoutInput(t, testCase, knowndirget.UserDownloadsPath, i)
 	}
 }
 
@@ -40,10 +42,10 @@ func TestGetUserDownloadsPath_Unix(t *testing.T) {
 
 	for i, testCase := range userDownloadsPathTestCaseDataWrappers {
 		// Arrange
-		if pathhelper.IsWindowsCase(testCase.operatingSystem) {
+		if mics.IsWindowsCase(testCase.operatingSystem) {
 			continue
 		}
 
-		executeTestForGeneralizedPathWithoutInput(t, testCase, pathhelper.GetUserDownloadsPath, i)
+		executeTestForGeneralizedPathWithoutInput(t, testCase, knowndirget.UserDownloadsPath, i)
 	}
 }

@@ -3,22 +3,24 @@ package tests
 import (
 	"testing"
 
-	"gitlab.com/evatix-go/pathhelper"
-	"gitlab.com/evatix-go/pathhelper/enums"
+	"gitlab.com/evatix-go/core/ostype"
+
+	"gitlab.com/evatix-go/pathhelper/internal/mics"
+	"gitlab.com/evatix-go/pathhelper/knowndirget"
 )
 
 var programDataTestCaseDataWrappers = []generalizedPathWithoutInputTestCaseDataWrapper{
 	{
 		operatingSystemMessage: "Unix OS",
-		funcName:               "GetProgramData",
+		funcName:               "ProgramData",
 		expected:               "",
-		operatingSystem:        enums.Ubuntu,
+		operatingSystem:        ostype.Linux,
 	},
 	{
 		operatingSystemMessage: "Windows OS",
-		funcName:               "GetProgramData",
+		funcName:               "ProgramData",
 		expected:               "C:\\\\Program Data",
-		operatingSystem:        enums.Windows,
+		operatingSystem:        ostype.Windows,
 	},
 }
 
@@ -27,11 +29,11 @@ func TestGetProgramData_Windows(t *testing.T) {
 
 	for i, testCase := range programDataTestCaseDataWrappers {
 		// Arrange
-		if pathhelper.IsUnixCase(testCase.operatingSystem) {
+		if mics.IsUnixCase(testCase.operatingSystem) {
 			continue
 		}
 
-		executeTestForGeneralizedPathWithoutInput(t, testCase, pathhelper.GetProgramData, i)
+		executeTestForGeneralizedPathWithoutInput(t, testCase, knowndirget.ProgramData, i)
 	}
 }
 
@@ -40,10 +42,10 @@ func TestGetProgramData_Unix(t *testing.T) {
 
 	for i, testCase := range programDataTestCaseDataWrappers {
 		// Arrange
-		if pathhelper.IsWindowsCase(testCase.operatingSystem) {
+		if mics.IsWindowsCase(testCase.operatingSystem) {
 			continue
 		}
 
-		executeTestForGeneralizedPathWithoutInput(t, testCase, pathhelper.GetProgramData, i)
+		executeTestForGeneralizedPathWithoutInput(t, testCase, knowndirget.ProgramData, i)
 	}
 }

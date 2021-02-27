@@ -45,7 +45,7 @@ func TestRemoveDoubleUriSeparator(t *testing.T) {
 			actual := pathhelper.RemoveDoubleUriSeparator(testCase.inputPath, testCase.inputSeparator)
 
 			// Arrange
-			Convey(pathhelper.GetAssertMessage(actual, testCase.expected, i), func() {
+			Convey(GetAssertMessage(actual, testCase.expected, i), func() {
 				So(actual, ShouldNotBeNil)
 				So(actual, ShouldNotBeEmpty)
 				So(actual, ShouldEqual, testCase.expected)

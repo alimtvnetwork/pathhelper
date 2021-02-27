@@ -1,15 +1,19 @@
 package apachelinuxpath
 
 import (
-	"gitlab.com/evatix-go/pathhelper"
-	"gitlab.com/evatix-go/pathhelper/enums"
+	"gitlab.com/evatix-go/core/constants"
+	"gitlab.com/evatix-go/core/osconsts"
+	"gitlab.com/evatix-go/errorwrapper/errtype"
+
+	"gitlab.com/evatix-go/pathhelper/knowndir"
+	"gitlab.com/evatix-go/pathhelper/knowndirget"
 )
 
 // returns /etc/apache/conf-available as a string
 func GetConfAvailable() string {
-	if !pathhelper.IsUnix() {
-		panic("Path only available for Unix OS")
+	if osconsts.IsWindows {
+		errtype.NotSupportInWindows.PanicNoRefs(constants.EmptyString)
 	}
 
-	return enums.ConfAvailable.CombineWith(pathhelper.GetApacheLinuxPath())
+	return knowndir.ConfAvailable.CombineWith(knowndirget.ApacheLinuxPath())
 }

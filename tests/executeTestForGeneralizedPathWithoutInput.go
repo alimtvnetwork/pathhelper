@@ -5,14 +5,12 @@ import (
 	"testing"
 
 	. "github.com/smartystreets/goconvey/convey"
-
-	"gitlab.com/evatix-go/pathhelper"
-	"gitlab.com/evatix-go/pathhelper/enums"
+	"gitlab.com/evatix-go/core/ostype"
 )
 
 type generalizedPathWithoutInputTestCaseDataWrapper struct {
 	expected, operatingSystemMessage, funcName string
-	operatingSystem                            enums.OperatingSystem
+	operatingSystem                            ostype.Variation
 }
 
 func executeTestForGeneralizedPathWithoutInput(
@@ -28,7 +26,7 @@ func executeTestForGeneralizedPathWithoutInput(
 		actual := funcCall()
 
 		// Assert
-		Convey(pathhelper.GetAssertMessage(actual, testCase.expected, i), func() {
+		Convey(GetAssertMessage(actual, testCase.expected, i), func() {
 			So(actual, ShouldNotBeNil)
 			So(actual, ShouldEqual, testCase.expected)
 		})

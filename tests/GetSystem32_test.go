@@ -4,24 +4,24 @@ import (
 	"fmt"
 	"testing"
 
-	"gitlab.com/evatix-go/pathhelper"
+	"gitlab.com/evatix-go/core/coretests"
+
+	"gitlab.com/evatix-go/pathhelper/knowndirget"
 
 	. "github.com/smartystreets/goconvey/convey"
 )
 
-var expectedSystem32 string = "C:\\Windows\\System32"
+var expectedSystem32 = "C:\\Windows\\System32"
 
 func TestGetSystem32(t *testing.T) {
-	if !pathhelper.IsWindows() {
-		t.Skip("Windows tests ignored in Unix.")
-	}
+	coretests.SkipOnUnix(t)
 
 	// Arrange
-	testCaseMessage := fmt.Sprintf("[GetSystem32] expects (%s)", expectedSystem32)
+	testCaseMessage := fmt.Sprintf("[System32] expects (%s)", expectedSystem32)
 
 	Convey(testCaseMessage, t, func() {
 		// Act
-		actual := pathhelper.GetSystem32()
+		actual := knowndirget.System32()
 
 		// Assert
 		So(actual, ShouldEqual, expectedSystem32)

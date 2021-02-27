@@ -5,14 +5,15 @@ import (
 	"testing"
 
 	. "github.com/smartystreets/goconvey/convey"
+	"gitlab.com/evatix-go/core/ostype"
 
 	"gitlab.com/evatix-go/pathhelper"
-	"gitlab.com/evatix-go/pathhelper/enums"
+	"gitlab.com/evatix-go/pathhelper/internal/mics"
 )
 
 type combinePathsWithTestCaseDataWrapper struct {
 	inputPath1, inputPath2, inputPath3 string
-	operatingSystem                    enums.OperatingSystem
+	operatingSystem                    ostype.Variation
 	expected, operatingSystemMessage   string
 }
 
@@ -21,7 +22,7 @@ var combinePathsWithTestCaseWrappers = []combinePathsWithTestCaseDataWrapper{
 		inputPath1:             "something",
 		inputPath2:             "somethingElse",
 		inputPath3:             "otherThings",
-		operatingSystem:        enums.Windows,
+		operatingSystem:        ostype.Windows,
 		operatingSystemMessage: "Windows OS",
 		expected:               "something\\somethingElse\\otherThings",
 	},
@@ -29,7 +30,7 @@ var combinePathsWithTestCaseWrappers = []combinePathsWithTestCaseDataWrapper{
 		inputPath1:             "",
 		inputPath2:             "",
 		inputPath3:             "",
-		operatingSystem:        enums.Windows,
+		operatingSystem:        ostype.Windows,
 		operatingSystemMessage: "Windows OS",
 		expected:               "\\",
 	},
@@ -37,7 +38,7 @@ var combinePathsWithTestCaseWrappers = []combinePathsWithTestCaseDataWrapper{
 		inputPath1:             "something",
 		inputPath2:             "somethingElse",
 		inputPath3:             "otherThings",
-		operatingSystem:        enums.Ubuntu,
+		operatingSystem:        ostype.Linux,
 		operatingSystemMessage: "Windows OS",
 		expected:               "something/somethingElse/otherThings",
 	},
@@ -48,7 +49,7 @@ func TestGetCombinePathsWith_Windows(t *testing.T) {
 
 	for i, testCase := range combinePathsWithTestCaseWrappers {
 		// Arrange
-		if pathhelper.IsUnixCase(testCase.operatingSystem) {
+		if mics.IsUnixCase(testCase.operatingSystem) {
 			continue
 		}
 
@@ -63,7 +64,7 @@ func TestGetCombinePathsWith_Unix(t *testing.T) {
 
 	for i, testCase := range combinePathsWithTestCaseWrappers {
 		// Arrange
-		if pathhelper.IsWindowsCase(testCase.operatingSystem) {
+		if mics.IsWindowsCase(testCase.operatingSystem) {
 			continue
 		}
 
@@ -84,7 +85,7 @@ func executeTestForGetCombinePathsWith(
 			testCase.inputPath3)
 
 		// Assert
-		Convey(pathhelper.GetAssertMessage(actual, testCase.expected, i), func() {
+		Convey(GetAssertMessage(actual, testCase.expected, i), func() {
 			So(actual, ShouldNotBeNil)
 			So(actual, ShouldEqual, testCase.expected)
 		})

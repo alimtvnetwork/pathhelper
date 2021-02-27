@@ -5,15 +5,16 @@ import (
 	"testing"
 
 	. "github.com/smartystreets/goconvey/convey"
+	"gitlab.com/evatix-go/core/ostype"
 
 	"gitlab.com/evatix-go/pathhelper"
-	"gitlab.com/evatix-go/pathhelper/enums"
+	"gitlab.com/evatix-go/pathhelper/internal/mics"
 )
 
 type absolutePathTestCaseWrapper struct {
 	basePath, inputRelativePath, expected, expectedMessage, operatingSystemMessage string
 	isLongPathFix, isNormalize                                                     bool
-	operatingSystem                                                                enums.OperatingSystem
+	operatingSystem                                                                ostype.Variation
 }
 
 var absolutePathTestCaseWrappers = []absolutePathTestCaseWrapper{
@@ -24,7 +25,7 @@ var absolutePathTestCaseWrappers = []absolutePathTestCaseWrapper{
 	//	expected:               "",
 	//	expectedMessage:        "empty return",
 	//	operatingSystemMessage: "Any OS",
-	//	operatingSystem:        enums.Any,
+	//	operatingSystem:        knowndir.Any,
 	//	isNormalize:            true,
 	//	isLongPathFix:          true,
 	// },
@@ -34,7 +35,7 @@ var absolutePathTestCaseWrappers = []absolutePathTestCaseWrapper{
 		expected:               "c:\\Windows\\whatever",
 		expectedMessage:        "non-empty return of (c:\\Windows\\whatever)",
 		operatingSystemMessage: "Windows OS",
-		operatingSystem:        enums.Windows,
+		operatingSystem:        ostype.Windows,
 		isNormalize:            true,
 		isLongPathFix:          true,
 	},
@@ -44,7 +45,7 @@ var absolutePathTestCaseWrappers = []absolutePathTestCaseWrapper{
 		expected:               "c:\\Windows\\whatever",
 		expectedMessage:        "non-empty return of (c:\\Windows\\whatever)",
 		operatingSystemMessage: "Windows OS",
-		operatingSystem:        enums.Windows,
+		operatingSystem:        ostype.Windows,
 		isNormalize:            true,
 		isLongPathFix:          true,
 	},
@@ -54,7 +55,7 @@ var absolutePathTestCaseWrappers = []absolutePathTestCaseWrapper{
 		expected:               "/home/your_user_name/my_script/whatever",
 		expectedMessage:        "non-empty return of (/home/your_user_name/my_script/whatever)",
 		operatingSystemMessage: "Unix OS",
-		operatingSystem:        enums.Ubuntu,
+		operatingSystem:        ostype.Linux,
 		isNormalize:            true,
 		isLongPathFix:          true,
 	},
@@ -66,7 +67,7 @@ var absolutePathTestCaseWrappers = []absolutePathTestCaseWrapper{
 		operatingSystemMessage: "Unix OS",
 		isNormalize:            false,
 		isLongPathFix:          true,
-		operatingSystem:        enums.Ubuntu,
+		operatingSystem:        ostype.Linux,
 	},
 }
 
@@ -75,7 +76,7 @@ func TestGetAbsolutePath_Windows(t *testing.T) {
 
 	for i, testCase := range absolutePathTestCaseWrappers {
 		// Arrange
-		if pathhelper.IsUnixCase(testCase.operatingSystem) {
+		if mics.IsUnixCase(testCase.operatingSystem) {
 			continue
 		}
 
@@ -90,7 +91,7 @@ func TestGetAbsolutePath_Unix(t *testing.T) {
 
 	for i, testCase := range absolutePathTestCaseWrappers {
 		// Arrange
-		if pathhelper.IsWindowsCase(testCase.operatingSystem) {
+		if mics.IsWindowsCase(testCase.operatingSystem) {
 			continue
 		}
 
@@ -110,7 +111,7 @@ func executeTestForGetAbsolutePath(t *testing.T, testCaseMessage string, testCas
 			testCase.isNormalize)
 
 		// Assert
-		Convey(pathhelper.GetAssertMessage(actual, testCase.expected, i), func() {
+		Convey(GetAssertMessage(actual, testCase.expected, i), func() {
 			So(actual, ShouldNotBeNil)
 			So(actual, ShouldEqual, testCase.expected)
 		})

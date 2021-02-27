@@ -62,7 +62,7 @@ func TestGetSlug(t *testing.T) {
 				actual := pathhelper.GetSlug(testCase.inputPath, testCase.inputSeparator)
 
 				// Assert
-				Convey(pathhelper.GetAssertMessage(actual, testCase.expected, i), func() {
+				Convey(GetAssertMessage(actual, testCase.expected, i), func() {
 					if testCase.inputPath == "" {
 						So(actual, ShouldBeEmpty)
 					}

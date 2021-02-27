@@ -3,22 +3,24 @@ package tests
 import (
 	"testing"
 
-	"gitlab.com/evatix-go/pathhelper"
-	"gitlab.com/evatix-go/pathhelper/enums"
+	"gitlab.com/evatix-go/core/ostype"
+
+	"gitlab.com/evatix-go/pathhelper/internal/mics"
+	"gitlab.com/evatix-go/pathhelper/knowndirget"
 )
 
 var userMusicPathTestCaseDataWrappers = []generalizedPathWithoutInputTestCaseDataWrapper{
 	{
 		operatingSystemMessage: "Unix OS",
-		funcName:               "GetUserMusicPath",
-		expected:               homepath + "/Music",
-		operatingSystem:        enums.Ubuntu,
+		funcName:               "UserMusicPath",
+		expected:               homePath + "/Music",
+		operatingSystem:        ostype.Linux,
 	},
 	{
 		operatingSystemMessage: "Windows OS",
-		funcName:               "GetUserMusicPath",
+		funcName:               "UserMusicPath",
 		expected:               "C:\\Users\\Administrator\\Music",
-		operatingSystem:        enums.Windows,
+		operatingSystem:        ostype.Windows,
 	},
 }
 
@@ -27,11 +29,11 @@ func TestGetUserMusicPath_Windows(t *testing.T) {
 
 	for i, testCase := range userMusicPathTestCaseDataWrappers {
 		// Arrange
-		if pathhelper.IsUnixCase(testCase.operatingSystem) {
+		if mics.IsUnixCase(testCase.operatingSystem) {
 			continue
 		}
 
-		executeTestForGeneralizedPathWithoutInput(t, testCase, pathhelper.GetUserMusicPath, i)
+		executeTestForGeneralizedPathWithoutInput(t, testCase, knowndirget.UserMusicPath, i)
 	}
 }
 
@@ -40,10 +42,10 @@ func TestGetUserMusicPath_Unix(t *testing.T) {
 
 	for i, testCase := range userMusicPathTestCaseDataWrappers {
 		// Arrange
-		if pathhelper.IsWindowsCase(testCase.operatingSystem) {
+		if mics.IsWindowsCase(testCase.operatingSystem) {
 			continue
 		}
 
-		executeTestForGeneralizedPathWithoutInput(t, testCase, pathhelper.GetUserMusicPath, i)
+		executeTestForGeneralizedPathWithoutInput(t, testCase, knowndirget.UserMusicPath, i)
 	}
 }

@@ -13,5 +13,8 @@ var getSitesEnabledPathTestCaseData = pathTestCaseDataWrapper{
 }
 
 func TestGetSitesEnabled(t *testing.T) {
-	getPathTestCommonMethod_linux(t, getSitesEnabledPathTestCaseData, nginxlinuxpath.GetSitesEnabled)
+	getPathTestCommonMethodLinux(
+		t,
+		getSitesEnabledPathTestCaseData,
+		nginxlinuxpath.GetSitesEnabled)
 }

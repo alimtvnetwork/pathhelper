@@ -5,11 +5,12 @@ import (
 	"testing"
 
 	. "github.com/smartystreets/goconvey/convey"
+	"gitlab.com/evatix-go/core/ostype"
 
 	"gitlab.com/evatix-go/core/constants"
 
 	"gitlab.com/evatix-go/pathhelper"
-	"gitlab.com/evatix-go/pathhelper/enums"
+	"gitlab.com/evatix-go/pathhelper/internal/mics"
 	"gitlab.com/evatix-go/pathhelper/pathhelpercore"
 )
 
@@ -17,7 +18,7 @@ type combinedPathUsingConfigTestCaseWrapper struct {
 	inputConfig                                       *pathhelpercore.PathConfig
 	inputPaths1, inputPaths2, inputPaths3             string
 	expected, expectedMessage, operatingSystemMessage string
-	operatingSystem                                   enums.OperatingSystem
+	operatingSystem                                   ostype.Variation
 }
 
 var combinedPathUsingConfigTestCaseWrappers = []combinedPathUsingConfigTestCaseWrapper{
@@ -29,7 +30,7 @@ var combinedPathUsingConfigTestCaseWrappers = []combinedPathUsingConfigTestCaseW
 		expected:               "something\\more\\etc",
 		expectedMessage:        "something\\more\\etc",
 		operatingSystemMessage: "Windows OS",
-		operatingSystem:        enums.Windows,
+		operatingSystem:        ostype.Windows,
 	},
 	{
 		inputConfig:            &pathhelpercore.PathConfig{Separator: constants.PathSeparator},
@@ -39,7 +40,7 @@ var combinedPathUsingConfigTestCaseWrappers = []combinedPathUsingConfigTestCaseW
 		expected:               "something/more/etc",
 		expectedMessage:        "something/more/etc",
 		operatingSystemMessage: "Unix OS",
-		operatingSystem:        enums.Ubuntu,
+		operatingSystem:        ostype.Linux,
 	},
 }
 
@@ -48,7 +49,7 @@ func TestGetCombinedPathUsingConfig_Windows(t *testing.T) {
 
 	for i, testCase := range combinedPathUsingConfigTestCaseWrappers {
 		// Arrange
-		if pathhelper.IsUnixCase(testCase.operatingSystem) {
+		if mics.IsUnixCase(testCase.operatingSystem) {
 			continue
 		}
 
@@ -63,7 +64,7 @@ func TestGetCombinedPathUsingConfig_Unix(t *testing.T) {
 
 	for i, testCase := range combinedPathUsingConfigTestCaseWrappers {
 		// Arrange
-		if pathhelper.IsWindowsCase(testCase.operatingSystem) {
+		if mics.IsWindowsCase(testCase.operatingSystem) {
 			continue
 		}
 
@@ -84,7 +85,7 @@ func executeTestCaseForGetCombinedPathUsingConfig(
 		actual := pathhelper.GetCombinedPathUsingConfig(testCase.inputConfig, testCase.inputPaths1, testCase.inputPaths2, testCase.inputPaths3)
 
 		// Assert
-		Convey(pathhelper.GetAssertMessage(actual, testCase.expected, i), func() {
+		Convey(GetAssertMessage(actual, testCase.expected, i), func() {
 			So(actual, ShouldNotBeNil)
 			So(actual, ShouldEqual, testCase.expected)
 		})

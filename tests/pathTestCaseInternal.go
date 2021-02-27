@@ -11,8 +11,10 @@ type pathTestCaseDataWrapper struct {
 	OSName, funcName, expected string
 }
 
-func getPathTestCommonMethod_linux(
-	t *testing.T, testData pathTestCaseDataWrapper, callingFunctionToBeTested func() string,
+func getPathTestCommonMethodLinux(
+	t *testing.T,
+	testData pathTestCaseDataWrapper,
+	callingFunctionToBeTested func() string,
 ) {
 	// Arrange
 	SkipOnWindows(t)
@@ -28,9 +30,16 @@ func getPathTestCommonMethod_linux(
 	})
 }
 
-func pathTestCaseInternalFromWrappers(t *testing.T, testData []pathTestCaseDataWrapper, actualFuncCall func() string) {
+func pathTestCaseInternalFromWrappers(
+	t *testing.T,
+	testData []pathTestCaseDataWrapper,
+	actualFuncCall func() string,
+) {
 	for _, testCase := range testData {
 		fmt.Println(testCase)
-		getPathTestCommonMethod_linux(t, testCase, actualFuncCall)
+		getPathTestCommonMethodLinux(
+			t,
+			testCase,
+			actualFuncCall)
 	}
 }

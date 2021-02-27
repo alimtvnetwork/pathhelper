@@ -3,19 +3,36 @@ package pathhelper
 import (
 	"strings"
 
-	"gitlab.com/evatix-go/pathhelper/pathhelpercore"
+	"gitlab.com/evatix-go/pathhelper/ispath"
 )
 
-var forbiddenArray = []string{"!", "`", "@", "#", "%", "$", "^", "&", "*", "(", ")", "{", "}", "[", "]", " "}
+var slugForbiddenArray = []string{
+	" ",
+	"!",
+	"`",
+	"@",
+	"#",
+	"%",
+	"$",
+	"^",
+	"&",
+	"*",
+	"(",
+	")",
+	"{",
+	"}",
+	"[",
+	"]",
+}
 
-// GetSlug from given path, usages @forbiddenArray to replace with @separatorOfChoice
+// GetSlug from given path, usages @slugForbiddenArray to replace with @separatorOfChoice
 func GetSlug(path, separatorOfChoice string) string {
-	if pathhelpercore.IsEmptyPath(path) {
+	if ispath.Empty(path) {
 		return path
 	}
 
-	for i, _ := range forbiddenArray {
-		path = strings.ReplaceAll(path, forbiddenArray[i], separatorOfChoice)
+	for _, forbidden := range slugForbiddenArray {
+		path = strings.ReplaceAll(path, forbidden, separatorOfChoice)
 	}
 
 	return RemoveDoubleUriSeparator(path, separatorOfChoice)
