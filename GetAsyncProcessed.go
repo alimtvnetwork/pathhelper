@@ -10,14 +10,14 @@ import (
 
 // Don't modify existing paths and creates new one.
 func GetAsyncProcessed(
-	fullPaths *[]string,
+	processingPaths *[]string,
 	processor pathfuncs.Processor,
 ) *[]string {
-	if fullPaths == nil {
+	if processingPaths == nil {
 		return core.EmptyStringsPtr()
 	}
 
-	length := len(*fullPaths)
+	length := len(*processingPaths)
 	list := make([]string, length)
 
 	if length == 0 {
@@ -33,7 +33,7 @@ func GetAsyncProcessed(
 		list[index] = processor(index, fullPath)
 	}
 
-	for i, fullPath := range *fullPaths {
+	for i, fullPath := range *processingPaths {
 		go inPlaceProcessor(i, fullPath)
 	}
 
