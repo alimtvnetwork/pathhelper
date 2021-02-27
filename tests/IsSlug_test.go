@@ -47,7 +47,7 @@ func TestIsSlug(t *testing.T) {
 			actual := pathhelper.IsSlug(testCase.input)
 
 			// Assert
-			Convey(pathhelper.GetAssertMessage(actual, testCase.expected, i), func() {
+			Convey(GetAssertMessage(actual, testCase.expected, i), func() {
 				So(actual, ShouldNotBeEmpty)
 				So(actual, ShouldNotBeNil)
 				So(actual, ShouldEqual, testCase.expected)

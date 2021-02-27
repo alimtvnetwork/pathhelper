@@ -6,6 +6,7 @@ import (
 
 	. "github.com/smartystreets/goconvey/convey"
 
+	"gitlab.com/evatix-go/pathhelper/tests"
 	"gitlab.com/evatix-go/pathhelper/urischemes"
 )
 
@@ -42,7 +43,7 @@ func TestWhichPrefix(t *testing.T) {
 			actual := whichPrefix(testCase.input)
 
 			// Assert
-			Convey(GetAssertMessage(actual, testCase.expected, i), func() {
+			Convey(tests.GetAssertMessage(actual, testCase.expected, i), func() {
 				So(actual, ShouldNotBeEmpty)
 				So(actual, ShouldEqual, testCase.expected)
 			})

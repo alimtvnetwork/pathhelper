@@ -9,7 +9,7 @@ import (
 
 	"gitlab.com/evatix-go/core/constants"
 
-	"gitlab.com/evatix-go/pathhelper"
+	"gitlab.com/evatix-go/pathhelper/internal/mics"
 )
 
 type pathSeparatorTestCaseWrapper struct {
@@ -37,7 +37,7 @@ func TestGetPathSeparator_Windows(t *testing.T) {
 
 	for i, testCase := range pathSeparatorTestCaseWrappers {
 		// Arrange
-		if pathhelper.IsUnixCase(testCase.operatingSystem) {
+		if mics.IsUnixCase(testCase.operatingSystem) {
 			continue
 		}
 
@@ -52,7 +52,7 @@ func TestGetPathSeparator_Unix(t *testing.T) {
 
 	for i, testCase := range pathSeparatorTestCaseWrappers {
 		// Arrange
-		if pathhelper.IsWindowsCase(testCase.operatingSystem) {
+		if mics.IsWindowsCase(testCase.operatingSystem) {
 			continue
 		}
 
@@ -70,7 +70,7 @@ func executeTestCaseForGetPathSeparator(
 		actual := constants.PathSeparator
 
 		// Assert
-		Convey(pathhelper.GetAssertMessage(actual, testCase.expected, i), func() {
+		Convey(GetAssertMessage(actual, testCase.expected, i), func() {
 			So(actual, ShouldNotBeEmpty)
 			So(actual, ShouldNotBeNil)
 			So(actual, ShouldEqual, testCase.expected)

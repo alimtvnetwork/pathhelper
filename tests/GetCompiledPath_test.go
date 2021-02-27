@@ -39,7 +39,7 @@ func TestGetCompiledPath(t *testing.T) {
 			actual := pathhelper.GetCompiledPath(testCase.inputPath, &testCase.inputMap)
 
 			// Assert
-			Convey(pathhelper.GetAssertMessage(actual, testCase.expected, i), func() {
+			Convey(GetAssertMessage(actual, testCase.expected, i), func() {
 				So(actual, ShouldNotBeNil)
 				So(actual, ShouldEqual, testCase.expected)
 			})

@@ -1,4 +1,4 @@
-package pathhelper
+package mics
 
 import "gitlab.com/evatix-go/core/ostype"
 

@@ -6,7 +6,6 @@ import (
 
 	. "github.com/smartystreets/goconvey/convey"
 
-	"gitlab.com/evatix-go/pathhelper"
 	"gitlab.com/evatix-go/pathhelper/expandpath"
 	"gitlab.com/evatix-go/pathhelper/ispath"
 )
@@ -43,7 +42,7 @@ func TestPathFromEnvVariable(t *testing.T) {
 			actual := expandpath.EnvironmentVarExpand(testCase.input)
 
 			// Assert
-			Convey(pathhelper.GetAssertMessage(actual, testCase.expected, i), func() { // todo check equality
+			Convey(GetAssertMessage(actual, testCase.expected, i), func() { // todo check equality
 				if ispath.Empty(testCase.input) {
 					So(actual, ShouldBeEmpty)
 				}

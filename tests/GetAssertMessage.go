@@ -1,4 +1,4 @@
-package pathhelper
+package tests
 
 import "fmt"
 

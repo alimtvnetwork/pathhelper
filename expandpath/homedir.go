@@ -18,10 +18,10 @@ import (
 )
 
 const (
-	homeCaps = "HOME"
-	userProfiles ="USERPROFILE"
-	homeDrive ="HOMEDRIVE"
-	homePath ="HOMEPATH"
+	homeCaps     = "HOME"
+	userProfiles = "USERPROFILE"
+	homeDrive    = "HOMEDRIVE"
+	homePath     = "HOMEPATH"
 )
 
 // TODO refactor later

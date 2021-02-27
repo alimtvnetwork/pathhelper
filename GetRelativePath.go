@@ -10,8 +10,12 @@ func GetRelativePath(fullPath, basePath string) string {
 	}
 
 	if strings.Compare(fullPath, basePath) == 0 {
-		return "Both paths are same"
+		return ""
 	}
 
-	return strings.Replace(fullPath, basePath, "", 1)
+	return strings.Replace(
+		fullPath,
+		basePath,
+		"",
+		1)
 }

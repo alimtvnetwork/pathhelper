@@ -8,6 +8,7 @@ import (
 	"gitlab.com/evatix-go/core/ostype"
 
 	"gitlab.com/evatix-go/pathhelper"
+	"gitlab.com/evatix-go/pathhelper/internal/mics"
 )
 
 type absoluteFromExecutableDirectoryPathTestCaseWrapper struct {
@@ -52,7 +53,7 @@ func TestGetAbsoluteFromExecutableDirectoryPath_Windows(t *testing.T) {
 
 	for i, testCase := range absoluteFromExecutableDirectoryPathTestCaseWrappers {
 		// Arrange
-		if pathhelper.IsUnixCase(testCase.operatingSystem) {
+		if mics.IsUnixCase(testCase.operatingSystem) {
 			continue
 		}
 
@@ -67,7 +68,7 @@ func TestGetAbsoluteFromExecutableDirectoryPath_Unix(t *testing.T) {
 
 	for i, testCase := range absoluteFromExecutableDirectoryPathTestCaseWrappers {
 		// Arrange
-		if pathhelper.IsWindowsCase(testCase.operatingSystem) {
+		if mics.IsWindowsCase(testCase.operatingSystem) {
 			continue
 		}
 
@@ -88,7 +89,7 @@ func executeTestCaseForGetAbsoluteFromExecutableDirectoryPath(
 			testCase.isNormalize)
 
 		// Assert
-		Convey(pathhelper.GetAssertMessage(actual, testCase.expected, i), func() {
+		Convey(GetAssertMessage(actual, testCase.expected, i), func() {
 			So(actual, ShouldNotBeEmpty)
 			So(actual, ShouldContainSubstring, testCase.expected)
 		})
