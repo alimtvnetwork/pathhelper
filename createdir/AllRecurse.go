@@ -14,7 +14,7 @@ import (
 )
 
 // Create all sub-directories and create the final directory
-func AllRecurse(path string, fileMode os.FileMode) *fileinfo.Result {
+func AllRecurse(path string, fileMode os.FileMode) *dirinfo.Result {
 	fileInfoWrapper := pathhelper.GetFileInfoWrapper(path)
 	isIgnoredAction := fileInfoWrapper.IsPathExists() || fileInfoWrapper.IsEmptyPath
 	errorWrapper := errnew.Empty
@@ -28,10 +28,11 @@ func AllRecurse(path string, fileMode os.FileMode) *fileinfo.Result {
 		errorWrapper = errorwrapper.NewFilePath(msgtype.InvalidEmptyPathErrorMessage.String(), constants.EmptyString)
 	}
 
-	return &fileinfo.Result{
+	return &dirinfo.Result{
 		FileInfoWrapper:   fileInfoWrapper,
-		Error:             errorWrapper,
+		Error:             &errorWrapper,
 		RawPath:           path,
+		IsValidDir:        fileInfoWrapper.IsDirectory,
 		FileModeRequested: &fileMode,
 		HasIssues:         errorWrapper.HasError(),
 		IsIgnoredAction:   isIgnoredAction,

@@ -9,6 +9,7 @@ import "gitlab.com/evatix-go/core"
 // if forced then if Windows then fix added anyway.
 func GetLongPathsFixedOf(
 	isForce bool,
+	pathSeparator string,
 	givenAbsolutePaths ...string,
 ) *[]string {
 	if givenAbsolutePaths == nil {
@@ -17,5 +18,6 @@ func GetLongPathsFixedOf(
 
 	return GetLongPathsFixedOfPtr(
 		isForce,
+		pathSeparator,
 		&givenAbsolutePaths)
 }

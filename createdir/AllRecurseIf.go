@@ -10,10 +10,10 @@ func AllRecurseIf(
 	condition bool,
 	path string,
 	fileMode os.FileMode,
-) *fileinfo.Result {
+) *dirinfo.Result {
 	if condition {
 		return AllRecurse(path, fileMode)
 	}
 
-	return fileinfo.NewEmptyDirectoryResult()
+	return dirinfo.Empty()
 }

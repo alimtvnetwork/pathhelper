@@ -11,7 +11,10 @@ import (
 
 	"gitlab.com/evatix-go/pathhelper"
 	"gitlab.com/evatix-go/pathhelper/cmd/config/datamodel"
+	"gitlab.com/evatix-go/pathhelper/dirinfo"
 	"gitlab.com/evatix-go/pathhelper/pathfilter"
+	"gitlab.com/evatix-go/pathhelper/unipath"
+	"gitlab.com/evatix-go/pathhelper/unipaths"
 )
 
 func main() {
@@ -54,4 +57,10 @@ func main() {
 	collection.ErrorWrappers.HandleError()
 
 	fmt.Println(strings.Join(*collection.Values, "\n\t"))
+
+	fmt.Println(dirinfo.New("c:\\windows\\py.exe").IsValidDir)
+
+	fmt.Println(unipath.New("\\").Add("c://windows").Add("\\sys32").GetAsPathWrapper().String())
+	fmt.Println(unipaths.New("\\").Add("a", "c://windows").Get("a").String())
+
 }
