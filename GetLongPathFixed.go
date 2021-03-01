@@ -1,6 +1,8 @@
 package pathhelper
 
 import (
+	"gitlab.com/evatix-go/core/osconsts"
+
 	"gitlab.com/evatix-go/pathhelper/normalize"
 )
 
@@ -10,5 +12,8 @@ import (
 // if path starts with `\\` then replaces with constants.LongPathUncPrefix
 // if forced then if Windows then fix added anyway.
 func GetLongPathFixed(isForce bool, givenAbsolutePath string) string {
-	return normalize.GetLongPathFixedPtr(&givenAbsolutePath, isForce)
+	return normalize.GetLongPathFixedPtr(
+		osconsts.PathSeparator,
+		givenAbsolutePath,
+		isForce)
 }

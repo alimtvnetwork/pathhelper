@@ -3,6 +3,7 @@ package normalize
 import (
 	"strings"
 
+	"gitlab.com/evatix-go/core/coreindexes"
 	"gitlab.com/evatix-go/core/osconsts"
 
 	"gitlab.com/evatix-go/pathhelper/ispath"
@@ -21,18 +22,26 @@ func PathUsingSeparator(
 		return givenPath
 	}
 
-	firstStepNormalize := GetCompiledPath(givenPath, &normalizeMap)
+	firstStepNormalize := GetCompiledPath(
+		givenPath,
+		&normalizeMap)
 	result := removeAndFixDoubleSeparatorToFinalSeparator(
 		pathSeparator,
 		strings.TrimSpace(firstStepNormalize))
 
 	if isLongPathFix && osconsts.IsWindows {
-		result = GetLongPathFixed(result, isForceLongPath)
+		result = GetLongPathFixedPtr(
+			pathSeparator,
+			result,
+			isForceLongPath)
 	}
 
-	if result[len(result)-1] == pathSeparator[0] {
+	length := len(result)
+	lastIndex := length - 1
+
+	if result[lastIndex] == pathSeparator[coreindexes.First] {
 		// removing last path separator
-		return result[:len(result)-1]
+		return result[:lastIndex]
 	}
 
 	return result

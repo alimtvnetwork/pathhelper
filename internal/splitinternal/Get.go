@@ -1,4 +1,4 @@
-package pathsplitinternal
+package splitinternal
 
 func Get(currentPath string) (baseDir, fileName string) {
 	i := LastSlash(currentPath)

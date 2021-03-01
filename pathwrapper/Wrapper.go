@@ -4,15 +4,14 @@ import (
 	"io/ioutil"
 	"os"
 	"path"
-	"path/filepath"
 	"strings"
 
-	"gitlab.com/evatix-go/core/constants"
 	"gitlab.com/evatix-go/errorwrapper"
 	"gitlab.com/evatix-go/errorwrapper/errdata/errbool"
 	"gitlab.com/evatix-go/errorwrapper/errdata/errstr"
 	"gitlab.com/evatix-go/errorwrapper/errnew"
 
+	"gitlab.com/evatix-go/pathhelper/internal/splitinternal"
 	"gitlab.com/evatix-go/pathhelper/pathext"
 )
 
@@ -96,18 +95,20 @@ func (receiver Wrapper) IsExist() bool {
 	return true
 }
 
+func (receiver Wrapper) BothExtensions() (dotExt, ext string) {
+	return splitinternal.GetExtensions(receiver.String())
+}
+
 // .mp4 reference: https://stackoverflow.com/a/64122557
 func (receiver Wrapper) DotExtension() string {
-	return filepath.Ext(receiver.String())
+	dotExt, _ := splitinternal.GetExtensions(receiver.String())
+
+	return dotExt
 }
 
 // mp4 reference: https://stackoverflow.com/a/64122557
 func (receiver Wrapper) Extension() string {
-	ext := filepath.Ext(receiver.String())
-
-	if len(ext) > 0 && ext[0] == constants.Dot[0] {
-		return ext[1:]
-	}
+	_, ext := splitinternal.GetExtensions(receiver.String())
 
 	return ext
 }
@@ -143,8 +144,10 @@ func (receiver Wrapper) GetDirectories(separator string) *errstr.Results {
 	}
 }
 
-// Get a file path combining file path.
-func (receiver Wrapper) GetAFilePath(separator string, nesting ...string) Wrapper {
+func (receiver Wrapper) GetAFilePathAsString(
+	separator string,
+	nesting ...string,
+) string {
 	rootPath := receiver.GetDirectory().Value
 	nestingCombined := strings.Join(nesting, separator)
 
@@ -152,7 +155,15 @@ func (receiver Wrapper) GetAFilePath(separator string, nesting ...string) Wrappe
 		separator +
 		nestingCombined
 
-	return Wrapper(currentPath)
+	return currentPath
+}
+
+// Get a file path combining file path.
+func (receiver Wrapper) GetAFilePath(
+	separator string,
+	nesting ...string,
+) Wrapper {
+	return Wrapper(receiver.GetAFilePathAsString(separator, nesting...))
 }
 
 func (receiver Wrapper) GetNestedDirectories(
