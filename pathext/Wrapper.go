@@ -10,7 +10,7 @@ import (
 	"gitlab.com/evatix-go/errorwrapper"
 
 	"gitlab.com/evatix-go/pathhelper/internal/isstr"
-	"gitlab.com/evatix-go/pathhelper/internal/pathsplitinternal"
+	"gitlab.com/evatix-go/pathhelper/internal/splitinternal"
 )
 
 type Wrapper struct {
@@ -101,7 +101,7 @@ func (receiver *Wrapper) initializeProperties() {
 		return
 	}
 
-	baseDir, fileNameWithExtension := pathsplitinternal.GetWithoutSlash(
+	baseDir, fileNameWithExtension := splitinternal.GetWithoutSlash(
 		receiver.fullPath)
 	fileNameWithoutExt := fileNameWithExtension
 
@@ -364,7 +364,7 @@ func (receiver *Wrapper) IsExtensionFiltersMatch(
 func (receiver *Wrapper) IsNameWithExtensionMatches(
 	fullPath string,
 ) bool {
-	_, fileName := pathsplitinternal.Get(fullPath)
+	_, fileName := splitinternal.Get(fullPath)
 
 	return isstr.EndsWith(
 		receiver.fullPath,

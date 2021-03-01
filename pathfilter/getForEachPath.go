@@ -6,7 +6,7 @@ import (
 	"gitlab.com/evatix-go/errorwrapper/errdata/errstr"
 	"gitlab.com/evatix-go/errorwrapper/errwrappers"
 
-	"gitlab.com/evatix-go/pathhelper/internal/pathsplitinternal"
+	"gitlab.com/evatix-go/pathhelper/internal/splitinternal"
 	"gitlab.com/evatix-go/pathhelper/pathext"
 	"gitlab.com/evatix-go/pathhelper/pathgetter"
 )
@@ -43,7 +43,7 @@ func getFilesForEachPath(
 
 	if isOnlyDot {
 		// get all files in the dir.
-		dir, _ := pathsplitinternal.GetWithoutSlash(
+		dir, _ := splitinternal.GetWithoutSlash(
 			eachPath)
 
 		return pathgetter.Files(

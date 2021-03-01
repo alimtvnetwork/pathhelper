@@ -14,7 +14,7 @@ import (
 )
 
 // Create directory and create the final directory
-func New(path string, fileMode os.FileMode) *fileinfo.Result {
+func New(path string, fileMode os.FileMode) *dirinfo.Result {
 	fileInfoWrapper := pathhelper.GetFileInfoWrapper(path)
 	isIgnoredAction := fileInfoWrapper.IsPathExists() || fileInfoWrapper.IsEmptyPath
 	errorWrapper := errnew.Empty
@@ -28,11 +28,12 @@ func New(path string, fileMode os.FileMode) *fileinfo.Result {
 		errorWrapper = errorwrapper.NewFilePath(msgtype.InvalidEmptyPathErrorMessage.String(), constants.EmptyString)
 	}
 
-	return &fileinfo.Result{
+	return &dirinfo.Result{
 		FileInfoWrapper:   fileInfoWrapper,
-		Error:             errorWrapper,
+		Error:             &errorWrapper,
 		RawPath:           path,
 		FileModeRequested: &fileMode,
+		IsValidDir:        fileInfoWrapper.IsDirectory,
 		HasIssues:         errorWrapper.HasError(),
 		IsIgnoredAction:   isIgnoredAction,
 		Action:            performing.CreateAction,

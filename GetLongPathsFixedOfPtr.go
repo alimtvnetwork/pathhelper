@@ -9,6 +9,7 @@ import "gitlab.com/evatix-go/pathhelper/normalize"
 // if forced then if Windows then fix added anyway.
 func GetLongPathsFixedOfPtr(
 	isForce bool,
+	pathSeparator string,
 	givenAbsolutePaths *[]string,
 ) *[]string {
 	return GetAsyncProcessed(
@@ -18,7 +19,8 @@ func GetLongPathsFixedOfPtr(
 			currentPath string,
 		) (result string) {
 			return normalize.GetLongPathFixedPtr(
-				&currentPath,
+				pathSeparator,
+				currentPath,
 				isForce)
 		})
 }

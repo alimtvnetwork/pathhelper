@@ -8,34 +8,23 @@ import (
 	. "github.com/smartystreets/goconvey/convey"
 	"gitlab.com/evatix-go/errorwrapper"
 	"gitlab.com/evatix-go/errorwrapper/errconv"
-	"gitlab.com/evatix-go/errorwrapper/errnew"
 	"gitlab.com/evatix-go/errorwrapper/errtype"
 
 	"gitlab.com/evatix-go/pathhelper/dirinfo"
-	"gitlab.com/evatix-go/pathhelper/performing"
 )
 
 var (
-	expectedNewEmptyDirectoryResult = fileinfo.Result{
-		FileInfoWrapper:   nil,
-		Error:             errnew.Empty,
-		RawPath:           "",
-		FileModeRequested: nil,
-		HasIssues:         false,
-		IsIgnoredAction:   true,
-		Action:            performing.EmptyDirectoryResult,
-	}
-
-	errorWrapperType = reflect.TypeOf(errorwrapper.Wrapper{})
+	expectedNewEmptyDirectoryResult = dirinfo.Empty()
+	errorWrapperType                = reflect.TypeOf(errorwrapper.Wrapper{})
 )
 
 func TestNewEmptyDirectoryResult(t *testing.T) {
 	// Arrange
-	testMessage := fmt.Sprint("[NewEmptyDirectoryResult] expects pointer to Directory result struct")
+	testMessage := fmt.Sprint("[Empty] expects pointer to Directory result struct")
 
 	Convey(testMessage, t, func() {
 		// Act
-		actual := fileinfo.NewEmptyDirectoryResult()
+		actual := dirinfo.Empty()
 		expectedReflect := reflect.ValueOf(expectedNewEmptyDirectoryResult)
 
 		// Assert

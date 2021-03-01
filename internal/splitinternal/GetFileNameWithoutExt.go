@@ -1,17 +1,15 @@
-package pathhelper
+package splitinternal
 
 import (
 	"strings"
 
 	"gitlab.com/evatix-go/core/constants"
-
-	"gitlab.com/evatix-go/pathhelper/internal/splitinternal"
 )
 
 // invalid ext should return empty string.
 // reference example : https://play.golang.org/p/EMbLKv5Jyqe
 func GetFileNameWithoutExt(currentPath string) (filename string) {
-	i := splitinternal.LastSlash(
+	i := LastSlash(
 		currentPath)
 
 	filename = currentPath[i+1:]
@@ -19,7 +17,7 @@ func GetFileNameWithoutExt(currentPath string) (filename string) {
 		filename,
 		constants.Dot)
 
-	if indexOfDot > -1 {
+	if indexOfDot > constants.InvalidNotFoundCase {
 		return filename[:indexOfDot]
 	}
 

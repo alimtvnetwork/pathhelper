@@ -6,25 +6,6 @@ import (
 	"gitlab.com/evatix-go/pathhelper/ispath"
 )
 
-var slugForbiddenArray = []string{
-	" ",
-	"!",
-	"`",
-	"@",
-	"#",
-	"%",
-	"$",
-	"^",
-	"&",
-	"*",
-	"(",
-	")",
-	"{",
-	"}",
-	"[",
-	"]",
-}
-
 // GetSlug from given path, usages @slugForbiddenArray to replace with @separatorOfChoice
 func GetSlug(path, separatorOfChoice string) string {
 	if ispath.Empty(path) {
