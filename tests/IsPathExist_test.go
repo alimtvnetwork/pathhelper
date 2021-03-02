@@ -2,12 +2,12 @@ package tests
 
 import (
 	"fmt"
+	"gitlab.com/evatix-go/pathhelper/ispath"
 	"testing"
 
 	. "github.com/smartystreets/goconvey/convey"
 	"gitlab.com/evatix-go/core/ostype"
 
-	"gitlab.com/evatix-go/pathhelper"
 	"gitlab.com/evatix-go/pathhelper/internal/mics"
 )
 
@@ -40,7 +40,7 @@ var pathExistTestCaseWrappers = []pathExistTestCaseWrapper{
 	},
 }
 
-func TestIsPathExist_Windows(t *testing.T) {
+func TestExist_Windows(t *testing.T) {
 	SkipOnUnix(t)
 
 	for i, testCase := range pathExistTestCaseWrappers {
@@ -49,13 +49,13 @@ func TestIsPathExist_Windows(t *testing.T) {
 			continue
 		}
 
-		testCaseMessage := fmt.Sprintf("(%s)[IsPathExist] inputs (%s) expects (%s)", testCase.operatingSystemMessage, testCase.input, testCase.expectedMessage)
+		testCaseMessage := fmt.Sprintf("(%s)[Exist] inputs (%s) expects (%s)", testCase.operatingSystemMessage, testCase.input, testCase.expectedMessage)
 
 		executeTestCaseForIsPathExist(t, testCaseMessage, testCase, i)
 	}
 }
 
-func TestIsPathExist_Unix(t *testing.T) {
+func TestExist_Unix(t *testing.T) {
 	SkipOnWindows(t)
 
 	for i, testCase := range pathExistTestCaseWrappers {
@@ -64,7 +64,7 @@ func TestIsPathExist_Unix(t *testing.T) {
 			continue
 		}
 
-		testCaseMessage := fmt.Sprintf("(%s)[IsPathExist] inputs (%s) expects (%s)", testCase.operatingSystemMessage, testCase.input, testCase.expectedMessage)
+		testCaseMessage := fmt.Sprintf("(%s)[Exist] inputs (%s) expects (%s)", testCase.operatingSystemMessage, testCase.input, testCase.expectedMessage)
 
 		executeTestCaseForIsPathExist(t, testCaseMessage, testCase, i)
 	}
@@ -73,7 +73,7 @@ func TestIsPathExist_Unix(t *testing.T) {
 func executeTestCaseForIsPathExist(t *testing.T, testCaseMessage string, testCase pathExistTestCaseWrapper, i int) {
 	Convey(testCaseMessage, t, func() {
 		// Act
-		actual := pathhelper.IsPathExist(testCase.input)
+		actual := ispath.Exist(testCase.input)
 
 		// Assert
 		Convey(GetAssertMessage(actual, testCase.expected, i), func() {
