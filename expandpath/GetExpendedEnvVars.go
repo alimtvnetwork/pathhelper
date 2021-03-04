@@ -8,6 +8,11 @@ import (
 // with its expanded path (if exists) and returns the new string.
 func EnvironmentVarExpand(pathContainsEnvVariablesStartingDollar string) string {
 	keyNameArray := GetEnvironmentVariables(pathContainsEnvVariablesStartingDollar)
+
+	if keyNameArray == nil {
+		return ""
+	}
+
 	replacementMap := expandEnvironmentVariable(keyNameArray)
 
 	return pathhelper.GetCompiledPath(

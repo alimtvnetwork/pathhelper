@@ -31,27 +31,52 @@ package main
 
 import (
 	"fmt"
+	"gitlab.com/evatix-go/core/filemodes"
+	"gitlab.com/evatix-go/pathhelper/envpath"
+	"gitlab.com/evatix-go/pathhelper/normalize"
+	"gitlab.com/evatix-go/pathhelper/ispath"
+	"gitlab.com/evatix-go/pathhelper/recursivepaths"
 
 	"gitlab.com/evatix-go/pathhelper"
 	"gitlab.com/evatix-go/pathhelper/pathhelpercore"
+	"gitlab.com/evatix-go/pathhelper/createdir"
+	"gitlab.com/evatix-go/pathhelper/dirinfo"
+	"gitlab.com/evatix-go/pathhelper/unipath"
 )
 
 func main() {
 	// Checking if path is empty
-	pathhelpercore.IsEmptyPath("") // returns true
+	ispath.Empty("") // returns true
 
 	samplePath := "C:\\users\\"
 
 	// Checking if path exists
-	exists := pathhelper.IsPathExist(samplePath)
+	exists := ispath.Exist(samplePath)
 	fmt.Println(exists) // returns true if directory or file exist on that path
 
 	// Getting path as URI
 	fmt.Println(pathhelper.GetPathAsUri(samplePath, true)) // file:///c:/users
 
 	// Normalize path
-	pathToNormalize := "file:///C:/something/otherthing"
-	fmt.Println(pathhelper.NormalizePath(pathToNormalize)) // C:\something\otherthing if OS is windows; C:/something/otherthing if OS is Unix
+	pathToNormalize := "file:///C:/something/otherthing"	
+	fmt.Println(normalize.Path(pathToNormalize)) // C:\something\otherthing if OS is windows; C:/something/otherthing if OS is Unix
+
+	// Create Directory
+	createdir.New("SampleNewDir", filemodes.AllRead) // Creates a directory named "SampleNewDir" with AllRead access at the folder where the function is called
+
+	// Environmental variables
+	envpath.GetExecutableEnvironmentPathCollection() // Outputs a struct containing the environment variable paths
+
+	// Check directory validity
+	fmt.Println(dirinfo.New("c:\\windows\\py.exe").IsValidDir) // outputs a bool
+
+	// Gets all paths recursively and continues on error as per provided argument
+	fmt.Println(recursivepaths.All("D:\\SampleDir", true)) // &[\\?\D:\SampleDir \\?\D:\SampleDir\sampleFile.txt] # Error Wrappers - Collection - Length[0]
+	fmt.Println(recursivepaths.All(" ", false))            // panics with detailed message
+
+	// Getting path as wrapper
+	fmt.Println(unipath.New("\\").Add("c://windows").Add("\\sys32").GetAsPathWrapper().String()) // \\?\c:\windows\sys32 on windows based on separator given
+
 }
 ```
 

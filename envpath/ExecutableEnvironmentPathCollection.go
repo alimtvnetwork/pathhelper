@@ -30,7 +30,9 @@ func (executableEnvironmentPathCollection *ExecutableEnvironmentPathCollection) 
 }
 
 func (executableEnvironmentPathCollection *ExecutableEnvironmentPathCollection) AddPtr(exeEnvPath *ExecutableEnvironmentPath) {
-	(*executableEnvironmentPathCollection.pathsMap)[exeEnvPath.Variable] = *exeEnvPath
+	if exeEnvPath != nil {
+		(*executableEnvironmentPathCollection.pathsMap)[exeEnvPath.Variable] = *exeEnvPath
+	}
 }
 
 func (executableEnvironmentPathCollection *ExecutableEnvironmentPathCollection) IsExistPtr(exeEnvPath *ExecutableEnvironmentPath) bool {
