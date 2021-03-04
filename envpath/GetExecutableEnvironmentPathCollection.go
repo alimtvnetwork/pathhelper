@@ -1,8 +1,9 @@
 package envpath
 
-import normalize "gitlab.com/evatix-go/pathhelper/expandpath"
+import (
+	normalize "gitlab.com/evatix-go/pathhelper/expandpath"
+)
 
-// todo change filename accordingly
 func GetExecutableEnvironmentPathCollection() ExecutableEnvironmentPathCollection {
 	rawPaths := GetRawExecutableEnvironmentPathCollection()
 
