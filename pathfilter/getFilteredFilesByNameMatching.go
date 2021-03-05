@@ -11,7 +11,7 @@ func getFilteredFilesByNameMatching(
 	eachPathExtWrapper *pathext.Wrapper,
 ) *[]string {
 	resultsBySpecificNameFilter := collection.Filter(
-		func(str string) (
+		func(str string, index int) (
 			result string,
 			isKeep bool,
 			isBreak bool,

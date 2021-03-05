@@ -1,13 +1,13 @@
 package envpath
 
 type ExecutableEnvironmentPathCollection struct {
-	pathsMap *map[string]ExecutableEnvironmentPath
-	paths    *[]ExecutableEnvironmentPath
+	pathsMap *map[string]*ExecutableEnvironmentPath
+	paths    *[]*ExecutableEnvironmentPath
 }
 
 func NewExecutableEnvironmentPathCollection(capacity int) ExecutableEnvironmentPathCollection {
-	pathsMap := make(map[string]ExecutableEnvironmentPath, capacity)
-	paths := make([]ExecutableEnvironmentPath, 0, capacity)
+	pathsMap := make(map[string]*ExecutableEnvironmentPath, capacity)
+	paths := make([]*ExecutableEnvironmentPath, 0, capacity)
 
 	return ExecutableEnvironmentPathCollection{
 		pathsMap: &pathsMap,
@@ -16,8 +16,8 @@ func NewExecutableEnvironmentPathCollection(capacity int) ExecutableEnvironmentP
 }
 
 func NewExecutableEnvironmentPathCollectionPtr(capacity int) *ExecutableEnvironmentPathCollection {
-	pathsMap := make(map[string]ExecutableEnvironmentPath, capacity)
-	paths := make([]ExecutableEnvironmentPath, 0, capacity)
+	pathsMap := make(map[string]*ExecutableEnvironmentPath, capacity)
+	paths := make([]*ExecutableEnvironmentPath, 0, capacity)
 
 	return &ExecutableEnvironmentPathCollection{
 		pathsMap: &pathsMap,
@@ -25,32 +25,41 @@ func NewExecutableEnvironmentPathCollectionPtr(capacity int) *ExecutableEnvironm
 	}
 }
 
-func (executableEnvironmentPathCollection *ExecutableEnvironmentPathCollection) Add(exeEnvPath ExecutableEnvironmentPath) {
-	(*executableEnvironmentPathCollection.pathsMap)[exeEnvPath.Variable] = exeEnvPath
+func (receiver *ExecutableEnvironmentPathCollection) Add(
+	exeEnvPath ExecutableEnvironmentPath,
+) {
+	(*receiver.pathsMap)[exeEnvPath.Variable] =
+		&exeEnvPath
 }
 
-func (executableEnvironmentPathCollection *ExecutableEnvironmentPathCollection) AddPtr(exeEnvPath *ExecutableEnvironmentPath) {
+func (receiver *ExecutableEnvironmentPathCollection) AddPtr(
+	exeEnvPath *ExecutableEnvironmentPath,
+) {
 	if exeEnvPath != nil {
-		(*executableEnvironmentPathCollection.pathsMap)[exeEnvPath.Variable] = *exeEnvPath
+		(*receiver.pathsMap)[exeEnvPath.Variable] = exeEnvPath
 	}
 }
 
-func (executableEnvironmentPathCollection *ExecutableEnvironmentPathCollection) IsExistPtr(exeEnvPath *ExecutableEnvironmentPath) bool {
-	_, has := (*executableEnvironmentPathCollection.pathsMap)[exeEnvPath.Variable]
+func (receiver *ExecutableEnvironmentPathCollection) IsExistPtr(
+	exeEnvPath *ExecutableEnvironmentPath,
+) bool {
+	_, has := (*receiver.pathsMap)[exeEnvPath.Variable]
 
 	return has
 }
 
-func (executableEnvironmentPathCollection *ExecutableEnvironmentPathCollection) IsExist(exeEnvPath ExecutableEnvironmentPath) bool {
-	_, has := (*executableEnvironmentPathCollection.pathsMap)[exeEnvPath.Variable]
+func (receiver *ExecutableEnvironmentPathCollection) IsExist(
+	exeEnvPath ExecutableEnvironmentPath,
+) bool {
+	_, has := (*receiver.pathsMap)[exeEnvPath.Variable]
 
 	return has
 }
 
-func (executableEnvironmentPathCollection *ExecutableEnvironmentPathCollection) List() *[]ExecutableEnvironmentPath {
-	return executableEnvironmentPathCollection.paths
+func (receiver *ExecutableEnvironmentPathCollection) List() *[]*ExecutableEnvironmentPath {
+	return receiver.paths
 }
 
-func (executableEnvironmentPathCollection *ExecutableEnvironmentPathCollection) OnlyNamesCollection() *[]ExecutableEnvironmentPath {
-	return executableEnvironmentPathCollection.paths
+func (receiver *ExecutableEnvironmentPathCollection) OnlyNamesCollection() *[]*ExecutableEnvironmentPath {
+	return receiver.paths
 }

@@ -20,6 +20,14 @@ func getFilesForEachPath(
 	isPossibilityOfMatchingExtensionAndFile :=
 		eachPathExtWrapper.HasExtension() &&
 			eachPathExtWrapper.IsFile()
+
+	if isPossibilityOfMatchingExtensionAndFile {
+		return &errstr.ResultsWithErrorCollection{
+			Values:        &[]string{eachPath},
+			ErrorWrappers: errwrappers.Empty(),
+		}
+	}
+
 	isMatchesWithAnyExtension :=
 		isPossibilityOfMatchingExtensionAndFile &&
 			eachPathExtWrapper.IsExtensionFiltersMatch(
@@ -27,14 +35,10 @@ func getFilesForEachPath(
 				filter.ExtensionsLength())
 
 	if isMatchesWithAnyExtension {
-		return errstr.
-			EmptyResultsWithErrorCollectionPtr()
-	}
-
-	if isPossibilityOfMatchingExtensionAndFile {
-		// no need process a file
-		return errstr.
-			EmptyResultsWithErrorCollectionPtr()
+		return &errstr.ResultsWithErrorCollection{
+			Values:        &[]string{eachPath},
+			ErrorWrappers: errwrappers.Empty(),
+		}
 	}
 
 	// get all files in the dir.
