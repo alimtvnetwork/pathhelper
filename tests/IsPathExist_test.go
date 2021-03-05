@@ -2,8 +2,9 @@ package tests
 
 import (
 	"fmt"
-	"gitlab.com/evatix-go/pathhelper/ispath"
 	"testing"
+
+	"gitlab.com/evatix-go/pathhelper/ispath"
 
 	. "github.com/smartystreets/goconvey/convey"
 	"gitlab.com/evatix-go/core/ostype"
@@ -73,7 +74,7 @@ func TestExist_Unix(t *testing.T) {
 func executeTestCaseForIsPathExist(t *testing.T, testCaseMessage string, testCase pathExistTestCaseWrapper, i int) {
 	Convey(testCaseMessage, t, func() {
 		// Act
-		actual := ispath.Exist(testCase.input)
+		actual := ispath.Exists(testCase.input)
 
 		// Assert
 		Convey(GetAssertMessage(actual, testCase.expected, i), func() {

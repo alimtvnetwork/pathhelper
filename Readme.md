@@ -27,22 +27,6 @@ complete solution for obtaining information regarding filepath independent of pl
 ## Examples
 
 ```go
-package main
-
-import (
-	"fmt"
-	"gitlab.com/evatix-go/core/filemodes"
-	"gitlab.com/evatix-go/pathhelper/envpath"
-	"gitlab.com/evatix-go/pathhelper/normalize"
-	"gitlab.com/evatix-go/pathhelper/ispath"
-	"gitlab.com/evatix-go/pathhelper/recursivepaths"
-
-	"gitlab.com/evatix-go/pathhelper"
-	"gitlab.com/evatix-go/pathhelper/pathhelpercore"
-	"gitlab.com/evatix-go/pathhelper/createdir"
-	"gitlab.com/evatix-go/pathhelper/dirinfo"
-	"gitlab.com/evatix-go/pathhelper/unipath"
-)
 
 func main() {
 	// Checking if path is empty
@@ -51,7 +35,7 @@ func main() {
 	samplePath := "C:\\users\\"
 
 	// Checking if path exists
-	exists := ispath.Exist(samplePath)
+	exists := ispath.Exists(samplePath) // .File / .Directory / .AnyExists ...
 	fmt.Println(exists) // returns true if directory or file exist on that path
 
 	// Getting path as URI
@@ -72,11 +56,29 @@ func main() {
 
 	// Gets all paths recursively and continues on error as per provided argument
 	fmt.Println(recursivepaths.All("D:\\SampleDir", true)) // &[\\?\D:\SampleDir \\?\D:\SampleDir\sampleFile.txt] # Error Wrappers - Collection - Length[0]
-	fmt.Println(recursivepaths.All(" ", false))            // panics with detailed message
+	fmt.Println(recursivepaths.All(" ", false))		// panics with detailed message
 
 	// Getting path as wrapper
 	fmt.Println(unipath.New("\\").Add("c://windows").Add("\\sys32").GetAsPathWrapper().String()) // \\?\c:\windows\sys32 on windows based on separator given
-
+	// "\\?\c:\windows\sys32\sys64\somethingnew" because "\\" separator given
+	// "c:/windows/sys32/sys64/somethingnew" because "/" separator given
+	fmt.Println(unipath.
+		New("\\").
+		Add("c://windows").
+		Add("\\sys32//").
+		Add("\\sys64//").
+		Add("somethingnew").
+		String()) // .ToString(...) Can change separator for new path
+	
+	// "c:/windows/sys32/sys64", 
+	// "somethingnew" not printed because we skipped it
+	fmt.Println(unipath.
+		New("/").
+		Add("c://windows").
+		Add("\\sys32//").
+		Add("//sys64\\").
+		Add("somethingnew").
+		ToStringUptoLastMinus(1, "/",true))
 }
 ```
 

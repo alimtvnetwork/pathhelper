@@ -39,20 +39,36 @@ func main() {
 		&first.Filters,
 		&first.Extensions)
 
-	exceptQuery := pathfilter.NewQuery(
-		&first.SkipFilters,
-		&first.Extensions)
+	// exceptQuery := pathfilter.NewQuery(
+	// 	&first.SkipFilters,
+	// 	&first.Extensions)
 
 	pathTranspiler := corestr.NewHashmap(1)
-	pathTranspiler.AddOrUpdate("workdir", "D:\\github\\Evatix\\text-replace-automation")
+	pathTranspiler.
+		AddOrUpdate(
+			"workdir",
+			"D:\\github\\Evatix\\text-replace-automation")
 
-	collection := pathfilter.GetRecursiveExcept(
+	collection := pathfilter.GetRecursive(
 		osconsts.PathSeparator,
 		true,
 		pathTranspiler,
 		first.Path,
-		query,
-		exceptQuery)
+		query)
+
+	// collection := pathfilter.GetRecursive(
+	// 	osconsts.PathSeparator,
+	// 	true,
+	// 	pathTranspiler,
+	// 	first.Path,
+	// 	query)
+	//
+	// collection := pathfilter.Get(
+	// 	osconsts.PathSeparator,
+	// 	true,
+	// 	pathTranspiler,
+	// 	first.Path,
+	// 	query)
 
 	collection.ErrorWrappers.HandleError()
 
@@ -60,7 +76,17 @@ func main() {
 
 	fmt.Println(dirinfo.New("c:\\windows\\py.exe").IsValidDir)
 
-	fmt.Println(unipath.New("\\").Add("c://windows").Add("\\sys32").GetAsPathWrapper().String())
-	fmt.Println(unipaths.New("\\").Add("a", "c://windows").Get("a").String())
-
+	fmt.Println(unipath.
+		New("/").
+		Add("c://windows").
+		Add("\\sys32//").
+		Add("//sys64\\").
+		Add("somethingnew").
+		ToStringUptoLastMinus(1, "/", true))
+	fmt.Println(
+		unipaths.
+			New("\\").
+			Add("a", "c://windows").
+			Get("a").
+			String())
 }

@@ -76,6 +76,16 @@ func (receiver *Wrapper) ExtDotIndex() int {
 	return *receiver.dotIndex
 }
 
+func (receiver *Wrapper) BaseDir() string {
+	if receiver.baseDir != nil {
+		return *receiver.baseDir
+	}
+
+	receiver.initializeProperties()
+
+	return *receiver.baseDir
+}
+
 func (receiver *Wrapper) FileNameWithExtension() string {
 	if receiver.fileNameWithExtension != nil {
 		return *receiver.fileNameWithExtension

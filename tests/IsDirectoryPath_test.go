@@ -7,8 +7,8 @@ import (
 	. "github.com/smartystreets/goconvey/convey"
 	"gitlab.com/evatix-go/core/ostype"
 
-	"gitlab.com/evatix-go/pathhelper"
 	"gitlab.com/evatix-go/pathhelper/internal/mics"
+	"gitlab.com/evatix-go/pathhelper/ispath"
 )
 
 type directoryPathTestCaseWrapper struct {
@@ -69,7 +69,7 @@ func executeTestCaseForIsDirectoryPath(
 ) {
 	Convey(testCaseMessage, t, func() {
 		// Act
-		actual := pathhelper.IsDirectoryPath(testCase.input)
+		actual := ispath.Directory(testCase.input)
 
 		// Assert
 		Convey(GetAssertMessage(actual, testCase.expected, i), func() {

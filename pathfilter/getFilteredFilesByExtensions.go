@@ -12,7 +12,7 @@ func getFilteredFilesByExtensions(
 	filter *Query,
 ) *[]string {
 	return collection.Filter(
-		func(currentFilePath string) (
+		func(currentFilePath string, index int) (
 			finalCurrentPath string,
 			isKeep bool,
 			isBreak bool,
