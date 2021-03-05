@@ -6,7 +6,7 @@ import (
 
 	. "github.com/smartystreets/goconvey/convey"
 
-	"gitlab.com/evatix-go/pathhelper"
+	"gitlab.com/evatix-go/pathhelper/ispath"
 )
 
 type slugTestCaseWrapper struct {
@@ -40,11 +40,11 @@ var slugTestCaseWrappers = []slugTestCaseWrapper{
 func TestIsSlug(t *testing.T) {
 	for i, testCase := range slugTestCaseWrappers {
 		// Arrange
-		testCaseMessage := fmt.Sprintf("[IsSlug] inputs (%s) expects (%s)", testCase.input, testCase.expectedMessage)
+		testCaseMessage := fmt.Sprintf("[Slug] inputs (%s) expects (%s)", testCase.input, testCase.expectedMessage)
 
 		Convey(testCaseMessage, t, func() {
 			// Act
-			actual := pathhelper.IsSlug(testCase.input)
+			actual := ispath.Slug(testCase.input)
 
 			// Assert
 			Convey(GetAssertMessage(actual, testCase.expected, i), func() {

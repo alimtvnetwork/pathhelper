@@ -1,16 +1,25 @@
 package unipath
 
 import (
+	"os"
+
 	"gitlab.com/evatix-go/core/constants"
 	"gitlab.com/evatix-go/core/coredata/corestr"
+	"gitlab.com/evatix-go/core/msgtype"
 	"gitlab.com/evatix-go/errorwrapper"
 	"gitlab.com/evatix-go/errorwrapper/errdata/errstr"
 	"gitlab.com/evatix-go/errorwrapper/errnew"
 	"gitlab.com/evatix-go/errorwrapper/errtype"
 
+	"gitlab.com/evatix-go/pathhelper/dirinfo"
+	"gitlab.com/evatix-go/pathhelper/fileinfo"
+	"gitlab.com/evatix-go/pathhelper/internal/recursiveinternal"
+	"gitlab.com/evatix-go/pathhelper/internal/splitinternal"
 	"gitlab.com/evatix-go/pathhelper/normalize"
 	"gitlab.com/evatix-go/pathhelper/pathext"
+	"gitlab.com/evatix-go/pathhelper/pathgetter"
 	"gitlab.com/evatix-go/pathhelper/pathwrapper"
+	"gitlab.com/evatix-go/pathhelper/recursivepaths"
 )
 
 const (
@@ -71,6 +80,10 @@ func (receiver *Wrapper) Unlock() *Wrapper {
 	return receiver
 }
 
+func (receiver *Wrapper) Separator() string {
+	return receiver.separator
+}
+
 // anyPath can contain separators or without separator both are fine
 func (receiver *Wrapper) AddLock(
 	anyPath string,
@@ -86,12 +99,34 @@ func (receiver *Wrapper) AddLock(
 func (receiver *Wrapper) Add(
 	anyPath string,
 ) *Wrapper {
-	if receiver.IsFinalized() {
-		receiver.finalizedError.HandleErrorWithMsg(
-			"cannot add " + anyPath + ". As it is finalized unipath.")
-	}
+	receiver.handleFinalizeError()
 
 	receiver.collection.Add(anyPath)
+
+	return receiver
+}
+
+func (receiver *Wrapper) handleFinalizeError() {
+	if receiver.IsFinalized() {
+		receiver.finalizedError.HandleErrorWithMsg(
+			"Finalized unipath cannot add or modify data.")
+	}
+}
+
+func (receiver *Wrapper) AddStringsPtr(
+	stringItems *[]string,
+) *Wrapper {
+	receiver.handleFinalizeError()
+	receiver.collection.AddStringsPtr(stringItems)
+
+	return receiver
+}
+
+func (receiver *Wrapper) AddPointerStringsPtr(
+	stringItems *[]*string,
+) *Wrapper {
+	receiver.handleFinalizeError()
+	receiver.collection.AddPointerStringsPtr(stringItems)
 
 	return receiver
 }
@@ -111,8 +146,26 @@ func (receiver *Wrapper) Has(
 	return receiver.collection.Has(pathSplit)
 }
 
+func (receiver *Wrapper) IsWindowsSeparator() bool {
+	return receiver.separator == constants.WindowsPathSeparator
+}
+
+func (receiver *Wrapper) IsUnixSeparator() bool {
+	return receiver.separator == constants.ForwardSlash
+}
+
 func (receiver *Wrapper) IsEmpty() bool {
 	return receiver.collection.IsEmpty()
+}
+
+func (receiver *Wrapper) IsValid() bool {
+	if receiver.collection.IsEmpty() {
+		return false
+	}
+
+	_, errW := receiver.GetFileInfo()
+
+	return errW.IsEmpty()
 }
 
 func (receiver *Wrapper) IsEqual(wrapper *Wrapper) bool {
@@ -162,8 +215,9 @@ func (receiver *Wrapper) Finalize() *errstr.Result {
 
 	// set finalize error
 	receiver.isFinalized = true
-	receiver.finalizedError = errorwrapper.NewPtr(
-		errtype.FinalizedResourceCannotAccess)
+	receiver.finalizedError = errorwrapper.
+		NewPtr(
+			errtype.FinalizedResourceCannotAccess)
 
 	finalPath := receiver.
 		collection.
@@ -196,6 +250,167 @@ func (receiver *Wrapper) GetFinalizePath() *errstr.Result {
 	}
 }
 
+func (receiver *Wrapper) GetFilesOnPath(
+	isNormalize bool,
+) *errstr.ResultsWithErrorCollection {
+	currentPath := receiver.String()
+
+	return pathgetter.Files(
+		receiver.separator,
+		currentPath,
+		isNormalize)
+}
+
+func (receiver *Wrapper) GetBaseDirFiles(
+	isNormalize bool,
+) *errstr.ResultsWithErrorCollection {
+	currentPath := receiver.GetBaseDir()
+
+	return pathgetter.Files(
+		receiver.separator,
+		currentPath,
+		isNormalize)
+}
+
+func (receiver *Wrapper) GetDirectoriesOfBaseDir(
+	isNormalize bool,
+) *errstr.Results {
+	currentPath := receiver.GetBaseDir()
+
+	dirs, errWrapper := pathgetter.Dirs(
+		receiver.separator,
+		currentPath,
+		isNormalize)
+
+	return &errstr.Results{
+		Values:       dirs,
+		ErrorWrapper: errWrapper,
+	}
+}
+
+// Get Recursive dirs from the basedir path
+func (receiver *Wrapper) GetRecursiveDirectoriesOfBaseDir(
+	isNormalize bool,
+) *errstr.ResultsWithErrorCollection {
+	currentPath := receiver.GetBaseDir()
+
+	dirs, errsCollection := recursiveinternal.GetDirectoryPaths(
+		receiver.separator,
+		currentPath,
+		isNormalize)
+
+	return &errstr.ResultsWithErrorCollection{
+		Values:        dirs,
+		ErrorWrappers: errsCollection,
+	}
+}
+
+// Get Recursive dirs from the whole path
+func (receiver *Wrapper) GetRecursiveDirectories(
+	isNormalize bool,
+) *errstr.ResultsWithErrorCollection {
+	currentPath := receiver.String()
+
+	dirs, errsCollection := recursiveinternal.GetDirectoryPaths(
+		receiver.separator,
+		currentPath,
+		isNormalize)
+
+	return &errstr.ResultsWithErrorCollection{
+		Values:        dirs,
+		ErrorWrappers: errsCollection,
+	}
+}
+
+// Get Recursive files from the whole path
+func (receiver *Wrapper) GetRecursiveFiles(
+	isContinueOnError bool,
+) *errstr.ResultsWithErrorCollection {
+	currentPath := receiver.String()
+
+	return recursiveinternal.GetFilesPaths(
+		receiver.separator,
+		currentPath,
+		isContinueOnError)
+}
+
+// Get Recursive files from the basedir
+func (receiver *Wrapper) GetRecursiveFilesOnBaseDir(
+	isContinueOnError bool,
+) *errstr.ResultsWithErrorCollection {
+	currentPath := receiver.GetBaseDir()
+
+	return recursivepaths.Files(
+		currentPath,
+		isContinueOnError)
+}
+
+func (receiver *Wrapper) GetBaseDir() string {
+	currentPath := receiver.String()
+
+	return splitinternal.GetBaseDir(
+		currentPath)
+}
+
+func (receiver *Wrapper) GetBaseDirFileInfo() (os.FileInfo, *errorwrapper.Wrapper) {
+	currentPath := receiver.GetBaseDir()
+	curFileInfo, err := os.Stat(currentPath)
+
+	if err != nil {
+		return curFileInfo,
+			errnew.NewPtr(errtype.FileInfo, err)
+	}
+
+	return curFileInfo, errnew.EmptyPtr
+}
+
+func (receiver *Wrapper) IsBaseDirExists() bool {
+	currentFileInfo, errW := receiver.GetBaseDirFileInfo()
+
+	if errW.HasError() {
+		return false
+	}
+
+	return currentFileInfo.IsDir()
+}
+
+func (receiver *Wrapper) IsFileExists() bool {
+	currentFileInfo, errW := receiver.GetFileInfo()
+
+	if errW.HasError() {
+		return false
+	}
+
+	return !currentFileInfo.IsDir()
+}
+
+func (receiver *Wrapper) GetBaseDirInfoResult() *dirinfo.Result {
+	baseDir := receiver.GetBaseDir()
+
+	return dirinfo.New(baseDir)
+}
+
+func (receiver *Wrapper) GetFileInfo() (os.FileInfo, *errorwrapper.Wrapper) {
+	filePath := receiver.String()
+	curFileInfo, err := os.Stat(filePath)
+
+	if err != nil {
+		return curFileInfo, errnew.NewPtr(errtype.FileInfo, err)
+	}
+
+	return curFileInfo, errnew.EmptyPtr
+}
+
+func (receiver *Wrapper) GetFileInfoWrapper() *fileinfo.Wrapper {
+	filePath := receiver.String()
+
+	return fileinfo.New(filePath)
+}
+
+func (receiver *Wrapper) Collection() *corestr.Collection {
+	return receiver.collection
+}
+
 func (receiver *Wrapper) ListPtr() *[]string {
 	return receiver.collection.ListPtr()
 }
@@ -216,6 +431,45 @@ func (receiver *Wrapper) getFinalizedError() *errorwrapper.Wrapper {
 	return errnew.EmptyPtr
 }
 
+func (receiver *Wrapper) ToWrapperUpto(
+	uptoLastIndexMinus int,
+	sep string,
+	isNormalize bool,
+) *Wrapper {
+	currPath := receiver.ToStringUptoLastMinus(
+		uptoLastIndexMinus,
+		sep,
+		isNormalize)
+
+	return New(sep).Add(currPath)
+}
+
+func (receiver *Wrapper) ToStringUptoLastMinus(
+	uptoLastIndexMinus int,
+	sep string,
+	isNormalize bool,
+) string {
+	if uptoLastIndexMinus < 0 {
+		msgtype.
+			CannotBeNegativeMessage.
+			HandleUsingPanic(
+				"uptoLastIndexMinus cannot be negative.",
+				uptoLastIndexMinus)
+	}
+
+	generatedPath := receiver.
+		collection.
+		Take(receiver.Length() - uptoLastIndexMinus).
+		Join(sep)
+
+	generatedPathNext := normalize.PathUsingSeparatorUsingSingleIf(
+		isNormalize,
+		sep,
+		generatedPath)
+
+	return generatedPathNext
+}
+
 func (receiver *Wrapper) ToString(
 	sep string,
 	isNormalize bool,
@@ -233,7 +487,13 @@ func (receiver *Wrapper) ToString(
 }
 
 func (receiver *Wrapper) String() string {
-	toStr := receiver.ToString(receiver.separator, true)
+	if receiver.IsFinalized() {
+		return receiver.finalPath
+	}
+
+	toStr := receiver.ToString(
+		receiver.separator,
+		true)
 
 	return toStr
 }

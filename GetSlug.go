@@ -3,6 +3,7 @@ package pathhelper
 import (
 	"strings"
 
+	"gitlab.com/evatix-go/pathhelper/internal/consts"
 	"gitlab.com/evatix-go/pathhelper/ispath"
 )
 
@@ -12,7 +13,7 @@ func GetSlug(path, separatorOfChoice string) string {
 		return path
 	}
 
-	for _, forbidden := range slugForbiddenArray {
+	for _, forbidden := range consts.SlugForbiddenArray {
 		path = strings.ReplaceAll(path, forbidden, separatorOfChoice)
 	}
 
