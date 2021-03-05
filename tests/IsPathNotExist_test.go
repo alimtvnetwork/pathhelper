@@ -7,8 +7,8 @@ import (
 	. "github.com/smartystreets/goconvey/convey"
 	"gitlab.com/evatix-go/core/ostype"
 
-	"gitlab.com/evatix-go/pathhelper"
 	"gitlab.com/evatix-go/pathhelper/internal/mics"
+	"gitlab.com/evatix-go/pathhelper/ispath"
 )
 
 type pathNotExistTestCaseWrapper struct {
@@ -75,7 +75,7 @@ func executeTestCaseForIsPathNotExist(
 ) {
 	Convey(testCaseMessage, t, func() {
 		// Act
-		actual := pathhelper.IsPathNotExist(testCase.input)
+		actual := ispath.NotExists(testCase.input)
 
 		// Assert
 		Convey(GetAssertMessage(actual, testCase.expected, i), func() {
