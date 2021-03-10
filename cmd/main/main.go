@@ -12,6 +12,7 @@ import (
 	"gitlab.com/evatix-go/pathhelper"
 	"gitlab.com/evatix-go/pathhelper/cmd/config/datamodel"
 	"gitlab.com/evatix-go/pathhelper/dirinfo"
+	"gitlab.com/evatix-go/pathhelper/fileinfo"
 	"gitlab.com/evatix-go/pathhelper/pathfilter"
 	"gitlab.com/evatix-go/pathhelper/unipath"
 	"gitlab.com/evatix-go/pathhelper/unipaths"
@@ -29,7 +30,7 @@ func main() {
 	allBytes, err := ioutil.ReadFile(configPath)
 
 	if err != nil {
-		return
+		panic(err)
 	}
 
 	var cliConfig datamodel.CliConfig
@@ -76,16 +77,23 @@ func main() {
 
 	fmt.Println(dirinfo.New("c:\\windows\\py.exe").IsValidDir)
 
-	fmt.Println(unipath.
-		New("/").
-		Add("c://windows").
-		Add("\\sys32//").
-		Add("//sys64\\").
-		Add("somethingnew").
-		ToStringUptoLastMinus(1, "/", true))
+	fmt.Println()
 	fmt.Println(
 		unipaths.
 			New("\\").
 			AddPaths("c://windows", "d:\\maindrive\\something/g.go", "hjello/eee").
 			StringsPtr())
+
+	wrappers := unipath.
+		New("\\").
+		Add("D:\\github\\Evatix\\text-replace-automation\\SampleFiles").
+		GetFileInfoWrappers()
+
+	json2 := wrappers.Json()
+	emptyWrappers := fileinfo.EmptyWrappers()
+
+	fmt.Println(json2.JsonString())
+	emptyWrappers.ParseInjectUsingJson(json2)
+
+	fmt.Println(emptyWrappers.PathsCollection().Json().JsonString())
 }

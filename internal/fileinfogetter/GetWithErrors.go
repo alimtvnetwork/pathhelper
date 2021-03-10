@@ -3,19 +3,29 @@ package fileinfogetter
 import (
 	"os"
 	"sync"
+
+	"gitlab.com/evatix-go/errorwrapper/errtype"
+	"gitlab.com/evatix-go/errorwrapper/errwrappers"
 )
 
 // For each path converted to file info wrapper and finally returns as an array.
-func Get(fullPaths *[]string) *[]os.FileInfo {
+func GetWithErrors(
+	fullPaths *[]string,
+) (
+	*[]os.FileInfo,
+	*errwrappers.Collection,
+) {
+	errsCollection := errwrappers.Empty()
+	errMutex := sync.Mutex{}
 	if fullPaths == nil {
-		return &[]os.FileInfo{}
+		return &[]os.FileInfo{}, errsCollection
 	}
 
 	length := len(*fullPaths)
 	list := make([]os.FileInfo, length)
 
 	if length == 0 {
-		return &list
+		return &list, errsCollection
 	}
 
 	wg := &sync.WaitGroup{}
@@ -29,6 +39,12 @@ func Get(fullPaths *[]string) *[]os.FileInfo {
 			list[index] = currentFileInfo
 		} else {
 			list[index] = nil
+			errMutex.Lock()
+			errsCollection.
+				AddTypeError(
+					errtype.FileInfo,
+					err)
+			errMutex.Unlock()
 		}
 	}
 
@@ -38,5 +54,5 @@ func Get(fullPaths *[]string) *[]os.FileInfo {
 
 	wg.Wait()
 
-	return &list
+	return &list, errsCollection
 }
