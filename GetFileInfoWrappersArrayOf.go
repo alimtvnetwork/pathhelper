@@ -8,7 +8,11 @@ import (
 
 // Each path can give number wrappers from GetFileInfoWrappersFrom
 // This method call GetFileInfoWrappersFrom for each path given and returns as an array of it.
-func GetFileInfoWrappersArrayOf(fullPaths *[]string) *[]*fileinfo.Wrappers {
+func GetFileInfoWrappersArrayOf(
+	separator string,
+	fullPaths *[]string,
+	isNormalize bool,
+) *[]*fileinfo.Wrappers {
 	if fullPaths == nil {
 		return &[]*fileinfo.Wrappers{}
 	}
@@ -26,7 +30,10 @@ func GetFileInfoWrappersArrayOf(fullPaths *[]string) *[]*fileinfo.Wrappers {
 	processor := func(index int, fullPath string) {
 		defer wg.Done()
 
-		list[index] = GetFileInfoWrappersFrom(fullPath)
+		list[index] = fileinfo.NewWrappersPtr(
+			fullPath,
+			separator,
+			isNormalize)
 	}
 
 	for i, fullPath := range *fullPaths {

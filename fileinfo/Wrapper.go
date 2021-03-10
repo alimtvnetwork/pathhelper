@@ -15,6 +15,7 @@ type Wrapper struct {
 	IsFile      bool
 	IsEmptyPath bool
 	pathExists  issetter.Value
+	separator   string
 }
 
 func (wrapper *Wrapper) HasError() bool {

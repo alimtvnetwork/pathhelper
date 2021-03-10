@@ -1,9 +1,11 @@
 package ispathinternal
 
-import "gitlab.com/evatix-go/pathhelper/fileinfo"
+import (
+	"os"
+)
 
 func Exists(path string) bool {
-	fileInfoWrapper := fileinfo.New(path)
+	_, err := os.Stat(path)
 
-	return fileInfoWrapper.IsPathExists()
+	return err == nil
 }

@@ -9,6 +9,6 @@ func GetExtensions(
 ) (
 	dotExt, ext string,
 ) {
-	return splitinternal.GetExtensions(
+	return splitinternal.GetBothExtension(
 		currentPath)
 }

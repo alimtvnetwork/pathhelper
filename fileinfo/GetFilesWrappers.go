@@ -25,7 +25,7 @@ func GetFilesWrappers(rootPath string, wrapperIn *[]Wrapper) *Wrappers {
 		collection:          &files,
 		directories:         EmptyWrappers(),
 		files:               nil,
-		recursivePaths:      nil,
+		recursiveDirs:       nil,
 		Error:               errnew.EmptyPtr,
 		pathsCollection:     nil,
 		fileNamesCollection: nil,

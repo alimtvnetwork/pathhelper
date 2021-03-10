@@ -7,7 +7,7 @@ import (
 )
 
 // invalid ext should return empty string.
-// reference example : https://play.golang.org/p/EMbLKv5Jyqe
+// reference example : https://play.golang.org/p/oT6eWNZAeEi
 func GetFileNameWithoutExt(currentPath string) (filename string) {
 	i := LastSlash(
 		currentPath)
