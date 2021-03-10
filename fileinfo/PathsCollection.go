@@ -3,6 +3,7 @@ package fileinfo
 import (
 	"gitlab.com/evatix-go/core"
 	"gitlab.com/evatix-go/errorwrapper"
+	"gitlab.com/evatix-go/errorwrapper/errdata/errstr"
 	"gitlab.com/evatix-go/errorwrapper/errnew"
 	"gitlab.com/evatix-go/errorwrapper/errwrappers"
 
@@ -11,59 +12,39 @@ import (
 )
 
 type PathsCollection struct {
-	rootPath       string
-	pathWrappers   *[]PathWrapper
-	allPaths       *[]string
-	directories    *[]string
-	files          *[]string
-	Error          *errorwrapper.Wrapper
-	parentWrappers *Wrappers
+	rootPath          string
+	pathWrappers      *[]SimplePathWrapper
+	allRecursivePaths *errstr.ResultsWithErrorCollection
+	allRecursiveFiles *errstr.ResultsWithErrorCollection
+	allRecursiveDirs  *errstr.ResultsWithErrorCollection
+	directories       *[]string
+	files             *[]string
+	separator         string
+	Error             *errorwrapper.Wrapper
+	parentWrappers    *Wrappers
 }
 
-func (pathsCollection *PathsCollection) AllPaths(separator string, isContinueOnError bool) (
-	allPaths *[]string,
-	errorWrappersCollection *errwrappers.Collection,
-) {
-	if pathsCollection.allPaths != nil {
-		empty := errwrappers.Empty()
-
-		return pathsCollection.allPaths, empty
-	}
-
-	allPaths, errWrappers := recursiveinternal.GetPaths(
-		separator,
-		pathsCollection.rootPath,
-		isContinueOnError)
-
-	if errWrappers.IsEmpty() {
-		pathsCollection.allPaths = allPaths
-
-		return allPaths, errWrappers
-	}
-
-	if errWrappers.IsEmpty() {
-		pathsCollection.allPaths = allPaths
-	}
-
-	return allPaths, errWrappers
-}
-
-func NewPaths(rootPath string, capacity int) *PathsCollection {
-	paths := make([]PathWrapper, 0, capacity)
+func NewPaths(rootPath, separator string, capacity int) *PathsCollection {
+	paths := make([]SimplePathWrapper, 0, capacity)
 
 	return &PathsCollection{
 		rootPath:     rootPath,
 		pathWrappers: &paths,
+		separator:    separator,
 	}
 }
 
-func NewPathsUsingWrappers(rootPath string, wrappers *Wrappers) *PathsCollection {
+func NewPathsUsingWrappers(
+	rootPath, separator string,
+	wrappers *Wrappers,
+) *PathsCollection {
 	if wrappers == nil {
 		return &PathsCollection{
 			rootPath:       rootPath,
 			pathWrappers:   nil,
 			Error:          errnew.EmptyPtr,
 			parentWrappers: wrappers,
+			separator:      separator,
 		}
 	}
 
@@ -73,12 +54,13 @@ func NewPathsUsingWrappers(rootPath string, wrappers *Wrappers) *PathsCollection
 			pathWrappers:   nil,
 			Error:          wrappers.Error,
 			parentWrappers: wrappers,
+			separator:      separator,
 		}
 	}
 
-	paths := make([]PathWrapper, wrappers.Length())
+	paths := make([]SimplePathWrapper, wrappers.Length())
 	for i, wrapper := range *wrappers.collection {
-		paths[i] = PathWrapper{
+		paths[i] = SimplePathWrapper{
 			Path:        wrapper.RawPath,
 			IsDirectory: wrapper.IsDirectory,
 		}
@@ -89,26 +71,118 @@ func NewPathsUsingWrappers(rootPath string, wrappers *Wrappers) *PathsCollection
 		pathWrappers:   &paths,
 		Error:          wrappers.Error,
 		parentWrappers: wrappers,
+		separator:      separator,
 	}
 }
 
-func NewPathsUsing(directoryPath string) *PathsCollection {
-	wrappers := NewWrappersPtr(directoryPath)
+func NewPathsUsing(
+	directoryPath, separator string,
+	isNormalize bool,
+) *PathsCollection {
+	wrappers := NewWrappersPtr(
+		directoryPath,
+		separator,
+		isNormalize)
 
-	return NewPathsUsingWrappers(directoryPath, wrappers)
+	return NewPathsUsingWrappers(
+		directoryPath,
+		separator,
+		wrappers)
 }
 
-func NewPathsUsingPaths(rootPath string, paths *[]string) *PathsCollection {
-	if paths == nil {
+func NewPathsUsingPaths(
+	rootPath, separator string,
+	recursivePaths *[]string,
+) *PathsCollection {
+	if recursivePaths == nil {
 		return NewPaths(
 			rootPath,
+			separator,
 			0)
 	}
 
-	wrappers := NewPaths(rootPath, len(*paths))
-	wrappers.allPaths = paths
+	wrappers :=
+		NewPaths(
+			rootPath,
+			separator,
+			len(*recursivePaths))
+
+	wrappers.allRecursivePaths =
+		&errstr.ResultsWithErrorCollection{
+			Values:        recursivePaths,
+			ErrorWrappers: errwrappers.Empty(),
+		}
 
 	return wrappers
+}
+
+func (pathsCollection *PathsCollection) AllRecursivePaths() *errstr.ResultsWithErrorCollection {
+	if pathsCollection.allRecursivePaths != nil {
+		return pathsCollection.allRecursivePaths
+	}
+
+	allPaths, errWrappers := recursiveinternal.GetPaths(
+		pathsCollection.separator,
+		pathsCollection.rootPath,
+		false)
+
+	if errWrappers.IsEmpty() {
+		pathsCollection.allRecursivePaths =
+			&errstr.ResultsWithErrorCollection{
+				Values:        allPaths,
+				ErrorWrappers: errWrappers,
+			}
+
+		return pathsCollection.allRecursivePaths
+	}
+
+	pathsCollection.allRecursivePaths =
+		&errstr.ResultsWithErrorCollection{
+			Values:        core.EmptyStringsPtr(),
+			ErrorWrappers: errWrappers,
+		}
+
+	return pathsCollection.allRecursivePaths
+}
+
+func (pathsCollection *PathsCollection) AllRecursiveFiles() *errstr.ResultsWithErrorCollection {
+	if pathsCollection.allRecursiveFiles != nil {
+		return pathsCollection.allRecursiveFiles
+	}
+
+	pathsCollection.allRecursiveFiles = recursiveinternal.GetFilesPaths(
+		pathsCollection.separator,
+		pathsCollection.rootPath,
+		false)
+
+	return pathsCollection.allRecursiveFiles
+}
+
+func (pathsCollection *PathsCollection) AllRecursiveDirs() *errstr.ResultsWithErrorCollection {
+	if pathsCollection.allRecursiveDirs != nil {
+		return pathsCollection.allRecursiveDirs
+	}
+
+	allPaths, errWrappers := recursiveinternal.GetDirectoryPaths(
+		pathsCollection.separator,
+		pathsCollection.rootPath,
+		false)
+
+	if errWrappers.IsEmpty() {
+		pathsCollection.allRecursiveDirs = &errstr.ResultsWithErrorCollection{
+			Values:        allPaths,
+			ErrorWrappers: errWrappers,
+		}
+
+		return pathsCollection.allRecursiveDirs
+	}
+
+	pathsCollection.allRecursiveDirs = &errstr.ResultsWithErrorCollection{
+		Values:        core.EmptyStringsPtr(),
+		ErrorWrappers: errWrappers,
+	}
+
+	return pathsCollection.allRecursiveDirs
 }
 
 func (pathsCollection *PathsCollection) Directories() *[]string {
@@ -191,7 +265,7 @@ func (pathsCollection *PathsCollection) ParentWrappers() *Wrappers {
 	return pathsCollection.parentWrappers
 }
 
-func (pathsCollection *PathsCollection) Add(wrapper PathWrapper) *PathsCollection {
+func (pathsCollection *PathsCollection) Add(wrapper SimplePathWrapper) *PathsCollection {
 	*pathsCollection.pathWrappers = append(
 		*pathsCollection.pathWrappers,
 		wrapper)
@@ -199,7 +273,7 @@ func (pathsCollection *PathsCollection) Add(wrapper PathWrapper) *PathsCollectio
 	return pathsCollection
 }
 
-func (pathsCollection *PathsCollection) AddPtr(wrapper *PathWrapper) *PathsCollection {
+func (pathsCollection *PathsCollection) AddPtr(wrapper *SimplePathWrapper) *PathsCollection {
 	*pathsCollection.pathWrappers = append(
 		*pathsCollection.pathWrappers,
 		*wrapper)
@@ -212,32 +286,18 @@ func (pathsCollection *PathsCollection) IsContains(
 	isCaseSensitive bool,
 ) bool {
 	return isstrsinternal.ContainsPtrSimple(
-		pathsCollection.PathsAsStrings(),
+		pathsCollection.AllRecursivePaths().Values,
 		path,
 		0,
 		isCaseSensitive)
 }
 
-func (pathsCollection *PathsCollection) AddWrapper(pathWrapper PathWrapper) *PathsCollection {
+func (pathsCollection *PathsCollection) AddWrapper(
+	pathWrapper SimplePathWrapper,
+) *PathsCollection {
 	*pathsCollection.pathWrappers = append(
 		*pathsCollection.pathWrappers,
 		pathWrapper)
 
 	return pathsCollection
-}
-
-func (pathsCollection *PathsCollection) PathsAsStrings() *[]string {
-	if pathsCollection.allPaths != nil {
-		return pathsCollection.allPaths
-	}
-
-	collection := make([]string, pathsCollection.Length())
-
-	for i, pathWrapper := range *pathsCollection.pathWrappers {
-		collection[i] = pathWrapper.Path
-	}
-
-	pathsCollection.allPaths = &collection
-
-	return pathsCollection.allPaths
 }

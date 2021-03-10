@@ -44,6 +44,18 @@ func New(sep string) *Wrapper {
 	}
 }
 
+func NewUsingPath(curPath, sep string) *Wrapper {
+	wrapper := &Wrapper{
+		isFinalized:    false,
+		finalPath:      "",
+		separator:      sep,
+		finalizedError: nil,
+		collection:     corestr.NewCollection(constants.ArbitraryCapacity1),
+	}
+
+	return wrapper.Add(curPath)
+}
+
 func NewCap(cap int, sep string) *Wrapper {
 	return &Wrapper{
 		isFinalized:    false,
@@ -100,7 +112,6 @@ func (receiver *Wrapper) Add(
 	anyPath string,
 ) *Wrapper {
 	receiver.handleFinalizeError()
-
 	receiver.collection.Add(anyPath)
 
 	return receiver
@@ -352,6 +363,36 @@ func (receiver *Wrapper) GetBaseDir() string {
 		currentPath)
 }
 
+func (receiver *Wrapper) GetBaseDirName() string {
+	currentPath := receiver.String()
+
+	return splitinternal.GetBaseDirName(
+		currentPath)
+}
+
+func (receiver *Wrapper) GetBaseDirNames() *[]string {
+	currentPath := receiver.String()
+
+	return splitinternal.GetBaseDirNames(
+		currentPath)
+}
+
+func (receiver *Wrapper) Splits() *[]string {
+	currentPath := receiver.String()
+
+	return splitinternal.GetAllSplitsWithSep(
+		currentPath,
+		receiver.separator)
+}
+
+func (receiver *Wrapper) SplitsUsing(separator string) *[]string {
+	currentPath := receiver.String()
+
+	return splitinternal.GetAllSplitsWithSep(
+		currentPath,
+		separator)
+}
+
 func (receiver *Wrapper) GetBaseDirFileInfo() (os.FileInfo, *errorwrapper.Wrapper) {
 	currentPath := receiver.GetBaseDir()
 	curFileInfo, err := os.Stat(currentPath)
@@ -404,7 +445,25 @@ func (receiver *Wrapper) GetFileInfo() (os.FileInfo, *errorwrapper.Wrapper) {
 func (receiver *Wrapper) GetFileInfoWrapper() *fileinfo.Wrapper {
 	filePath := receiver.String()
 
-	return fileinfo.New(filePath)
+	return fileinfo.New(filePath, receiver.separator)
+}
+
+func (receiver *Wrapper) GetFileInfoWrappers() *fileinfo.Wrappers {
+	filePath := receiver.String()
+
+	return fileinfo.NewWrappersPtr(
+		filePath,
+		receiver.separator,
+		false)
+}
+
+func (receiver *Wrapper) Parent() *Wrapper {
+	filePath := receiver.GetBaseDir()
+
+	return NewCap(
+		constants.ArbitraryCapacity1,
+		receiver.separator).
+		Add(filePath)
 }
 
 func (receiver *Wrapper) Collection() *corestr.Collection {
@@ -493,6 +552,30 @@ func (receiver *Wrapper) String() string {
 
 	toStr := receiver.ToString(
 		receiver.separator,
+		true)
+
+	return toStr
+}
+
+func (receiver *Wrapper) GetWindowsPath() string {
+	if receiver.IsFinalized() && receiver.IsWindowsSeparator() {
+		return receiver.finalPath
+	}
+
+	toStr := receiver.ToString(
+		constants.WindowsPathSeparator,
+		true)
+
+	return toStr
+}
+
+func (receiver *Wrapper) GetUnixPath() string {
+	if receiver.IsFinalized() && receiver.IsUnixSeparator() {
+		return receiver.finalPath
+	}
+
+	toStr := receiver.ToString(
+		constants.ForwardSlash,
 		true)
 
 	return toStr

@@ -6,7 +6,7 @@ import (
 	"gitlab.com/evatix-go/core/constants"
 )
 
-func GetExtensions(currentPath string) (dotExt, ext string) {
+func GetBothExtension(currentPath string) (dotExt, ext string) {
 	i := LastSlash(currentPath)
 	fileName := currentPath[i+1:]
 	dotExt = ""

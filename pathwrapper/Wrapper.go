@@ -17,15 +17,15 @@ import (
 
 type Wrapper string
 
-func (receiver Wrapper) Value() string {
-	return string(receiver)
+func (receiver *Wrapper) Value() string {
+	return string(*receiver)
 }
 
-func (receiver Wrapper) String() string {
-	return string(receiver)
+func (receiver *Wrapper) String() string {
+	return string(*receiver)
 }
 
-func (receiver Wrapper) GetFileInfo() (
+func (receiver *Wrapper) GetFileInfo() (
 	os.FileInfo,
 	*errorwrapper.Wrapper,
 ) {
@@ -34,7 +34,7 @@ func (receiver Wrapper) GetFileInfo() (
 	return fileInfo, errnew.ErrPtr(err)
 }
 
-func (receiver Wrapper) GetDirectory() *errstr.Result {
+func (receiver *Wrapper) GetDirectory() *errstr.Result {
 	info, e := receiver.GetFileInfo()
 
 	if e.HasError() {
@@ -51,7 +51,7 @@ func (receiver Wrapper) GetDirectory() *errstr.Result {
 	return errstr.NewUsingWrapperPtr(path.Dir(currentPath), e)
 }
 
-func (receiver Wrapper) DirStatus() *errbool.Result {
+func (receiver *Wrapper) DirStatus() *errbool.Result {
 	info, e := receiver.GetFileInfo()
 
 	if e.HasError() {
@@ -63,7 +63,18 @@ func (receiver Wrapper) DirStatus() *errbool.Result {
 		e)
 }
 
-func (receiver Wrapper) IsDir() bool {
+func (receiver *Wrapper) GetBaseDir() string {
+	return splitinternal.GetBaseDir(receiver.Value())
+}
+
+func (receiver *Wrapper) Parent() *Wrapper {
+	baseDir := splitinternal.GetBaseDir(receiver.Value())
+	parent := Wrapper(baseDir)
+
+	return &parent
+}
+
+func (receiver *Wrapper) IsDir() bool {
 	resultPtr := receiver.DirStatus()
 
 	if resultPtr.ErrorWrapper.HasError() {
@@ -73,7 +84,7 @@ func (receiver Wrapper) IsDir() bool {
 	return resultPtr.Value
 }
 
-func (receiver Wrapper) IsFile() bool {
+func (receiver *Wrapper) IsFile() bool {
 	resultPtr := receiver.DirStatus()
 
 	if resultPtr.ErrorWrapper.HasError() {
@@ -84,7 +95,7 @@ func (receiver Wrapper) IsFile() bool {
 	return !resultPtr.Value
 }
 
-func (receiver Wrapper) IsExist() bool {
+func (receiver *Wrapper) IsExist() bool {
 	resultPtr := receiver.DirStatus()
 
 	if resultPtr.ErrorWrapper.HasError() {
@@ -95,30 +106,30 @@ func (receiver Wrapper) IsExist() bool {
 	return true
 }
 
-func (receiver Wrapper) BothExtensions() (dotExt, ext string) {
-	return splitinternal.GetExtensions(receiver.String())
+func (receiver *Wrapper) BothExtensions() (dotExt, ext string) {
+	return splitinternal.GetBothExtension(receiver.String())
 }
 
 // .mp4 reference: https://stackoverflow.com/a/64122557
-func (receiver Wrapper) DotExtension() string {
-	dotExt, _ := splitinternal.GetExtensions(receiver.String())
+func (receiver *Wrapper) DotExtension() string {
+	dotExt, _ := splitinternal.GetBothExtension(receiver.String())
 
 	return dotExt
 }
 
 // mp4 reference: https://stackoverflow.com/a/64122557
-func (receiver Wrapper) Extension() string {
-	_, ext := splitinternal.GetExtensions(receiver.String())
+func (receiver *Wrapper) Extension() string {
+	_, ext := splitinternal.GetBothExtension(receiver.String())
 
 	return ext
 }
 
-func (receiver Wrapper) ExtensionWrapper() *pathext.Wrapper {
+func (receiver *Wrapper) ExtensionWrapper() *pathext.Wrapper {
 	return pathext.NewPtr(receiver.String())
 }
 
 // Get all directory on that root path only, no nested or recursive visit.
-func (receiver Wrapper) GetDirectories(separator string) *errstr.Results {
+func (receiver *Wrapper) GetDirectories(separator string) *errstr.Results {
 	fileInfos, errW := receiver.getFileInfos()
 	if errW.HasError() {
 		return &errstr.Results{
@@ -144,7 +155,7 @@ func (receiver Wrapper) GetDirectories(separator string) *errstr.Results {
 	}
 }
 
-func (receiver Wrapper) GetAFilePathAsString(
+func (receiver *Wrapper) GetAFilePathAsString(
 	separator string,
 	nesting ...string,
 ) string {
@@ -159,14 +170,14 @@ func (receiver Wrapper) GetAFilePathAsString(
 }
 
 // Get a file path combining file path.
-func (receiver Wrapper) GetAFilePath(
+func (receiver *Wrapper) GetAFilePath(
 	separator string,
 	nesting ...string,
 ) Wrapper {
 	return Wrapper(receiver.GetAFilePathAsString(separator, nesting...))
 }
 
-func (receiver Wrapper) GetNestedDirectories(
+func (receiver *Wrapper) GetNestedDirectories(
 	separator string,
 	nesting ...string,
 ) *errstr.Results {
@@ -201,7 +212,7 @@ func (receiver Wrapper) GetNestedDirectories(
 }
 
 // Get all files on that root path only, no nested or recursive visit.
-func (receiver Wrapper) GetFiles(separator string) *errstr.Results {
+func (receiver *Wrapper) GetFiles(separator string) *errstr.Results {
 	fileInfos, errW := receiver.getFileInfos()
 	if errW.HasError() {
 		return &errstr.Results{
@@ -229,7 +240,7 @@ func (receiver Wrapper) GetFiles(separator string) *errstr.Results {
 	}
 }
 
-func (receiver Wrapper) getFileInfos() (
+func (receiver *Wrapper) getFileInfos() (
 	*[]os.FileInfo, *errorwrapper.Wrapper,
 ) {
 	directoryResult := receiver.GetDirectory()

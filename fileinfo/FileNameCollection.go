@@ -60,9 +60,13 @@ func NewFileNamesUsingWrappers(wrappers *Wrappers) *FileNamesCollection {
 }
 
 func NewFileNamesUsing(
-	directoryPath string,
+	directoryPath, separator string,
+	isNormalize bool,
 ) *FileNamesCollection {
-	wrappers := NewWrappersPtr(directoryPath)
+	wrappers := NewWrappersPtr(
+		directoryPath,
+		separator,
+		isNormalize)
 
 	return NewFileNamesUsingWrappers(wrappers)
 }
