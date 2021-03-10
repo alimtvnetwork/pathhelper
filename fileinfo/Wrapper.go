@@ -12,6 +12,7 @@ import (
 	"gitlab.com/evatix-go/errorwrapper/errnew"
 
 	"gitlab.com/evatix-go/pathhelper/internal/splitinternal"
+	"gitlab.com/evatix-go/pathhelper/normalize"
 )
 
 type Wrapper struct {
@@ -89,12 +90,24 @@ func (wrapper *Wrapper) AllSplits() *[]string {
 		wrapper.Separator)
 }
 
+func (wrapper *Wrapper) String() string {
+	return wrapper.RawPath
+}
+
+func (wrapper *Wrapper) ToString(sep string) string {
+	return normalize.PathUsingSeparatorUsingSingleIf(
+		true,
+		sep,
+		wrapper.RawPath,
+	)
+}
+
 func (wrapper *Wrapper) MarshalJSON() ([]byte, error) {
 	return json.Marshal(*wrapper.JsonModel())
 }
 
 func (wrapper *Wrapper) UnmarshalJSON(data []byte) error {
-	var dataModel WrapperModel
+	var dataModel WrapperDataModel
 	err := json.Unmarshal(data, &dataModel)
 
 	if err == nil {
@@ -112,8 +125,8 @@ func (wrapper *Wrapper) UnmarshalJSON(data []byte) error {
 	return err
 }
 
-func (wrapper *Wrapper) JsonModel() *WrapperModel {
-	return &WrapperModel{
+func (wrapper *Wrapper) JsonModel() *WrapperDataModel {
+	return &WrapperDataModel{
 		RawPath:     wrapper.RawPath,
 		IsDirectory: wrapper.IsDirectory,
 		IsFile:      wrapper.IsFile,

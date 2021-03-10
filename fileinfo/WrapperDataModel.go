@@ -1,6 +1,6 @@
 package fileinfo
 
-type WrapperModel struct {
+type WrapperDataModel struct {
 	RawPath     string
 	IsDirectory bool
 	IsFile      bool

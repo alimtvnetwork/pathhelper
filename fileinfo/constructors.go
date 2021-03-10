@@ -177,6 +177,7 @@ func NewWrappersPtr(
 	}
 
 	return &Wrappers{
+		RootPath:     filePath,
 		Items:        &collection,
 		ErrorWrapper: errnew.EmptyPtr,
 		Separator:    separator,

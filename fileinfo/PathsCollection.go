@@ -1,7 +1,14 @@
 package fileinfo
 
 import (
+	"encoding/json"
+	"strings"
+
 	"gitlab.com/evatix-go/core"
+	"gitlab.com/evatix-go/core/constants"
+	"gitlab.com/evatix-go/core/coredata/corejson"
+	"gitlab.com/evatix-go/core/coreindexes"
+	"gitlab.com/evatix-go/core/defaulterr"
 	"gitlab.com/evatix-go/errorwrapper"
 	"gitlab.com/evatix-go/errorwrapper/errdata/errstr"
 	"gitlab.com/evatix-go/errorwrapper/errnew"
@@ -307,4 +314,129 @@ func (pathsCollection *PathsCollection) AddWrapper(
 		pathWrapper)
 
 	return pathsCollection
+}
+
+func (pathsCollection *PathsCollection) Strings() *[]string {
+	list := make(
+		[]string,
+		pathsCollection.Length())
+
+	for i, wrapper := range *pathsCollection.pathWrappers {
+		list[i] = wrapper.String()
+	}
+
+	return &list
+}
+
+func (pathsCollection *PathsCollection) String() string {
+	list := make(
+		[]string,
+		constants.ArbitraryCapacity4)
+	compiledPaths := strings.Join(
+		*pathsCollection.Strings(),
+		constants.NewLineUnix)
+
+	list[coreindexes.I0] = "Root Path :" + pathsCollection.rootPath
+	list[coreindexes.I1] = "Separator :" + pathsCollection.separator
+	if pathsCollection.ErrorWrapper.HasError() {
+		list[coreindexes.I2] = "Error :" + pathsCollection.ErrorWrapper.
+			String()
+	}
+
+	list[coreindexes.I3] = compiledPaths
+
+	return strings.Join(
+		list,
+		constants.NewLineUnix)
+}
+
+func (pathsCollection *PathsCollection) MarshalJSON() ([]byte, error) {
+	return json.Marshal(*pathsCollection.JsonModel())
+}
+
+func (pathsCollection *PathsCollection) UnmarshalJSON(data []byte) error {
+	var dataModel PathsCollectionDataModel
+	err := json.Unmarshal(data, &dataModel)
+
+	if err == nil {
+		pathsCollection.rootPath = dataModel.RootPath
+		pathsCollection.pathWrappers = dataModel.PathWrappers
+		pathsCollection.separator = dataModel.Separator
+		pathsCollection.ErrorWrapper = dataModel.ErrorWrapper
+		pathsCollection.parentWrappers = dataModel.ParentWrappers
+	}
+
+	return err
+}
+
+func (pathsCollection *PathsCollection) JsonModel() *PathsCollectionDataModel {
+	return &PathsCollectionDataModel{
+		RootPath:       pathsCollection.rootPath,
+		PathWrappers:   pathsCollection.pathWrappers,
+		Separator:      pathsCollection.separator,
+		ErrorWrapper:   pathsCollection.ErrorWrapper,
+		ParentWrappers: pathsCollection.parentWrappers,
+	}
+}
+
+func (pathsCollection *PathsCollection) JsonModelAny() interface{} {
+	return pathsCollection.JsonModel()
+}
+
+func (pathsCollection *PathsCollection) Json() *corejson.Result {
+	return corejson.NewFromAny(pathsCollection)
+}
+
+//goland:noinspection GoLinterLocal
+func (pathsCollection *PathsCollection) ParseInjectUsingJson(
+	jsonResult *corejson.Result,
+) (*PathsCollection, error) {
+	if jsonResult == nil || jsonResult.IsEmptyJsonBytes() {
+		return nil, defaulterr.UnMarshallingFailedDueToNilOrEmpty
+	}
+
+	err := json.Unmarshal(*jsonResult.Bytes, &pathsCollection)
+
+	if err != nil {
+		return nil, err
+	}
+
+	return pathsCollection, nil
+}
+
+// Panic if error
+//goland:noinspection GoLinterLocal
+func (pathsCollection *PathsCollection) ParseInjectUsingJsonMust(
+	jsonResult *corejson.Result,
+) *PathsCollection {
+	newUsingJson, err :=
+		pathsCollection.ParseInjectUsingJson(jsonResult)
+
+	if err != nil {
+		panic(err)
+	}
+
+	return newUsingJson
+}
+
+func (pathsCollection *PathsCollection) JsonParseSelfInject(
+	jsonResult *corejson.Result,
+) error {
+	_, err := pathsCollection.ParseInjectUsingJson(
+		jsonResult,
+	)
+
+	return err
+}
+
+func (pathsCollection *PathsCollection) AsJsoner() *corejson.Jsoner {
+	var jsoner corejson.Jsoner = pathsCollection
+
+	return &jsoner
+}
+
+func (pathsCollection *PathsCollection) AsJsonParseSelfInjector() *corejson.ParseSelfInjector {
+	var jsonInjector corejson.ParseSelfInjector = pathsCollection
+
+	return &jsonInjector
 }
