@@ -1,6 +1,10 @@
 package fileinfo
 
 import (
+	"encoding/json"
+
+	"gitlab.com/evatix-go/core/coredata/corejson"
+	"gitlab.com/evatix-go/core/defaulterr"
 	"gitlab.com/evatix-go/errorwrapper"
 	"gitlab.com/evatix-go/errorwrapper/errnew"
 
@@ -200,4 +204,76 @@ func (wrappers *Wrappers) IsNameContains(
 		IsContains(
 			name,
 			isCaseSensitive)
+}
+
+func (wrappers *Wrappers) JsonModel() *Wrappers {
+	return wrappers
+}
+
+func (wrappers *Wrappers) JsonModelAny() interface{} {
+	return wrappers.JsonModel()
+}
+
+func (wrappers *Wrappers) AsJsoner() *corejson.Jsoner {
+	var jsoner corejson.Jsoner = wrappers
+
+	return &jsoner
+}
+
+func (wrappers *Wrappers) AsJsonParseSelfInjector() *corejson.ParseSelfInjector {
+	var jsonMarshaller corejson.ParseSelfInjector = wrappers
+
+	return &jsonMarshaller
+}
+
+func (wrappers *Wrappers) JsonParseSelfInject(
+	jsonResult *corejson.Result,
+) error {
+	_, err := wrappers.ParseInjectUsingJson(
+		jsonResult,
+	)
+
+	return err
+}
+
+func (wrappers *Wrappers) Json() *corejson.Result {
+	if wrappers.IsEmpty() {
+		return corejson.EmptyWithoutErrorPtr()
+	}
+
+	jsonBytes, err := json.Marshal(wrappers.JsonModel())
+
+	return corejson.NewPtr(jsonBytes, err)
+}
+
+func (wrappers *Wrappers) ParseInjectUsingJson(
+	jsonResult *corejson.Result,
+) (*Wrappers, error) {
+	if jsonResult == nil || jsonResult.IsEmptyJsonBytes() {
+		return nil, defaulterr.UnMarshallingFailedDueToNilOrEmpty
+	}
+
+	err := json.Unmarshal(
+		*jsonResult.Bytes,
+		&wrappers)
+
+	if err != nil {
+		return nil, err
+	}
+
+	return wrappers, nil
+}
+
+// Panic if error
+func (wrappers *Wrappers) ParseInjectUsingJsonMust(
+	jsonResult *corejson.Result,
+) *Wrappers {
+	newUsingJson, err :=
+		wrappers.ParseInjectUsingJson(jsonResult)
+
+	if err != nil {
+		panic(err)
+	}
+
+	return newUsingJson
 }

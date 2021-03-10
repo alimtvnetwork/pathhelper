@@ -6,8 +6,10 @@ import (
 	"time"
 
 	"gitlab.com/evatix-go/core/coredata/corejson"
+	"gitlab.com/evatix-go/core/defaulterr"
 	"gitlab.com/evatix-go/core/issetter"
 	"gitlab.com/evatix-go/errorwrapper"
+	"gitlab.com/evatix-go/errorwrapper/errnew"
 
 	"gitlab.com/evatix-go/pathhelper/internal/splitinternal"
 )
@@ -87,19 +89,45 @@ func (wrapper *Wrapper) AllSplits() *[]string {
 		wrapper.Separator)
 }
 
-func (wrapper *Wrapper) JsonModel() *Wrapper {
-	return wrapper
+func (wrapper *Wrapper) MarshalJSON() ([]byte, error) {
+	return json.Marshal(*wrapper.JsonModel())
+}
+
+func (wrapper *Wrapper) UnmarshalJSON(data []byte) error {
+	var dataModel WrapperModel
+	err := json.Unmarshal(data, &dataModel)
+
+	if err == nil {
+		wrapper.RawPath = dataModel.RawPath
+		wrapper.IsDirectory = dataModel.IsDirectory
+		wrapper.IsFile = dataModel.IsFile
+		wrapper.IsEmptyPath = dataModel.IsEmptyPath
+		wrapper.Separator = dataModel.Separator
+
+		fileInfo, err2 := os.Stat(dataModel.RawPath)
+		wrapper.FileInfo = &fileInfo
+		wrapper.ErrorWrapper = errnew.ErrPtr(err2)
+	}
+
+	return err
+}
+
+func (wrapper *Wrapper) JsonModel() *WrapperModel {
+	return &WrapperModel{
+		RawPath:     wrapper.RawPath,
+		IsDirectory: wrapper.IsDirectory,
+		IsFile:      wrapper.IsFile,
+		IsEmptyPath: wrapper.IsEmptyPath,
+		Separator:   wrapper.Separator,
+	}
 }
 
 func (wrapper *Wrapper) JsonModelAny() interface{} {
 	return wrapper.JsonModel()
 }
 
-//goland:noinspection GoLinterLocal
 func (wrapper *Wrapper) Json() *corejson.Result {
-	jsonBytes, err := json.Marshal(wrapper)
-
-	return corejson.NewPtr(jsonBytes, err)
+	return corejson.NewFromAny(wrapper)
 }
 
 //goland:noinspection GoLinterLocal
@@ -107,13 +135,13 @@ func (wrapper *Wrapper) ParseInjectUsingJson(
 	jsonResult *corejson.Result,
 ) (*Wrapper, error) {
 	if jsonResult == nil || jsonResult.IsEmptyJsonBytes() {
-		return nil, nil
+		return nil, defaulterr.UnMarshallingFailedDueToNilOrEmpty
 	}
 
 	err := json.Unmarshal(*jsonResult.Bytes, &wrapper)
 
 	if err != nil {
-		return nil, nil
+		return nil, err
 	}
 
 	return wrapper, nil

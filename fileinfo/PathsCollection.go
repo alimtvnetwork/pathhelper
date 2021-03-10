@@ -13,19 +13,19 @@ import (
 
 type PathsCollection struct {
 	rootPath          string
-	pathWrappers      *[]SimplePathWrapper
+	pathWrappers      *[]*SimplePathWrapper
 	allRecursivePaths *errstr.ResultsWithErrorCollection
 	allRecursiveFiles *errstr.ResultsWithErrorCollection
 	allRecursiveDirs  *errstr.ResultsWithErrorCollection
 	directories       *[]string
 	files             *[]string
 	separator         string
-	Error             *errorwrapper.Wrapper
+	ErrorWrapper      *errorwrapper.Wrapper
 	parentWrappers    *Wrappers
 }
 
 func NewPaths(rootPath, separator string, capacity int) *PathsCollection {
-	paths := make([]SimplePathWrapper, 0, capacity)
+	paths := make([]*SimplePathWrapper, 0, capacity)
 
 	return &PathsCollection{
 		rootPath:     rootPath,
@@ -41,8 +41,8 @@ func NewPathsUsingWrappers(
 	if wrappers == nil {
 		return &PathsCollection{
 			rootPath:       rootPath,
-			pathWrappers:   nil,
-			Error:          errnew.EmptyPtr,
+			pathWrappers:   &[]*SimplePathWrapper{},
+			ErrorWrapper:   errnew.EmptyPtr,
 			parentWrappers: wrappers,
 			separator:      separator,
 		}
@@ -51,16 +51,19 @@ func NewPathsUsingWrappers(
 	if wrappers.IsEmpty() {
 		return &PathsCollection{
 			rootPath:       rootPath,
-			pathWrappers:   nil,
-			Error:          wrappers.ErrorWrapper,
+			pathWrappers:   &[]*SimplePathWrapper{},
+			ErrorWrapper:   wrappers.ErrorWrapper,
 			parentWrappers: wrappers,
 			separator:      separator,
 		}
 	}
 
-	paths := make([]SimplePathWrapper, wrappers.Length())
+	paths := make(
+		[]*SimplePathWrapper,
+		wrappers.Length())
+
 	for i, wrapper := range *wrappers.Items {
-		paths[i] = SimplePathWrapper{
+		paths[i] = &SimplePathWrapper{
 			Path:        wrapper.RawPath,
 			IsDirectory: wrapper.IsDirectory,
 		}
@@ -69,7 +72,7 @@ func NewPathsUsingWrappers(
 	return &PathsCollection{
 		rootPath:       rootPath,
 		pathWrappers:   &paths,
-		Error:          wrappers.ErrorWrapper,
+		ErrorWrapper:   wrappers.ErrorWrapper,
 		parentWrappers: wrappers,
 		separator:      separator,
 	}
@@ -240,7 +243,7 @@ func (pathsCollection *PathsCollection) Files() *[]string {
 
 func (pathsCollection *PathsCollection) IsEmpty() bool {
 	return pathsCollection.pathWrappers == nil ||
-		pathsCollection.Error.HasError() ||
+		pathsCollection.ErrorWrapper.HasError() ||
 		len(*pathsCollection.pathWrappers) == 0
 }
 
@@ -265,7 +268,9 @@ func (pathsCollection *PathsCollection) ParentWrappers() *Wrappers {
 	return pathsCollection.parentWrappers
 }
 
-func (pathsCollection *PathsCollection) Add(wrapper SimplePathWrapper) *PathsCollection {
+func (pathsCollection *PathsCollection) Add(
+	wrapper *SimplePathWrapper,
+) *PathsCollection {
 	*pathsCollection.pathWrappers = append(
 		*pathsCollection.pathWrappers,
 		wrapper)
@@ -273,10 +278,12 @@ func (pathsCollection *PathsCollection) Add(wrapper SimplePathWrapper) *PathsCol
 	return pathsCollection
 }
 
-func (pathsCollection *PathsCollection) AddPtr(wrapper *SimplePathWrapper) *PathsCollection {
+func (pathsCollection *PathsCollection) AddPtr(
+	wrapper *SimplePathWrapper,
+) *PathsCollection {
 	*pathsCollection.pathWrappers = append(
 		*pathsCollection.pathWrappers,
-		*wrapper)
+		wrapper)
 
 	return pathsCollection
 }
@@ -293,7 +300,7 @@ func (pathsCollection *PathsCollection) IsContains(
 }
 
 func (pathsCollection *PathsCollection) AddWrapper(
-	pathWrapper SimplePathWrapper,
+	pathWrapper *SimplePathWrapper,
 ) *PathsCollection {
 	*pathsCollection.pathWrappers = append(
 		*pathsCollection.pathWrappers,
