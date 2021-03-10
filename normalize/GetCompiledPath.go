@@ -4,15 +4,13 @@ import (
 	"strings"
 
 	"gitlab.com/evatix-go/core/constants"
-
-	"gitlab.com/evatix-go/pathhelper/ispath"
 )
 
 func GetCompiledPath(
 	pathTemplate string,
 	compilingMap *map[string]string,
 ) string {
-	if ispath.Empty(pathTemplate) {
+	if IsEmptyPath(pathTemplate) {
 		return pathTemplate
 	}
 

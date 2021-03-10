@@ -10,10 +10,13 @@ func AllOfSinglePathInfoWrappers(
 	isNormalize bool,
 	exploringPath string,
 ) *fileinfo.Wrappers {
-	rootPath2 := normalize.PathUsingSeparatorUsingSingleIf(
+	normalizedPath := normalize.PathUsingSeparatorUsingSingleIf(
 		isNormalize,
 		separator,
 		exploringPath)
 
-	return fileinfo.NewWrappersPtr(rootPath2)
+	return fileinfo.NewWrappersPtr(
+		normalizedPath,
+		separator,
+		false)
 }

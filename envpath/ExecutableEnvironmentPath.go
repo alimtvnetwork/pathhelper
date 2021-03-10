@@ -5,6 +5,7 @@ import (
 	"sync"
 
 	"gitlab.com/evatix-go/core/constants"
+	"gitlab.com/evatix-go/core/osconsts"
 
 	"gitlab.com/evatix-go/pathhelper/fileinfo"
 )
@@ -35,7 +36,10 @@ func (eep *ExecutableEnvironmentPath) Length() int {
 }
 
 func (eep *ExecutableEnvironmentPath) GetFileNamesCollection() *fileinfo.FileNamesCollection {
-	return fileinfo.NewFileNamesUsing(eep.Expanded)
+	return fileinfo.NewFileNamesUsing(
+		eep.Expanded,
+		osconsts.PathSeparator,
+		true)
 }
 
 // returns all directories path on that env directory,

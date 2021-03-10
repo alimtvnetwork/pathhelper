@@ -1,16 +1,16 @@
 package fileinfo
 
-type PathWrapper struct {
+type SimplePathWrapper struct {
 	Path        string
 	IsDirectory bool
 }
 
-func (pathWrapper *PathWrapper) IsEquals(anotherWrapper PathWrapper) bool {
+func (pathWrapper *SimplePathWrapper) IsEquals(anotherWrapper SimplePathWrapper) bool {
 	return pathWrapper.IsDirectory == anotherWrapper.IsDirectory &&
 		pathWrapper.Path == anotherWrapper.Path
 }
 
-func (pathWrapper *PathWrapper) IsEqualsPtr(anotherWrapper *PathWrapper) bool {
+func (pathWrapper *SimplePathWrapper) IsEqualsPtr(anotherWrapper *SimplePathWrapper) bool {
 	if anotherWrapper == nil {
 		return false
 	}
@@ -23,6 +23,6 @@ func (pathWrapper *PathWrapper) IsEqualsPtr(anotherWrapper *PathWrapper) bool {
 		pathWrapper.Path == anotherWrapper.Path
 }
 
-func (pathWrapper *PathWrapper) String() string {
+func (pathWrapper *SimplePathWrapper) String() string {
 	return pathWrapper.Path
 }

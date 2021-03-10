@@ -10,60 +10,59 @@ import (
 
 type Wrappers struct {
 	RootPath            string
+	separator           string
 	collection          *[]Wrapper
 	directories         *Wrappers
 	files               *Wrappers
-	recursivePaths      *PathsCollection
 	Error               *errorwrapper.Wrapper
 	pathsCollection     *PathsCollection
+	recursiveDirs       *PathsCollection
 	fileNamesCollection *FileNamesCollection
 }
 
-func (wrappers *Wrappers) RecursivePaths(
-	separator string,
-	isContinueOnError bool,
-) *PathsCollection {
-	if wrappers.recursivePaths != nil {
-		return wrappers.recursivePaths
+func (wrappers *Wrappers) RecursiveDirs() *PathsCollection {
+	if wrappers.recursiveDirs != nil {
+		return wrappers.recursiveDirs
 	}
 
-	allPaths, errorCollection := recursiveinternal.GetDirectoryPaths(
-		separator,
-		wrappers.RootPath,
-		isContinueOnError)
+	allPaths, errorCollection :=
+		recursiveinternal.GetDirectoryPaths(
+			wrappers.separator,
+			wrappers.RootPath,
+			isErrorContinueDefault)
 
 	errorCollection.HandleError()
 
-	wrappers.recursivePaths = NewPathsUsingPaths(
+	wrappers.recursiveDirs = NewPathsUsingPaths(
 		wrappers.RootPath,
+		wrappers.separator,
 		allPaths)
 
-	wrappers.recursivePaths.parentWrappers = wrappers
-	wrappers.recursivePaths.directories = allPaths
+	wrappers.recursiveDirs.parentWrappers = wrappers
+	wrappers.recursiveDirs.directories = allPaths
 
-	return wrappers.recursivePaths
+	return wrappers.recursiveDirs
 }
 
 func (wrappers *Wrappers) RecursivePathsFilter(
-	separator string,
 	filter pathfuncs.Filter,
-	isContinueOnError bool,
 ) *PathsCollection {
 	allPaths, errorCollection := recursiveinternal.GetFilterPaths(
-		separator,
+		wrappers.separator,
 		wrappers.RootPath,
-		isContinueOnError,
+		isErrorContinueDefault,
 		filter)
 
 	errorCollection.HandleError()
 
 	newPathsCollection := NewPathsUsingPaths(
 		wrappers.RootPath,
+		wrappers.separator,
 		allPaths)
 
 	newPathsCollection.parentWrappers = wrappers
 
-	return wrappers.recursivePaths
+	return newPathsCollection
 }
 
 func (wrappers *Wrappers) HasAny() bool {
@@ -96,7 +95,6 @@ func (wrappers *Wrappers) RootFiles() *Wrappers {
 		collection:          &files,
 		directories:         nil,
 		files:               nil,
-		recursivePaths:      nil,
 		Error:               errnew.EmptyPtr,
 		pathsCollection:     nil,
 		fileNamesCollection: nil,
@@ -134,7 +132,6 @@ func (wrappers *Wrappers) RootDirs() *Wrappers {
 		collection:          &dirs,
 		directories:         nil,
 		files:               nil,
-		recursivePaths:      nil,
 		Error:               errnew.EmptyPtr,
 		pathsCollection:     nil,
 		fileNamesCollection: nil,
@@ -151,7 +148,10 @@ func (wrappers *Wrappers) PathsCollection() *PathsCollection {
 		return wrappers.pathsCollection
 	}
 
-	wrappers.pathsCollection = NewPathsUsingWrappers(wrappers.RootPath, wrappers)
+	wrappers.pathsCollection = NewPathsUsingWrappers(
+		wrappers.RootPath,
+		wrappers.separator,
+		wrappers)
 
 	return wrappers.pathsCollection
 }

@@ -3,7 +3,6 @@ package fileinfo
 import (
 	"io/ioutil"
 	"os"
-	"path"
 
 	"gitlab.com/evatix-go/core/constants"
 	"gitlab.com/evatix-go/core/msgtype"
@@ -12,9 +11,10 @@ import (
 	"gitlab.com/evatix-go/errorwrapper/errtype"
 
 	"gitlab.com/evatix-go/pathhelper/ispath"
+	"gitlab.com/evatix-go/pathhelper/normalize"
 )
 
-func New(rawPath string) *Wrapper {
+func New(rawPath, separator string) *Wrapper {
 	isEmptyPath := ispath.Empty(rawPath)
 
 	if isEmptyPath {
@@ -42,11 +42,12 @@ func New(rawPath string) *Wrapper {
 		IsDirectory: isDir,
 		IsFile:      err == nil && !isDir,
 		IsEmptyPath: isEmptyPath,
+		separator:   separator,
 	}
 }
 
 func NewError(
-	filePath string,
+	filePath, separator string,
 	err error,
 ) *Wrapper {
 	isFilePathEmpty := ispath.Empty(filePath)
@@ -63,6 +64,7 @@ func NewError(
 			IsDirectory: false,
 			IsFile:      false,
 			IsEmptyPath: isFilePathEmpty,
+			separator:   separator,
 		}
 	}
 
@@ -77,12 +79,13 @@ func NewError(
 		IsDirectory: false,
 		IsFile:      false,
 		IsEmptyPath: isFilePathEmpty,
+		separator:   separator,
 	}
 }
 
 func NewUsingInfo(
 	osFileInfo os.FileInfo,
-	filePath string,
+	filePath, separator string,
 	err error,
 ) *Wrapper {
 	isFilePathEmpty := ispath.Empty(filePath)
@@ -90,6 +93,7 @@ func NewUsingInfo(
 	if err != nil || osFileInfo == nil {
 		return NewError(
 			filePath,
+			separator,
 			err)
 	}
 
@@ -106,6 +110,7 @@ func NewUsingInfo(
 		IsDirectory: isDir,
 		IsFile:      !isDir,
 		IsEmptyPath: isFilePathEmpty,
+		separator:   separator,
 	}
 }
 
@@ -117,7 +122,7 @@ func NewWrappersPtrUsingCapacity(rootPath string, capacity int) *Wrappers {
 		collection:          &collection,
 		directories:         nil,
 		files:               nil,
-		recursivePaths:      nil,
+		recursiveDirs:       nil,
 		Error:               errnew.EmptyPtr,
 		pathsCollection:     nil,
 		fileNamesCollection: nil,
@@ -128,7 +133,10 @@ func EmptyWrappers() *Wrappers {
 	return NewWrappersPtrUsingCapacity("", 0)
 }
 
-func NewWrappersPtr(filePath string) *Wrappers {
+func NewWrappersPtr(
+	filePath, separator string,
+	isNormalize bool,
+) *Wrappers {
 	fileInfos, err := ioutil.ReadDir(filePath)
 
 	if err != nil {
@@ -140,16 +148,29 @@ func NewWrappersPtr(filePath string) *Wrappers {
 			RootPath:   filePath,
 			collection: nil,
 			Error:      &errW,
+			separator:  separator,
 		}
 	}
 
-	collection := make([]Wrapper, len(fileInfos))
+	collection := make(
+		[]Wrapper,
+		len(fileInfos))
+
+	filePathNormalized := normalize.PathUsingSeparatorUsingSingleIf(
+		isNormalize,
+		separator,
+		filePath,
+	)
 
 	for i, fileInfo := range fileInfos {
-		newFilePath := path.Join(filePath, fileInfo.Name())
+		newFilePath := filePathNormalized +
+			separator +
+			fileInfo.Name()
+
 		wrapper := NewUsingInfo(
 			fileInfo,
 			newFilePath,
+			separator,
 			nil)
 
 		collection[i] = *wrapper
@@ -158,5 +179,6 @@ func NewWrappersPtr(filePath string) *Wrappers {
 	return &Wrappers{
 		collection: &collection,
 		Error:      errnew.EmptyPtr,
+		separator:  separator,
 	}
 }

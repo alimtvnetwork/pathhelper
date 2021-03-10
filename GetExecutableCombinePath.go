@@ -6,7 +6,7 @@ import (
 	"gitlab.com/evatix-go/core/coreindexes"
 )
 
-// Get the final path exepath + ....
+// Get the final path exePath + ....
 func GetExecutableCombinePath(paths ...string) string {
 	exe, err := os.Executable()
 

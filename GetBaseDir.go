@@ -5,7 +5,7 @@ import (
 )
 
 // No slash at the end
-// reference example : https://play.golang.org/p/EMbLKv5Jyqe
+// reference example : https://play.golang.org/p/oT6eWNZAeEi
 func GetBaseDir(currentPath string) (baseDir string) {
 	i := splitinternal.LastSlash(
 		currentPath)
