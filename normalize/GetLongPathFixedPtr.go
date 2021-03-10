@@ -18,7 +18,7 @@ func GetLongPathFixedPtr(
 	isForce bool,
 ) string {
 	isIgnoreCase :=
-		IsEmptyPath(givenAbsolutePath) ||
+		isEmpty(givenAbsolutePath) ||
 			len(givenAbsolutePath) < 255
 
 	isWindowsSeparator := separator ==

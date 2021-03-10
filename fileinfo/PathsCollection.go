@@ -52,14 +52,14 @@ func NewPathsUsingWrappers(
 		return &PathsCollection{
 			rootPath:       rootPath,
 			pathWrappers:   nil,
-			Error:          wrappers.Error,
+			Error:          wrappers.ErrorWrapper,
 			parentWrappers: wrappers,
 			separator:      separator,
 		}
 	}
 
 	paths := make([]SimplePathWrapper, wrappers.Length())
-	for i, wrapper := range *wrappers.collection {
+	for i, wrapper := range *wrappers.Items {
 		paths[i] = SimplePathWrapper{
 			Path:        wrapper.RawPath,
 			IsDirectory: wrapper.IsDirectory,
@@ -69,7 +69,7 @@ func NewPathsUsingWrappers(
 	return &PathsCollection{
 		rootPath:       rootPath,
 		pathWrappers:   &paths,
-		Error:          wrappers.Error,
+		Error:          wrappers.ErrorWrapper,
 		parentWrappers: wrappers,
 		separator:      separator,
 	}
