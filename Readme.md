@@ -29,56 +29,56 @@ complete solution for obtaining information regarding filepath independent of pl
 ```go
 
 func main() {
-	// Checking if path is empty
-	ispath.Empty("") // returns true
+// Checking if path is empty
+ispath.Empty("") // returns true
 
-	samplePath := "C:\\users\\"
+samplePath := "C:\\users\\"
 
-	// Checking if path exists
-	exists := ispath.Exists(samplePath) // .File / .Directory / .AnyExists ...
-	fmt.Println(exists) // returns true if directory or file exist on that path
+// Checking if path exists
+exists := ispath.Exists(samplePath) // .File / .Directory / .AnyExists ...
+fmt.Println(exists) // returns true if directory or file exist on that path
 
-	// Getting path as URI
-	fmt.Println(pathhelper.GetPathAsUri(samplePath, true)) // file:///c:/users
+// Getting path as URI
+fmt.Println(pathhelper.GetPathAsUri(samplePath, true)) // file:///c:/users
 
-	// Normalize path
-	pathToNormalize := "file:///C:/something/otherthing"	
-	fmt.Println(normalize.Path(pathToNormalize)) // C:\something\otherthing if OS is windows; C:/something/otherthing if OS is Unix
+// Normalize path
+pathToNormalize := "file:///C:/something/otherthing"
+fmt.Println(normalize.Path(pathToNormalize)) // C:\something\otherthing if OS is windows; C:/something/otherthing if OS is Unix
 
-	// Create Directory
-	createdir.New("SampleNewDir", filemodes.AllRead) // Creates a directory named "SampleNewDir" with AllRead access at the folder where the function is called
+// Create Directory
+createdir.New("SampleNewDir", filemodes.AllRead) // Creates a directory named "SampleNewDir" with AllRead access at the folder where the function is called
 
-	// Environmental variables
-	envpath.GetExecutableEnvironmentPathCollection() // Outputs a struct containing the environment variable paths
+// Environmental variables
+envpath.GetExecutableEnvironmentPathCollection() // Outputs a struct containing the environment variable paths
 
-	// Check directory validity
-	fmt.Println(dirinfo.New("c:\\windows\\py.exe").IsValidDir) // outputs a bool
+// Check directory validity
+fmt.Println(dirinfo.New("c:\\windows\\py.exe").IsValidDir) // outputs a bool
 
-	// Gets all paths recursively and continues on error as per provided argument
-	fmt.Println(recursivepaths.All("D:\\SampleDir", true)) // &[\\?\D:\SampleDir \\?\D:\SampleDir\sampleFile.txt] # Error Wrappers - Collection - Length[0]
-	fmt.Println(recursivepaths.All(" ", false))		// panics with detailed message
+// Gets all paths recursively and continues on error as per provided argument
+fmt.Println(recursivepaths.All("D:\\SampleDir", true)) // &[\\?\D:\SampleDir \\?\D:\SampleDir\sampleFile.txt] # Error Wrappers - Collection - Length[0]
+fmt.Println(recursivepaths.All(" ", false)) // panics with detailed message
 
-	// Getting path as wrapper
-	fmt.Println(unipath.New("\\").Add("c://windows").Add("\\sys32").GetAsPathWrapper().String()) // \\?\c:\windows\sys32 on windows based on separator given
-	// "\\?\c:\windows\sys32\sys64\somethingnew" because "\\" separator given
-	// "c:/windows/sys32/sys64/somethingnew" because "/" separator given
-	fmt.Println(unipath.
-		New("\\").
-		Add("c://windows").
-		Add("\\sys32//").
-		Add("\\sys64//").
-		Add("somethingnew").
-		String()) // .ToString(...) Can change separator for new path
-	
-	// "c:/windows/sys32/sys64", 
-	// "somethingnew" not printed because we skipped it
-	fmt.Println(unipath.
-		New("/").
-		Add("c://windows").
-		Add("\\sys32//").
-		Add("//sys64\\").
-		Add("somethingnew").
-		ToStringUptoLastMinus(1, "/",true))
+// Getting path as wrapper
+fmt.Println(unipath.New("\\").Add("c://windows").Add("\\sys32").GetAsPathWrapper().String()) // \\?\c:\windows\sys32 on windows based on separator given
+// "\\?\c:\windows\sys32\sys64\somethingnew" because "\\" separator given
+// "c:/windows/sys32/sys64/somethingnew" because "/" separator given
+fmt.Println(unipath.
+New("\\").
+Add("c://windows").
+Add("\\sys32//").
+Add("\\sys64//").
+Add("somethingnew").
+String()) // .ToString(...) Can change separator for new path
+
+// "c:/windows/sys32/sys64", 
+// "somethingnew" not printed because we skipped it
+fmt.Println(unipath.
+New("/").
+Add("c://windows").
+Add("\\sys32//").
+Add("//sys64\\").
+Add("somethingnew").
+ToStringUptoLastMinus(1, "/", true))
 }
 ```
 
@@ -98,7 +98,7 @@ convenient package *[Go Convey](http://goconvey.co/)*.
 - [Difference between := and = operators in Go - Stack Overflow](https://stackoverflow.com/questions/17891226/difference-between-and-operators-in-go?rq=1)
 - [How to manage Long Paths in Bash? - Stack Overflow](https://stackoverflow.com/questions/670488/how-to-manage-long-paths-in-bash)
 - [Go import cycle issue fix](https://stackoverflow.com/questions/16168601/any-good-advice-about-how-to-avoid-import-cycle-in-go)
-- [Samples for path and filename extraction](https://play.golang.org/p/EMbLKv5Jyqe)
+- [Samples for path and filename extraction](https://play.golang.org/p/oT6eWNZAeEi)
 
 ## Notes
 

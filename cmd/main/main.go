@@ -86,7 +86,6 @@ func main() {
 	fmt.Println(
 		unipaths.
 			New("\\").
-			Add("a", "c://windows").
-			Get("a").
-			String())
+			AddPaths("c://windows", "d:\\maindrive\\something/g.go", "hjello/eee").
+			StringsPtr())
 }

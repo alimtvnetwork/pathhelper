@@ -7,7 +7,7 @@ import (
 )
 
 // For each path converted to file info wrapper and finally returns as an array.
-func GetEachPathConvertedToFileInfoWrapper(fullPaths *[]string) *[]*fileinfo.Wrapper {
+func GetEachPathConvertedToFileInfoWrapper(separator string, fullPaths *[]string) *[]*fileinfo.Wrapper {
 	if fullPaths == nil {
 		return &[]*fileinfo.Wrapper{}
 	}
@@ -25,7 +25,9 @@ func GetEachPathConvertedToFileInfoWrapper(fullPaths *[]string) *[]*fileinfo.Wra
 	processor := func(index int, fullPath string) {
 		defer wg.Done()
 
-		list[index] = fileinfo.New(fullPath)
+		list[index] = fileinfo.New(
+			fullPath,
+			separator)
 	}
 
 	for i, fullPath := range *fullPaths {
