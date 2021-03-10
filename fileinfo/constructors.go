@@ -18,17 +18,17 @@ func New(rawPath, separator string) *Wrapper {
 	isEmptyPath := ispath.Empty(rawPath)
 
 	if isEmptyPath {
-		emptyFileError := errorwrapper.NewFilePath(
+		emptyFileError := errorwrapper.NewFilePathPtr(
 			msgtype.InvalidEmptyPathErrorMessage.String(),
 			constants.EmptyString)
 
 		return &Wrapper{
-			FileInfo:    nil,
-			Error:       emptyFileError,
-			RawPath:     rawPath,
-			IsDirectory: false,
-			IsFile:      false,
-			IsEmptyPath: isEmptyPath,
+			FileInfo:     nil,
+			ErrorWrapper: emptyFileError,
+			RawPath:      rawPath,
+			IsDirectory:  false,
+			IsFile:       false,
+			IsEmptyPath:  isEmptyPath,
 		}
 	}
 
@@ -36,13 +36,13 @@ func New(rawPath, separator string) *Wrapper {
 	isDir := err == nil && fileInfo.IsDir()
 
 	return &Wrapper{
-		FileInfo:    &fileInfo,
-		Error:       errorwrapper.NewFile(err),
-		RawPath:     rawPath,
-		IsDirectory: isDir,
-		IsFile:      err == nil && !isDir,
-		IsEmptyPath: isEmptyPath,
-		separator:   separator,
+		FileInfo:     &fileInfo,
+		ErrorWrapper: errorwrapper.NewFilePtr(err),
+		RawPath:      rawPath,
+		IsDirectory:  isDir,
+		IsFile:       err == nil && !isDir,
+		IsEmptyPath:  isEmptyPath,
+		Separator:    separator,
 	}
 }
 
@@ -53,33 +53,33 @@ func NewError(
 	isFilePathEmpty := ispath.Empty(filePath)
 
 	if err != nil {
-		errWrapper := errorwrapper.NewFilePath(
+		errWrapper := errorwrapper.NewFilePathPtr(
 			err.Error(),
 			filePath)
 
 		return &Wrapper{
-			FileInfo:    nil,
-			Error:       errWrapper,
-			RawPath:     filePath,
-			IsDirectory: false,
-			IsFile:      false,
-			IsEmptyPath: isFilePathEmpty,
-			separator:   separator,
+			FileInfo:     nil,
+			ErrorWrapper: errWrapper,
+			RawPath:      filePath,
+			IsDirectory:  false,
+			IsFile:       false,
+			IsEmptyPath:  isFilePathEmpty,
+			Separator:    separator,
 		}
 	}
 
-	fileErrWrapper := errorwrapper.NewFilePath(
+	fileErrWrapper := errorwrapper.NewFilePathPtr(
 		errtype.FileOrDirectoryRelatedExecution.String(),
 		filePath)
 
 	return &Wrapper{
-		FileInfo:    nil,
-		Error:       fileErrWrapper,
-		RawPath:     filePath,
-		IsDirectory: false,
-		IsFile:      false,
-		IsEmptyPath: isFilePathEmpty,
-		separator:   separator,
+		FileInfo:     nil,
+		ErrorWrapper: fileErrWrapper,
+		RawPath:      filePath,
+		IsDirectory:  false,
+		IsFile:       false,
+		IsEmptyPath:  isFilePathEmpty,
+		Separator:    separator,
 	}
 }
 
@@ -97,33 +97,33 @@ func NewUsingInfo(
 			err)
 	}
 
-	fileErrWrapper := errorwrapper.NewFilePath(
+	fileErrWrapper := errorwrapper.NewFilePathPtr(
 		errtype.FileOrDirectoryRelatedExecution.String(),
 		filePath)
 
 	isDir := osFileInfo.IsDir()
 
 	return &Wrapper{
-		FileInfo:    &osFileInfo,
-		Error:       fileErrWrapper,
-		RawPath:     filePath,
-		IsDirectory: isDir,
-		IsFile:      !isDir,
-		IsEmptyPath: isFilePathEmpty,
-		separator:   separator,
+		FileInfo:     &osFileInfo,
+		ErrorWrapper: fileErrWrapper,
+		RawPath:      filePath,
+		IsDirectory:  isDir,
+		IsFile:       !isDir,
+		IsEmptyPath:  isFilePathEmpty,
+		Separator:    separator,
 	}
 }
 
 func NewWrappersPtrUsingCapacity(rootPath string, capacity int) *Wrappers {
-	collection := make([]Wrapper, 0, capacity)
+	collection := make([]*Wrapper, 0, capacity)
 
 	return &Wrappers{
 		RootPath:            rootPath,
-		collection:          &collection,
+		Items:               &collection,
 		directories:         nil,
 		files:               nil,
 		recursiveDirs:       nil,
-		Error:               errnew.EmptyPtr,
+		ErrorWrapper:        errnew.EmptyPtr,
 		pathsCollection:     nil,
 		fileNamesCollection: nil,
 	}
@@ -145,15 +145,15 @@ func NewWrappersPtr(
 			filePath)
 
 		return &Wrappers{
-			RootPath:   filePath,
-			collection: nil,
-			Error:      &errW,
-			separator:  separator,
+			RootPath:     filePath,
+			Items:        nil,
+			ErrorWrapper: &errW,
+			Separator:    separator,
 		}
 	}
 
 	collection := make(
-		[]Wrapper,
+		[]*Wrapper,
 		len(fileInfos))
 
 	filePathNormalized := normalize.PathUsingSeparatorUsingSingleIf(
@@ -173,12 +173,12 @@ func NewWrappersPtr(
 			separator,
 			nil)
 
-		collection[i] = *wrapper
+		collection[i] = wrapper
 	}
 
 	return &Wrappers{
-		collection: &collection,
-		Error:      errnew.EmptyPtr,
-		separator:  separator,
+		Items:        &collection,
+		ErrorWrapper: errnew.EmptyPtr,
+		Separator:    separator,
 	}
 }

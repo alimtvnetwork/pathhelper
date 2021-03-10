@@ -41,20 +41,20 @@ func NewFileNamesUsingWrappers(wrappers *Wrappers) *FileNamesCollection {
 		return &FileNamesCollection{
 			RootPath:       wrappers.RootPath,
 			names:          nil,
-			Error:          wrappers.Error,
+			Error:          wrappers.ErrorWrapper,
 			parentWrappers: wrappers,
 		}
 	}
 
 	names := make([]string, wrappers.Length())
-	for i, wrapper := range *wrappers.collection {
+	for i, wrapper := range *wrappers.Items {
 		names[i] = (*wrapper.FileInfo).Name()
 	}
 
 	return &FileNamesCollection{
 		RootPath:       wrappers.RootPath,
 		names:          &names,
-		Error:          wrappers.Error,
+		Error:          wrappers.ErrorWrapper,
 		parentWrappers: wrappers,
 	}
 }

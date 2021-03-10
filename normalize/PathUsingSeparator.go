@@ -16,7 +16,7 @@ func PathUsingSeparator(
 	isLongPathFix bool,
 	isForceLongPath bool,
 ) string {
-	if IsEmptyPath(givenPath) || osconsts.IsUnixGroup {
+	if isEmpty(givenPath) || osconsts.IsUnixGroup {
 		return givenPath
 	}
 
