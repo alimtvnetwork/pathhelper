@@ -25,13 +25,6 @@ func NewExecutableEnvironmentPathCollectionPtr(capacity int) *ExecutableEnvironm
 	}
 }
 
-func (receiver *ExecutableEnvironmentPathCollection) Add(
-	exeEnvPath ExecutableEnvironmentPath,
-) {
-	(*receiver.pathsMap)[exeEnvPath.Variable] =
-		&exeEnvPath
-}
-
 func (receiver *ExecutableEnvironmentPathCollection) AddPtr(
 	exeEnvPath *ExecutableEnvironmentPath,
 ) {
@@ -40,16 +33,8 @@ func (receiver *ExecutableEnvironmentPathCollection) AddPtr(
 	}
 }
 
-func (receiver *ExecutableEnvironmentPathCollection) IsExistPtr(
+func (receiver *ExecutableEnvironmentPathCollection) IsExists(
 	exeEnvPath *ExecutableEnvironmentPath,
-) bool {
-	_, has := (*receiver.pathsMap)[exeEnvPath.Variable]
-
-	return has
-}
-
-func (receiver *ExecutableEnvironmentPathCollection) IsExist(
-	exeEnvPath ExecutableEnvironmentPath,
 ) bool {
 	_, has := (*receiver.pathsMap)[exeEnvPath.Variable]
 
