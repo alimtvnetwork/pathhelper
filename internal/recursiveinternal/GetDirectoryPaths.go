@@ -33,6 +33,7 @@ func GetDirectoryPaths(
 		isContinueOnEmpty)
 }
 
+//goland:noinspection ALL
 func getDirectoryPaths(
 	separator,
 	rootPath string,

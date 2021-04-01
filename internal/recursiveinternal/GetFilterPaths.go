@@ -36,6 +36,7 @@ func GetFilterPaths(
 		filter)
 }
 
+//goland:noinspection GoNilness
 func getFilterPaths(
 	separator,
 	rootPath string,

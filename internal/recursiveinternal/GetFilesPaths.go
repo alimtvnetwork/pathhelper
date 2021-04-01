@@ -33,6 +33,7 @@ func GetFilesPaths(
 		isContinueOnEmpty)
 }
 
+//goland:noinspection GoNilness
 func getFilesPaths(
 	separator,
 	rootPath string,
