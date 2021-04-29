@@ -214,16 +214,12 @@ func (wrappers *Wrappers) JsonModelAny() interface{} {
 	return wrappers.JsonModel()
 }
 
-func (wrappers *Wrappers) AsJsoner() *corejson.Jsoner {
-	var jsoner corejson.Jsoner = wrappers
-
-	return &jsoner
+func (wrappers *Wrappers) AsJsoner() corejson.Jsoner {
+	return wrappers
 }
 
-func (wrappers *Wrappers) AsJsonParseSelfInjector() *corejson.ParseSelfInjector {
-	var jsonMarshaller corejson.ParseSelfInjector = wrappers
-
-	return &jsonMarshaller
+func (wrappers *Wrappers) AsJsonParseSelfInjector() corejson.JsonParseSelfInjector {
+	return wrappers
 }
 
 func (wrappers *Wrappers) JsonParseSelfInject(
