@@ -429,14 +429,10 @@ func (pathsCollection *PathsCollection) JsonParseSelfInject(
 	return err
 }
 
-func (pathsCollection *PathsCollection) AsJsoner() *corejson.Jsoner {
-	var jsoner corejson.Jsoner = pathsCollection
-
-	return &jsoner
+func (pathsCollection *PathsCollection) AsJsoner() corejson.Jsoner {
+	return pathsCollection
 }
 
-func (pathsCollection *PathsCollection) AsJsonParseSelfInjector() *corejson.ParseSelfInjector {
-	var jsonInjector corejson.ParseSelfInjector = pathsCollection
-
-	return &jsonInjector
+func (pathsCollection *PathsCollection) AsJsonParseSelfInjector() corejson.JsonParseSelfInjector {
+	return pathsCollection
 }
