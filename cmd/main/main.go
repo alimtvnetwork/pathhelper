@@ -8,9 +8,9 @@ import (
 
 	"gitlab.com/evatix-go/core/coredata/corestr"
 	"gitlab.com/evatix-go/core/osconsts"
+	"gitlab.com/evatix-go/pathhelper/pathinsfmt"
 
 	"gitlab.com/evatix-go/pathhelper"
-	"gitlab.com/evatix-go/pathhelper/cmd/config/datamodel"
 	"gitlab.com/evatix-go/pathhelper/dirinfo"
 	"gitlab.com/evatix-go/pathhelper/fileinfo"
 	"gitlab.com/evatix-go/pathhelper/pathfilter"
@@ -33,12 +33,12 @@ func main() {
 		panic(err)
 	}
 
-	var cliConfig datamodel.CliConfig
+	var cliConfig pathinsfmt.CliConfig
 	json.Unmarshal(allBytes, &cliConfig)
-	first := (cliConfig.CliRunner.FilesSelector)[0]
+	first := (*cliConfig.CliRunner.FilesSelector)[0]
 	query := pathfilter.NewQuery(
-		&first.Filters,
-		&first.Extensions)
+		first.Filters,
+		first.Extensions)
 
 	// exceptQuery := pathfilter.NewQuery(
 	// 	&first.SkipFilters,
