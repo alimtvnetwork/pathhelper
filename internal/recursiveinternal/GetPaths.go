@@ -42,7 +42,7 @@ func getPaths(
 ) (*[]string, *errwrappers.Collection) {
 	if err != nil && !isContinueOnError {
 		errnew.ErrPtr(err).HandleErrorWithRefs(
-			msgtype.FileErrorMessage.String(),
+			msgtype.PathErrorMessage.String(),
 			"rootPath",
 			rootPath)
 	} else if err != nil {

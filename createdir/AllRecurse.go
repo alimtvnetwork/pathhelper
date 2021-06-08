@@ -13,7 +13,7 @@ import (
 	"gitlab.com/evatix-go/pathhelper/performing"
 )
 
-// Create all sub-directories and create the final directory
+// AllRecurse Create all sub-directories and create the final directory
 func AllRecurse(path string, fileMode os.FileMode) *dirinfo.Result {
 	fileInfoWrapper := pathhelper.GetFileInfoWrapper(path)
 	isIgnoredAction := fileInfoWrapper.IsPathExists() || fileInfoWrapper.IsEmptyPath

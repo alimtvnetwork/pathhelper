@@ -13,7 +13,7 @@ import (
 	"gitlab.com/evatix-go/pathhelper/performing"
 )
 
-// Create directory and create the final directory
+// New Create directory and create the final directory
 func New(path string, fileMode os.FileMode) *dirinfo.Result {
 	fileInfoWrapper := pathhelper.GetFileInfoWrapper(path)
 	isIgnoredAction := fileInfoWrapper.IsPathExists() || fileInfoWrapper.IsEmptyPath

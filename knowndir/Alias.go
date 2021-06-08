@@ -68,7 +68,7 @@ func (alias Alias) Value() string {
 	return string(alias)
 }
 
-// directory.Value() + constants.PathSeparator + knownDirectories.join(constants.PathSeparator)
+// CombineWithKnownDirs directory.Value() + constants.PathSeparator + knownDirectories.join(constants.PathSeparator)
 // Warning: It doesn't perform complex tasks like long path normalize, long path (windows) fix, double separator to single and so on.
 func (alias Alias) CombineWithKnownDirs(knownDirectories ...Alias) string {
 	paths := make([]string, 0, len(knownDirectories)+2)
