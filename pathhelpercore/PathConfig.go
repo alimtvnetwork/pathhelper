@@ -4,7 +4,7 @@ import (
 	"gitlab.com/evatix-go/core/constants"
 )
 
-// By default:
+// PathConfig By default:
 // Separator = os.PathSeparator
 // IsNormalize = true
 // IsIgnoreEmptyPath = false

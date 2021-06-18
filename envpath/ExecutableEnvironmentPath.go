@@ -56,7 +56,7 @@ func (eep *ExecutableEnvironmentPath) GetDirectories() []*string {
 	return directories
 }
 
-// returns all pathsCollection paths on which contains the given string. If no path is found, returns empty array.
+// GetFilePathsContains returns all pathsCollection paths on which contains the given string. If no path is found, returns empty array.
 func (eep *ExecutableEnvironmentPath) GetFilePathsContains(
 	separator,
 	contains string,

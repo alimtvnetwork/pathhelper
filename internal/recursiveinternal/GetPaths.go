@@ -83,6 +83,7 @@ func getPaths(
 			continue
 		}
 
+		//goland:noinspection GoNilness
 		currentPath := rootPath +
 			separator +
 			fileInfo.Name()
@@ -91,6 +92,7 @@ func getPaths(
 			Paths.
 			AddStrings(currentPath)
 
+		//goland:noinspection GoNilness
 		if fileInfo.IsDir() {
 			fileInfos, err2 := ioutil.
 				ReadDir(currentPath)

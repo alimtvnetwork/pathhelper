@@ -3,10 +3,9 @@ package createdir
 import (
 	"os"
 
-	"gitlab.com/evatix-go/core/constants"
-	"gitlab.com/evatix-go/core/msgtype"
 	"gitlab.com/evatix-go/errorwrapper"
 	"gitlab.com/evatix-go/errorwrapper/errnew"
+	"gitlab.com/evatix-go/errorwrapper/errtype"
 
 	"gitlab.com/evatix-go/pathhelper"
 	"gitlab.com/evatix-go/pathhelper/dirinfo"
@@ -17,20 +16,23 @@ import (
 func New(path string, fileMode os.FileMode) *dirinfo.Result {
 	fileInfoWrapper := pathhelper.GetFileInfoWrapper(path)
 	isIgnoredAction := fileInfoWrapper.IsPathExists() || fileInfoWrapper.IsEmptyPath
-	errorWrapper := errnew.Empty
+	errorWrapper := errnew.EmptyPtr
 
 	if !isIgnoredAction {
 		err := os.MkdirAll(path, fileMode)
-		errorWrapper = errorwrapper.NewFile(err)
+		errorWrapper = errorwrapper.NewFilePtr(
+			errtype.Directory,
+			err,
+			path)
 	}
 
 	if fileInfoWrapper.IsEmptyPath {
-		errorWrapper = errorwrapper.NewFilePath(msgtype.InvalidEmptyPathErrorMessage.String(), constants.EmptyString)
+		errorWrapper = errnew.EmptyFilePath
 	}
 
 	return &dirinfo.Result{
 		FileInfoWrapper:   fileInfoWrapper,
-		Error:             &errorWrapper,
+		Error:             errorWrapper,
 		RawPath:           path,
 		FileModeRequested: &fileMode,
 		IsValidDir:        fileInfoWrapper.IsDirectory,

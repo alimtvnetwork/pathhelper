@@ -1,10 +1,10 @@
 package fileinfo
 
 import (
+	"gitlab.com/evatix-go/core/coreutils/stringutil"
 	"gitlab.com/evatix-go/errorwrapper"
 	"gitlab.com/evatix-go/errorwrapper/errnew"
 
-	"gitlab.com/evatix-go/pathhelper/internal/isstrsinternal"
 	"gitlab.com/evatix-go/pathhelper/internal/recursiveinternal"
 )
 
@@ -81,7 +81,7 @@ func (filesNamesCollection *FileNamesCollection) IsContains(
 	fileName string,
 	isCaseSensitive bool,
 ) bool {
-	return isstrsinternal.ContainsPtrSimple(
+	return stringutil.IsContainsPtrSimple(
 		filesNamesCollection.names,
 		fileName,
 		0,

@@ -18,7 +18,8 @@ func UnixCreateUsingCmd(sourcePath, destinationPath string) *errbool.Result {
 		return errbool.NewSimplePtr(false, errtype.NotSupportInWindows)
 	}
 
-	symLink := argsinternal.Join(constants.SymbolicLinkCreationCommandName,
+	symLink := argsinternal.Join(
+		constants.SymbolicLinkCreationCommandName,
 		constants.SymbolicLinkCreationArgument,
 		sourcePath,
 		destinationPath)
