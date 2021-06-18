@@ -1,0 +1,26 @@
+package pathchmod
+
+import (
+	"os"
+
+	"gitlab.com/evatix-go/core/chmodhelper/chmodins"
+	"gitlab.com/evatix-go/errorwrapper"
+	"gitlab.com/evatix-go/errorwrapper/errnew"
+)
+
+func ApplyChmodOnFilesUsingCondition(
+	condition *chmodins.Condition,
+	changeFileMode os.FileMode,
+	locations ...string,
+) (*chmodins.RwxInstruction, *errorwrapper.Wrapper) {
+	if len(locations) == 0 || condition == nil {
+		return &chmodins.RwxInstruction{}, errnew.EmptyPtr
+	}
+
+	return ApplyChmodOnFiles(
+		condition.IsRecursive,
+		condition.IsSkipOnNonExist,
+		condition.IsContinueOnError,
+		changeFileMode,
+		locations...)
+}

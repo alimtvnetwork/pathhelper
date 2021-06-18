@@ -34,10 +34,18 @@ func New(rawPath, separator string) *Wrapper {
 
 	fileInfo, err := os.Stat(rawPath)
 	isDir := err == nil && fileInfo.IsDir()
+	errWrapper := errnew.EmptyPtr
+
+	if err != nil {
+		errWrapper = errorwrapper.NewFilePtr(
+			errtype.PathRelatedIssue,
+			err,
+			rawPath)
+	}
 
 	return &Wrapper{
 		FileInfo:     &fileInfo,
-		ErrorWrapper: errorwrapper.NewFilePtr(err),
+		ErrorWrapper: errWrapper,
 		RawPath:      rawPath,
 		IsDirectory:  isDir,
 		IsFile:       err == nil && !isDir,

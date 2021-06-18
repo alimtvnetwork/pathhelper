@@ -62,9 +62,14 @@ const (
 	SitesAvailable   Alias = "sites-available"
 	SitesEnabled     Alias = "sites-enabled"
 	MimeTypes        Alias = "mime.types"
+	EtcEnvironment   Alias = "/etc/environment"
 )
 
 func (alias Alias) Value() string {
+	return string(alias)
+}
+
+func (alias Alias) String() string {
 	return string(alias)
 }
 
@@ -87,7 +92,7 @@ func (alias Alias) CombineWith(paths ...string) string {
 	return path.Clean(strings.Join(paths, constants.PathSeparator))
 }
 
-// Alias.Value() + constants.PathSeparator + paths with separator
+// GetPrefixCombinedWith Alias.Value() + constants.PathSeparator + paths with separator
 // Warning: It doesn't perform complex tasks like long path normalize, long path (windows) fix, double separator to single and so on.
 func (alias Alias) GetPrefixCombinedWith(paths ...string) string {
 	paths = append([]string{alias.Value()}, paths...)

@@ -6,10 +6,10 @@ import (
 
 	"gitlab.com/evatix-go/core/constants"
 	"gitlab.com/evatix-go/core/coreindexes"
+	"gitlab.com/evatix-go/core/coreutils/stringutil"
 	"gitlab.com/evatix-go/core/extensionsconst"
 	"gitlab.com/evatix-go/errorwrapper"
 
-	"gitlab.com/evatix-go/pathhelper/internal/isstr"
 	"gitlab.com/evatix-go/pathhelper/internal/splitinternal"
 )
 
@@ -348,7 +348,7 @@ func (receiver *Wrapper) IsExtensionFilterMatch(
 	}
 
 	// {don't care}what.ever, ends with extension
-	return isstr.EndsWith(
+	return stringutil.IsEndsWith(
 		receiver.fullPath,
 		extensionFilter,
 		true)
@@ -376,7 +376,7 @@ func (receiver *Wrapper) IsNameWithExtensionMatches(
 ) bool {
 	_, fileName := splitinternal.Get(fullPath)
 
-	return isstr.EndsWith(
+	return stringutil.IsEndsWith(
 		receiver.fullPath,
 		fileName,
 		true)

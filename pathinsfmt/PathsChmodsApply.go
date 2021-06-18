@@ -1,5 +1,5 @@
 package pathinsfmt
 
 type BasePathsModifiersApply struct {
-	PathModifiersByDefinition *[]PathModifier `json:"PathModifiersByDefinition,omitempty"`
+	PathModifiersByDefinition []PathModifier `json:"PathModifiersByDefinition,omitempty"`
 }

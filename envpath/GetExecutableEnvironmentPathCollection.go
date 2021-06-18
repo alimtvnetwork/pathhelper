@@ -4,10 +4,9 @@ import (
 	normalize "gitlab.com/evatix-go/pathhelper/expandpath"
 )
 
-func GetExecutableEnvironmentPathCollection() ExecutableEnvironmentPathCollection {
-	rawPaths := GetRawExecutableEnvironmentPathCollection()
-
-	pathsCollection := NewExecutableEnvironmentPathCollection(len(rawPaths))
+func GetExecutableEnvironmentPathCollection() *ExecutableEnvironmentPathCollection {
+	rawPaths := ReadEnvPaths()
+	pathsCollection := NewExecutableEnvironmentPathCollectionPtr(len(rawPaths))
 
 	for _, rawPath := range rawPaths {
 		expandedPath := normalize.EnvironmentVarExpand(rawPath)
