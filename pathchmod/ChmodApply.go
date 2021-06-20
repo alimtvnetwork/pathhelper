@@ -2,11 +2,11 @@ package pathchmod
 
 import (
 	"gitlab.com/evatix-go/core/chmodhelper"
+	"gitlab.com/evatix-go/core/enums/scripttype"
 	"gitlab.com/evatix-go/errorwrapper"
 	"gitlab.com/evatix-go/errorwrapper/errcmd"
 	"gitlab.com/evatix-go/errorwrapper/errnew"
 	"gitlab.com/evatix-go/errorwrapper/errwrappers"
-	"gitlab.com/evatix-go/errorwrapper/scripttype"
 	"gitlab.com/evatix-go/pathhelper/internal/argsinternal"
 	"gitlab.com/evatix-go/pathhelper/internal/cmdprefix"
 )
