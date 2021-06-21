@@ -2,8 +2,9 @@ package main
 
 import (
 	"fmt"
+	"strings"
 
-	"gitlab.com/evatix-go/pathhelper/pathstatlinux"
+	"gitlab.com/evatix-go/pathhelper/pathinsfmt"
 )
 
 func main() {
@@ -25,7 +26,47 @@ func main() {
 	// 		chmodhelper.NewUsingFileModePtr(0644),
 	// 		"/temp", "/temp/core"))
 
-	fmt.Println(pathstatlinux.Get("/etc"))
+	genPaths := pathinsfmt.GenericPathsCollection{
+		Specification: nil,
+		SimilarPaths: []pathinsfmt.SimilarPaths{
+			{
+				RootPath: "Similar",
+				RelativePaths: []string{
+					"rel path",
+					"rel/ dw ////wdwdws path2",
+				},
+				IsNormalizeApply: true,
+			},
+		},
+		AllDiffPaths: []pathinsfmt.AllDiffPaths{
+			{
+				Paths: []string{
+					"all Diff / path",
+					"all Diff path2",
+				},
+				IsNormalizeApply: true,
+			},
+		},
+		DynamicPaths: &pathinsfmt.DynamicPaths{
+			Vars: nil,
+			AllDiffPaths: []pathinsfmt.AllDiffPaths{
+				{
+					Paths: []string{
+						"dynamic path 1",
+						"dynamic path 2",
+						"dynamic path 3",
+						"dynamic path 4",
+						"dynamic path 5",
+						"dynamic / path 6",
+						"dynamic path 7",
+					},
+					IsNormalizeApply: true,
+				},
+			},
+		},
+	}
+
+	fmt.Println(strings.Join(genPaths.FlatPaths(), "\n- "))
 	//
 	// 	contentLines := `
 	// File: /etc/mysql
