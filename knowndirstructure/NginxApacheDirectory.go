@@ -6,11 +6,12 @@ import (
 	"gitlab.com/evatix-go/core/filemode"
 	"gitlab.com/evatix-go/core/osconsts"
 	"gitlab.com/evatix-go/errorwrapper"
+	"gitlab.com/evatix-go/errorwrapper/errdata/errstr"
 	"gitlab.com/evatix-go/errorwrapper/errwrappers"
 	"gitlab.com/evatix-go/pathhelper/internal/createdirinternal"
 	"gitlab.com/evatix-go/pathhelper/internal/fsinternal"
 	"gitlab.com/evatix-go/pathhelper/internal/normalizeinternal"
-	"gitlab.com/evatix-go/pathhelper/internal/recursiveinternal"
+	"gitlab.com/evatix-go/pathhelper/internal/pathgetterinternal"
 )
 
 type NginxApacheDirectory struct {
@@ -145,31 +146,32 @@ func (receiver *NginxApacheDirectory) CombinedRoot(
 		combinedPaths)
 }
 
-func (receiver *NginxApacheDirectory) AllFilesInSitesAvailable() ([]string, *errorwrapper.Wrapper) {
-	files, err := recursiveinternal.GetPaths(
+func (receiver *NginxApacheDirectory) AllFilesAtSitesAvailable() *errstr.Results {
+	return pathgetterinternal.GetAllFiles(
+		true,
 		osconsts.PathSeparator,
-		receiver.SitesAvailable,
-		false)
-
-	return *files, err.GetAsErrorWrapperPtr()
+		receiver.SitesAvailable)
 }
 
-func (receiver *NginxApacheDirectory) AllFilesInSitesEnabled() ([]string, *errorwrapper.Wrapper) {
-	files, err := recursiveinternal.GetPaths(
+func (receiver *NginxApacheDirectory) AllFilesAtSitesEnabled() *errstr.Results {
+	return pathgetterinternal.GetAllFiles(
+		true,
 		osconsts.PathSeparator,
-		receiver.SitesEnabled,
-		false)
-
-	return *files, err.GetAsErrorWrapperPtr()
+		receiver.Root)
 }
 
-func (receiver *NginxApacheDirectory) AllFilesInRoot() ([]string, *errorwrapper.Wrapper) {
-	files, err := recursiveinternal.GetPaths(
+func (receiver *NginxApacheDirectory) AllPathsAtRoot() *errstr.Results {
+	return pathgetterinternal.GetAllPaths(
+		true,
 		osconsts.PathSeparator,
-		receiver.Root,
-		true)
+		receiver.Root)
+}
 
-	return *files, err.GetAsErrorWrapperPtr()
+func (receiver *NginxApacheDirectory) AllFilesAtRoot() *errstr.Results {
+	return pathgetterinternal.GetAllFiles(
+		true,
+		osconsts.PathSeparator,
+		receiver.Root)
 }
 
 func (receiver *NginxApacheDirectory) IsAllExist() bool {

@@ -2,7 +2,7 @@ package recursiveinternal
 
 import "os"
 
-func isDirUsingFileInfoErr(info os.FileInfo, err error) bool {
+func isDir(info os.FileInfo, err error) bool {
 	if os.IsNotExist(err) {
 		return false
 	}
