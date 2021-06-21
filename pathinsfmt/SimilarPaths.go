@@ -1,7 +1,6 @@
 package pathinsfmt
 
 import (
-	"gitlab.com/evatix-go/core/constants"
 	"gitlab.com/evatix-go/pathhelper/pathjoin"
 )
 
@@ -23,31 +22,24 @@ func (s *SimilarPaths) HasAnyItem() bool {
 	return s.Length() > 0
 }
 
-func (s *SimilarPaths) FlatPaths(isIncludeRootAsClone bool) []string {
-	if s.IsEmpty() && !isIncludeRootAsClone {
+func (s *SimilarPaths) FlatPaths() []string {
+	if s.IsEmpty() {
 		return []string{}
 	}
 
 	slice := make(
 		[]string,
-		constants.Zero,
-		s.Length()+constants.Capacity2)
-
-	if isIncludeRootAsClone {
-		slice = append(slice, s.RootPath)
-	}
+		s.Length())
 
 	root := s.RootPath
 
-	for _, relativePath := range s.RelativePaths {
+	for i, relativePath := range s.RelativePaths {
 		joinedPath := pathjoin.JoinNormalizedIf(
 			s.IsNormalizeApply,
 			root,
 			relativePath)
 
-		slice = append(
-			slice,
-			joinedPath)
+		slice[i] = joinedPath
 	}
 
 	return slice

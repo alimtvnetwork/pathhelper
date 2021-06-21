@@ -1,7 +1,6 @@
 package pathinsfmt
 
 import (
-	"gitlab.com/evatix-go/core/constants"
 	"gitlab.com/evatix-go/pathhelper/normalize"
 )
 
@@ -34,27 +33,7 @@ func (allDiffPaths *AllDiffPaths) LazyFlatPaths() []string {
 }
 
 func (allDiffPaths *AllDiffPaths) FlatPaths() []string {
-	if allDiffPaths.IsEmpty() {
-		return []string{}
-	}
-
-	if !allDiffPaths.IsNormalizeApply {
-		return allDiffPaths.Paths
-	}
-
-	slice := make(
-		[]string,
-		constants.Zero,
-		allDiffPaths.Length())
-
-	for _, currentPath := range allDiffPaths.Paths {
-		normalizedPath := normalize.Path(
-			currentPath)
-
-		slice = append(
-			slice,
-			normalizedPath)
-	}
-
-	return slice
+	return normalize.PathsOnConditions(
+		allDiffPaths.IsNormalizeApply,
+		allDiffPaths.Paths)
 }

@@ -2,8 +2,8 @@ package pathinsfmt
 
 import "gitlab.com/evatix-go/core/coreinstruction"
 
-type PathModifiersApply struct {
+type PathVerifiersWithGenericPathsCollection struct {
 	coreinstruction.BaseSpecPlusRequestIds
 	BaseGenericPathsCollection
-	PathModifiers []PathModifier `json:"PathModifiers,omitempty"`
+	PathVerifiers []PathVerifier `json:"PathVerifiers,omitempty"`
 }

@@ -1,6 +1,6 @@
 package pathinsfmt
 
 type PrePostStatePathModifiers struct {
-	PrePathModifiers  []PathModifier `json:"PrePathModifiers,omitempty"`
-	PostPathModifiers []PathModifier `json:"PostPathModifiers,omitempty"`
+	PrePathModifiers  []PathVerifiersWithGenericPathsCollection `json:"PrePathModifiers,omitempty"`
+	PostPathModifiers []PathVerifiersWithGenericPathsCollection `json:"PostPathModifiers,omitempty"`
 }

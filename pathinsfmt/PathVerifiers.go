@@ -2,7 +2,7 @@ package pathinsfmt
 
 import "gitlab.com/evatix-go/core/coreinstruction"
 
-type BaseSymbolicLinks struct {
+type PathVerifiers struct {
 	coreinstruction.BaseSpecPlusRequestIds
-	SymbolicLinks []SymbolicLink `json:"SymbolicLinks,omitempty"`
+	PathVerifiers []PathVerifier `json:"PathVerifiers,omitempty"`
 }

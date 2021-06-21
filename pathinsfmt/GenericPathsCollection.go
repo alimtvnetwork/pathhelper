@@ -1,15 +1,21 @@
 package pathinsfmt
 
+import "gitlab.com/evatix-go/core/coreinstruction"
+
 type GenericPathsCollection struct {
+	coreinstruction.BaseSpecPlusRequestIds
 	lazyFlatPaths []string
 	SimilarPaths  []SimilarPaths `json:"SimilarPaths,omitempty"`
 	AllDiffPaths  []AllDiffPaths `json:"AllDiffPaths,omitempty"`
 	DynamicPaths  *DynamicPaths  `json:"DynamicPaths,omitempty"`
 }
 
-// Length of len(receiver.SimilarPaths) + len(receiver.AllDiffPaths) + items in DynamicPaths (not all specific paths)
+// Length of len(receiver.SimilarPaths) +
+// len(receiver.AllDiffPaths) +
+// items in DynamicPaths (not all specific paths)
 func (receiver *GenericPathsCollection) Length() int {
-	length := len(receiver.SimilarPaths) + len(receiver.AllDiffPaths)
+	length := len(receiver.SimilarPaths) +
+		len(receiver.AllDiffPaths)
 
 	if receiver.DynamicPaths == nil {
 		return length
