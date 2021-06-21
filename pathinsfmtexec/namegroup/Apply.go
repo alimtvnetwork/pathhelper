@@ -1,4 +1,4 @@
-package pathinsfmtexec
+package namegroup
 
 import (
 	"gitlab.com/evatix-go/core/coreutils/stringutil"
@@ -7,7 +7,7 @@ import (
 	"gitlab.com/evatix-go/pathhelper/pathinsfmt"
 )
 
-func ApplyUserNameGroup(
+func Apply(
 	isRecursive bool,
 	isContinueOnError bool,
 	userNameGroupName *pathinsfmt.BaseUserNamePlusGroupName,
@@ -22,10 +22,10 @@ func ApplyUserNameGroup(
 	}
 
 	if stringutil.IsEmptyOrWhitespacePtr(userNameGroupName.UserName) {
-		return applyLinuxOnlyGroup(
+		return ApplyLinuxOnlyGroup(
 			isRecursive,
 			isContinueOnError,
-			userNameGroupName,
+			&userNameGroupName.BaseGroupName,
 			paths...)
 	}
 

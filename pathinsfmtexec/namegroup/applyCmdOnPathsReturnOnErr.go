@@ -1,25 +1,20 @@
-package pathinsfmtexec
+package namegroup
 
 import (
 	"gitlab.com/evatix-go/core/constants"
-	"gitlab.com/evatix-go/core/coredata/corestr"
 	"gitlab.com/evatix-go/errorwrapper"
 	"gitlab.com/evatix-go/errorwrapper/errcmd"
 	"gitlab.com/evatix-go/errorwrapper/errnew"
 	"gitlab.com/evatix-go/errorwrapper/errtype"
 )
 
-func applyCmdOnPathContinueOnError(
+func applyCmdOnPathsReturnOnErr(
 	cmdPrefix string,
 	paths []string,
 ) *errorwrapper.Wrapper {
-	pathIssues := corestr.NewCollection(constants.Zero)
-
 	for _, currentPath := range paths {
 		if currentPath == "" {
-			pathIssues.Add("Cannot process empty path.")
-
-			continue
+			return errorwrapper.NewPtr(errtype.EmptyFilePath)
 		}
 
 		// chgrp groupName path or chown -R $user:$group /dir
@@ -30,16 +25,9 @@ func applyCmdOnPathContinueOnError(
 		errWrapper := errcmd.BashArgsErrorWrapper(pathCmd)
 
 		if errWrapper.HasError() {
-			pathIssues.Add(pathCmd + " -- failed")
+			return errWrapper
 		}
 	}
 
-	if pathIssues.IsEmpty() {
-		return errnew.EmptyPtr
-	}
-
-	return errnew.MessagesPtr(
-		errtype.PathRelatedIssue,
-		"Failed to execute cmd prefix :"+cmdPrefix,
-		pathIssues.Join(constants.CommaSpace))
+	return errnew.EmptyPtr
 }

@@ -69,7 +69,7 @@ func Test_GenericPathsCollection(t *testing.T) {
 	})
 }
 
-func Test_GenericPathsCollection2(t *testing.T) {
+func Test_GenericPathsCollectionWhereOthersAreNil(t *testing.T) {
 	// Arrange
 	genPaths := pathinsfmt.GenericPathsCollection{
 		Specification: nil,

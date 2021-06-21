@@ -1,14 +1,15 @@
-package pathinsfmtexec
+package namegroup
 
 import (
 	"gitlab.com/evatix-go/core/coreutils/stringutil"
 	"gitlab.com/evatix-go/errorwrapper"
 	"gitlab.com/evatix-go/errorwrapper/errnew"
 	"gitlab.com/evatix-go/pathhelper/internal/cmdprefix"
+	"gitlab.com/evatix-go/pathhelper/internal/deferrwrappers"
 	"gitlab.com/evatix-go/pathhelper/pathinsfmt"
 )
 
-func applyLinuxOnlyGroup(
+func applyLinuxUserGroupBoth(
 	isRecursive bool,
 	isContinueOnError bool,
 	userNameGroupName *pathinsfmt.BaseUserNamePlusGroupName,
@@ -19,7 +20,11 @@ func applyLinuxOnlyGroup(
 	}
 
 	if stringutil.IsEmptyOrWhitespace(userNameGroupName.GroupName) {
-		return errnew.EmptyPtr
+		return deferrwrappers.CannotApplyChmodWithSingleParameter
+	}
+
+	if stringutil.IsEmptyOrWhitespacePtr(userNameGroupName.UserName) {
+		return deferrwrappers.CannotApplyChmodWithSingleParameter
 	}
 
 	pathsLength := len(paths)
@@ -29,9 +34,13 @@ func applyLinuxOnlyGroup(
 	}
 
 	groupName := userNameGroupName.GroupName
+	userName := *userNameGroupName.UserName
 
-	// chgrp groupName path
-	cmdPrefix := cmdprefix.ChangeGroup(isRecursive, groupName)
+	// chown -R $user:$group /dir
+	cmdPrefix := cmdprefix.ChownUser(
+		isRecursive,
+		userName,
+		groupName)
 
 	return applyCmdOnPaths(
 		cmdPrefix,

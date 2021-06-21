@@ -1,4 +1,4 @@
-package pathinsfmtexec
+package namegroup
 
 import "gitlab.com/evatix-go/errorwrapper"
 
