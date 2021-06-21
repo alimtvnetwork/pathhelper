@@ -26,3 +26,8 @@ func (p *PathModifier) HasChown() bool {
 	return p != nil &&
 		p.Chown != nil
 }
+
+func (p *PathModifier) HasRwxInstructions() bool {
+	return p != nil &&
+		p.RwxInstructions != nil
+}

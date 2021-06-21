@@ -8,6 +8,18 @@ import (
 type LocationCollection struct {
 	Locations        []string `json:"Locations,omitempty"`
 	IsNormalizeApply bool     `json:"IsNormalizeApply,omitempty"`
+	lazyFlatPaths    *[]string
+}
+
+func (receiver *LocationCollection) LazyFlatPaths() []string {
+	if receiver.lazyFlatPaths != nil {
+		return *receiver.lazyFlatPaths
+	}
+
+	flatPaths := receiver.FlatPaths()
+	receiver.lazyFlatPaths = &flatPaths
+
+	return flatPaths
 }
 
 func (receiver *LocationCollection) Length() int {

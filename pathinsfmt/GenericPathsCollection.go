@@ -14,7 +14,7 @@ type GenericPathsCollection struct {
 	SimilarPaths                       []SimilarPaths                 `json:"SimilarPaths,omitempty"`
 	AllDiffPaths                       []AllDiffPaths                 `json:"AllDiffPaths,omitempty"`
 	DynamicPaths                       *DynamicPaths                  `json:"DynamicPaths,omitempty"`
-	lazyFlatPaths, lazyFlatPathsSorted []string
+	lazyFlatPaths, lazyFlatPathsSorted *[]string
 }
 
 // Length of len(receiver.SimilarPaths) +
@@ -41,25 +41,26 @@ func (receiver *GenericPathsCollection) HasAnyItem() bool {
 
 func (receiver *GenericPathsCollection) LazyFlatPathsSorted() []string {
 	if receiver.lazyFlatPathsSorted != nil {
-		return receiver.lazyFlatPathsSorted
+		return *receiver.lazyFlatPathsSorted
 	}
 
 	lazyPaths := receiver.LazyFlatPaths()
 	sort.Strings(lazyPaths)
 
-	receiver.lazyFlatPathsSorted = lazyPaths
+	receiver.lazyFlatPathsSorted = &lazyPaths
 
-	return receiver.lazyFlatPaths
+	return *receiver.lazyFlatPaths
 }
 
 func (receiver *GenericPathsCollection) LazyFlatPaths() []string {
 	if receiver.lazyFlatPaths != nil {
-		return receiver.lazyFlatPaths
+		return *receiver.lazyFlatPaths
 	}
 
-	receiver.lazyFlatPaths = receiver.FlatPaths()
+	flatPaths := receiver.FlatPaths()
+	receiver.lazyFlatPaths = &flatPaths
 
-	return receiver.lazyFlatPaths
+	return flatPaths
 }
 
 func (receiver *GenericPathsCollection) IsEmptySimilarPaths() bool {

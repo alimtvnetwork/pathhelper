@@ -58,10 +58,12 @@ func ApplySimple(
 		)
 	}
 
-	errCollection.AddWrapperPtr(pathchmod.ApplyChmodRwxInstructions(
-		&modifier.BaseRwxInstructions,
-		flatPaths),
-	)
+	if modifier.HasRwxInstructions() {
+		errCollection.AddWrapperPtr(pathchmod.ApplyChmodRwxInstructions(
+			&modifier.BaseRwxInstructions,
+			flatPaths),
+		)
+	}
 
 	return errCollection.GetAsErrorWrapperPtr()
 }

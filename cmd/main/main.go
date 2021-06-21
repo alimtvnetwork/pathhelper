@@ -2,8 +2,8 @@ package main
 
 import (
 	"fmt"
-	"strings"
 
+	"gitlab.com/evatix-go/core/enums/scripttype"
 	"gitlab.com/evatix-go/pathhelper/pathinsfmt"
 )
 
@@ -26,47 +26,41 @@ func main() {
 	// 		chmodhelper.NewUsingFileModePtr(0644),
 	// 		"/temp", "/temp/core"))
 
-	genPaths := pathinsfmt.GenericPathsCollection{
-		Specification: nil,
-		SimilarPaths: []pathinsfmt.SimilarPaths{
+	executors := pathinsfmt.BaseExecutableProcessors{
+		ExecutableProcessors: []pathinsfmt.ExecutableProcessor{
 			{
-				RootPath: "Similar",
-				RelativePaths: []string{
-					"rel path",
-					"rel/ dw ////wdwdws path2",
-				},
-				IsNormalizeApply: true,
+				Name:               "Alim",
+				IsEnabled:          true,
+				IsNormalizePath:    false,
+				FailedMessage:      "failed message",
+				SuccessMessage:     "success",
+				OutputToFile:       "d:/alim#213&*%@*#(#.txt",
+				BinaryPath:         "cmd",
+				Args:               []string{"/c", `dir /w`},
+				IsSecure:           false,
+				IsDisplayToConsole: true,
+				IsWriteToFile:      true,
+				ScriptType:         scripttype.Powershell,
 			},
-		},
-		AllDiffPaths: []pathinsfmt.AllDiffPaths{
 			{
-				Paths: []string{
-					"all Diff / path",
-					"all Diff path2",
-				},
-				IsNormalizeApply: true,
-			},
-		},
-		DynamicPaths: &pathinsfmt.DynamicPaths{
-			Vars: nil,
-			AllDiffPaths: []pathinsfmt.AllDiffPaths{
-				{
-					Paths: []string{
-						"dynamic path 1",
-						"dynamic path 2",
-						"dynamic path 3",
-						"dynamic path 4",
-						"dynamic path 5",
-						"dynamic / path 6",
-						"dynamic path 7",
-					},
-					IsNormalizeApply: true,
-				},
+				Name:               "Alim 2",
+				IsEnabled:          true,
+				IsNormalizePath:    false,
+				FailedMessage:      "failed message",
+				SuccessMessage:     "success",
+				OutputToFile:       "d:/alim2.txt",
+				BinaryPath:         "pwsh",
+				Args:               []string{"-c", `ls`},
+				IsSecure:           false,
+				IsDisplayToConsole: true,
+				IsWriteToFile:      true,
+				ScriptType:         scripttype.Powershell,
 			},
 		},
 	}
 
-	fmt.Println(strings.Join(genPaths.FlatPaths(), "\n- "))
+	res := executors.ExecuteAllOutputs()
+	fmt.Println(res.CompiledError)
 	//
 	// 	contentLines := `
 	// File: /etc/mysql
