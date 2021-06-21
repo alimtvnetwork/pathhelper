@@ -50,11 +50,11 @@ func (nestedPathsResults *NestedPathsResults) Add(
 	isErrContinue := nestedPathsResults.param.IsContinueOnError
 	errWrappers := nestedPathsResults.ErrorWrappersCollector
 	if hasError {
-		nestedPathsResults.ErrorWrappersCollector.AddUsingMessages(
+		nestedPathsResults.ErrorWrappersCollector.AddPathIssue(
 			errtype.File,
-			err.Error(),
-			FilePath,
-			currentRootPath)
+			err,
+			FilePath+
+				currentRootPath)
 	}
 
 	if (isErrContinue && hasError) || (infos == nil && !hasError) {
@@ -90,6 +90,14 @@ func (nestedPathsResults *NestedPathsResults) Add(
 		if isEmptyPath && isErrContinue {
 			continue
 		} else if isEmptyPath && !isErrContinue {
+			return
+		}
+
+		if !isDir(currentPath) {
+			wg2.Done()
+
+			nestedPathsResults.Paths.AddLock(collection)
+
 			return
 		}
 

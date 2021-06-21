@@ -9,7 +9,7 @@ import (
 	"gitlab.com/evatix-go/pathhelper/normalize"
 )
 
-// isNormalizePlusLongPathFix if true then for windows add UNC Path fix
+// JoinWithSep isNormalizePlusLongPathFix if true then for windows add UNC Path fix
 func JoinWithSep(
 	isNormalizePlusLongPathFix bool,
 	sep string,
@@ -19,7 +19,9 @@ func JoinWithSep(
 		return constants.EmptyString
 	}
 
-	finalPath := strings.Join(paths, sep)
+	finalPath := strings.Join(
+		paths,
+		sep)
 
 	return normalize.PathUsingSeparatorUsingSingleIf(
 		isNormalizePlusLongPathFix,
