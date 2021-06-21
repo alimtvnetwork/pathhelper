@@ -23,7 +23,6 @@ func (allDiffPaths *AllDiffPaths) HasAnyItem() bool {
 	return allDiffPaths.Length() > 0
 }
 
-
 func (allDiffPaths *AllDiffPaths) LazyFlatPaths() []string {
 	if allDiffPaths.lazyFlatPaths != nil {
 		return allDiffPaths.lazyFlatPaths
@@ -33,7 +32,6 @@ func (allDiffPaths *AllDiffPaths) LazyFlatPaths() []string {
 
 	return allDiffPaths.lazyFlatPaths
 }
-
 
 func (allDiffPaths *AllDiffPaths) FlatPaths() []string {
 	if allDiffPaths.IsEmpty() {
