@@ -11,16 +11,6 @@ type AllDiffPaths struct {
 	IsNormalizeApply bool     `json:"IsNormalizeApply"`
 }
 
-func (allDiffPaths *AllDiffPaths) LazyFlatPaths() []string {
-	if allDiffPaths.lazyFlatPaths != nil {
-		return allDiffPaths.lazyFlatPaths
-	}
-
-	allDiffPaths.lazyFlatPaths = allDiffPaths.FlatPaths()
-
-	return allDiffPaths.lazyFlatPaths
-}
-
 func (allDiffPaths *AllDiffPaths) Length() int {
 	return len(allDiffPaths.Paths)
 }
@@ -32,6 +22,18 @@ func (allDiffPaths *AllDiffPaths) IsEmpty() bool {
 func (allDiffPaths *AllDiffPaths) HasAnyItem() bool {
 	return allDiffPaths.Length() > 0
 }
+
+
+func (allDiffPaths *AllDiffPaths) LazyFlatPaths() []string {
+	if allDiffPaths.lazyFlatPaths != nil {
+		return allDiffPaths.lazyFlatPaths
+	}
+
+	allDiffPaths.lazyFlatPaths = allDiffPaths.FlatPaths()
+
+	return allDiffPaths.lazyFlatPaths
+}
+
 
 func (allDiffPaths *AllDiffPaths) FlatPaths() []string {
 	if allDiffPaths.IsEmpty() {
