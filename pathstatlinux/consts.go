@@ -1,4 +1,4 @@
-package pathstat
+package pathstatlinux
 
 import "gitlab.com/evatix-go/core/coreindexes"
 

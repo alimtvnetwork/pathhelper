@@ -1,4 +1,4 @@
-package pathstat
+package pathstatlinux
 
 func InvalidGroup() *Group {
 	return &Group{

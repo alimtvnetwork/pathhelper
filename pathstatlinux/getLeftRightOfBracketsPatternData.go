@@ -1,4 +1,4 @@
-package pathstat
+package pathstatlinux
 
 import (
 	"strings"

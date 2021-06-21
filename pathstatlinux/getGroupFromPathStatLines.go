@@ -1,4 +1,4 @@
-package pathstat
+package pathstatlinux
 
 func getGroupFromPathStatLines(splits []string) *Group {
 	// (    0/    root)   Gid

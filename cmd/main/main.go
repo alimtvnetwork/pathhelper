@@ -3,7 +3,7 @@ package main
 import (
 	"fmt"
 
-	"gitlab.com/evatix-go/pathhelper/pathstat"
+	"gitlab.com/evatix-go/pathhelper/pathstatlinux"
 )
 
 func main() {
@@ -25,7 +25,7 @@ func main() {
 	// 		chmodhelper.NewUsingFileModePtr(0644),
 	// 		"/temp", "/temp/core"))
 
-	fmt.Println(pathstat.Get("/etc"))
+	fmt.Println(pathstatlinux.Get("/etc"))
 	//
 	// 	contentLines := `
 	// File: /etc/mysql
@@ -39,7 +39,7 @@ func main() {
 	// lines := strings.Split(contentLines, constants.NewLineUnix)
 	// nonEmptyLines := stringslice.NonWhitespaceSlicePtr(
 	// 	&lines)
-	// pathInfo := pathstat.ProcessLinesToInfo(
+	// pathInfo := pathstatlinux.ProcessLinesToInfo(
 	// 	*nonEmptyLines,
 	// 	"/etc/",
 	// 	errnew.EmptyPtr)

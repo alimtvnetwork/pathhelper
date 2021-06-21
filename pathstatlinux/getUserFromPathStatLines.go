@@ -1,4 +1,4 @@
-package pathstat
+package pathstatlinux
 
 func getUserFromPathStatLines(splits []string) *User {
 	// (    0/    root)   Gid
