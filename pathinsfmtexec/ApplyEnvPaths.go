@@ -14,13 +14,3 @@ func ApplyEnvPaths(baseEnvPaths *pathinsfmt.BaseEnvPaths) *errorwrapper.Wrapper 
 
 	return envpath.AddOrUpdateEnvPaths(baseEnvPaths.EnvPaths...)
 }
-
-
-
-func ApplySymbolicLink(symbolicLink *pathinsfmt.SymbolicLink) *errorwrapper.Wrapper {
-	if symbolicLink == nil {
-		return errnew.EmptyPtr
-	}
-
-	return sym(baseEnvPaths.EnvPaths...)
-}

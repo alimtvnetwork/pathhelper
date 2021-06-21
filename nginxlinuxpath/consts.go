@@ -10,5 +10,4 @@ const (
 	ExtraConfName        = "conf.d"
 	ModulesAvailableName = "modules-available"
 	ModulesEnabledName   = "modules-enabled"
-
 )
