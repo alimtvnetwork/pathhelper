@@ -1,4 +1,4 @@
-package createdir
+package createdirinternal
 
 import (
 	"os"

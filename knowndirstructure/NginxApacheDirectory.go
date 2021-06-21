@@ -7,7 +7,7 @@ import (
 	"gitlab.com/evatix-go/core/osconsts"
 	"gitlab.com/evatix-go/errorwrapper"
 	"gitlab.com/evatix-go/errorwrapper/errwrappers"
-	createdir "gitlab.com/evatix-go/pathhelper/internal/createdirinternal"
+	"gitlab.com/evatix-go/pathhelper/internal/createdirinternal"
 	"gitlab.com/evatix-go/pathhelper/internal/fsinternal"
 	"gitlab.com/evatix-go/pathhelper/internal/normalizeinternal"
 	"gitlab.com/evatix-go/pathhelper/internal/recursiveinternal"
@@ -62,35 +62,35 @@ func (receiver *NginxApacheDirectory) IsModulesEnabled() bool {
 }
 
 func (receiver *NginxApacheDirectory) MkDirRoot(mode os.FileMode) *errorwrapper.Wrapper {
-	return createdir.AllRecurse(receiver.Root, mode)
+	return createdirinternal.AllRecurse(receiver.Root, mode)
 }
 
 func (receiver *NginxApacheDirectory) MkDirConfigAvailable(mode os.FileMode) *errorwrapper.Wrapper {
-	return createdir.AllRecurse(receiver.ConfigAvailable, mode)
+	return createdirinternal.AllRecurse(receiver.ConfigAvailable, mode)
 }
 
 func (receiver *NginxApacheDirectory) MkDirConfigEnabled(mode os.FileMode) *errorwrapper.Wrapper {
-	return createdir.AllRecurse(receiver.ConfigEnabled, mode)
+	return createdirinternal.AllRecurse(receiver.ConfigEnabled, mode)
 }
 
 func (receiver *NginxApacheDirectory) MkDirSitesAvailable(mode os.FileMode) *errorwrapper.Wrapper {
-	return createdir.AllRecurse(receiver.SitesAvailable, mode)
+	return createdirinternal.AllRecurse(receiver.SitesAvailable, mode)
 }
 
 func (receiver *NginxApacheDirectory) MkDirSitesEnabled(mode os.FileMode) *errorwrapper.Wrapper {
-	return createdir.AllRecurse(receiver.SitesEnabled, mode)
+	return createdirinternal.AllRecurse(receiver.SitesEnabled, mode)
 }
 
 func (receiver *NginxApacheDirectory) MkDirExtraConfig(mode os.FileMode) *errorwrapper.Wrapper {
-	return createdir.AllRecurse(receiver.ExtraConfig, mode)
+	return createdirinternal.AllRecurse(receiver.ExtraConfig, mode)
 }
 
 func (receiver *NginxApacheDirectory) MkDirModulesAvailable(mode os.FileMode) *errorwrapper.Wrapper {
-	return createdir.AllRecurse(receiver.ModulesAvailable, mode)
+	return createdirinternal.AllRecurse(receiver.ModulesAvailable, mode)
 }
 
 func (receiver *NginxApacheDirectory) MkDirModulesEnabled(mode os.FileMode) *errorwrapper.Wrapper {
-	return createdir.AllRecurse(receiver.ModulesEnabled, mode)
+	return createdirinternal.AllRecurse(receiver.ModulesEnabled, mode)
 }
 
 func (receiver *NginxApacheDirectory) MkDirAll(mode os.FileMode) *errorwrapper.Wrapper {
@@ -123,15 +123,6 @@ func (receiver *NginxApacheDirectory) CombinedSitesAvailable(
 		combinedPaths)
 }
 
-func (receiver *NginxApacheDirectory) AllFilesInSitesAvailable() ([]string, *errorwrapper.Wrapper) {
-	files, err := recursiveinternal.GetPaths(
-		osconsts.PathSeparator,
-		receiver.SitesAvailable,
-		false)
-
-	return *files, err.GetAsErrorWrapperPtr()
-}
-
 func (receiver *NginxApacheDirectory) CombinedSitesEnabled(
 	combinedPaths ...string,
 ) (
@@ -141,6 +132,44 @@ func (receiver *NginxApacheDirectory) CombinedSitesEnabled(
 	return normalizeinternal.PathsCombine(
 		receiver.SitesEnabled,
 		combinedPaths)
+}
+
+func (receiver *NginxApacheDirectory) CombinedRoot(
+	combinedPaths ...string,
+) (
+	first string,
+	allCombinedPaths []string,
+) {
+	return normalizeinternal.PathsCombine(
+		receiver.Root,
+		combinedPaths)
+}
+
+func (receiver *NginxApacheDirectory) AllFilesInSitesAvailable() ([]string, *errorwrapper.Wrapper) {
+	files, err := recursiveinternal.GetPaths(
+		osconsts.PathSeparator,
+		receiver.SitesAvailable,
+		false)
+
+	return *files, err.GetAsErrorWrapperPtr()
+}
+
+func (receiver *NginxApacheDirectory) AllFilesInSitesEnabled() ([]string, *errorwrapper.Wrapper) {
+	files, err := recursiveinternal.GetPaths(
+		osconsts.PathSeparator,
+		receiver.SitesEnabled,
+		false)
+
+	return *files, err.GetAsErrorWrapperPtr()
+}
+
+func (receiver *NginxApacheDirectory) AllFilesInRoot() ([]string, *errorwrapper.Wrapper) {
+	files, err := recursiveinternal.GetPaths(
+		osconsts.PathSeparator,
+		receiver.Root,
+		true)
+
+	return *files, err.GetAsErrorWrapperPtr()
 }
 
 func (receiver *NginxApacheDirectory) IsAllExist() bool {

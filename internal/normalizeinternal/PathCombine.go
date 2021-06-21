@@ -4,7 +4,9 @@ import (
 	"gitlab.com/evatix-go/core/constants"
 )
 
-func PathsCombine(root string, combinedPaths []string) (first string, allCombinedPaths []string) {
+func PathsCombine(
+	root string, combinedPaths []string,
+) (first string, allCombinedPaths []string) {
 	length := len(combinedPaths)
 
 	results := make(
@@ -16,7 +18,7 @@ func PathsCombine(root string, combinedPaths []string) (first string, allCombine
 	}
 
 	for i, currentPath := range combinedPaths {
-		combinedPath := FixIf(
+		combinedPath := JoinFixIf(
 			true,
 			root,
 			currentPath)
