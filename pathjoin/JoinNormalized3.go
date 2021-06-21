@@ -6,7 +6,7 @@ import (
 	"gitlab.com/evatix-go/pathhelper/normalize"
 )
 
-// normalized applied auto
+// JoinNormalized3 normalized applied auto
 func JoinNormalized3(path1, path2, path3 string) string {
 	finalPath := path1 +
 		osconsts.PathSeparator +

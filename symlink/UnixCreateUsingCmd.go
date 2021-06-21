@@ -5,7 +5,6 @@ import (
 	"gitlab.com/evatix-go/errorwrapper/errcmd"
 	"gitlab.com/evatix-go/errorwrapper/errdata/errbool"
 	"gitlab.com/evatix-go/errorwrapper/errtype"
-	"gitlab.com/evatix-go/pathhelper/internal/argsinternal"
 
 	"gitlab.com/evatix-go/core/constants"
 )
@@ -18,7 +17,7 @@ func UnixCreateUsingCmd(sourcePath, destinationPath string) *errbool.Result {
 		return errbool.NewSimplePtr(false, errtype.NotSupportInWindows)
 	}
 
-	symLink := argsinternal.Join(
+	symLink := errcmd.ArgsJoin(
 		constants.SymbolicLinkCreationCommandName,
 		constants.SymbolicLinkCreationArgument,
 		sourcePath,

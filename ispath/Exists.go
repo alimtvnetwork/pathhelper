@@ -2,8 +2,8 @@ package ispath
 
 import "os"
 
-func Exists(path string) bool {
-	_, err := os.Stat(path)
+func Exists(location string) bool {
+	_, err := os.Stat(location)
 
-	return err == nil
+	return !os.IsNotExist(err)
 }
