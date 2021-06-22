@@ -5,6 +5,6 @@ import (
 	"gitlab.com/evatix-go/pathhelper/internal/fsinternal"
 )
 
-func CreateDirectoryAllUptoParent(location string) *errorwrapper.Wrapper {
+func AllUptoParent(location string) *errorwrapper.Wrapper {
 	return fsinternal.CreateDirectoryAllUptoParent(location)
 }

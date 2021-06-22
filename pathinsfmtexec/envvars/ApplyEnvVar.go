@@ -9,7 +9,9 @@ import (
 	"gitlab.com/evatix-go/pathhelper/pathinsfmt"
 )
 
-func ApplyEnvVar(environmentVariable *pathinsfmt.EnvironmentVariable) *errorwrapper.Wrapper {
+func ApplyEnvVar(
+	environmentVariable *pathinsfmt.EnvironmentVariable,
+) *errorwrapper.Wrapper {
 	if environmentVariable == nil {
 		return errnew.EmptyPtr
 	}

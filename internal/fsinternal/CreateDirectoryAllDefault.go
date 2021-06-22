@@ -12,6 +12,6 @@ import (
 func CreateDirectoryAllDefault(location string) *errorwrapper.Wrapper {
 	return errnew.Path(
 		errtype.CreationRequestFailed,
-		os.MkdirAll(location, consts.DefaultFileMode),
+		os.MkdirAll(location, consts.DefaultDirectoryFileMode),
 		location)
 }

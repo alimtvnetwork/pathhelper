@@ -5,7 +5,7 @@ type SymbolicLink struct {
 	Dst                string `json:"Dst"`
 	IsClearBefore      bool   `json:"IsClearBefore,omitempty"`
 	IsMkDirAll         bool   `json:"IsMkDirAll,omitempty"`
-	IsNormalizePath         bool   `json:"IsNormalizePath,omitempty"`
+	IsNormalizePath    bool   `json:"IsNormalizePath,omitempty"`
 	IsSkipOnSrcMissing bool   `json:"IsSkipOnSrcMissing,omitempty"`
 	IsSkipOnExist      bool   `json:"IsSkipOnExist,omitempty"`
 }

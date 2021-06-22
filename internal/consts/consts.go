@@ -30,5 +30,6 @@ const (
 	WGet                             = "wget"
 	RmRf                             = "rm -rf"
 	HyphenY                          = "-y"
-	DefaultFileMode = filemode.X644
+	DefaultFileMode                  = filemode.X644
+	DefaultDirectoryFileMode         = filemode.X666
 )
