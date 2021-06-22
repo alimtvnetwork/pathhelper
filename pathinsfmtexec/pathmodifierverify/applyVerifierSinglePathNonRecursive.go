@@ -6,7 +6,6 @@ import (
 	"gitlab.com/evatix-go/errorwrapper"
 	"gitlab.com/evatix-go/errorwrapper/errnew"
 	"gitlab.com/evatix-go/errorwrapper/errtype"
-	"gitlab.com/evatix-go/pathhelper/internal/fsinternal"
 	"gitlab.com/evatix-go/pathhelper/normalize"
 	"gitlab.com/evatix-go/pathhelper/pathinsfmt"
 	"gitlab.com/evatix-go/pathhelper/pathstatlinux"
@@ -14,30 +13,23 @@ import (
 
 // applyVerifierSinglePathNonRecursive
 func applyVerifierSinglePathNonRecursive(
+	isExistenceVerify bool,
+	isNormalize bool,
 	verifier *pathinsfmt.PathVerifier,
 	location string,
 ) *errorwrapper.Wrapper {
-	if verifier == nil || len(location) == 0 {
-		return errnew.EmptyPtr
-	}
-
-	workingPath := normalize.PathUsingSingleIf(
-		verifier.IsNormalize,
+	existenceErrorWp := existenceVerifyError(
+		isExistenceVerify,
+		verifier,
 		location)
 
-	isFileExist := fsinternal.IsPathExists(workingPath)
-	isFileMissing := !isFileExist
-
-	if verifier.IsSkipCheckingOnNonExist && isFileMissing {
-		return errnew.EmptyPtr
+	if existenceErrorWp.HasError() {
+		return existenceErrorWp.ErrorWrapper
 	}
 
-	if !verifier.IsSkipCheckingOnNonExist && isFileMissing {
-		return errnew.PathMessages(
-			errtype.PathNotFound,
-			workingPath,
-			"Use IsSkipCheckingOnNonExist to true skip the error.")
-	}
+	location = normalize.PathUsingSingleIf(
+		isNormalize,
+		location)
 
 	if verifier.HasRwxInstructions() {
 		for _, rwxInstruction := range *verifier.BaseRwxInstructions.RwxInstructions {
@@ -49,11 +41,13 @@ func applyVerifierSinglePathNonRecursive(
 				return errnew.PathMessages(
 					errtype.Unexpected,
 					location,
-					err.Error(),
-					"Chmod Mismatch, expecting: ",
-					rwxInstruction.RwxOwnerGroupOther.String())
+					err.Error())
 			}
 		}
+	}
+
+	if verifier.IsGroupNameUserNameBothEmpty() {
+		return errnew.EmptyPtr
 	}
 
 	pathStat := pathstatlinux.Get(location)
@@ -67,7 +61,7 @@ func applyVerifierSinglePathNonRecursive(
 	}
 
 	verifyUsername := pathStat.User.Name
-	if !verifier.IsUsername(verifyUsername) {
+	if verifier.HasUserName() && !verifier.IsUsername(verifyUsername) {
 		return errnew.PathMessages(
 			errtype.Unexpected,
 			location,
@@ -78,7 +72,7 @@ func applyVerifierSinglePathNonRecursive(
 	}
 
 	verifyGroupName := pathStat.Group.Name
-	if !verifier.IsGroupName(verifyGroupName) {
+	if verifier.HasGroupName() && !verifier.IsGroupName(verifyGroupName) {
 		return errnew.PathMessages(
 			errtype.Unexpected,
 			location,

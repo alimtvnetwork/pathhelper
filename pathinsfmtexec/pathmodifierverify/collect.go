@@ -11,6 +11,23 @@ func collectRecursiveCheckErrors(
 	verifier *pathinsfmt.PathVerifier,
 	location string,
 ) {
+	existenceVerifyErr := existenceVerifyError(
+		true,
+		verifier,
+		location)
+
+	if existenceVerifyErr.HasError() {
+		collection.AddWrapperPtr(existenceVerifyErr.ErrorWrapper)
+
+		return
+	}
+
+	isFileExist := existenceVerifyErr.Value
+
+	if !isFileExist {
+		return
+	}
+
 	recursivePaths, errCollection2 := recursiveinternal.GetPathsWithoutSeparator(
 		location,
 		false)
@@ -22,7 +39,11 @@ func collectRecursiveCheckErrors(
 	}
 
 	for _, recursiveLoc := range *recursivePaths {
-		errWp := applyVerifierSinglePathNonRecursive(verifier, recursiveLoc)
+		errWp := applyVerifierSinglePathNonRecursive(
+			true,
+			true,
+			verifier,
+			recursiveLoc)
 
 		collection.AddWrapperPtr(errWp)
 	}

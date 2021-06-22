@@ -6,7 +6,10 @@ import (
 	"gitlab.com/evatix-go/pathhelper/pathinsfmt"
 )
 
-func Apply(verifiers *pathinsfmt.PathVerifiers, locations []string) *errorwrapper.Wrapper {
+func ApplyUsingFlatPaths(
+	verifiers *pathinsfmt.PathVerifiers,
+	locations []string,
+) *errorwrapper.Wrapper {
 	if verifiers == nil || verifiers.IsEmpty() {
 		return errnew.EmptyPtr
 	}
