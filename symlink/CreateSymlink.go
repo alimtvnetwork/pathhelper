@@ -12,12 +12,13 @@ func Create(path, linkName string) *errorwrapper.Wrapper {
 	err := os.Symlink(path, linkName)
 
 	if err != nil {
-		return errnew.MessagesPtr(
+		return errnew.NewRef2(
 			errtype.SymbolicLink,
-			"Sym link creation failed",
+			err,
+			"Source Symbolic Link",
 			path,
-			linkName,
-			err.Error())
+			"Symbolic Link Place",
+			linkName)
 	}
 
 	return errnew.EmptyPtr

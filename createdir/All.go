@@ -1,4 +1,4 @@
-package fsinternal
+package createdir
 
 import (
 	"os"
@@ -6,12 +6,11 @@ import (
 	"gitlab.com/evatix-go/errorwrapper"
 	"gitlab.com/evatix-go/errorwrapper/errnew"
 	"gitlab.com/evatix-go/errorwrapper/errtype"
-	"gitlab.com/evatix-go/pathhelper/internal/consts"
 )
 
-func CreateDirectoryAllDefault(location string) *errorwrapper.Wrapper {
+func All(location string, mode os.FileMode) *errorwrapper.Wrapper {
 	return errnew.Path(
 		errtype.CreationRequestFailed,
-		os.MkdirAll(location, consts.DefaultFileMode),
+		os.MkdirAll(location, mode),
 		location)
 }

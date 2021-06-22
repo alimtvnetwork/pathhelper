@@ -93,7 +93,7 @@ func (nestedPathsResults *NestedPathsResults) Add(
 			return
 		}
 
-		if !isDir(currentPath) {
+		if fileInfo != nil && !fileInfo.IsDir() {
 			wg2.Done()
 
 			nestedPathsResults.Paths.AddLock(collection)

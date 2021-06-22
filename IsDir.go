@@ -1,10 +1,8 @@
-package fsinternal
+package pathhelper
 
-import (
-	"os"
-)
+import "os"
 
-func IsDirectory(location string) bool {
+func IsDir(location string) bool {
 	fileInfo, err := os.Stat(location)
 
 	if os.IsNotExist(err) {
