@@ -9,7 +9,7 @@ import (
 	"gitlab.com/evatix-go/pathhelper/knowndirget"
 )
 
-// returns /etc/apache/conf-available as a string
+// GetConfAvailable returns /etc/apache/conf-available as a string
 func GetConfAvailable() string {
 	if osconsts.IsWindows {
 		errtype.NotSupportInWindows.PanicNoRefs(constants.EmptyString)
