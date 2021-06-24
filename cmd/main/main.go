@@ -29,9 +29,9 @@ func main() {
 						},
 					},
 				},
-				IsSkipCheckingOnNonExist: false,
-				IsNormalize:              true,
-				IsRecursiveCheck:         true,
+				IsSkipCheckingOnInvalid: false,
+				IsNormalize:             true,
+				IsRecursiveCheck:        true,
 			},
 		},
 	}

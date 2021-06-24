@@ -39,7 +39,7 @@ func collectRecursiveCheckErrors(
 	}
 
 	for _, recursiveLoc := range *recursivePaths {
-		errWp := applyVerifierSinglePathNonRecursive(
+		errWp := applyVerifierSinglePathNonRecursiveUserGroupVerify(
 			true,
 			true,
 			verifier,

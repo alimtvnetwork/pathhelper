@@ -3,12 +3,16 @@ package pathmodifierverify
 import (
 	"gitlab.com/evatix-go/errorwrapper"
 	"gitlab.com/evatix-go/errorwrapper/errnew"
-	"gitlab.com/evatix-go/errorwrapper/errwrappers"
+	"gitlab.com/evatix-go/pathhelper/internal/recursiveinternal"
 	"gitlab.com/evatix-go/pathhelper/normalize"
 	"gitlab.com/evatix-go/pathhelper/pathinsfmt"
 )
 
 func ApplyVerifier(
+	isNormalize,
+	isRecursiveCheck,
+	isSkipCheckingOnInvalid,
+	isContinueOnError bool,
 	verifier *pathinsfmt.PathVerifier,
 	locations []string,
 ) *errorwrapper.Wrapper {
@@ -16,30 +20,33 @@ func ApplyVerifier(
 		return errnew.EmptyPtr
 	}
 
-	errCollection := errwrappers.Empty()
-	locationsNormalized :=
-		normalize.PathsUsingSingleIfAsync(
-			verifier.IsNormalize,
-			locations)
+	locationsNormalized := normalize.PathsUsingSingleIfAsync(
+		isNormalize,
+		locations)
 
-	for _, location := range locations {
-		workingPath := normalize.PathUsingSingleIf(
-			verifier.IsNormalize,
-			location)
+	locationsErrors := recursiveinternal.GetPathsOfPathsIf(
+		isRecursiveCheck,
+		locationsNormalized,
+		isContinueOnError)
 
-		if verifier.IsRecursiveCheck {
-			collectRecursiveCheckErrors(errCollection, verifier, workingPath)
-		} else {
-			// non recursive
-			errWp := applyVerifierSinglePathNonRecursive(
-				true,
-				false,
-				verifier,
-				workingPath)
-
-			errCollection.AddWrapperPtr(errWp)
-		}
+	if !isContinueOnError && locationsErrors.HasError() {
+		return locationsErrors.
+			ErrorWrappers.
+			GetAsErrorWrapperPtr()
 	}
 
-	return errCollection.GetAsErrorWrapperPtr()
+	existingPathsFileInfoMap := normalize.GetFilterPathsInfoMap(
+		false,
+		isSkipCheckingOnInvalid,
+		*locationsErrors.Values)
+
+	errWpFinal := applyVerifierInternal(
+		isContinueOnError,
+		verifier,
+		existingPathsFileInfoMap)
+
+	return locationsErrors.
+		ErrorWrappers.
+		AddWrapperPtr(errWpFinal).
+		GetAsErrorWrapperPtr()
 }

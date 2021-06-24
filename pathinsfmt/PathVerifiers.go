@@ -7,7 +7,10 @@ import (
 
 type PathVerifiers struct {
 	coreinstruction.BaseSpecPlusRequestIds
-	PathVerifiers []PathVerifier `json:"PathVerifiers,omitempty"`
+	PathVerifiers           []PathVerifier `json:"PathVerifiers,omitempty"`
+	IsSkipCheckingOnInvalid bool
+	IsNormalize             bool
+	IsRecursiveCheck        bool
 }
 
 func (v *PathVerifiers) Length() int {

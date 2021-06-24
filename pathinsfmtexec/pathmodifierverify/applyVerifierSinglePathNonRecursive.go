@@ -1,51 +1,19 @@
 package pathmodifierverify
 
 import (
-	"gitlab.com/evatix-go/core/chmodhelper"
 	"gitlab.com/evatix-go/core/msgtype"
 	"gitlab.com/evatix-go/errorwrapper"
 	"gitlab.com/evatix-go/errorwrapper/errnew"
 	"gitlab.com/evatix-go/errorwrapper/errtype"
-	"gitlab.com/evatix-go/pathhelper/normalize"
 	"gitlab.com/evatix-go/pathhelper/pathinsfmt"
 	"gitlab.com/evatix-go/pathhelper/pathstatlinux"
 )
 
-// applyVerifierSinglePathNonRecursive
-func applyVerifierSinglePathNonRecursive(
-	isExistenceVerify bool,
-	isNormalize bool,
+// applyVerifierSinglePathNonRecursiveUserGroupVerify
+func applyVerifierSinglePathNonRecursiveUserGroupVerify(
 	verifier *pathinsfmt.PathVerifier,
 	location string,
 ) *errorwrapper.Wrapper {
-	existenceErrorWp := existenceVerifyError(
-		isExistenceVerify,
-		verifier,
-		location)
-
-	if existenceErrorWp.HasError() {
-		return existenceErrorWp.ErrorWrapper
-	}
-
-	location = normalize.PathUsingSingleIf(
-		isNormalize,
-		location)
-
-	if verifier.HasRwxInstructions() {
-		for _, rwxInstruction := range *verifier.BaseRwxInstructions.RwxInstructions {
-			err := chmodhelper.IsChmod(
-				location,
-				rwxInstruction.RwxOwnerGroupOther)
-
-			if err != nil {
-				return errnew.PathMessages(
-					errtype.Unexpected,
-					location,
-					err.Error())
-			}
-		}
-	}
-
 	if verifier.IsGroupNameUserNameBothEmpty() {
 		return errnew.EmptyPtr
 	}
@@ -65,7 +33,7 @@ func applyVerifierSinglePathNonRecursive(
 		return errnew.PathMessages(
 			errtype.Unexpected,
 			location,
-			msgtype.Expecting(
+			msgtype.ExpectingSimpleNoType(
 				"Username expectation doesn't meet",
 				verifier.UserNameSimple(),
 				verifyUsername))
@@ -76,7 +44,7 @@ func applyVerifierSinglePathNonRecursive(
 		return errnew.PathMessages(
 			errtype.Unexpected,
 			location,
-			msgtype.Expecting(
+			msgtype.ExpectingSimpleNoType(
 				"Group expectation doesn't meet",
 				verifier.GroupName,
 				verifyGroupName))

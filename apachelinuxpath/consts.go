@@ -10,4 +10,6 @@ const (
 	ExtraConfName        = "conf.d"
 	ModulesAvailableName = "mods-available"
 	ModulesEnabledName   = "mods-enabled"
+	ApachePorts          = "ports.conf"
+	ApacheEnvVars        = " envvars"
 )

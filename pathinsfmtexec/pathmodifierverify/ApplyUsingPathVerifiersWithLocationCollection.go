@@ -7,6 +7,7 @@ import (
 )
 
 func ApplyUsingPathVerifiersWithLocationCollection(
+	isContinueOnError bool,
 	verifiersWithLocations *pathinsfmt.PathVerifiersWithLocationCollection,
 ) *errorwrapper.Wrapper {
 	if verifiersWithLocations == nil ||
@@ -15,6 +16,7 @@ func ApplyUsingPathVerifiersWithLocationCollection(
 	}
 
 	return ApplyUsingFlatPaths(
+		isContinueOnError,
 		verifiersWithLocations.PathVerifiers,
 		verifiersWithLocations.LocationCollection.LazyFlatPaths())
 }

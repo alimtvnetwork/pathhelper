@@ -24,6 +24,8 @@ type NginxApacheDirectory struct {
 	ExtraConfig      string `json:"ExtraConfig,omitempty"`
 	ModulesAvailable string `json:"ModulesAvailable,omitempty"`
 	ModulesEnabled   string `json:"ModulesEnabled,omitempty"`
+	ApachePorts      string `json:"ApachePorts,omitempty"`   // root + ports.conf
+	ApacheEnvVars    string `json:"ApacheEnvVars,omitempty"` // root + envvars
 }
 
 func (receiver *NginxApacheDirectory) IsRootExist() bool {

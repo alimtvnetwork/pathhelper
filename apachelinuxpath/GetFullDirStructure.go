@@ -16,5 +16,7 @@ func GetFullDirStructure(
 		ExtraConfig:      fixPathIf(isNormalize, currentRoot, ExtraConfName),
 		ModulesAvailable: fixPathIf(isNormalize, currentRoot, ModulesAvailableName),
 		ModulesEnabled:   fixPathIf(isNormalize, currentRoot, ModulesEnabledName),
+		ApachePorts:      fixPathIf(isNormalize, currentRoot, ApachePorts),
+		ApacheEnvVars:    fixPathIf(isNormalize, currentRoot, ApacheEnvVars),
 	}
 }

@@ -21,16 +21,16 @@ func existenceVerifyError(
 	isFileExist := fsinternal.IsPathExists(location)
 	isFileMissing := !isFileExist
 
-	if verifier.IsSkipCheckingOnNonExist && isFileMissing {
+	if verifier.IsSkipCheckingOnInvalid && isFileMissing {
 		return errbool.EmptyErrorResultPtr(
 			false)
 	}
 
-	if !verifier.IsSkipCheckingOnNonExist && isFileMissing {
+	if !verifier.IsSkipCheckingOnInvalid && isFileMissing {
 		errWp := errnew.PathMessages(
 			errtype.PathNotFound,
 			location,
-			"Use IsSkipCheckingOnNonExist to true skip the error.")
+			"Use IsSkipCheckingOnInvalid to true skip the error.")
 
 		return errbool.NewUsingWrapperPtr(
 			isFileExist,

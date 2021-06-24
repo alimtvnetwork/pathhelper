@@ -7,6 +7,7 @@ import (
 )
 
 func ApplyUsingPathVerifiersWithGenericPathsCollection(
+	isContinueOnError bool,
 	pathVerifiersWithGenericPathsCollection *pathinsfmt.PathVerifiersWithGenericPathsCollection,
 ) *errorwrapper.Wrapper {
 	if pathVerifiersWithGenericPathsCollection == nil ||
@@ -15,6 +16,7 @@ func ApplyUsingPathVerifiersWithGenericPathsCollection(
 	}
 
 	return ApplyUsingFlatPaths(
+		isContinueOnError,
 		pathVerifiersWithGenericPathsCollection.PathVerifiers,
 		pathVerifiersWithGenericPathsCollection.GenericPathsCollection.LazyFlatPaths())
 }

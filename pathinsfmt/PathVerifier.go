@@ -5,9 +5,6 @@ import "gitlab.com/evatix-go/core/chmodhelper/chmodins"
 type PathVerifier struct {
 	BaseUserNamePlusGroupName
 	chmodins.BaseRwxInstructions
-	IsSkipCheckingOnNonExist bool
-	IsNormalize              bool
-	IsRecursiveCheck         bool
 }
 
 func (p *PathVerifier) HasRwxInstructions() bool {

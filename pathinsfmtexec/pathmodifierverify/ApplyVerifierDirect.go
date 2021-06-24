@@ -6,8 +6,17 @@ import (
 )
 
 func ApplyVerifierDirect(
+	isNormalize,
+	isContinueOnError,
+	isSkipCheckingOnInvalid bool,
 	verifier *pathinsfmt.PathVerifier,
 	locations ...string,
 ) *errorwrapper.Wrapper {
-	return ApplyVerifier(verifier, locations)
+	return ApplyVerifier(
+		isNormalize,
+		isContinueOnError,
+		false,
+		isSkipCheckingOnInvalid,
+		verifier,
+		locations)
 }
