@@ -69,7 +69,7 @@ func (receiver *Joiner) Adds(addingPaths ...string) *Joiner {
 	return receiver
 }
 
-// isNormalizePlusLongPathFix if true then adds UNC path fix for Windows
+// ToString isNormalizePlusLongPathFix if true then adds UNC path fix for Windows
 func (receiver *Joiner) ToString(sep string, isNormalizePlusLongPathFix bool) string {
 	finalPath := strings.Join(receiver.items, sep)
 

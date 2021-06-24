@@ -22,13 +22,13 @@ func PathUsingSeparator(
 
 	firstStepNormalize := GetCompiledPath(
 		givenPath,
-		&normalizeMap)
+		normalizeMap)
 	result := removeAndFixDoubleSeparatorToFinalSeparator(
 		pathSeparator,
 		strings.TrimSpace(firstStepNormalize))
 
 	if isLongPathFix && osconsts.IsWindows {
-		result = GetLongPathFixedPtr(
+		result = GetLongPathFixedUsingSeparator(
 			pathSeparator,
 			result,
 			isForceLongPath)

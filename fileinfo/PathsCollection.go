@@ -8,13 +8,13 @@ import (
 	"gitlab.com/evatix-go/core/constants"
 	"gitlab.com/evatix-go/core/coredata/corejson"
 	"gitlab.com/evatix-go/core/coreindexes"
+	"gitlab.com/evatix-go/core/coreutils/stringutil"
 	"gitlab.com/evatix-go/core/defaulterr"
 	"gitlab.com/evatix-go/errorwrapper"
 	"gitlab.com/evatix-go/errorwrapper/errdata/errstr"
 	"gitlab.com/evatix-go/errorwrapper/errnew"
 	"gitlab.com/evatix-go/errorwrapper/errwrappers"
 
-	"gitlab.com/evatix-go/pathhelper/internal/isstrsinternal"
 	"gitlab.com/evatix-go/pathhelper/internal/recursiveinternal"
 )
 
@@ -299,7 +299,7 @@ func (pathsCollection *PathsCollection) IsContains(
 	path string,
 	isCaseSensitive bool,
 ) bool {
-	return isstrsinternal.ContainsPtrSimple(
+	return stringutil.IsContainsPtrSimple(
 		pathsCollection.AllRecursivePaths().Values,
 		path,
 		0,

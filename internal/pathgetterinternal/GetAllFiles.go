@@ -1,0 +1,56 @@
+package pathgetterinternal
+
+import (
+	"io/ioutil"
+
+	"gitlab.com/evatix-go/core/constants"
+	"gitlab.com/evatix-go/errorwrapper/errdata/errstr"
+	"gitlab.com/evatix-go/errorwrapper/errnew"
+	"gitlab.com/evatix-go/errorwrapper/errtype"
+	"gitlab.com/evatix-go/pathhelper/internal/normalizeinternal"
+)
+
+func GetAllFiles(isFixPaths bool, separator, rootPath string) *errstr.Results {
+	if rootPath == "" {
+		return &errstr.Results{
+			Values:       &[]string{},
+			ErrorWrapper: errnew.EmptyPtr,
+		}
+	}
+
+	fileInfos, err := ioutil.ReadDir(rootPath)
+
+	if err != nil {
+		return &errstr.Results{
+			Values: &[]string{},
+			ErrorWrapper: errnew.Path(
+				errtype.PathStatusCannotRead, err, rootPath),
+		}
+	}
+
+	slice := make(
+		[]string,
+		constants.Zero,
+		len(fileInfos))
+
+	for _, info := range fileInfos {
+		currentPath := rootPath +
+			separator +
+			info.Name()
+
+		currentPath = normalizeinternal.JoinPathsFixIf(
+			isFixPaths, currentPath)
+
+		if IsDirectory(currentPath) {
+			continue
+		}
+
+		slice = append(
+			slice, currentPath)
+	}
+
+	return &errstr.Results{
+		Values:       &slice,
+		ErrorWrapper: errnew.EmptyPtr,
+	}
+}

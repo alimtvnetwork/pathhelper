@@ -3,49 +3,30 @@ package pathchmod
 import (
 	"errors"
 	"os"
-	"os/user"
 	"path/filepath"
-	"strconv"
 
 	"gitlab.com/evatix-go/core/constants"
 	"gitlab.com/evatix-go/core/converters"
 	"gitlab.com/evatix-go/errorwrapper"
 	"gitlab.com/evatix-go/errorwrapper/errnew"
 	"gitlab.com/evatix-go/errorwrapper/errtype"
+	"gitlab.com/evatix-go/pathhelper/pathsysinfo"
 )
 
 func changeOwnershipWindowsRecursive(path, userName, groupName string) *errorwrapper.Wrapper {
-	userObj, errLookup := user.Lookup(userName)
-	if errLookup != nil {
-		return errnew.MessagesPtr(
-			errtype.SearchFailed,
-			errLookup.Error(),
-			" user name:",
-			userName)
+	userInfo := pathsysinfo.GetUserInfo(userName)
+
+	if userInfo.ErrorWrapper.HasError() {
+		return userInfo.ErrorWrapper
 	}
 
-	uid, errUidConvert := strconv.Atoi(userObj.Uid)
-	if errUidConvert != nil {
-		return errnew.NewPtr(errtype.ConversionValueToInteger, errUidConvert)
+	groupInfo := pathsysinfo.GetGroupInfo(groupName)
+
+	if groupInfo.ErrorWrapper.HasError() {
+		return groupInfo.ErrorWrapper
 	}
 
-	groupObj, errLookupGroup := user.LookupGroup(groupName)
-	if errLookupGroup != nil {
-		return errnew.MessagesPtr(
-			errtype.SearchFailed,
-			errLookupGroup.Error(),
-			" groupName:",
-			groupName)
-	}
-
-	gid, errGidConvert := strconv.Atoi(groupObj.Gid)
-	if errGidConvert != nil {
-		return errnew.MessagesPtr(
-			errtype.SearchFailed,
-			errGidConvert.Error(),
-			" groupObj.Gid:",
-			groupObj.Gid)
-	}
+	uid, gid := userInfo.Id, groupInfo.Id
 
 	// https://github.com/gutengo/fil/blob/6109b2e0b5cfdefdef3a254cc1a3eaa35bc89284/file.go#L27-L34
 	err := filepath.Walk(path, func(name string, info os.FileInfo, err error) error {
@@ -75,7 +56,7 @@ func changeOwnershipWindowsRecursive(path, userName, groupName string) *errorwra
 	})
 
 	if err != nil {
-		return errnew.NewPtr(errtype.FileOrDirectoryRelatedExecution, err)
+		return errnew.NewPtr(errtype.ChmodApplyFailed, err)
 	}
 
 	return errnew.EmptyPtr

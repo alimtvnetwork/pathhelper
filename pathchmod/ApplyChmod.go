@@ -1,0 +1,34 @@
+package pathchmod
+
+import (
+	"os"
+
+	"gitlab.com/evatix-go/core/chmodhelper"
+	"gitlab.com/evatix-go/errorwrapper"
+	"gitlab.com/evatix-go/errorwrapper/errtype"
+)
+
+func ApplyChmod(
+	isRecursive bool,
+	isSkipOnInvalid bool,
+	changeFileMode os.FileMode,
+	location string,
+) (*chmodhelper.RwxWrapper, *errorwrapper.Wrapper) {
+	changingChmodRwxWrapper := chmodhelper.NewUsingFileMode(changeFileMode)
+
+	if isRecursive {
+		err := changingChmodRwxWrapper.LinuxApplyRecursive(isSkipOnInvalid, location)
+
+		return &changingChmodRwxWrapper, errorwrapper.NewFilePtr(
+			errtype.ChmodApplyFailed,
+			err,
+			location)
+	}
+
+	err := changingChmodRwxWrapper.ApplyChmod(isSkipOnInvalid, location)
+
+	return &changingChmodRwxWrapper, errorwrapper.NewFilePtr(
+		errtype.ChmodApplyFailed,
+		err,
+		location)
+}

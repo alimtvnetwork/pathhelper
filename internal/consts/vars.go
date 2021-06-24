@@ -23,7 +23,5 @@ var (
 	}
 
 	SlugHashset = corestr.NewHashsetUsingStrings(
-		&SlugForbiddenArray,
-		0,
-		false)
+		&SlugForbiddenArray)
 )

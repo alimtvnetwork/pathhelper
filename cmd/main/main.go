@@ -1,99 +1,45 @@
 package main
 
 import (
-	"encoding/json"
 	"fmt"
-	"io/ioutil"
-	"strings"
+	"os"
 
-	"gitlab.com/evatix-go/core/coredata/corestr"
-	"gitlab.com/evatix-go/core/osconsts"
+	"gitlab.com/evatix-go/core/chmodhelper/chmodins"
+	"gitlab.com/evatix-go/core/coreinstruction"
 	"gitlab.com/evatix-go/pathhelper/pathinsfmt"
-
-	"gitlab.com/evatix-go/pathhelper"
-	"gitlab.com/evatix-go/pathhelper/dirinfo"
-	"gitlab.com/evatix-go/pathhelper/fileinfo"
-	"gitlab.com/evatix-go/pathhelper/pathfilter"
-	"gitlab.com/evatix-go/pathhelper/unipath"
-	"gitlab.com/evatix-go/pathhelper/unipaths"
+	"gitlab.com/evatix-go/pathhelper/pathinsfmtexec/pathmodifierverify"
 )
 
 func main() {
-	// eep := pathhelper.GetExecutableEnvironmentPathCollection()
-	// fmt.Println(eep)
-	//
-	// fmt.Println(pathhelper.GetWidowsDirectory())
-
-	// collection := recursiveinternal.GetPaths("D:\\github\\Evatix\\text-replace-automation\\SampleFiles", 500, true)
-	configPath := pathhelper.GetExecutableCombinePath("config.json")
-	fmt.Println("Running : " + configPath)
-	allBytes, err := ioutil.ReadFile(configPath)
-
-	if err != nil {
-		panic(err)
+	verifiers := pathinsfmt.PathVerifiers{
+		BaseSpecPlusRequestIds: coreinstruction.BaseSpecPlusRequestIds{},
+		PathVerifiers: []pathinsfmt.PathVerifier{
+			{
+				BaseUserNamePlusGroupName: *pathinsfmt.NewBaseUserNamePlusGroupName(
+					"", ""),
+				BaseRwxInstructions: chmodins.BaseRwxInstructions{
+					RwxInstructions: []chmodins.RwxInstruction{
+						{
+							RwxOwnerGroupOther: chmodins.RwxOwnerGroupOther{
+								Owner: "rw-",
+								Group: "rw-",
+								Other: "rw-",
+							},
+							Condition: chmodins.Condition{},
+						},
+					},
+				},
+			},
+		},
+		IsSkipCheckingOnInvalid: false,
+		IsNormalize:             false,
+		IsRecursiveCheck:        false,
 	}
 
-	var cliConfig pathinsfmt.CliConfig
-	json.Unmarshal(allBytes, &cliConfig)
-	first := (*cliConfig.CliRunner.FilesSelector)[0]
-	query := pathfilter.NewQuery(
-		first.Filters,
-		first.Extensions)
-
-	// exceptQuery := pathfilter.NewQuery(
-	// 	&first.SkipFilters,
-	// 	&first.Extensions)
-
-	pathTranspiler := corestr.NewHashmap(1)
-	pathTranspiler.
-		AddOrUpdate(
-			"workdir",
-			"D:\\github\\Evatix\\text-replace-automation")
-
-	collection := pathfilter.GetRecursive(
-		osconsts.PathSeparator,
+	fmt.Println(pathmodifierverify.ApplyVerifierDirect(
 		true,
-		pathTranspiler,
-		first.Path,
-		query)
-
-	// collection := pathfilter.GetRecursive(
-	// 	osconsts.PathSeparator,
-	// 	true,
-	// 	pathTranspiler,
-	// 	first.Path,
-	// 	query)
-	//
-	// collection := pathfilter.Get(
-	// 	osconsts.PathSeparator,
-	// 	true,
-	// 	pathTranspiler,
-	// 	first.Path,
-	// 	query)
-
-	collection.ErrorWrappers.HandleError()
-
-	fmt.Println(strings.Join(*collection.Values, "\n\t"))
-
-	fmt.Println(dirinfo.New("c:\\windows\\py.exe").IsValidDir)
-
-	fmt.Println()
-	fmt.Println(
-		unipaths.
-			New("\\").
-			AddPaths("c://windows", "d:\\maindrive\\something/g.go", "hjello/eee").
-			StringsPtr())
-
-	wrappers := unipath.
-		New("\\").
-		Add("D:\\github\\Evatix\\text-replace-automation\\SampleFiles").
-		GetFileInfoWrappers()
-
-	json2 := wrappers.Json()
-	emptyWrappers := fileinfo.EmptyWrappers()
-
-	fmt.Println(json2.JsonString())
-	emptyWrappers.ParseInjectUsingJson(json2)
-
-	fmt.Println(emptyWrappers.PathsCollection().Json().JsonString())
+		true,
+		true,
+		&verifiers.PathVerifiers[0],
+		os.TempDir()))
 }

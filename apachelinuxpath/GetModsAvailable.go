@@ -7,7 +7,7 @@ import (
 	"gitlab.com/evatix-go/pathhelper/knowndirget"
 )
 
-// returns /etc/apache/mods-available as a string
+// GetModsAvailable returns /etc/apache/mods-available as a string
 func GetModsAvailable() string {
 	if osconsts.IsWindows {
 		panic("Path only available for Unix OS")

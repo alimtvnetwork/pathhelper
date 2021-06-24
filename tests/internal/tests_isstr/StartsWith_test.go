@@ -5,8 +5,7 @@ import (
 
 	. "github.com/smartystreets/goconvey/convey"
 	"gitlab.com/evatix-go/core/coretests"
-
-	"gitlab.com/evatix-go/pathhelper/internal/isstr"
+	"gitlab.com/evatix-go/core/coreutils/stringutil"
 )
 
 func TestIsStartsWith(t *testing.T) {
@@ -16,7 +15,7 @@ func TestIsStartsWith(t *testing.T) {
 		testHeader := coretests.GetTestHeader(testCaseMessenger)
 
 		// Act
-		actual := isstr.StartsWith(
+		actual := stringutil.IsStartsWith(
 			testCase.baseDir,
 			testCase.search,
 			testCase.isIgnoreCase)
