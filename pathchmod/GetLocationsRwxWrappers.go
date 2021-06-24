@@ -1,0 +1,28 @@
+package pathchmod
+
+import (
+	"gitlab.com/evatix-go/core/chmodhelper"
+	"gitlab.com/evatix-go/errorwrapper"
+	"gitlab.com/evatix-go/errorwrapper/errnew"
+	"gitlab.com/evatix-go/errorwrapper/errtype"
+)
+
+func GetLocationsRwxWrappers(
+	isContinueOnError bool,
+	locations []string,
+) (
+	filePathToRwxWrapper *map[string]*chmodhelper.RwxWrapper,
+	errWp *errorwrapper.Wrapper,
+) {
+	resultMap, err := chmodhelper.GetExistingChmodRwxWrappers(
+		isContinueOnError, locations...)
+
+	if err != nil {
+		return resultMap, errorwrapper.NewRef1(
+			errtype.ExistingChmodReadFailed,
+			"Ref",
+			err.Error())
+	}
+
+	return resultMap, errnew.EmptyPtr
+}

@@ -4,6 +4,6 @@ go 1.15
 
 require (
 	github.com/smartystreets/goconvey v1.6.4
-	gitlab.com/evatix-go/core v0.4.3
-	gitlab.com/evatix-go/errorwrapper v0.5.1
+	gitlab.com/evatix-go/core v0.6.2
+	gitlab.com/evatix-go/errorwrapper v0.6.4
 )

@@ -6,8 +6,6 @@ import (
 	"sync"
 
 	"gitlab.com/evatix-go/core"
-	"gitlab.com/evatix-go/core/msgtype"
-	"gitlab.com/evatix-go/errorwrapper/errnew"
 	"gitlab.com/evatix-go/errorwrapper/errtype"
 	"gitlab.com/evatix-go/errorwrapper/errwrappers"
 
@@ -25,6 +23,11 @@ func GetPaths(
 
 	fileInfos, err := ioutil.ReadDir(rootPath)
 
+	if err != nil {
+		return &[]string{}, errwrappers.NewCap1().AddPathIssue(
+			errtype.FileInfo, err, rootPath)
+	}
+
 	return getPaths(
 		separator,
 		rootPath,
@@ -41,10 +44,13 @@ func getPaths(
 	isContinueOnError bool,
 ) (*[]string, *errwrappers.Collection) {
 	if err != nil && !isContinueOnError {
-		errnew.ErrPtr(err).HandleErrorWithRefs(
-			msgtype.PathErrorMessage.String(),
-			"rootPath",
-			rootPath)
+		return &[]string{},
+			errwrappers.NewCap1().
+				AddPathIssue(
+					errtype.FileInfo,
+					err,
+					rootPath)
+
 	} else if err != nil {
 		return core.EmptyStringsPtr(),
 			errwrappers.
@@ -83,6 +89,7 @@ func getPaths(
 			continue
 		}
 
+		//goland:noinspection GoNilness
 		currentPath := rootPath +
 			separator +
 			fileInfo.Name()
@@ -91,6 +98,7 @@ func getPaths(
 			Paths.
 			AddStrings(currentPath)
 
+		//goland:noinspection GoNilness
 		if fileInfo.IsDir() {
 			fileInfos, err2 := ioutil.
 				ReadDir(currentPath)

@@ -11,7 +11,7 @@ func PathUsingSeparatorIf(
 		(isLongPathFix || isForceLongPath)
 
 	if isApplyLongPathFix {
-		return GetLongPathFixedPtr(
+		return GetLongPathFixedUsingSeparator(
 			pathSeparator,
 			givenPath,
 			isForceLongPath)
