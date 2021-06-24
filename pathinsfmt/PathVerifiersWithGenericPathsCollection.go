@@ -8,7 +8,7 @@ type PathVerifiersWithGenericPathsCollection struct {
 	PathVerifiers *PathVerifiers `json:"PathVerifiers,omitempty"`
 }
 
-func (p *PathVerifiersWithGenericPathsCollection) IsEitherEmpty()bool  {
+func (p *PathVerifiersWithGenericPathsCollection) IsEitherEmpty() bool {
 	return p == nil ||
 		p.PathVerifiers == nil ||
 		p.BaseGenericPathsCollection.GenericPathsCollection == nil ||
