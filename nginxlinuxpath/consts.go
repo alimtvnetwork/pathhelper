@@ -2,7 +2,7 @@ package nginxlinuxpath
 
 const (
 	DefaultRoot          = "/etc/nginx"
-	NginxRootConfigName  = "nginx.conf"
+	RootConfigName       = "nginx.conf"
 	ConfigAvailableName  = "config-available"
 	ConfigEnabledName    = "config-enabled"
 	SitesAvailableName   = "sites-available"

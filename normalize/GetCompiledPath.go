@@ -8,17 +8,17 @@ import (
 
 func GetCompiledPath(
 	pathTemplate string,
-	compilingMap *map[string]string,
+	compilingMap map[string]string,
 ) string {
 	if isEmpty(pathTemplate) {
 		return pathTemplate
 	}
 
-	if compilingMap == nil || len(*compilingMap) == 0 {
+	if compilingMap == nil || len(compilingMap) == 0 {
 		return pathTemplate
 	}
 
-	for key, value := range *compilingMap {
+	for key, value := range compilingMap {
 		pathTemplate = strings.Replace(
 			pathTemplate,
 			key,

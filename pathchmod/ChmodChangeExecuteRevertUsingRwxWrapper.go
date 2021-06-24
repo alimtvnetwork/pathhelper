@@ -7,14 +7,14 @@ import (
 
 func ChmodChangeExecuteRevertUsingRwxWrapper(
 	isRecursive,
-	isSkipOnNonExist bool,
+	isSkipOnInvalid bool,
 	changeFileModeRwxWrapper *chmodhelper.RwxWrapper,
 	location string,
 	executor func(location string) *errorwrapper.Wrapper,
 ) *errorwrapper.Wrapper {
 	return ChmodChangeExecuteRevert(
 		isRecursive,
-		isSkipOnNonExist,
+		isSkipOnInvalid,
 		changeFileModeRwxWrapper.ToFileMode(),
 		location,
 		executor)

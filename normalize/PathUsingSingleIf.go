@@ -1,6 +1,8 @@
 package normalize
 
-import "gitlab.com/evatix-go/core/osconsts"
+import (
+	"gitlab.com/evatix-go/core/osconsts"
+)
 
 func PathUsingSingleIf(
 	isNormalizeLongPathForce bool,

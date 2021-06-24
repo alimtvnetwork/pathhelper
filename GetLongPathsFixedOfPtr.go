@@ -18,7 +18,7 @@ func GetLongPathsFixedOfPtr(
 			index int,
 			currentPath string,
 		) (result string) {
-			return normalize.GetLongPathFixedPtr(
+			return normalize.GetLongPathFixedUsingSeparator(
 				pathSeparator,
 				currentPath,
 				isForce)

@@ -19,7 +19,7 @@ func ApplyChmodOnFilesUsingCondition(
 
 	return ApplyChmodOnFiles(
 		condition.IsRecursive,
-		condition.IsSkipOnNonExist,
+		condition.IsSkipOnInvalid,
 		condition.IsContinueOnError,
 		changeFileMode,
 		locations...)

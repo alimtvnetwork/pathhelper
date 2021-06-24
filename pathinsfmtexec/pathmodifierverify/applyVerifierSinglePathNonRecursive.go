@@ -33,9 +33,9 @@ func applyVerifierSinglePathNonRecursive(
 
 	if verifier.HasRwxInstructions() {
 		for _, rwxInstruction := range *verifier.BaseRwxInstructions.RwxInstructions {
-			err := chmodhelper.VerifyChmodUsingRwxOwnerGroupOther(
+			err := chmodhelper.IsChmod(
 				location,
-				&rwxInstruction.RwxOwnerGroupOther)
+				rwxInstruction.RwxOwnerGroupOther)
 
 			if err != nil {
 				return errnew.PathMessages(

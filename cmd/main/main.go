@@ -17,26 +17,26 @@ func main() {
 			{
 				BaseUserNamePlusGroupName: *pathinsfmt.NewBaseUserNamePlusGroupName(
 					"", ""),
-				BaseRwxInstructions:       chmodins.BaseRwxInstructions{
+				BaseRwxInstructions: chmodins.BaseRwxInstructions{
 					RwxInstructions: &[]*chmodins.RwxInstruction{
 						{
 							RwxOwnerGroupOther: chmodins.RwxOwnerGroupOther{
-								Owner: "rwx",
-								Group: "rwx",
-								Other: "rwx",
+								Owner: "rw-",
+								Group: "rw-",
+								Other: "rw-",
 							},
-							Condition:          chmodins.Condition{},
+							Condition: chmodins.Condition{},
 						},
 					},
 				},
-				IsSkipCheckingOnNonExist:  false,
-				IsNormalize:               true,
-				IsRecursiveCheck:          true,
+				IsSkipCheckingOnNonExist: false,
+				IsNormalize:              true,
+				IsRecursiveCheck:         true,
 			},
 		},
 	}
 
 	fmt.Println(pathmodifierverify.ApplyVerifierDirect(
 		&verifiers.PathVerifiers[0],
-		os.TempDir() ))
+		os.TempDir()))
 }

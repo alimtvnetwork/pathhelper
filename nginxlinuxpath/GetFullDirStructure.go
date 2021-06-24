@@ -8,7 +8,7 @@ func GetFullDirStructure(
 ) *knowndirstructure.NginxApacheDirectory {
 	return &knowndirstructure.NginxApacheDirectory{
 		Root:             fixPathIf(isNormalize, currentNginxRoot, ""),
-		RootConfigFile:   fixPathIf(isNormalize, currentNginxRoot, NginxRootConfigName),
+		RootConfigFile:   fixPathIf(isNormalize, currentNginxRoot, RootConfigName),
 		ConfigAvailable:  fixPathIf(isNormalize, currentNginxRoot, ConfigAvailableName),
 		ConfigEnabled:    fixPathIf(isNormalize, currentNginxRoot, ConfigEnabledName),
 		SitesAvailable:   fixPathIf(isNormalize, currentNginxRoot, SitesAvailableName),

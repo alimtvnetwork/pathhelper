@@ -9,7 +9,7 @@ import (
 
 func ChmodChangeExecuteRevert(
 	isRecursive,
-	isSkipOnNonExist bool,
+	isSkipOnInvalid bool,
 	changeFileMode os.FileMode,
 	location string,
 	executor func(location string) *errorwrapper.Wrapper,
@@ -22,7 +22,7 @@ func ChmodChangeExecuteRevert(
 
 	_, rwxErrorWrapper := ApplyChmod(
 		isRecursive,
-		isSkipOnNonExist,
+		isSkipOnInvalid,
 		changeFileMode,
 		location)
 
@@ -37,7 +37,7 @@ func ChmodChangeExecuteRevert(
 	}
 
 	err := existingChmod.ApplyChmod(
-		isSkipOnNonExist,
+		isSkipOnInvalid,
 		location)
 
 	return errorwrapper.NewFilePtr(

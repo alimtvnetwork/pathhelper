@@ -13,7 +13,7 @@ import (
 
 func ApplyChmodOnFiles(
 	isRecursive,
-	isSkipOnNonExist,
+	isSkipOnInvalid,
 	isContinueOnError bool,
 	changeFileMode os.FileMode,
 	locations ...string,
@@ -27,7 +27,7 @@ func ApplyChmodOnFiles(
 	rwxInstruction := &chmodins.RwxInstruction{
 		RwxOwnerGroupOther: *rwxOwnerGroupOther,
 		Condition: chmodins.Condition{
-			IsSkipOnNonExist:  isSkipOnNonExist,
+			IsSkipOnInvalid:   isSkipOnInvalid,
 			IsContinueOnError: isContinueOnError,
 			IsRecursive:       isRecursive,
 		},

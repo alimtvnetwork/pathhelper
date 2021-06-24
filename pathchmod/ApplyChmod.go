@@ -10,14 +10,14 @@ import (
 
 func ApplyChmod(
 	isRecursive bool,
-	isSkipOnNonExist bool,
+	isSkipOnInvalid bool,
 	changeFileMode os.FileMode,
 	location string,
 ) (*chmodhelper.RwxWrapper, *errorwrapper.Wrapper) {
 	changingChmodRwxWrapper := chmodhelper.NewUsingFileMode(changeFileMode)
 
 	if isRecursive {
-		err := changingChmodRwxWrapper.LinuxApplyRecursive(isSkipOnNonExist, location)
+		err := changingChmodRwxWrapper.LinuxApplyRecursive(isSkipOnInvalid, location)
 
 		return &changingChmodRwxWrapper, errorwrapper.NewFilePtr(
 			errtype.ChmodApplyFailed,
@@ -25,7 +25,7 @@ func ApplyChmod(
 			location)
 	}
 
-	err := changingChmodRwxWrapper.ApplyChmod(isSkipOnNonExist, location)
+	err := changingChmodRwxWrapper.ApplyChmod(isSkipOnInvalid, location)
 
 	return &changingChmodRwxWrapper, errorwrapper.NewFilePtr(
 		errtype.ChmodApplyFailed,

@@ -17,6 +17,10 @@ func ApplyVerifier(
 	}
 
 	errCollection := errwrappers.Empty()
+	locationsNormalized :=
+		normalize.PathsUsingSingleIfAsync(
+			verifier.IsNormalize,
+			locations)
 
 	for _, location := range locations {
 		workingPath := normalize.PathUsingSingleIf(
