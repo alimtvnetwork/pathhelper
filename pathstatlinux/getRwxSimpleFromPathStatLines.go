@@ -22,7 +22,7 @@ func getRwxSimpleFromPathStatLines(splits []string, filePath string) *RwxSimple 
 			HyphenedRwxValue: leftRight.Right,
 			RwxWrapper:       &rwxWrapper,
 			ErrorWrapper:     errorwrapper.StaticEmptyPtr,
-			IsValid:          true,
+			IsRwxValid:       true,
 		}
 	}
 
@@ -33,6 +33,6 @@ func getRwxSimpleFromPathStatLines(splits []string, filePath string) *RwxSimple 
 			errtype.ChmodInvalid,
 			err,
 			filePath),
-		IsValid: false,
+		IsRwxValid: false,
 	}
 }

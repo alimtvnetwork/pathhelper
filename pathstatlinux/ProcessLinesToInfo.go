@@ -33,7 +33,7 @@ func ProcessLinesToInfo(
 	rwxSimple := getRwxSimpleFromPathStatLines(splits, filePath)
 	user := getUserFromPathStatLines(splits)
 	group := getGroupFromPathStatLines(splits)
-	isValid := rwxSimple.IsValid &&
+	isValid := rwxSimple.IsRwxValid &&
 		user.HasValidId &&
 		group.HasValidId
 

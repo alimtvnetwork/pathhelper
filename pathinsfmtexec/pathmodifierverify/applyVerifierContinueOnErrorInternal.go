@@ -12,8 +12,7 @@ import (
 	"gitlab.com/evatix-go/pathhelper/pathinsfmt"
 )
 
-func applyVerifierInternal(
-	isContinueOnError bool,
+func applyVerifierContinueOnErrorInternal(
 	verifier *pathinsfmt.PathVerifier,
 	errCollection *errwrappers.Collection,
 	filteredPathFileInfoMap *chmodhelper.FilteredPathFileInfoMap,
@@ -22,20 +21,11 @@ func applyVerifierInternal(
 		return true
 	}
 
-	if isContinueOnError {
-		return applyVerifierContinueOnErrorInternal(
-			verifier,
-			errCollection,
-			filteredPathFileInfoMap)
-	}
-
 	existingErrorCount := errCollection.Length()
 	if filteredPathFileInfoMap.Error != nil {
 		errCollection.AddTypeError(
 			errtype.PathMissingOrInvalid,
 			filteredPathFileInfoMap.Error)
-
-		return false
 	}
 
 	validFileLocations := mics.GetLocationsUsingFilteredPathFileInfoMap(
@@ -48,22 +38,19 @@ func applyVerifierInternal(
 
 		if err != nil {
 			errCollection.AddTypeError(
-				errtype.ParsingFailed, err)
-
-			return false
+				errtype.ParsingFailed,
+				err)
 		}
 
 		errRwxInstructions := executors.VerifyRwxModifiers(
-			isContinueOnError,
 			true,
+			true, // ignore recursive error
 			validFileLocations)
 
 		if errRwxInstructions != nil {
 			errCollection.AddTypeError(
 				errtype.RwxMismatch,
 				errRwxInstructions)
-
-			return false
 		}
 	}
 
@@ -72,25 +59,22 @@ func applyVerifierInternal(
 		verifier.BaseUserNamePlusGroupName.HasUserNameOrGroup()
 
 	if hasAnyUserGroupValidation && osconsts.IsWindows {
-		errCollection.AddUsingMessages(
+		errCollection.AddUsingMsg(
 			errtype.NotSupportInWindows,
-			errtype.ChownUserOrGroupApplyIssue.String(),
-			"Cannot verify valid locations:",
-			strings.Join(validFileLocations, constants.CommaSpace))
+			errtype.ChownUserOrGroupApplyIssue.VariantStructure().String()+
+				" Cannot verify valid locations:"+
+				strings.Join(validFileLocations, constants.CommaSpace))
 
 		return false
 	}
 
-	// immediately exit on error, user+groups verify.
+	// continue on error, user+groups
 	for _, location := range validFileLocations {
-		isSuccess = applyVerifierSinglePathNonRecursiveUserGroupVerify(
+		applyVerifierSinglePathNonRecursiveUserGroupVerify(
 			verifier,
 			errCollection,
-			location)
-
-		if !isSuccess {
-			return false
-		}
+			location,
+		)
 	}
 
 	isSuccess = existingErrorCount ==

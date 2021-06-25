@@ -6,6 +6,7 @@ import (
 
 	"gitlab.com/evatix-go/core/chmodhelper/chmodins"
 	"gitlab.com/evatix-go/core/coreinstruction"
+	"gitlab.com/evatix-go/errorwrapper/errwrappers"
 	"gitlab.com/evatix-go/pathhelper/pathinsfmt"
 	"gitlab.com/evatix-go/pathhelper/pathinsfmtexec/pathmodifierverify"
 )
@@ -16,12 +17,12 @@ func main() {
 		PathVerifiers: []pathinsfmt.PathVerifier{
 			{
 				BaseUserNamePlusGroupName: *pathinsfmt.NewBaseUserNamePlusGroupName(
-					"", ""),
+					"alim", ""),
 				BaseRwxInstructions: chmodins.BaseRwxInstructions{
 					RwxInstructions: []chmodins.RwxInstruction{
 						{
 							RwxOwnerGroupOther: chmodins.RwxOwnerGroupOther{
-								Owner: "rw-",
+								Owner: "rwx",
 								Group: "rw-",
 								Other: "rw-",
 							},
@@ -36,10 +37,19 @@ func main() {
 		IsRecursiveCheck:        false,
 	}
 
-	fmt.Println(pathmodifierverify.ApplyVerifierDirect(
+	locations := []string{
+		os.TempDir(),
+	}
+
+	errorCollection := errwrappers.Empty()
+	isSuccess := pathmodifierverify.ApplyVerifier(
+		true,
 		true,
 		true,
 		true,
 		&verifiers.PathVerifiers[0],
-		os.TempDir()))
+		errorCollection,
+		locations)
+
+	fmt.Println(isSuccess, errorCollection)
 }

@@ -15,7 +15,7 @@ func PathsUsingSingleIfAsync(
 		return []string{}
 	}
 
-	if !isNormalizeLongPathForce {
+	if !isNormalizeLongPathForce || !osconsts.IsWindows {
 		return locations
 	}
 

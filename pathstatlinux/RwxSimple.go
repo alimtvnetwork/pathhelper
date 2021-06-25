@@ -12,7 +12,7 @@ type RwxSimple struct {
 	HyphenedRwxValue string
 	RwxWrapper       *chmodhelper.RwxWrapper
 	ErrorWrapper     *errorwrapper.Wrapper
-	IsValid          bool
+	IsRwxValid       bool
 }
 
 func InvalidRwxSimple() *RwxSimple {
@@ -20,7 +20,7 @@ func InvalidRwxSimple() *RwxSimple {
 		HyphenedRwxValue: constants.EmptyString,
 		RwxWrapper:       nil,
 		ErrorWrapper:     errnew.NewType(errtype.ChmodInvalid),
-		IsValid:          false,
+		IsRwxValid:       false,
 	}
 }
 
