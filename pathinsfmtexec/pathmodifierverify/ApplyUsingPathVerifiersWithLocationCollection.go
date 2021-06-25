@@ -1,22 +1,23 @@
 package pathmodifierverify
 
 import (
-	"gitlab.com/evatix-go/errorwrapper"
-	"gitlab.com/evatix-go/errorwrapper/errnew"
+	"gitlab.com/evatix-go/errorwrapper/errwrappers"
 	"gitlab.com/evatix-go/pathhelper/pathinsfmt"
 )
 
 func ApplyUsingPathVerifiersWithLocationCollection(
 	isContinueOnError bool,
 	verifiersWithLocations *pathinsfmt.PathVerifiersWithLocationCollection,
-) *errorwrapper.Wrapper {
+	errCollection *errwrappers.Collection,
+) (isSuccess bool) {
 	if verifiersWithLocations == nil ||
 		verifiersWithLocations.IsEitherEmpty() {
-		return errnew.EmptyPtr
+		return true
 	}
 
 	return ApplyUsingFlatPaths(
 		isContinueOnError,
 		verifiersWithLocations.PathVerifiers,
+		errCollection,
 		verifiersWithLocations.LocationCollection.LazyFlatPaths())
 }

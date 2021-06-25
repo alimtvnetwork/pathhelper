@@ -1,7 +1,6 @@
 package pathinsfmt
 
 import (
-	"gitlab.com/evatix-go/core/constants"
 	"gitlab.com/evatix-go/core/coreutils/stringutil"
 )
 
@@ -21,24 +20,24 @@ func NewBaseUserNamePlusGroupName(
 	}
 }
 
-func (b *BaseUserNamePlusGroupName) HasUserName() bool {
-	return b != nil && !stringutil.IsNullOrEmptyPtr(b.UserName)
+func (it *BaseUserNamePlusGroupName) HasUserNameOrGroup() bool {
+	return it.HasUserName() || it.HasGroupName()
 }
 
-func (b *BaseUserNamePlusGroupName) IsUserNameEmpty() bool {
-	return b != nil || stringutil.IsNullOrEmptyPtr(b.UserName)
+func (it *BaseUserNamePlusGroupName) HasUserName() bool {
+	return it != nil && !stringutil.IsNullOrEmptyPtr(it.UserName)
 }
 
-func (b *BaseUserNamePlusGroupName) IsGroupNameEmpty() bool {
-	return b != nil || stringutil.IsEmptyOrWhitespace(b.GroupName)
+func (it *BaseUserNamePlusGroupName) IsUserNameEmpty() bool {
+	return it == nil || stringutil.IsNullOrEmptyPtr(it.UserName)
 }
 
-func (b *BaseUserNamePlusGroupName) UserNameSimple() string {
-	return *b.UserName
+func (it *BaseUserNamePlusGroupName) UserNameSimple() string {
+	return *it.UserName
 }
 
-func (b *BaseUserNamePlusGroupName) IsUsername(checkingUserName string) bool {
-	isUsernameExist := b.HasUserName()
+func (it *BaseUserNamePlusGroupName) IsUsername(checkingUserName string) bool {
+	isUsernameExist := it.HasUserName()
 
 	if !isUsernameExist && checkingUserName == "" {
 		return true
@@ -48,17 +47,29 @@ func (b *BaseUserNamePlusGroupName) IsUsername(checkingUserName string) bool {
 		return false
 	}
 
-	return checkingUserName == *b.UserName
+	return checkingUserName == *it.UserName
 }
 
-func (b *BaseUserNamePlusGroupName) IsGroupName(checkingGroupName string) bool {
-	return checkingGroupName == b.GroupName
+func (it *BaseUserNamePlusGroupName) IsGroupNameUserNameBothEmpty() bool {
+	return it == nil || it.IsUserNameEmpty() && it.IsGroupNameEmpty()
 }
 
-func (b *BaseUserNamePlusGroupName) HasGroupName() bool {
-	return b != nil && b.GroupName != constants.EmptyString
-}
+func (it *BaseUserNamePlusGroupName) Clone() *BaseUserNamePlusGroupName {
+	if it == nil {
+		return nil
+	}
 
-func (b *BaseUserNamePlusGroupName) IsGroupNameUserNameBothEmpty() bool {
-	return b == nil || b.IsUserNameEmpty() && b.IsGroupNameEmpty()
+	var userName *string
+
+	if it.UserName != nil {
+		userName2 := *it.UserName
+		userName = &userName2
+	}
+
+	return &BaseUserNamePlusGroupName{
+		BaseGroupName: BaseGroupName{
+			GroupName: it.GroupName,
+		},
+		UserName: userName,
+	}
 }

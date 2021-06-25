@@ -2,9 +2,8 @@ package pathmodifierverify
 
 import (
 	"gitlab.com/evatix-go/core/msgtype"
-	"gitlab.com/evatix-go/errorwrapper"
-	"gitlab.com/evatix-go/errorwrapper/errnew"
 	"gitlab.com/evatix-go/errorwrapper/errtype"
+	"gitlab.com/evatix-go/errorwrapper/errwrappers"
 	"gitlab.com/evatix-go/pathhelper/pathinsfmt"
 	"gitlab.com/evatix-go/pathhelper/pathstatlinux"
 )
@@ -12,25 +11,27 @@ import (
 // applyVerifierSinglePathNonRecursiveUserGroupVerify
 func applyVerifierSinglePathNonRecursiveUserGroupVerify(
 	verifier *pathinsfmt.PathVerifier,
+	errCollection *errwrappers.Collection,
 	location string,
-) *errorwrapper.Wrapper {
+) (isSuccess bool) {
 	if verifier.IsGroupNameUserNameBothEmpty() {
-		return errnew.EmptyPtr
+		return true
 	}
 
+	errCount := errCollection.Length()
 	pathStat := pathstatlinux.Get(location)
 
-	if pathStat == nil || !pathStat.IsValid {
+	if pathStat == nil || !pathStat.IsValidParsing {
 		//goland:noinspection GoNilness
-		return errnew.PathMessages(
-			errtype.PathStatFailed,
-			location,
-			pathStat.ErrorWrapper.FullString())
+		errCollection.AddWrapperPtr(
+			pathStat.ErrorWrapper)
+
+		return false
 	}
 
 	verifyUsername := pathStat.User.Name
 	if verifier.HasUserName() && !verifier.IsUsername(verifyUsername) {
-		return errnew.PathMessages(
+		errCollection.AddPathIssueMessages(
 			errtype.Unexpected,
 			location,
 			msgtype.ExpectingSimpleNoType(
@@ -41,7 +42,7 @@ func applyVerifierSinglePathNonRecursiveUserGroupVerify(
 
 	verifyGroupName := pathStat.Group.Name
 	if verifier.HasGroupName() && !verifier.IsGroupName(verifyGroupName) {
-		return errnew.PathMessages(
+		errCollection.AddPathIssueMessages(
 			errtype.Unexpected,
 			location,
 			msgtype.ExpectingSimpleNoType(
@@ -50,5 +51,5 @@ func applyVerifierSinglePathNonRecursiveUserGroupVerify(
 				verifyGroupName))
 	}
 
-	return errnew.EmptyPtr
+	return errCount == errCollection.Length()
 }

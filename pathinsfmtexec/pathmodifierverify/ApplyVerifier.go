@@ -1,8 +1,7 @@
 package pathmodifierverify
 
 import (
-	"gitlab.com/evatix-go/errorwrapper"
-	"gitlab.com/evatix-go/errorwrapper/errnew"
+	"gitlab.com/evatix-go/errorwrapper/errwrappers"
 	"gitlab.com/evatix-go/pathhelper/internal/recursiveinternal"
 	"gitlab.com/evatix-go/pathhelper/normalize"
 	"gitlab.com/evatix-go/pathhelper/pathinsfmt"
@@ -14,39 +13,41 @@ func ApplyVerifier(
 	isSkipCheckingOnInvalid,
 	isContinueOnError bool,
 	verifier *pathinsfmt.PathVerifier,
+	errCollection *errwrappers.Collection,
 	locations []string,
-) *errorwrapper.Wrapper {
+) (isSuccess bool) {
 	if verifier == nil || len(locations) == 0 {
-		return errnew.EmptyPtr
+		return true
 	}
 
+	errCount := errCollection.Length()
 	locationsNormalized := normalize.PathsUsingSingleIfAsync(
 		isNormalize,
 		locations)
 
-	locationsErrors := recursiveinternal.GetPathsOfPathsIf(
+	locationsWithErrors := recursiveinternal.GetPathsOfPathsIf(
 		isRecursiveCheck,
 		locationsNormalized,
 		isContinueOnError)
 
-	if !isContinueOnError && locationsErrors.HasError() {
-		return locationsErrors.
-			ErrorWrappers.
-			GetAsErrorWrapperPtr()
+	errorCollection2 := locationsWithErrors.ErrorWrappers
+	if !isContinueOnError && errorCollection2.HasError() {
+		errCollection.AddCollections(errorCollection2)
+
+		return false
 	}
 
+	errCollection.AddCollections(errorCollection2)
 	existingPathsFileInfoMap := normalize.GetFilterPathsInfoMap(
 		false,
 		isSkipCheckingOnInvalid,
-		*locationsErrors.Values)
+		*locationsWithErrors.Values)
 
-	errWpFinal := applyVerifierInternal(
+	applyVerifierInternal(
 		isContinueOnError,
 		verifier,
+		errCollection,
 		existingPathsFileInfoMap)
 
-	return locationsErrors.
-		ErrorWrappers.
-		AddWrapperPtr(errWpFinal).
-		GetAsErrorWrapperPtr()
+	return errCount == errCollection.Length()
 }
