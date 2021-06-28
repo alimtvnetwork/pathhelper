@@ -50,6 +50,14 @@ func (it *BasePathsCreator) LazyFlatPaths() []string {
 	return it.lazyFlatFiles
 }
 
+func (it *BasePathsCreator) LazyFlatPathsIf(isLazy bool) []string {
+	if isLazy {
+		return it.LazyFlatPaths()
+	}
+
+	return it.FlatPaths()
+}
+
 func (it *BasePathsCreator) Length() int {
 	return len(it.Files)
 }

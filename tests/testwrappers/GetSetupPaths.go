@@ -2,6 +2,7 @@ package testwrappers
 
 import (
 	"gitlab.com/evatix-go/core/coredata/corestr"
+	"gitlab.com/evatix-go/pathhelper/normalize"
 )
 
 func GetSetupPaths() []string {
@@ -13,7 +14,10 @@ func GetSetupPaths() []string {
 		)
 	}
 
-	return linkedCollection.
+	locations := linkedCollection.
 		ToCollection(0).
 		ListStrings()
+
+	return normalize.PathsUsingSingleIfAsync(
+		true, locations)
 }

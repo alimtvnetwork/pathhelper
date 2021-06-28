@@ -42,6 +42,14 @@ func (it *PathsCreatorCollection) PathsCreators() []*PathsCreator {
 	return slice
 }
 
+func (it *PathsCreatorCollection) LazyFlatPathsIf(isLazy bool) []string {
+	if isLazy {
+		return it.LazyFlatPaths()
+	}
+
+	return it.FlatPaths()
+}
+
 func (it *PathsCreatorCollection) LazyFlatPaths() []string {
 	if it.lazyFlatPaths != nil {
 		return it.lazyFlatPaths

@@ -21,13 +21,8 @@ func ApplyPathsCreatorUsingErrorCollection(
 		return true
 	}
 
-	var workingPaths []string
-
-	if isLazyPaths {
-		workingPaths = pathsCreator.LazyFlatPaths()
-	} else {
-		workingPaths = pathsCreator.FlatPaths()
-	}
+	workingPaths := pathsCreator.
+		LazyFlatPathsIf(isLazyPaths)
 
 	errCount := errorCollection.Length()
 
@@ -38,7 +33,8 @@ func ApplyPathsCreatorUsingErrorCollection(
 
 	// paths create
 	if pathsCreator.HasRwx() {
-		fileMode, errWp := pathchmod.ParseRwxOwnerGroupOtherToFileMode(pathsCreator.ApplyRwx)
+		fileMode, errWp := pathchmod.ParseRwxOwnerGroupOtherToFileMode(
+			pathsCreator.ApplyRwx)
 
 		errorCollection.AddWrapperPtr(errWp)
 

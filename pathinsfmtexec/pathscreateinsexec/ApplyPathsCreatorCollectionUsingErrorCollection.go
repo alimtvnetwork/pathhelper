@@ -3,6 +3,7 @@ package pathscreateinsexec
 import (
 	"fmt"
 
+	"gitlab.com/evatix-go/core/osconsts"
 	"gitlab.com/evatix-go/errorwrapper/errwrappers"
 	"gitlab.com/evatix-go/pathhelper/createpath"
 	"gitlab.com/evatix-go/pathhelper/pathchmod"
@@ -31,13 +32,8 @@ func ApplyPathsCreatorCollectionUsingErrorCollection(
 		}
 	}
 
-	var workingPaths []string
-
-	if isLazyPaths {
-		workingPaths = pathsCreatorCollection.LazyFlatPaths()
-	} else {
-		workingPaths = pathsCreatorCollection.FlatPaths()
-	}
+	workingPaths := pathsCreatorCollection.
+		LazyFlatPathsIf(isLazyPaths)
 
 	// paths create
 	_, filesCreateErr := createpath.CreateMany(
@@ -73,7 +69,7 @@ func ApplyPathsCreatorCollectionUsingErrorCollection(
 	}
 
 	// apply groups
-	if pathsCreatorCollection.HasUserGroup() {
+	if pathsCreatorCollection.HasUserGroup() && osconsts.IsUnixGroup {
 		for _, instruction := range pathsCreatorCollection.PathsCreateInstructions {
 			errWp := namegroup.Apply(
 				true,

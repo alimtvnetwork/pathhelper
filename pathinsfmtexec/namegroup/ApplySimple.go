@@ -21,7 +21,6 @@ func ApplySimple(
 		return errnew.EmptyPtr
 	}
 
-
 	userNameGroup := pathinsfmt.UserGroupName{
 		BaseGroupName: pathinsfmt.BaseGroupName{GroupName: groupName},
 		UserName:      userName,
