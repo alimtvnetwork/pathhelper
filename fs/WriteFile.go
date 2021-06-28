@@ -10,7 +10,10 @@ import (
 	"gitlab.com/evatix-go/errorwrapper/errtype"
 )
 
-func WriteFile(filePath string, content []byte) *errorwrapper.Wrapper {
+func WriteFile(
+	filePath string,
+	content []byte,
+) *errorwrapper.Wrapper {
 	if content == nil {
 		return errnew.MessagesPtr(
 			errtype.NullOrEmptyReference,
