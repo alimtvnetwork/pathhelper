@@ -19,6 +19,6 @@ func Apply(
 	return namegroup.Apply(
 		chown.IsRecursive,
 		isContinueOnError,
-		&chown.BaseUserNamePlusGroupName,
+		&chown.UserGroupName,
 		flatPaths...)
 }

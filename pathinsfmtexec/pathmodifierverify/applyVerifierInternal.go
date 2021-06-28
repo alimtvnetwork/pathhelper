@@ -69,7 +69,7 @@ func applyVerifierInternal(
 
 	// immediately exit on error, user+groups verify.
 	hasAnyUserGroupValidation := len(validFileLocations) > 0 &&
-		verifier.BaseUserNamePlusGroupName.HasUserNameOrGroup()
+		verifier.UserGroupName.HasUserNameOrGroup()
 
 	if hasAnyUserGroupValidation && osconsts.IsWindows {
 		errCollection.AddUsingMessages(

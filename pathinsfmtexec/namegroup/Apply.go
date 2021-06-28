@@ -1,7 +1,6 @@
 package namegroup
 
 import (
-	"gitlab.com/evatix-go/core/coreutils/stringutil"
 	"gitlab.com/evatix-go/errorwrapper"
 	"gitlab.com/evatix-go/errorwrapper/errnew"
 	"gitlab.com/evatix-go/pathhelper/pathinsfmt"
@@ -10,7 +9,7 @@ import (
 func Apply(
 	isRecursive bool,
 	isContinueOnError bool,
-	userNameGroupName *pathinsfmt.BaseUserNamePlusGroupName,
+	userNameGroupName *pathinsfmt.UserGroupName,
 	paths ...string,
 ) *errorwrapper.Wrapper {
 	if userNameGroupName == nil {
@@ -21,7 +20,7 @@ func Apply(
 		return errnew.EmptyPtr
 	}
 
-	if stringutil.IsEmptyOrWhitespacePtr(userNameGroupName.UserName) {
+	if userNameGroupName.IsUserNameEmpty() {
 		return ApplyLinuxOnlyGroup(
 			isRecursive,
 			isContinueOnError,

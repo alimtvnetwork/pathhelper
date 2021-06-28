@@ -1,6 +1,10 @@
 package pathinsfmt
 
 import (
+	"os"
+
+	"gitlab.com/evatix-go/errorwrapper"
+	"gitlab.com/evatix-go/pathhelper/pathchmod"
 	"gitlab.com/evatix-go/pathhelper/pathjoin"
 )
 
@@ -10,32 +14,48 @@ type SimilarPaths struct {
 	IsNormalizeApply bool     `json:"IsNormalizeApply"`
 }
 
-func (s *SimilarPaths) Length() int {
-	return len(s.RelativePaths)
+func (it *SimilarPaths) BasePathsCreator() *BasePathsCreator {
+	return &BasePathsCreator{
+		RootDir:     it.RootPath,
+		Files:       it.RelativePaths,
+		IsNormalize: it.IsNormalizeApply,
+	}
 }
 
-func (s *SimilarPaths) IsEmpty() bool {
-	return s.Length() == 0
+func (it *SimilarPaths) Length() int {
+	return len(it.RelativePaths)
 }
 
-func (s *SimilarPaths) HasAnyItem() bool {
-	return s.Length() > 0
+func (it *SimilarPaths) IsEmpty() bool {
+	return it.Length() == 0
 }
 
-func (s *SimilarPaths) FlatPaths() []string {
-	if s.IsEmpty() {
+func (it *SimilarPaths) HasAnyItem() bool {
+	return it.Length() > 0
+}
+
+func (it *SimilarPaths) ApplyLinuxRecursiveFileModeOnRoot(
+	fileMode os.FileMode,
+) *errorwrapper.Wrapper {
+	return pathchmod.ApplyLinuxRecursiveChmodOnPathUsingFileMode(
+		fileMode,
+		it.RootPath)
+}
+
+func (it *SimilarPaths) FlatPaths() []string {
+	if it.IsEmpty() {
 		return []string{}
 	}
 
 	slice := make(
 		[]string,
-		s.Length())
+		it.Length())
 
-	root := s.RootPath
+	root := it.RootPath
 
-	for i, relativePath := range s.RelativePaths {
+	for i, relativePath := range it.RelativePaths {
 		joinedPath := pathjoin.JoinNormalizedIf(
-			s.IsNormalizeApply,
+			it.IsNormalizeApply,
 			root,
 			relativePath)
 

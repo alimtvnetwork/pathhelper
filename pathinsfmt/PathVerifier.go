@@ -3,7 +3,7 @@ package pathinsfmt
 import "gitlab.com/evatix-go/core/chmodhelper/chmodins"
 
 type PathVerifier struct {
-	BaseUserNamePlusGroupName
+	UserGroupName
 	chmodins.BaseRwxInstructions
 }
 

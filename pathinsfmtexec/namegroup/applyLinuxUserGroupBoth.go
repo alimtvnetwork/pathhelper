@@ -1,7 +1,6 @@
 package namegroup
 
 import (
-	"gitlab.com/evatix-go/core/coreutils/stringutil"
 	"gitlab.com/evatix-go/errorwrapper"
 	"gitlab.com/evatix-go/errorwrapper/errnew"
 	"gitlab.com/evatix-go/pathhelper/internal/cmdprefix"
@@ -12,19 +11,23 @@ import (
 func applyLinuxUserGroupBoth(
 	isRecursive bool,
 	isContinueOnError bool,
-	userNameGroupName *pathinsfmt.BaseUserNamePlusGroupName,
+	userNameGroupName *pathinsfmt.UserGroupName,
 	paths ...string,
 ) *errorwrapper.Wrapper {
 	if userNameGroupName == nil {
 		return errnew.EmptyPtr
 	}
 
-	if stringutil.IsEmptyOrWhitespace(userNameGroupName.GroupName) {
-		return deferrwrappers.CannotApplyChmodWithSingleParameter
+	if userNameGroupName.IsGroupNameEmpty() {
+		return deferrwrappers.
+			CannotApplyChmodWithSingleParameter.
+			ConcatNewMessage("Group name empty or not defined.")
 	}
 
-	if stringutil.IsEmptyOrWhitespacePtr(userNameGroupName.UserName) {
-		return deferrwrappers.CannotApplyChmodWithSingleParameter
+	if userNameGroupName.IsUserNameEmpty() {
+		return deferrwrappers.
+			CannotApplyChmodWithSingleParameter.
+			ConcatNewMessage("User name empty or not defined.")
 	}
 
 	pathsLength := len(paths)
@@ -34,7 +37,7 @@ func applyLinuxUserGroupBoth(
 	}
 
 	groupName := userNameGroupName.GroupName
-	userName := *userNameGroupName.UserName
+	userName := userNameGroupName.UserName
 
 	// chown -R $user:$group /dir
 	cmdPrefix := cmdprefix.ChownUser(

@@ -7,10 +7,10 @@ import (
 	. "github.com/smartystreets/goconvey/convey"
 	"gitlab.com/evatix-go/core/osconsts"
 	"gitlab.com/evatix-go/core/ostype"
+	"gitlab.com/evatix-go/pathhelper/tests/oldtests"
 
 	"gitlab.com/evatix-go/pathhelper/internal/mics"
 	"gitlab.com/evatix-go/pathhelper/pathhelpercore"
-	"gitlab.com/evatix-go/pathhelper/tests"
 )
 
 type combinedPathUsingConfigInternalTestCaseWrapper struct {
@@ -95,7 +95,7 @@ func executeTestCaseForGetCombinedPathUsingConfigInternal(
 		actual := getCombinedPathUsingConfigInternal(testCase.inputPathConfig, testCase.inputPaths)
 
 		// Assert
-		Convey(tests.GetAssertMessage(actual, testCase.expected, i), func() {
+		Convey(oldtests.GetAssertMessage(actual, testCase.expected, i), func() {
 			So(actual, ShouldEqual, testCase.expected)
 		})
 	})

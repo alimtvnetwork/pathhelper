@@ -11,6 +11,7 @@ func GetFullDirStructure(
 		RootConfigFile:   fixPathIf(isNormalize, currentNginxRoot, RootConfigName),
 		ConfigAvailable:  fixPathIf(isNormalize, currentNginxRoot, ConfigAvailableName),
 		ConfigEnabled:    fixPathIf(isNormalize, currentNginxRoot, ConfigEnabledName),
+		SitesBackup:      fixPathIf(isNormalize, currentNginxRoot, SitesBackup),
 		SitesAvailable:   fixPathIf(isNormalize, currentNginxRoot, SitesAvailableName),
 		SitesEnabled:     fixPathIf(isNormalize, currentNginxRoot, SitesEnabledName),
 		ExtraConfig:      fixPathIf(isNormalize, currentNginxRoot, ExtraConfName),

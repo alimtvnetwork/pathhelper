@@ -1,7 +1,6 @@
 package namegroup
 
 import (
-	"gitlab.com/evatix-go/core/typesconv"
 	"gitlab.com/evatix-go/errorwrapper"
 	"gitlab.com/evatix-go/errorwrapper/errnew"
 	"gitlab.com/evatix-go/pathhelper/pathinsfmt"
@@ -10,11 +9,11 @@ import (
 func ApplySimple(
 	isRecursive bool,
 	isContinueOnError bool,
-	userName *string,
-	groupName *string,
+	userName string,
+	groupName string,
 	paths ...string,
 ) *errorwrapper.Wrapper {
-	if userName == nil && groupName == nil {
+	if userName == "" && groupName == "" {
 		return errnew.EmptyPtr
 	}
 
@@ -22,10 +21,9 @@ func ApplySimple(
 		return errnew.EmptyPtr
 	}
 
-	groupNameSimple := typesconv.StringPtrToSimple(groupName)
 
-	userNameGroup := pathinsfmt.BaseUserNamePlusGroupName{
-		BaseGroupName: pathinsfmt.BaseGroupName{GroupName: groupNameSimple},
+	userNameGroup := pathinsfmt.UserGroupName{
+		BaseGroupName: pathinsfmt.BaseGroupName{GroupName: groupName},
 		UserName:      userName,
 	}
 

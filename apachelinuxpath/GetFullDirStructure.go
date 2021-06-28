@@ -11,6 +11,7 @@ func GetFullDirStructure(
 		RootConfigFile:   fixPathIf(isNormalize, currentRoot, RootConfigName),
 		ConfigAvailable:  fixPathIf(isNormalize, currentRoot, ConfigAvailableName),
 		ConfigEnabled:    fixPathIf(isNormalize, currentRoot, ConfigEnabledName),
+		SitesBackup:      fixPathIf(isNormalize, currentRoot, SitesBackup),
 		SitesAvailable:   fixPathIf(isNormalize, currentRoot, SitesAvailableName),
 		SitesEnabled:     fixPathIf(isNormalize, currentRoot, SitesEnabledName),
 		ExtraConfig:      fixPathIf(isNormalize, currentRoot, ExtraConfName),

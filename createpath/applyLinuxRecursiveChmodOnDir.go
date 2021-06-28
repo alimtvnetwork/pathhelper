@@ -1,0 +1,21 @@
+package createpath
+
+import (
+	"os"
+
+	"gitlab.com/evatix-go/core/chmodhelper"
+	"gitlab.com/evatix-go/errorwrapper"
+	"gitlab.com/evatix-go/errorwrapper/errnew"
+	"gitlab.com/evatix-go/errorwrapper/errtype"
+)
+
+func applyLinuxRecursiveChmodOnDir(
+	mode os.FileMode,
+	rootDir string,
+) *errorwrapper.Wrapper {
+	fileMode := chmodhelper.NewUsingFileMode(mode)
+	chmodErr := fileMode.
+		LinuxApplyRecursive(false, rootDir)
+
+	return errnew.Path(errtype.ChmodApplyFailed, chmodErr, rootDir)
+}
