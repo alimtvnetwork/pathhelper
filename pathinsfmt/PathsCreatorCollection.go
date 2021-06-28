@@ -75,19 +75,23 @@ func (it *PathsCreatorCollection) HasUserGroup() bool {
 }
 
 func (it *PathsCreatorCollection) FlatPaths() []string {
-	collection := corestr.NewLinkedCollections()
+	length := it.Length()
 
-	wg := &sync.WaitGroup{}
-	wg.Add(it.Length())
-
-	for _, createInstruction := range it.PathsCreateInstructions {
-		collection.AddAsyncFuncItems(
-			wg,
-			false,
-			createInstruction.FlatPaths)
+	if length == 0 {
+		return []string{}
 	}
 
-	wg.Wait()
+	collection := corestr.NewLinkedCollections()
+
+	wg3 := &sync.WaitGroup{}
+
+	for _, createInstruction := range it.PathsCreateInstructions {
+		wg3.Add(1)
+		collection.AddAsyncFuncItemsPointer(
+			wg3,
+			false,
+			createInstruction.FlatPathsPtr)
+	}
 
 	return collection.
 		ToCollection(constants.Zero).

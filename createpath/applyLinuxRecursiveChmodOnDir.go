@@ -9,7 +9,10 @@ import (
 	"gitlab.com/evatix-go/errorwrapper/errtype"
 )
 
-func applyLinuxRecursiveChmodOnDir(mode os.FileMode, rootDir string) *errorwrapper.Wrapper {
+func applyLinuxRecursiveChmodOnDir(
+	mode os.FileMode,
+	rootDir string,
+) *errorwrapper.Wrapper {
 	fileMode := chmodhelper.NewUsingFileMode(mode)
 	chmodErr := fileMode.
 		LinuxApplyRecursive(false, rootDir)
