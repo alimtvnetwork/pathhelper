@@ -1,6 +1,5 @@
 package pathinsfmt
 
-type Chown struct {
-	BaseIsRecursive
+type BaseUserNameGroupName struct {
 	UserGroupName
 }

@@ -10,6 +10,15 @@ type SimilarPaths struct {
 	IsNormalizeApply bool     `json:"IsNormalizeApply"`
 }
 
+
+func (s *SimilarPaths) BasePathsCreator() *BasePathsCreator {
+	return &BasePathsCreator{
+		RootDir:                     s.RootPath,
+		Files:                       s.RelativePaths,
+		IsNormalize:                 s.IsNormalizeApply,
+	}
+}
+
 func (s *SimilarPaths) Length() int {
 	return len(s.RelativePaths)
 }

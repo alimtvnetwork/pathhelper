@@ -16,7 +16,7 @@ func main() {
 		BaseSpecPlusRequestIds: coreinstruction.BaseSpecPlusRequestIds{},
 		PathVerifiers: []pathinsfmt.PathVerifier{
 			{
-				BaseUserNamePlusGroupName: *pathinsfmt.NewBaseUserNamePlusGroupName(
+				UserGroupName: *pathinsfmt.NewUserGroupName(
 					"alim", ""),
 				BaseRwxInstructions: chmodins.BaseRwxInstructions{
 					RwxInstructions: []chmodins.RwxInstruction{

@@ -5,6 +5,7 @@ const (
 	RootConfigName       = "apache2.conf"
 	ConfigAvailableName  = "conf-available"
 	ConfigEnabledName    = "conf-enabled"
+	SitesBackup          = "sites-backup"
 	SitesAvailableName   = "sites-available"
 	SitesEnabledName     = "sites-enabled"
 	ExtraConfName        = "conf.d"

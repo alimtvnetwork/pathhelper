@@ -19,6 +19,7 @@ type NginxApacheDirectory struct {
 	RootConfigFile   string `json:"RootConfigFile,omitempty"`
 	ConfigAvailable  string `json:"ConfigAvailable,omitempty"`
 	ConfigEnabled    string `json:"ConfigEnabled,omitempty"`
+	SitesBackup      string `json:"SitesBackup,omitempty"`
 	SitesAvailable   string `json:"SitesAvailable,omitempty"`
 	SitesEnabled     string `json:"SitesEnabled,omitempty"`
 	ExtraConfig      string `json:"ExtraConfig,omitempty"`
@@ -42,6 +43,10 @@ func (receiver *NginxApacheDirectory) IsConfigAvailable() bool {
 
 func (receiver *NginxApacheDirectory) IsConfigEnabled() bool {
 	return fsinternal.IsPathExists(receiver.ConfigEnabled)
+}
+
+func (receiver *NginxApacheDirectory) IsSitesBackup() bool {
+	return fsinternal.IsPathExists(receiver.SitesBackup)
 }
 
 func (receiver *NginxApacheDirectory) IsSitesAvailable() bool {
@@ -76,6 +81,10 @@ func (receiver *NginxApacheDirectory) MkDirConfigEnabled(mode os.FileMode) *erro
 	return createdirinternal.AllRecurse(receiver.ConfigEnabled, mode)
 }
 
+func (receiver *NginxApacheDirectory) MkDirSitesBackup(mode os.FileMode) *errorwrapper.Wrapper {
+	return createdirinternal.AllRecurse(receiver.SitesBackup, mode)
+}
+
 func (receiver *NginxApacheDirectory) MkDirSitesAvailable(mode os.FileMode) *errorwrapper.Wrapper {
 	return createdirinternal.AllRecurse(receiver.SitesAvailable, mode)
 }
@@ -96,22 +105,23 @@ func (receiver *NginxApacheDirectory) MkDirModulesEnabled(mode os.FileMode) *err
 	return createdirinternal.AllRecurse(receiver.ModulesEnabled, mode)
 }
 
-func (receiver *NginxApacheDirectory) MkDirAll(mode os.FileMode) *errorwrapper.Wrapper {
+func (receiver *NginxApacheDirectory) MkDirAll(mode os.FileMode) *errwrappers.Collection {
 	errCollection := errwrappers.Empty()
 
 	errCollection.AddWrapperPtr(receiver.MkDirRoot(mode))
 	errCollection.AddWrapperPtr(receiver.MkDirConfigAvailable(mode))
 	errCollection.AddWrapperPtr(receiver.MkDirConfigEnabled(mode))
+	errCollection.AddWrapperPtr(receiver.MkDirSitesBackup(mode))
 	errCollection.AddWrapperPtr(receiver.MkDirSitesAvailable(mode))
 	errCollection.AddWrapperPtr(receiver.MkDirSitesEnabled(mode))
 	errCollection.AddWrapperPtr(receiver.MkDirExtraConfig(mode))
 	errCollection.AddWrapperPtr(receiver.MkDirModulesAvailable(mode))
 	errCollection.AddWrapperPtr(receiver.MkDirModulesEnabled(mode))
 
-	return errCollection.GetAsErrorWrapperPtr()
+	return errCollection
 }
 
-func (receiver *NginxApacheDirectory) MkDirAllDefault() *errorwrapper.Wrapper {
+func (receiver *NginxApacheDirectory) MkDirAllDefault() *errwrappers.Collection {
 	return receiver.MkDirAll(filemode.X644)
 }
 
@@ -146,6 +156,13 @@ func (receiver *NginxApacheDirectory) CombinedRoot(
 	return normalizeinternal.PathsCombine(
 		receiver.Root,
 		combinedPaths)
+}
+
+func (receiver *NginxApacheDirectory) AllFilesAtSitesBackup() *errstr.Results {
+	return pathgetterinternal.GetAllFiles(
+		true,
+		osconsts.PathSeparator,
+		receiver.SitesBackup)
 }
 
 func (receiver *NginxApacheDirectory) AllFilesAtSitesAvailable() *errstr.Results {
