@@ -1,8 +1,6 @@
 package pathscreateinsexec
 
 import (
-	"fmt"
-
 	"gitlab.com/evatix-go/core/osconsts"
 	"gitlab.com/evatix-go/errorwrapper/errwrappers"
 	"gitlab.com/evatix-go/pathhelper/createpath"
@@ -78,10 +76,6 @@ func ApplyPathsCreatorCollectionUsingErrorCollection(
 				instruction.RootDir)
 
 			errorCollection.AddWrapperPtr(errWp)
-
-			if errWp.HasError() {
-				fmt.Println(errWp)
-			}
 		}
 	}
 

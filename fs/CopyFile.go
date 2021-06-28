@@ -1,4 +1,4 @@
-package fsinternal
+package fs
 
 import (
 	"gitlab.com/evatix-go/errorwrapper"

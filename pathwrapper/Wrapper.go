@@ -110,14 +110,14 @@ func (receiver *Wrapper) BothExtensions() (dotExt, ext string) {
 	return splitinternal.GetBothExtension(receiver.String())
 }
 
-// .mp4 reference: https://stackoverflow.com/a/64122557
+// DotExtension .mp4 reference: https://stackoverflow.com/a/64122557
 func (receiver *Wrapper) DotExtension() string {
 	dotExt, _ := splitinternal.GetBothExtension(receiver.String())
 
 	return dotExt
 }
 
-// mp4 reference: https://stackoverflow.com/a/64122557
+// Extension mp4 reference: https://stackoverflow.com/a/64122557
 func (receiver *Wrapper) Extension() string {
 	_, ext := splitinternal.GetBothExtension(receiver.String())
 
@@ -128,7 +128,7 @@ func (receiver *Wrapper) ExtensionWrapper() *pathext.Wrapper {
 	return pathext.NewPtr(receiver.String())
 }
 
-// Get all directory on that root path only, no nested or recursive visit.
+// GetDirectories Get all directory on that root path only, no nested or recursive visit.
 func (receiver *Wrapper) GetDirectories(separator string) *errstr.Results {
 	fileInfos, errW := receiver.getFileInfos()
 	if errW.HasError() {
@@ -169,7 +169,7 @@ func (receiver *Wrapper) GetAFilePathAsString(
 	return currentPath
 }
 
-// Get a file path combining file path.
+// GetAFilePath Get a file path combining file path.
 func (receiver *Wrapper) GetAFilePath(
 	separator string,
 	nesting ...string,
@@ -211,7 +211,7 @@ func (receiver *Wrapper) GetNestedDirectories(
 	}
 }
 
-// Get all files on that root path only, no nested or recursive visit.
+// GetFiles Get all files on that root path only, no nested or recursive visit.
 func (receiver *Wrapper) GetFiles(separator string) *errstr.Results {
 	fileInfos, errW := receiver.getFileInfos()
 	if errW.HasError() {

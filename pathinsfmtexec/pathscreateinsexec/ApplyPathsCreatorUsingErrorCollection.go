@@ -1,6 +1,7 @@
 package pathscreateinsexec
 
 import (
+	"gitlab.com/evatix-go/core/osconsts"
 	"gitlab.com/evatix-go/errorwrapper/errwrappers"
 	"gitlab.com/evatix-go/pathhelper/createpath"
 	"gitlab.com/evatix-go/pathhelper/pathchmod"
@@ -67,7 +68,7 @@ func ApplyPathsCreatorUsingErrorCollection(
 	}
 
 	// apply groups
-	if pathsCreator.HasUserGroup() {
+	if pathsCreator.HasUserGroup() && osconsts.IsUnixGroup {
 		errWp := namegroup.Apply(
 			true,
 			false,

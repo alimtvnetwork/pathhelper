@@ -1,14 +1,16 @@
 package fsinternal
 
 import (
+	"os"
+
 	"gitlab.com/evatix-go/errorwrapper"
 	"gitlab.com/evatix-go/errorwrapper/errnew"
 	"gitlab.com/evatix-go/errorwrapper/errtype"
 )
 
-// CopyFile Future ref: https://stackoverflow.com/a/21067803
-func CopyFile(srcPath, dstPath string) *errorwrapper.Wrapper {
-	err := copyFileContents(srcPath, dstPath)
+// MoveFile move file path from source to destination
+func MoveFile(srcPath, dstPath string) *errorwrapper.Wrapper {
+	err := os.Rename(srcPath, dstPath)
 
 	return errnew.Path(
 		errtype.FileOrDirectoryRelatedExecution,

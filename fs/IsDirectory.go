@@ -1,4 +1,4 @@
-package fsinternal
+package fs
 
 import (
 	"os"
