@@ -10,6 +10,7 @@ import (
 	"gitlab.com/evatix-go/errorwrapper/errtype"
 	"gitlab.com/evatix-go/pathhelper/createpath"
 	"gitlab.com/evatix-go/pathhelper/internal/normalizeinternal"
+	"gitlab.com/evatix-go/pathhelper/pathchmod"
 )
 
 type BasePathsCreator struct {
@@ -17,7 +18,7 @@ type BasePathsCreator struct {
 	Files                       []string
 	IsNormalize                 bool
 	lazyFlatFiles               []string
-	lazyFilesChmod              *errstr.Hashmap
+	lazyPathsChmod              *errstr.Hashmap
 	lazyFilteredPathFileInfoMap *chmodhelper.FilteredPathFileInfoMap
 }
 
@@ -29,22 +30,22 @@ func (it *BasePathsCreator) SimilarPaths() *SimilarPaths {
 	}
 }
 
-func (it *BasePathsCreator) LazyFilesChmod() *errstr.Hashmap {
-	if it.lazyFilesChmod != nil {
-		return it.lazyFilesChmod
+func (it *BasePathsCreator) LazyPathsChmod() *errstr.Hashmap {
+	if it.lazyPathsChmod != nil {
+		return it.lazyPathsChmod
 	}
 
-	it.lazyFilesChmod = it.GetFilesChmodMap()
+	it.lazyPathsChmod = it.PathsChmodMap()
 
-	return it.lazyFilesChmod
+	return it.lazyPathsChmod
 }
 
-func (it *BasePathsCreator) LazyFlatFiles() []string {
+func (it *BasePathsCreator) LazyFlatPaths() []string {
 	if it.lazyFlatFiles != nil {
 		return it.lazyFlatFiles
 	}
 
-	it.lazyFlatFiles = it.FlatFiles()
+	it.lazyFlatFiles = it.FlatPaths()
 
 	return it.lazyFlatFiles
 }
@@ -65,11 +66,11 @@ func (it *BasePathsCreator) HasAnyItem() bool {
 	return len(it.Files) > 0
 }
 
-func (it *BasePathsCreator) FlatFiles() []string {
-	return *it.FlatFilesPtr()
+func (it *BasePathsCreator) FlatPaths() []string {
+	return *it.FlatPathsPtr()
 }
 
-func (it *BasePathsCreator) FlatFilesPtr() *[]string {
+func (it *BasePathsCreator) FlatPathsPtr() *[]string {
 	slice := make([]string, it.Length())
 
 	for i, file := range it.Files {
@@ -83,16 +84,16 @@ func (it *BasePathsCreator) FlatFilesPtr() *[]string {
 	return &slice
 }
 
-// DeleteAllFiles delete all files in root path
-func (it *BasePathsCreator) DeleteAllFiles() *errorwrapper.Wrapper {
+// DeleteAllPaths delete all files in root path
+func (it *BasePathsCreator) DeleteAllPaths() *errorwrapper.Wrapper {
 	location := it.RootDir
 	err := os.RemoveAll(location)
 
 	return errnew.Path(errtype.DeletePathFailed, err, location)
 }
 
-func (it *BasePathsCreator) GetFilesChmodMap() *errstr.Hashmap {
-	files := it.FlatFilesPtr()
+func (it *BasePathsCreator) PathsChmodMap() *errstr.Hashmap {
+	files := it.FlatPathsPtr()
 	hashmap, err := chmodhelper.
 		GetFilesChmodRwxFullMap(*files)
 
@@ -104,13 +105,39 @@ func (it *BasePathsCreator) GetFilesChmodMap() *errstr.Hashmap {
 	}
 }
 
-func (it *BasePathsCreator) CreateFiles(mode os.FileMode) (
+func (it *BasePathsCreator) CreatePaths(mode os.FileMode) (
 	[]*os.File,
 	*errorwrapper.Wrapper,
 ) {
 	return it.createFiles(
 		mode,
-		it.FlatFiles())
+		it.FlatPaths())
+}
+
+func (it *BasePathsCreator) CreateLazyPathsWithoutMode() (
+	[]*os.File,
+	*errorwrapper.Wrapper,
+) {
+	return createpath.CreateMany(
+		false,
+		it.LazyFlatPaths())
+}
+
+func (it *BasePathsCreator) CreatePathsWithoutMode() (
+	[]*os.File,
+	*errorwrapper.Wrapper,
+) {
+	return createpath.CreateMany(
+		false,
+		it.FlatPaths())
+}
+
+func (it *BasePathsCreator) ApplyLinuxRecursiveFileModeOnRoot(
+	fileMode os.FileMode,
+) *errorwrapper.Wrapper {
+	return pathchmod.ApplyLinuxRecursiveChmodOnPathUsingFileMode(
+		fileMode,
+		it.RootDir)
 }
 
 func (it *BasePathsCreator) CreateLazyFlatFiles(mode os.FileMode) (
@@ -119,7 +146,7 @@ func (it *BasePathsCreator) CreateLazyFlatFiles(mode os.FileMode) (
 ) {
 	return it.createFiles(
 		mode,
-		it.LazyFlatFiles())
+		it.LazyFlatPaths())
 }
 
 func (it *BasePathsCreator) DeleteAllThenCreateLazyFlatFiles(
@@ -128,7 +155,7 @@ func (it *BasePathsCreator) DeleteAllThenCreateLazyFlatFiles(
 	[]*os.File,
 	*errorwrapper.Wrapper,
 ) {
-	deleteAllErr := it.DeleteAllFiles()
+	deleteAllErr := it.DeleteAllPaths()
 
 	if deleteAllErr.HasError() {
 		return []*os.File{}, errnew.EmptyPtr
@@ -136,9 +163,8 @@ func (it *BasePathsCreator) DeleteAllThenCreateLazyFlatFiles(
 
 	return it.createFiles(
 		mode,
-		it.LazyFlatFiles())
+		it.LazyFlatPaths())
 }
-
 
 func (it *BasePathsCreator) DeleteAllThenCreateFlatFiles(
 	mode os.FileMode,
@@ -146,7 +172,7 @@ func (it *BasePathsCreator) DeleteAllThenCreateFlatFiles(
 	[]*os.File,
 	*errorwrapper.Wrapper,
 ) {
-	deleteAllErr := it.DeleteAllFiles()
+	deleteAllErr := it.DeleteAllPaths()
 
 	if deleteAllErr.HasError() {
 		return []*os.File{}, errnew.EmptyPtr
@@ -154,7 +180,7 @@ func (it *BasePathsCreator) DeleteAllThenCreateFlatFiles(
 
 	return it.createFiles(
 		mode,
-		it.FlatFiles())
+		it.FlatPaths())
 }
 
 func (it *BasePathsCreator) createFiles(
@@ -176,7 +202,7 @@ func (it *BasePathsCreator) createFiles(
 func (it *BasePathsCreator) GetFilesInfoMap(
 	isSkipOnInvalid bool,
 ) *chmodhelper.FilteredPathFileInfoMap {
-	files := it.FlatFilesPtr()
+	files := it.FlatPathsPtr()
 
 	return chmodhelper.
 		GetExistsFilteredPathFileInfoMap(

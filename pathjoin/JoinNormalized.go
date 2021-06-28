@@ -8,6 +8,10 @@ import (
 
 // JoinNormalized normalized applied auto
 func JoinNormalized(path1, path2 string) string {
+	if path2 == "" {
+		return normalize.Path(path1)
+	}
+
 	finalPath := path1 + osconsts.PathSeparator + path2
 
 	return normalize.Path(finalPath)

@@ -15,5 +15,6 @@ func (it *PathsCreator) HasRwx() bool {
 }
 
 func (it *PathsCreator) HasUserGroup() bool {
-	return it.ApplyUserGroup != nil
+	return it.ApplyUserGroup != nil &&
+		it.ApplyUserGroup.HasUserNameOrGroup()
 }
