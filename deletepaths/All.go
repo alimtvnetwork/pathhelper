@@ -20,3 +20,19 @@ func All(locations []string) *errorwrapper.Wrapper {
 
 	return errnew.EmptyPtr
 }
+
+func AllOnExist(locations []string) *errorwrapper.Wrapper {
+	if len(locations) == 0 {
+		return errnew.EmptyPtr
+	}
+
+	for _, location := range locations {
+		recursiveErr := SingleOnExist(location)
+
+		if recursiveErr.HasError() {
+			return recursiveErr
+		}
+	}
+
+	return errnew.EmptyPtr
+}

@@ -6,9 +6,9 @@ import (
 	"gitlab.com/evatix-go/pathhelper/knowndir"
 )
 
-// Returns path to bin directory as a string.
+// BinPath Returns path to bin directory as a string.
 func BinPath() string {
-	if !osconsts.IsWindows {
+	if osconsts.IsUnixGroup {
 		return knowndir.BinUnix.Value()
 	}
 

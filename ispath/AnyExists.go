@@ -1,6 +1,6 @@
 package ispath
 
-// Returns true if any of the paths exists
+// AnyExists Returns true if any of the paths exists
 func AnyExists(paths ...string) bool {
 	for _, path := range paths {
 		if Exists(path) {

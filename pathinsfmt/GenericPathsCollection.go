@@ -20,78 +20,78 @@ type GenericPathsCollection struct {
 // Length of len(receiver.SimilarPaths) +
 // len(receiver.AllDiffPaths) +
 // items in DynamicPaths (not all specific paths)
-func (receiver *GenericPathsCollection) Length() int {
-	length := len(receiver.SimilarPaths) +
-		len(receiver.AllDiffPaths)
+func (it *GenericPathsCollection) Length() int {
+	length := len(it.SimilarPaths) +
+		len(it.AllDiffPaths)
 
-	if receiver.DynamicPaths == nil {
+	if it.DynamicPaths == nil {
 		return length
 	}
 
-	return length + receiver.DynamicPaths.Length()
+	return length + it.DynamicPaths.Length()
 }
 
-func (receiver *GenericPathsCollection) IsEmpty() bool {
-	return receiver.Length() == 0
+func (it *GenericPathsCollection) IsEmpty() bool {
+	return it.Length() == 0
 }
 
-func (receiver *GenericPathsCollection) HasAnyItem() bool {
-	return receiver.Length() > 0
+func (it *GenericPathsCollection) HasAnyItem() bool {
+	return it.Length() > 0
 }
 
-func (receiver *GenericPathsCollection) LazyFlatPathsSorted() []string {
-	if receiver.lazyFlatPathsSorted != nil {
-		return *receiver.lazyFlatPathsSorted
+func (it *GenericPathsCollection) LazyFlatPathsSorted() []string {
+	if it.lazyFlatPathsSorted != nil {
+		return *it.lazyFlatPathsSorted
 	}
 
-	lazyPaths := receiver.LazyFlatPaths()
+	lazyPaths := it.LazyFlatPaths()
 	sort.Strings(lazyPaths)
 
-	receiver.lazyFlatPathsSorted = &lazyPaths
+	it.lazyFlatPathsSorted = &lazyPaths
 
-	return *receiver.lazyFlatPaths
+	return *it.lazyFlatPaths
 }
 
-func (receiver *GenericPathsCollection) LazyFlatPaths() []string {
-	if receiver.lazyFlatPaths != nil {
-		return *receiver.lazyFlatPaths
+func (it *GenericPathsCollection) LazyFlatPaths() []string {
+	if it.lazyFlatPaths != nil {
+		return *it.lazyFlatPaths
 	}
 
-	flatPaths := receiver.FlatPaths()
-	receiver.lazyFlatPaths = &flatPaths
+	flatPaths := it.FlatPaths()
+	it.lazyFlatPaths = &flatPaths
 
 	return flatPaths
 }
 
-func (receiver *GenericPathsCollection) IsEmptySimilarPaths() bool {
-	return receiver.SimilarPaths == nil || len(receiver.SimilarPaths) == 0
+func (it *GenericPathsCollection) IsEmptySimilarPaths() bool {
+	return it.SimilarPaths == nil || len(it.SimilarPaths) == 0
 }
 
-func (receiver *GenericPathsCollection) SimilarPathsIndividualItemsLength() int {
+func (it *GenericPathsCollection) SimilarPathsIndividualItemsLength() int {
 	length := 0
 
-	if receiver.SimilarPaths == nil {
+	if it.SimilarPaths == nil {
 		return 0
 	}
 
-	for _, similarPaths := range receiver.SimilarPaths {
+	for _, similarPaths := range it.SimilarPaths {
 		length += similarPaths.Length()
 	}
 
 	return length
 }
 
-func (receiver *GenericPathsCollection) SimilarPathsFlatPaths() []string {
-	if receiver.IsEmptySimilarPaths() {
+func (it *GenericPathsCollection) SimilarPathsFlatPaths() []string {
+	if it.IsEmptySimilarPaths() {
 		return []string{}
 	}
 
 	slice := make(
 		[]string,
 		constants.Zero,
-		receiver.SimilarPathsIndividualItemsLength()+constants.ArbitraryCapacity10)
+		it.SimilarPathsIndividualItemsLength()+constants.ArbitraryCapacity10)
 
-	for _, similarPaths := range receiver.SimilarPaths {
+	for _, similarPaths := range it.SimilarPaths {
 		if similarPaths.IsEmpty() {
 			continue
 		}
@@ -104,35 +104,35 @@ func (receiver *GenericPathsCollection) SimilarPathsFlatPaths() []string {
 	return slice
 }
 
-func (receiver *GenericPathsCollection) IsEmptyAllDiffPaths() bool {
-	return receiver.AllDiffPaths == nil || len(receiver.AllDiffPaths) == 0
+func (it *GenericPathsCollection) IsEmptyAllDiffPaths() bool {
+	return it.AllDiffPaths == nil || len(it.AllDiffPaths) == 0
 }
 
-func (receiver *GenericPathsCollection) AllDiffPathsIndividualItemsLength() int {
+func (it *GenericPathsCollection) AllDiffPathsIndividualItemsLength() int {
 	length := 0
 
-	if receiver.AllDiffPaths == nil {
+	if it.AllDiffPaths == nil {
 		return 0
 	}
 
-	for _, allDiff := range receiver.AllDiffPaths {
+	for _, allDiff := range it.AllDiffPaths {
 		length += allDiff.Length()
 	}
 
 	return length
 }
 
-func (receiver *GenericPathsCollection) AllDiffPathsFlatPaths() []string {
-	if receiver.IsEmptyAllDiffPaths() {
+func (it *GenericPathsCollection) AllDiffPathsFlatPaths() []string {
+	if it.IsEmptyAllDiffPaths() {
 		return []string{}
 	}
 
 	slice := make(
 		[]string,
 		constants.Zero,
-		receiver.AllDiffPathsIndividualItemsLength()+constants.ArbitraryCapacity10)
+		it.AllDiffPathsIndividualItemsLength()+constants.ArbitraryCapacity10)
 
-	for _, allDiffPaths := range receiver.AllDiffPaths {
+	for _, allDiffPaths := range it.AllDiffPaths {
 		if allDiffPaths.IsEmpty() {
 			continue
 		}
@@ -145,37 +145,37 @@ func (receiver *GenericPathsCollection) AllDiffPathsFlatPaths() []string {
 	return slice
 }
 
-func (receiver *GenericPathsCollection) IsEmptyDynamicPaths() bool {
-	return receiver.DynamicPaths == nil || len(receiver.DynamicPaths.AllDiffPaths) == 0
+func (it *GenericPathsCollection) IsEmptyDynamicPaths() bool {
+	return it.DynamicPaths == nil || len(it.DynamicPaths.AllDiffPaths) == 0
 }
 
-func (receiver *GenericPathsCollection) DynamicPathsIndividualItemsLength() int {
+func (it *GenericPathsCollection) DynamicPathsIndividualItemsLength() int {
 	length := 0
 
-	if receiver.DynamicPaths == nil {
+	if it.DynamicPaths == nil {
 		return 0
 	}
 
-	for _, allDiff := range receiver.DynamicPaths.AllDiffPaths {
+	for _, allDiff := range it.DynamicPaths.AllDiffPaths {
 		length += allDiff.Length()
 	}
 
 	return length
 }
 
-func (receiver *GenericPathsCollection) DynamicPathsFlatPaths() []string {
-	if receiver.IsEmptyDynamicPaths() {
+func (it *GenericPathsCollection) DynamicPathsFlatPaths() []string {
+	if it.IsEmptyDynamicPaths() {
 		return []string{}
 	}
 
-	length := receiver.DynamicPathsIndividualItemsLength()
+	length := it.DynamicPathsIndividualItemsLength()
 
 	slice := make(
 		[]string,
 		constants.Zero,
 		length+constants.ArbitraryCapacity10)
 
-	for _, allDiffPaths := range receiver.DynamicPaths.AllDiffPaths {
+	for _, allDiffPaths := range it.DynamicPaths.AllDiffPaths {
 		if allDiffPaths.IsEmpty() {
 			continue
 		}
@@ -188,7 +188,15 @@ func (receiver *GenericPathsCollection) DynamicPathsFlatPaths() []string {
 	return slice
 }
 
-func (receiver *GenericPathsCollection) FlatPaths() []string {
+func (it *GenericPathsCollection) LazyPathsIf(isLazyPaths bool) []string {
+	if isLazyPaths {
+		return it.LazyFlatPaths()
+	}
+
+	return it.FlatPaths()
+}
+
+func (it *GenericPathsCollection) FlatPaths() []string {
 	collections := corestr.NewLinkedCollections()
 	wg := &sync.WaitGroup{}
 
@@ -196,9 +204,9 @@ func (receiver *GenericPathsCollection) FlatPaths() []string {
 	collections.AddAsyncFuncItems(
 		wg,
 		false,
-		receiver.AllDiffPathsFlatPaths,
-		receiver.DynamicPathsFlatPaths,
-		receiver.SimilarPathsFlatPaths,
+		it.AllDiffPathsFlatPaths,
+		it.DynamicPathsFlatPaths,
+		it.SimilarPathsFlatPaths,
 	)
 
 	return collections.
@@ -206,8 +214,8 @@ func (receiver *GenericPathsCollection) FlatPaths() []string {
 		ListStrings()
 }
 
-func (receiver *GenericPathsCollection) FlatPathsSorted() []string {
-	flatPaths := receiver.
+func (it *GenericPathsCollection) FlatPathsSorted() []string {
+	flatPaths := it.
 		FlatPaths()
 
 	sort.Strings(

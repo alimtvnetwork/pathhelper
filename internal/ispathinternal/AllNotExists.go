@@ -1,6 +1,6 @@
 package ispathinternal
 
-// if any not exist return false
+// AllNotExists if any not exist return false
 func AllNotExists(paths ...string) bool {
 	for _, path := range paths {
 		if Exists(path) {
