@@ -43,6 +43,7 @@ func ApplyPathsCreatorUsingErrorCollection(
 			return false
 		}
 
+		// create using chmod
 		_, filesCreateErr := createpath.CreateManySameDirWithFileMode(
 			fileMode,
 			isIgnoreOnExist,

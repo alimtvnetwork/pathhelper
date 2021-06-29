@@ -1,8 +1,8 @@
-package pathhelper
+package fsinternal
 
 import "os"
 
-func IsExistButNotDirectory(location string) bool {
+func IsExistButDirectory(location string) bool {
 	fileInfo, err := os.Stat(location)
 	isExist := err == nil || !os.IsNotExist(err)
 

@@ -6,26 +6,36 @@ import (
 
 var PathsCreateInstructionsUnix = []*pathinsfmt.PathsCreatorCollection{
 	{
-		PathsCreateInstructions: []pathinsfmt.BasePathsCreator{
+		PathsCreatorItems: []pathinsfmt.PathsCreator{
 			{
-				RootDir:     RootPath1,
-				Files:       FilesCollection1,
-				IsNormalize: true,
+				BasePathsCreator: pathinsfmt.BasePathsCreator{
+					RootDir:     RootPath1,
+					Files:       FilesCollection1,
+					IsNormalize: true,
+				},
+				ApplyRwx:       DefaultRwxOwnerGroupOther,
+				ApplyUserGroup: DefaultUserNameGroupName,
 			},
 			{
-				RootDir:     RootPath2,
-				Files:       FilesCollection1,
-				IsNormalize: true,
+				BasePathsCreator: pathinsfmt.BasePathsCreator{
+					RootDir:     RootPath2,
+					Files:       FilesCollection1,
+					IsNormalize: true,
+				},
+				ApplyRwx:       DefaultRwxOwnerGroupOther,
+				ApplyUserGroup: DefaultUserNameGroupName,
 			},
 			{
-				RootDir:     RootPath3,
-				Files:       FilesCollection1,
-				IsNormalize: true,
+				BasePathsCreator: pathinsfmt.BasePathsCreator{
+					RootDir:     RootPath3,
+					Files:       FilesCollection1,
+					IsNormalize: true,
+				},
+				ApplyRwx:       DefaultRwxOwnerGroupOther,
+				ApplyUserGroup: DefaultUserNameGroupName,
 			},
 		},
 		IsIgnoreOnExist:         false,
 		IsDeleteAllBeforeCreate: true,
-		ApplyRwx:                DefaultRwxOwnerGroupOther,
-		ApplyUserGroup:          DefaultUserNameGroupName,
 	},
 }

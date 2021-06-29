@@ -6,7 +6,7 @@ import (
 	"gitlab.com/evatix-go/errorwrapper/errtype"
 )
 
-func WriteFile(
+func AppendFile(
 	filePath string,
 	content []byte,
 ) *errorwrapper.Wrapper {
@@ -17,11 +17,9 @@ func WriteFile(
 			filePath)
 	}
 
-	// file already exist
+	// file already exist, append
 	if IsPathExists(filePath) {
-		return writeExistingFileContent(
-			filePath,
-			content)
+		return appendFileContent(filePath, content)
 	}
 
 	return writeNewFileContent(

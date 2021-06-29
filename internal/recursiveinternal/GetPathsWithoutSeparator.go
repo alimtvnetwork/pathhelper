@@ -17,7 +17,7 @@ func GetPathsWithoutSeparator(
 		return core.EmptyStringsPtr(), errwrappers.Empty()
 	}
 
-	if !fsinternal.IsExistButNotDirectory(rootPath) {
+	if !fsinternal.IsExistButDirectory(rootPath) {
 		return &[]string{}, errwrappers.Empty()
 	}
 

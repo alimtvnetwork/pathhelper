@@ -4,9 +4,7 @@ import (
 	"gitlab.com/evatix-go/core/osconsts"
 	"gitlab.com/evatix-go/errorwrapper/errwrappers"
 	"gitlab.com/evatix-go/pathhelper/createpath"
-	"gitlab.com/evatix-go/pathhelper/pathchmod"
 	"gitlab.com/evatix-go/pathhelper/pathinsfmt"
-	"gitlab.com/evatix-go/pathhelper/pathinsfmtexec/namegroup"
 )
 
 func ApplyPathsCreatorCollectionUsingErrorCollection(
@@ -25,7 +23,7 @@ func ApplyPathsCreatorCollectionUsingErrorCollection(
 	errCount := errorCollection.Length()
 
 	if isDeleteAllBeforeCreate {
-		for _, instruction := range pathsCreatorCollection.PathsCreateInstructions {
+		for _, instruction := range pathsCreatorCollection.PathsCreatorItems {
 			errorCollection.AddAnyFunctions(instruction.DeleteAllPaths)
 		}
 	}
@@ -45,37 +43,14 @@ func ApplyPathsCreatorCollectionUsingErrorCollection(
 	}
 
 	// apply chmod
-	if pathsCreatorCollection.HasRwx() {
-		fileMode, errWp := pathchmod.ParseRwxOwnerGroupOtherToFileMode(
-			pathsCreatorCollection.ApplyRwx)
-
-		errorCollection.AddWrapperPtr(errWp)
-
-		if errWp.HasError() {
-			return false
-		}
-
-		for _, instruction := range pathsCreatorCollection.PathsCreateInstructions {
-			instruction.ApplyLinuxRecursiveFileModeOnRoot(fileMode)
-		}
-
-		errorCollection.AddWrapperPtr(filesCreateErr)
-
-		if filesCreateErr.HasError() {
-			return false
-		}
+	for _, pathsCreator := range pathsCreatorCollection.PathsCreatorItems {
+		applyRwxOnPathCreators(&pathsCreator, errorCollection)
 	}
 
 	// apply groups
-	if pathsCreatorCollection.HasUserGroup() && osconsts.IsUnixGroup {
-		for _, instruction := range pathsCreatorCollection.PathsCreateInstructions {
-			errWp := namegroup.Apply(
-				true,
-				false,
-				pathsCreatorCollection.ApplyUserGroup,
-				instruction.RootDir)
-
-			errorCollection.AddWrapperPtr(errWp)
+	if osconsts.IsUnixGroup {
+		for _, pathsCreator := range pathsCreatorCollection.PathsCreatorItems {
+			applyUserNameGroupNameOnPathCreators(&pathsCreator, errorCollection)
 		}
 	}
 
