@@ -6,8 +6,10 @@ func AppendStringFileUsingLock(
 	filePath string,
 	content string,
 ) *errorwrapper.Wrapper {
-	writerMutex.Lock()
-	defer writerMutex.Unlock()
+	readWriteMutex.Lock()
+	defer readWriteMutex.Unlock()
 
-	return AppendFile(filePath, []byte(content))
+	return AppendFile(
+		filePath,
+		[]byte(content))
 }

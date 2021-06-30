@@ -19,7 +19,7 @@ func appendFileContent(filePath string, content []byte) *errorwrapper.Wrapper {
 	}
 
 	appendingFile, appendingFileErr := os.OpenFile(
-		"temp.txt",
+		filePath,
 		os.O_APPEND|os.O_WRONLY,
 		chmod)
 

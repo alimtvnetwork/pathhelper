@@ -3,5 +3,5 @@ package fs
 import "sync"
 
 var (
-	writerMutex = &sync.Mutex{}
+	readWriteMutex = &sync.Mutex{}
 )

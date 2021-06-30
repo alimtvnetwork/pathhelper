@@ -1,13 +1,16 @@
 package pathinsfmt
 
-import "gitlab.com/evatix-go/core/constants"
+import (
+	"gitlab.com/evatix-go/core/constants"
+	"gitlab.com/evatix-go/core/reqtype"
+)
 
 type LineIdentifier struct {
-	LineNumber int  `json:"LineNumber,omitempty"`
-	IsNewLine  bool `json:"IsNewLine,omitempty"`
+	LineNumber   int             `json:"LineNumber,omitempty"`
+	LineModifyAs reqtype.Request `json:"LineModifyAs,omitempty"`
 }
 
-func (it *LineIdentifier) IsLineInvalid() bool {
+func (it *LineIdentifier) IsInvalidLineNumber() bool {
 	return it == nil || it.LineNumber < 0
 }
 
@@ -15,8 +18,23 @@ func (it *LineIdentifier) HasLineNumber() bool {
 	return it != nil && it.LineNumber > constants.InvalidValue
 }
 
-func (it *LineIdentifier) IsNewLineAdd() bool {
-	return it.IsLineInvalid() && it.IsNewLine
+func (it *LineIdentifier) IsNewLineRequest() bool {
+	return it.LineModifyAs.IsCreate()
+}
+
+func (it *LineIdentifier) IsDeleteLineRequest() bool {
+	return it.HasLineNumber() &&
+		it.LineModifyAs.IsDelete() ||
+		it.LineModifyAs.IsDrop()
+}
+
+func (it *LineIdentifier) IsModifyLineRequest() bool {
+	return it.HasLineNumber() &&
+		it.LineModifyAs.IsUpdate()
+}
+
+func (it *LineIdentifier) IsAddNewOrModifyLineRequest() bool {
+	return it.IsNewLineRequest() || it.IsModifyLineRequest()
 }
 
 func (it *LineIdentifier) ToBaseLineIdentifier() *BaseLineIdentifier {
@@ -24,7 +42,7 @@ func (it *LineIdentifier) ToBaseLineIdentifier() *BaseLineIdentifier {
 		return nil
 	}
 
-	return NewBaseLineIdentifier(it.LineNumber)
+	return NewBaseLineIdentifier(it.LineNumber, it.LineModifyAs)
 }
 
 func (it *LineIdentifier) Clone() *LineIdentifier {
@@ -33,7 +51,7 @@ func (it *LineIdentifier) Clone() *LineIdentifier {
 	}
 
 	return &LineIdentifier{
-		LineNumber: it.LineNumber,
-		IsNewLine:  it.IsNewLine,
+		LineNumber:   it.LineNumber,
+		LineModifyAs: it.LineModifyAs,
 	}
 }

@@ -6,8 +6,8 @@ func WriteStringToFileUsingLock(
 	filePath string,
 	content string,
 ) *errorwrapper.Wrapper {
-	writerMutex.Lock()
-	defer writerMutex.Unlock()
+	readWriteMutex.Lock()
+	defer readWriteMutex.Unlock()
 
 	return WriteStringToFile(
 		filePath,

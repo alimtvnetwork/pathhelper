@@ -1,16 +1,18 @@
 package pathinsfmt
 
-import "gitlab.com/evatix-go/core/constants"
+import (
+	"gitlab.com/evatix-go/core/reqtype"
+)
 
 type BaseLineIdentifier struct {
 	LineIdentifier
 }
 
-func NewBaseLineIdentifier(lineNumber int) *BaseLineIdentifier {
+func NewBaseLineIdentifier(lineNumber int, modifyAs reqtype.Request) *BaseLineIdentifier {
 	return &BaseLineIdentifier{
 		LineIdentifier{
-			LineNumber: lineNumber,
-			IsNewLine:  lineNumber < constants.Zero,
+			LineNumber:   lineNumber,
+			LineModifyAs: modifyAs,
 		},
 	}
 }
@@ -21,8 +23,8 @@ func (it *BaseLineIdentifier) ToNewLineIdentifier() *LineIdentifier {
 	}
 
 	return &LineIdentifier{
-		LineNumber: it.LineNumber,
-		IsNewLine:  it.IsNewLine,
+		LineNumber:   it.LineNumber,
+		LineModifyAs: it.LineModifyAs,
 	}
 }
 
@@ -33,8 +35,8 @@ func (it *BaseLineIdentifier) Clone() *BaseLineIdentifier {
 
 	return &BaseLineIdentifier{
 		LineIdentifier{
-			LineNumber: it.LineNumber,
-			IsNewLine:  it.IsNewLine,
+			LineNumber:   it.LineNumber,
+			LineModifyAs: it.LineModifyAs,
 		},
 	}
 }
