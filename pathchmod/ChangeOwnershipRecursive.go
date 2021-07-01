@@ -8,14 +8,17 @@ import (
 	"gitlab.com/evatix-go/errorwrapper"
 )
 
-func ChangeOwnership(location, user, group string) *errorwrapper.Wrapper {
+func ChangeOwnershipRecursive(location, user, group string) *errorwrapper.Wrapper {
 	_, err := exec.LookPath(constants.ChmodCommand)
 	if err != nil || osconsts.IsWindows {
-		return ChangeOwnershipWindows(location, user, group)
+		return changeOwnershipWindowsRecursive(
+			location,
+			user,
+			group)
 	}
 
 	return changeOwnershipUnixChmod(
-		false,
+		true,
 		location,
 		user,
 		group)

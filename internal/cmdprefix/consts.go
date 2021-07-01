@@ -8,4 +8,12 @@ const (
 	// https://linuxize.com/post/chgrp-command-in-linux/
 	changeGroupNonRecursiveFormat = "chgrp %s"    // "chgrp %s" chgrp $group /dir1
 	changeGroupRecursiveFormat    = "chgrp -R %s" // "chgrp -R %s" chgrp -R $group /dir1
+	Touch                         = "touch"
+	HyphenE                       = "-e"
+	HyphenA                       = "-a"
+	HyphenG                       = "-G"
+	Chown                         = "chown"
+	ChGroup                       = "chgrp"
+	Root                          = "root"
+	UserMod                       = "usermod"
 )
