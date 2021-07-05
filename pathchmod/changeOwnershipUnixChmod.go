@@ -10,13 +10,13 @@ func changeOwnershipUnixChmod(
 	isRecursive bool,
 	location, user, group string,
 ) *errorwrapper.Wrapper {
-	chmodCommandLine := cmdprefix.ChownUser(
+	chownUser := cmdprefix.ChownUser(
 		isRecursive,
 		user,
 		group)
 
 	return errcmd.
 		BashArgsErrorWrapper(
-			chmodCommandLine,
+			chownUser,
 			location)
 }

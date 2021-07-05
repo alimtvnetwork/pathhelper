@@ -2,29 +2,22 @@ package fs
 
 import (
 	"io/ioutil"
+	"os"
 
-	"gitlab.com/evatix-go/core/chmodhelper"
 	"gitlab.com/evatix-go/errorwrapper"
 	"gitlab.com/evatix-go/errorwrapper/errnew"
 	"gitlab.com/evatix-go/errorwrapper/errtype"
 )
 
-func writeExistingFileContent(
+func writeNewFileContentUsingFileMode(
 	filePath string,
 	content []byte,
+	mode os.FileMode,
 ) *errorwrapper.Wrapper {
-	chmod, err := chmodhelper.GetExistingChmod(filePath)
-	if err != nil {
-		return errnew.Path(
-			errtype.File,
-			err,
-			filePath)
-	}
-
 	writeErr := ioutil.WriteFile(
 		filePath,
 		content,
-		chmod)
+		mode)
 
 	if writeErr != nil {
 		return errnew.PathMessages(

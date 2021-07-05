@@ -13,10 +13,10 @@ func ReadFile(filePath string) *errbyte.Results {
 	if err != nil {
 		return &errbyte.Results{
 			Values: &[]byte{},
-			ErrorWrapper: errnew.MessagesPtr(
+			ErrorWrapper: errnew.PathMessages(
 				errtype.ReadRequestFailed,
-				"fs.ReadFile",
 				filePath,
+				"fs.ReadFile",
 				err.Error()),
 		}
 	}
@@ -24,10 +24,10 @@ func ReadFile(filePath string) *errbyte.Results {
 	if data == nil {
 		return &errbyte.Results{
 			Values: &[]byte{},
-			ErrorWrapper: errnew.MessagesPtr(
+			ErrorWrapper: errnew.PathMessages(
 				errtype.EmptyContent,
-				"fs.ReadFile",
 				filePath,
+				"fs.ReadFile",
 				"Path doesn't contain any valid data but nil."),
 		}
 	}

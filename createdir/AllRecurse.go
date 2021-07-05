@@ -9,7 +9,7 @@ import (
 
 	"gitlab.com/evatix-go/pathhelper"
 	"gitlab.com/evatix-go/pathhelper/dirinfo"
-	"gitlab.com/evatix-go/pathhelper/performing"
+	"gitlab.com/evatix-go/pathhelper/performingas"
 )
 
 // AllRecurse Create all sub-directories and create the final directory
@@ -35,6 +35,6 @@ func AllRecurse(path string, fileMode os.FileMode) *dirinfo.Result {
 		FileModeRequested: &fileMode,
 		HasIssues:         errorWrapper.HasError(),
 		IsIgnoredAction:   isIgnoredAction,
-		Action:            performing.CreateAction,
+		Action:            performingas.CreateAction,
 	}
 }

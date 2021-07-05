@@ -9,7 +9,7 @@ import (
 
 	"gitlab.com/evatix-go/pathhelper"
 	"gitlab.com/evatix-go/pathhelper/dirinfo"
-	"gitlab.com/evatix-go/pathhelper/performing"
+	"gitlab.com/evatix-go/pathhelper/performingas"
 )
 
 // New Create directory and create the final directory
@@ -38,6 +38,6 @@ func New(path string, fileMode os.FileMode) *dirinfo.Result {
 		IsValidDir:        fileInfoWrapper.IsDirectory,
 		HasIssues:         errorWrapper.HasError(),
 		IsIgnoredAction:   isIgnoredAction,
-		Action:            performing.CreateAction,
+		Action:            performingas.CreateAction,
 	}
 }

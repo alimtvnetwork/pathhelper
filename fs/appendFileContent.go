@@ -1,48 +1,39 @@
 package fs
 
 import (
-	"os"
-
 	"gitlab.com/evatix-go/core/chmodhelper"
 	"gitlab.com/evatix-go/errorwrapper"
 	"gitlab.com/evatix-go/errorwrapper/errnew"
 	"gitlab.com/evatix-go/errorwrapper/errtype"
 )
 
-func appendFileContent(filePath string, content []byte) *errorwrapper.Wrapper {
+func appendFileContent(filePath string, content []byte) (finalErrorWrapper *errorwrapper.Wrapper) {
 	chmod, err := chmodhelper.GetExistingChmod(filePath)
 	if err != nil {
-		return errnew.MessagesPtr(
-			errtype.File,
-			"fs.WriteFile",
+		return errnew.PathMessages(
+			errtype.ExistingChmodReadFailed,
+			filePath,
 			err.Error())
 	}
 
-	appendingFile, appendingFileErr := os.OpenFile(
+	osFile := GetOsFile(
+		finalErrorWrapper,
 		filePath,
-		os.O_APPEND|os.O_WRONLY,
+		FlagAppendOrWrite,
 		chmod)
 
-	if appendingFile != nil {
-		defer appendingFile.Close()
+	if osFile.HasError() {
+		return osFile.ErrorWrapper
 	}
 
-	if appendingFileErr != nil {
-		return errnew.MessagesPtr(
-			errtype.FileRead,
-			"fs.AppendFile",
-			filePath,
-			"Failed append file.",
-			appendingFileErr.Error())
-	}
-
-	_, appendingErr := appendingFile.Write(content)
+	defer osFile.AttachDeferCloseOnRequire()
+	_, appendingErr := osFile.OsFile.Write(content)
 
 	if appendingErr != nil {
-		return errnew.MessagesPtr(
+		return errnew.PathMessages(
 			errtype.FileAppend,
-			"fs.AppendFile",
 			filePath,
+			"fs.appendFileContent",
 			"Failed append file contents.",
 			appendingErr.Error())
 	}

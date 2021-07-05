@@ -7,7 +7,7 @@ import (
 	"gitlab.com/evatix-go/errorwrapper/errnew"
 
 	"gitlab.com/evatix-go/pathhelper/fileinfo"
-	"gitlab.com/evatix-go/pathhelper/performing"
+	"gitlab.com/evatix-go/pathhelper/performingas"
 )
 
 type Result struct {
@@ -18,7 +18,7 @@ type Result struct {
 	FileModeRequested *os.FileMode
 	HasIssues         bool
 	IsIgnoredAction   bool
-	Action            performing.Action
+	Action            performingas.Action
 }
 
 func Empty() *Result {
@@ -34,7 +34,7 @@ func EmptyUsingInfo(fileWrapperInfo *fileinfo.Wrapper) *Result {
 		FileModeRequested: nil,
 		HasIssues:         false,
 		IsIgnoredAction:   true,
-		Action:            performing.EmptyDirectoryResult,
+		Action:            performingas.EmptyDirectoryResult,
 	}
 }
 
@@ -62,7 +62,7 @@ func New(fileOrDirPath string) *Result {
 			IsValidDir:        false,
 			HasIssues:         !isErrorEmpty,
 			IsIgnoredAction:   true,
-			Action:            performing.EmptyDirectoryResult,
+			Action:            performingas.EmptyDirectoryResult,
 		}
 	}
 
@@ -76,7 +76,7 @@ func New(fileOrDirPath string) *Result {
 		FileModeRequested: &fileMode,
 		HasIssues:         !isErrorEmpty,
 		IsIgnoredAction:   true,
-		Action:            performing.NoAction,
+		Action:            performingas.NoAction,
 	}
 }
 
