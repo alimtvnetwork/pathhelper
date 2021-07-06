@@ -18,23 +18,27 @@ func GetSimpleStat(
 			location)
 
 		return &SimpleStat{
-			Location:   location,
-			FileInfo:   info,
-			IsNotExist: true,
-			IsExist:    false,
-			IsDir:      false,
-			IsFile:     false,
-			ErrWrapper: pathErr,
+			Location:        location,
+			FileInfo:        info,
+			HasFileInfo:     info != nil,
+			InvalidFileInfo: info == nil,
+			IsNotExist:      true,
+			IsExist:         false,
+			IsDir:           false,
+			IsFile:          false,
+			ErrWrapper:      pathErr,
 		}
 	}
 
 	return &SimpleStat{
-		Location:   location,
-		FileInfo:   info,
-		IsNotExist: !isExist,
-		IsExist:    isExist,
-		IsDir:      isExist && info != nil && info.IsDir(),
-		IsFile:     isExist && info != nil && !info.IsDir(),
-		ErrWrapper: errnew.EmptyPtr,
+		Location:        location,
+		FileInfo:        info,
+		HasFileInfo:     info != nil,
+		InvalidFileInfo: info == nil,
+		IsNotExist:      !isExist,
+		IsExist:         isExist,
+		IsDir:           isExist && info != nil && info.IsDir(),
+		IsFile:          isExist && info != nil && !info.IsDir(),
+		ErrWrapper:      errnew.EmptyPtr,
 	}
 }

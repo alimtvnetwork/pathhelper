@@ -15,12 +15,14 @@ import (
 )
 
 type SimpleStat struct {
-	Location   string
-	FileInfo   os.FileInfo
-	IsNotExist bool
-	IsExist    bool
-	IsDir      bool
-	IsFile     bool
+	Location        string
+	FileInfo        os.FileInfo
+	HasFileInfo     bool
+	InvalidFileInfo bool
+	IsNotExist      bool
+	IsExist         bool
+	IsDir           bool
+	IsFile          bool
 	errinf.ErrWrapper
 }
 
