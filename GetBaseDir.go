@@ -7,8 +7,6 @@ import (
 // No slash at the end
 // reference example : https://play.golang.org/p/oT6eWNZAeEi
 func GetBaseDir(currentPath string) (baseDir string) {
-	i := splitinternal.LastSlash(
+	return splitinternal.GetBaseDir(
 		currentPath)
-
-	return currentPath[:i]
 }

@@ -2,7 +2,7 @@ package splitinternal
 
 import "gitlab.com/evatix-go/core/constants"
 
-// Ref : https://play.golang.org/p/oT6eWNZAeEi
+// GetAllSplits Ref : https://play.golang.org/p/oT6eWNZAeEi
 func GetAllSplits(currentPath string) (baseDirNames *[]string) {
 	i := len(currentPath) - 1
 	list := make(

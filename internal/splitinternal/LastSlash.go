@@ -1,6 +1,6 @@
 package splitinternal
 
-// lastSlash(s) is strings.LastIndex(s, "/" or "\\")
+// LastSlash lastSlash(s) is strings.LastIndex(s, "/" or "\\")
 func LastSlash(s string) int {
 	i := len(s) - 1
 

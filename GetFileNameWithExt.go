@@ -2,10 +2,8 @@ package pathhelper
 
 import "gitlab.com/evatix-go/pathhelper/internal/splitinternal"
 
-// reference example : https://play.golang.org/p/oT6eWNZAeEi
+// GetFileNameWithExt reference example : https://play.golang.org/p/oT6eWNZAeEi
 func GetFileNameWithExt(currentPath string) (fileName string) {
-	i := splitinternal.LastSlash(
+	return splitinternal.GetFileNameWithExt(
 		currentPath)
-
-	return currentPath[i+1:]
 }

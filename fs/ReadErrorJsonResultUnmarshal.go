@@ -10,7 +10,8 @@ import (
 
 func ReadErrorJsonResultUnmarshal(
 	filePath string,
-	unmarshalObject interface{}) *errorwrapper.Wrapper {
+	unmarshalObject interface{},
+) *errorwrapper.Wrapper {
 	errJson := ReadErrorJsonResult(filePath)
 
 	if errJson.ErrorWrapper != nil && errJson.HasError() {

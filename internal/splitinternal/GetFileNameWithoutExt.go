@@ -12,6 +12,18 @@ func GetFileNameWithoutExt(currentPath string) (filename string) {
 	i := LastSlash(
 		currentPath)
 
+	if i <= constants.Zero {
+		indexOfDot := strings.Index(
+			currentPath,
+			constants.Dot)
+
+		if indexOfDot > -1 {
+			return currentPath[:indexOfDot]
+		}
+
+		return currentPath
+	}
+
 	filename = currentPath[i+1:]
 	indexOfDot := strings.Index(
 		filename,

@@ -366,7 +366,7 @@ func (receiver *Wrapper) GetBaseDir() string {
 func (receiver *Wrapper) GetBaseDirName() string {
 	currentPath := receiver.String()
 
-	return splitinternal.GetBaseDirName(
+	return splitinternal.GetBaseDirNameOrEmpty(
 		currentPath)
 }
 
