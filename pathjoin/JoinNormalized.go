@@ -2,12 +2,13 @@ package pathjoin
 
 import (
 	"gitlab.com/evatix-go/core/osconsts"
-
 	"gitlab.com/evatix-go/pathhelper/normalize"
 )
 
 // JoinNormalized normalized applied auto
-func JoinNormalized(path1, path2 string) string {
+func JoinNormalized(
+	path1, path2 string,
+) string {
 	if path2 == "" {
 		return normalize.Path(path1)
 	}

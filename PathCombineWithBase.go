@@ -17,7 +17,7 @@ func PathCombineWithBase(
 		relativePath)
 
 	if isExpandEnv {
-		combinedPath = expandpath.EnvironmentVarExpand(combinedPath)
+		combinedPath = expandpath.ExpandVariables(combinedPath)
 	}
 
 	return combinedPath

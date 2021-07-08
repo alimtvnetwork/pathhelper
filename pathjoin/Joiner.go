@@ -5,6 +5,7 @@ import (
 
 	"gitlab.com/evatix-go/core/constants"
 	"gitlab.com/evatix-go/core/osconsts"
+	"gitlab.com/evatix-go/pathhelper/expandpath"
 
 	"gitlab.com/evatix-go/pathhelper/normalize"
 )
@@ -35,55 +36,94 @@ func EmptyJoiner() *Joiner {
 	return &Joiner{items: []string{}}
 }
 
-func (receiver *Joiner) Length() int {
-	return len(receiver.items)
+func (it *Joiner) Length() int {
+	return len(it.items)
 }
 
-func (receiver *Joiner) IsEmpty() bool {
-	return len(receiver.items) == 0
+func (it *Joiner) IsEmpty() bool {
+	return len(it.items) == 0
 }
 
-func (receiver *Joiner) HasItems() bool {
-	return len(receiver.items) > 0
+func (it *Joiner) HasItems() bool {
+	return len(it.items) > 0
 }
 
-func (receiver *Joiner) Add(addingPath string) *Joiner {
-	receiver.items = append(
-		receiver.items,
+func (it *Joiner) Add(addingPath string) *Joiner {
+	it.items = append(
+		it.items,
 		addingPath)
 
-	return receiver
+	return it
 }
 
-func (receiver *Joiner) Adds(addingPaths ...string) *Joiner {
+func (it *Joiner) Adds(addingPaths ...string) *Joiner {
 	if addingPaths == nil {
-		return receiver
+		return it
 	}
 
 	for _, curPath := range addingPaths {
-		receiver.items = append(
-			receiver.items,
+		it.items = append(
+			it.items,
 			curPath)
 	}
 
-	return receiver
+	return it
 }
 
 // ToString isNormalizePlusLongPathFix if true then adds UNC path fix for Windows
-func (receiver *Joiner) ToString(sep string, isNormalizePlusLongPathFix bool) string {
-	finalPath := strings.Join(receiver.items, sep)
+func (it *Joiner) ToString(
+	sep string,
+	isExpandEnvVars,
+	isNormalizePlusLongPathFix bool,
+) string {
+	finalPath := strings.Join(it.items, sep)
 
-	return normalize.PathUsingSeparatorUsingSingleIf(
+	finalNormalized := normalize.PathUsingSeparatorUsingSingleIf(
 		isNormalizePlusLongPathFix,
 		sep,
 		finalPath)
+
+	return expandpath.ExpandVariablesIf(
+		isExpandEnvVars,
+		finalNormalized)
 }
 
-// normalize and long path fix true
+// OsSeparatorJoin
 //
 // Usages osconsts.PathSeparator as separator
-func (receiver *Joiner) String() string {
-	return receiver.ToString(
+func (it *Joiner) OsSeparatorJoin(
+	isExpandEnvVars,
+	isNormalizePlusLongPathFix bool,
+) string {
+	return it.ToString(
 		osconsts.PathSeparator,
+		isExpandEnvVars,
+		isNormalizePlusLongPathFix)
+}
+
+func (it *Joiner) OsSeparatorJoinNormalized(
+	isExpandEnvVars bool,
+) string {
+	return it.ToString(
+		osconsts.PathSeparator,
+		isExpandEnvVars,
+		true)
+}
+
+func (it *Joiner) OsSeparatorJoinExpand(
+	isNormalizePlusLongPathFix bool,
+) string {
+	return it.ToString(
+		osconsts.PathSeparator,
+		true,
+		isNormalizePlusLongPathFix)
+}
+
+// String normalize + expand and long path fix true
+//
+// Usages osconsts.PathSeparator as separator
+func (it *Joiner) String() string {
+	return it.OsSeparatorJoin(
+		true,
 		true)
 }

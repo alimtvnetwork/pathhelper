@@ -10,12 +10,15 @@ import (
 	"gitlab.com/evatix-go/pathhelper/normalize"
 )
 
-// JoinWithSep isNormalizePlusLongPathFix if true then for windows add UNC Path fix
-func JoinWithSep(
+// JoinBaseDirWithSep isNormalizePlusLongPathFix if true then for windows add UNC Path fix
+//
+// Omits baseDir if not given
+func JoinBaseDirWithSep(
 	isSkipEmpty,
 	isExpandEnvVariables,
 	isNormalizePlusLongPathFix bool,
 	sep string,
+	baseDir string,
 	paths ...string,
 ) string {
 	if len(paths) == 0 {
@@ -30,6 +33,12 @@ func JoinWithSep(
 	finalPath := strings.Join(
 		paths,
 		sep)
+
+	if baseDir != "" {
+		finalPath = baseDir +
+			sep +
+			finalPath
+	}
 
 	normalized := normalize.PathUsingSeparatorUsingSingleIf(
 		isNormalizePlusLongPathFix,

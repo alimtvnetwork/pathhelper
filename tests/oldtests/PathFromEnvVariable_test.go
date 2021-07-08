@@ -35,11 +35,11 @@ var pathFromEnvVariableTestCaseWrappers = []pathFromEnvVariableTestCaseWrapper{
 func TestPathFromEnvVariable(t *testing.T) {
 	for i, testCase := range pathFromEnvVariableTestCaseWrappers {
 		// Arrange
-		testCaseMessage := fmt.Sprintf("[EnvironmentVarExpand] inputs (%s) expects (%s)", testCase.input, testCase.expectedMessage)
+		testCaseMessage := fmt.Sprintf("[ExpandVariables] inputs (%s) expects (%s)", testCase.input, testCase.expectedMessage)
 
 		Convey(testCaseMessage, t, func() {
 			// Act
-			actual := expandpath.EnvironmentVarExpand(testCase.input)
+			actual := expandpath.ExpandVariables(testCase.input)
 
 			// Assert
 			Convey(GetAssertMessage(actual, testCase.expected, i), func() { // todo check equality
