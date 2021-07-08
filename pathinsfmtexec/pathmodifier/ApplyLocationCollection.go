@@ -1,24 +1,25 @@
 package pathmodifier
 
 import (
-	"gitlab.com/evatix-go/errorwrapper"
-	"gitlab.com/evatix-go/errorwrapper/errnew"
+	"gitlab.com/evatix-go/errorwrapper/errwrappers"
 	"gitlab.com/evatix-go/pathhelper/pathinsfmt"
 )
 
 func ApplyLocationCollection(
 	isContinueOnErr bool,
+	errorCollection *errwrappers.Collection,
 	modifier *pathinsfmt.PathModifier,
 	locationCollection *pathinsfmt.LocationCollection,
-) *errorwrapper.Wrapper {
+) (isSuccess bool) {
 	if modifier == nil ||
 		locationCollection == nil ||
 		locationCollection.IsEmpty() {
-		return errnew.EmptyPtr
+		return true
 	}
 
 	return ApplySimple(
 		isContinueOnErr,
+		errorCollection,
 		modifier,
 		locationCollection.LazyFlatPaths())
 }

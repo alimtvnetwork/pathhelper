@@ -1,9 +1,7 @@
 package expandpath
 
 import (
-	"strings"
-
-	"gitlab.com/evatix-go/core/constants"
+	"gitlab.com/evatix-go/core/coredata/stringslice"
 )
 
 // getVariables function takes a string input and identifies every word
@@ -12,42 +10,32 @@ import (
 // If input is empty or has no such word then returns nil.
 func GetEnvironmentVariables(
 	pathContainsEnvVarStartingDollarSymbol string,
-) *[]string {
-	var regularExpressionSymbol string
-	var envVariableKeysForMap, envVariableRawKeys []string
-
+) []string {
 	if len(pathContainsEnvVarStartingDollarSymbol) == 0 {
-		return nil
+		return []string{}
 	}
 
 	// Check which regular expression case is true
-	isNotRegularExpressionCase :=
-		!regularExpressionForEachWordsWithDollarSymbol.
-			MatchString(pathContainsEnvVarStartingDollarSymbol) &&
-			!regularExpressionForEachWordsWithinPercentSymbol.
-				MatchString(pathContainsEnvVarStartingDollarSymbol)
+	isAnyCaseMatches := regexEachWordPercent.
+		MatchString(pathContainsEnvVarStartingDollarSymbol) ||
+		regexEachWordDollar.
+			MatchString(pathContainsEnvVarStartingDollarSymbol)
 
-	if isNotRegularExpressionCase {
-		return nil
+	isNoCaseMatches := !isAnyCaseMatches
+
+	if isNoCaseMatches {
+		return []string{}
 	}
 
-	envVariableRawKeys, regularExpressionSymbol =
-		getEnvironmentVarRawKeysAndRegularExpressionSymbol(
+	envVariableRawKeys, _ :=
+		getDollarOrPercentSymbolIdentifierEnvInfos(
 			pathContainsEnvVarStartingDollarSymbol)
 
-	for _, rawEnvKeys := range envVariableRawKeys {
-		rawEnvKeys = strings.Replace(
-			rawEnvKeys,
-			regularExpressionSymbol,
-			constants.EmptyString,
-			constants.MinusOne,
-		)
+	simpleVars := stringslice.MakeLen(len(envVariableRawKeys))
 
-		envVariableKeysForMap = append(
-			envVariableKeysForMap,
-			rawEnvKeys,
-		)
+	for i, envInfo := range envVariableRawKeys {
+		simpleVars[i] = envInfo.SimplifiedName
 	}
 
-	return &envVariableKeysForMap
+	return simpleVars
 }

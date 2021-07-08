@@ -2,26 +2,23 @@ package expandpath
 
 import (
 	"os"
-
-	"gitlab.com/evatix-go/core/constants"
 )
 
 // expandEnvironmentVariable function takes an array of environment variables (string) as input
 // and outputs a map of expanded path of those variables if the paths exist.
-func expandEnvironmentVariable(variableForExpanding *[]string) *map[string]string {
-	var expandedPath = map[string]string{}
+func expandEnvironmentVariable(envInfos *[]EnvKeyInfo) *map[string]string {
+	var expandedPathMap = make(
+		map[string]string,
+		len(*envInfos))
 
-	for _, keyName := range *variableForExpanding {
-		_, exists := os.LookupEnv(keyName)
+	for _, envInfo := range *envInfos {
+		name := envInfo.SimplifiedName
+		_, isExist := os.LookupEnv(name)
 
-		envVariableKeyName := constants.Dollar + keyName
-
-		if exists {
-			expandedPath[envVariableKeyName] = os.Getenv(keyName)
-		} else {
-			expandedPath[envVariableKeyName] = envVariableKeyName
+		if isExist {
+			expandedPathMap[envInfo.GivenAs] = os.Getenv(name)
 		}
 	}
 
-	return &expandedPath
+	return &expandedPathMap
 }

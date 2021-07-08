@@ -7,6 +7,7 @@ import (
 	"gitlab.com/evatix-go/core/chmodhelper/chmodins"
 	"gitlab.com/evatix-go/core/coreinstruction"
 	"gitlab.com/evatix-go/errorwrapper/errwrappers"
+	"gitlab.com/evatix-go/pathhelper/fs"
 	"gitlab.com/evatix-go/pathhelper/pathinsfmt"
 	"gitlab.com/evatix-go/pathhelper/pathinsfmtexec/pathmodifierverify"
 )
@@ -42,7 +43,7 @@ func main() {
 	}
 
 	errorCollection := errwrappers.Empty()
-	isSuccess := pathmodifierverify.ApplyVerifier(
+	_ = pathmodifierverify.ApplyVerifier(
 		true,
 		true,
 		true,
@@ -51,5 +52,17 @@ func main() {
 		errorCollection,
 		locations)
 
-	fmt.Println(isSuccess, errorCollection)
+	wkPath := os.TempDir() + "/main.json"
+	errCollection2 := &errwrappers.Collection{}
+
+	readWp := fs.
+		ReadJsonParseSelfInjector(wkPath, errCollection2)
+	fmt.Println(readWp)
+
+	fmt.Println(errCollection2.IsSuccess(), errCollection2)
+
+	// wr := fs.
+	// 	WriteJsonResult(false, errorCollection.Json(),wkPath)
+
+	// fmt.Println(wr)
 }

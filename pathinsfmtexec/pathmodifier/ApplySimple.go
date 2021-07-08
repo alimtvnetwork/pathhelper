@@ -1,8 +1,6 @@
 package pathmodifier
 
 import (
-	"gitlab.com/evatix-go/errorwrapper"
-	"gitlab.com/evatix-go/errorwrapper/errnew"
 	"gitlab.com/evatix-go/errorwrapper/errwrappers"
 	"gitlab.com/evatix-go/pathhelper/pathchmod"
 	"gitlab.com/evatix-go/pathhelper/pathinsfmt"
@@ -13,14 +11,15 @@ import (
 
 func ApplySimple(
 	isContinueOnErr bool,
+	errCollection *errwrappers.Collection,
 	modifier *pathinsfmt.PathModifier,
 	flatPaths []string,
-) *errorwrapper.Wrapper {
-	if modifier == nil || len(flatPaths) == 0 {
-		return errnew.EmptyPtr
-	}
+) (isSuccess bool) {
+	stateTracker := errCollection.StateTracker()
 
-	errCollection := errwrappers.Empty()
+	if modifier == nil || len(flatPaths) == 0 {
+		return true
+	}
 
 	if modifier.HasChmodCommands() {
 		errCollection.AddWrapperPtr(
@@ -59,11 +58,12 @@ func ApplySimple(
 	}
 
 	if modifier.HasRwxInstructions() {
-		errCollection.AddWrapperPtr(pathchmod.ApplyChmodRwxInstructions(
-			&modifier.BaseRwxInstructions,
-			flatPaths),
+		errCollection.AddWrapperPtr(
+			pathchmod.ApplyChmodRwxInstructions(
+				&modifier.BaseRwxInstructions,
+				flatPaths),
 		)
 	}
 
-	return errCollection.GetAsErrorWrapperPtr()
+	return stateTracker.IsSuccess()
 }

@@ -1,12 +1,8 @@
 package expandpath
 
-import (
-	"regexp"
-
-	"gitlab.com/evatix-go/core/regconsts"
-)
+import "gitlab.com/evatix-go/pathhelper/pathregex"
 
 var (
-	regularExpressionForEachWordsWithDollarSymbol    = regexp.MustCompile(regconsts.RegExForEachWordsWithDollarSymbol)
-	regularExpressionForEachWordsWithinPercentSymbol = regexp.MustCompile(regconsts.EachWordsWithinPercentSymbol)
+	regexEachWordPercent = pathregex.EachWordsWithinPercentSymbol
+	regexEachWordDollar  = pathregex.EachWordsWithDollarSymbol
 )
