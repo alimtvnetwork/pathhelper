@@ -61,6 +61,8 @@ func main() {
 
 	fmt.Println(errCollection2.IsSuccess(), errCollection2)
 
+	fmt.Println(fs.CopyFileContents(wkPath, wkPath + "2.json"))
+
 	// wr := fs.
 	// 	WriteJsonResult(false, errorCollection.Json(),wkPath)
 
