@@ -3,5 +3,5 @@ package pathstatlinux
 import "regexp"
 
 var (
-	bracketsMatcherWithContents = regexp.MustCompile(`\(.+\/.+\)`)
+	bracketsMatcherWithContents = regexp.MustCompile(`\(.+/.+\)`)
 )

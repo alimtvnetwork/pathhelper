@@ -4,7 +4,10 @@ package expandpath
 //
 // Acceptable Env paths:
 // ${Java_home} $java_home %{java_home} %java_home all will be expand e
-func ExpandVariablesIf(isExpand bool, pathContainsEnvVariables string) string {
+func ExpandVariablesIf(
+	isExpand bool,
+	pathContainsEnvVariables string,
+) string {
 	if !isExpand {
 		return pathContainsEnvVariables
 	}

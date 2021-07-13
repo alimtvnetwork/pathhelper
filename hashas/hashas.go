@@ -161,7 +161,7 @@ func (it *Variant) MarshalJSON() ([]byte, error) {
 }
 
 func (it *Variant) UnmarshalJSON(data []byte) error {
-	byteVal, err := BasicEnumImpl.UnmarshallEnumToValue(data)
+	byteVal, err := it.UnmarshallEnumToValue(data)
 
 	if err == nil {
 		*it = Variant(byteVal)
@@ -175,7 +175,7 @@ func (it *Variant) AsBasicEnumContractsBinder() coreinterface.BasicEnumContracts
 }
 
 func (it *Variant) UnmarshallEnumToValue(jsonUnmarshallingValue []byte) (byte, error) {
-	return BasicEnumImpl.UnmarshallEnumToValue(jsonUnmarshallingValue)
+	return BasicEnumImpl.UnmarshallToValue(true, jsonUnmarshallingValue)
 }
 
 func (it *Variant) MaxByte() byte {

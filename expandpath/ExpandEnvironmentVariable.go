@@ -4,9 +4,9 @@ import (
 	"os"
 )
 
-// expandEnvironmentVariable function takes an array of environment variables (string) as input
+// ExpandEnvironmentVariable function takes an array of environment variables (string) as input
 // and outputs a map of expanded path of those variables if the paths exist.
-func expandEnvironmentVariable(envInfos *[]EnvKeyInfo) *map[string]string {
+func ExpandEnvironmentVariable(envInfos *[]EnvKeyInfo) *map[string]string {
 	var expandedPathMap = make(
 		map[string]string,
 		len(*envInfos))

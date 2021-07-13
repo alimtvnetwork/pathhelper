@@ -18,7 +18,7 @@ type ExecutableEnvironmentPath struct {
 	sync.Mutex
 }
 
-// returns all pathsCollection paths on that env directory once,
+// GetCachedFileNamesCollection returns all pathsCollection paths on that env directory once,
 // caches it and returns that in later function calls
 func (eep *ExecutableEnvironmentPath) GetCachedFileNamesCollection() *fileinfo.FileNamesCollection {
 	// checking if fileInfos already generated
@@ -42,7 +42,7 @@ func (eep *ExecutableEnvironmentPath) GetFileNamesCollection() *fileinfo.FileNam
 		true)
 }
 
-// returns all directories path on that env directory,
+// GetDirectories returns all directories path on that env directory,
 // no nested or resursive paths
 func (eep *ExecutableEnvironmentPath) GetDirectories() []*string {
 	var directories []*string

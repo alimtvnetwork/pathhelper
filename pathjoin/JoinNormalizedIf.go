@@ -1,6 +1,8 @@
 package pathjoin
 
-import "gitlab.com/evatix-go/core/osconsts"
+import (
+	"gitlab.com/evatix-go/core/osconsts"
+)
 
 // JoinNormalizedIf normalized applied auto
 func JoinNormalizedIf(isNormalize bool, path1, path2 string) string {

@@ -6,7 +6,7 @@ import (
 	"gitlab.com/evatix-go/core/coretests"
 )
 
-// Skip on Unix
+// SkipOnUnix Skip on Unix
 func SkipOnUnix(t *testing.T) {
 	coretests.SkipOnUnix(t)
 }

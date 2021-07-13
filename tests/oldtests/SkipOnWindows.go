@@ -6,7 +6,7 @@ import (
 	"gitlab.com/evatix-go/core/coretests"
 )
 
-// Skip tests on Windows
+// SkipOnWindows Skip tests on Windows
 func SkipOnWindows(t *testing.T) {
 	coretests.SkipOnWindows(t)
 }

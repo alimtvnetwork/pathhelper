@@ -12,7 +12,7 @@ func CheckSumFileBytes(
 	hashType hashas.Variant,
 	location string,
 ) *errbyte.Results {
-	fileInfo, isExist, _ := chmodhelper.GetPathExistStat(location)
+	fileInfo, isExist, _ := chmodhelper.GetPathExistStatExpand(location)
 
 	if !isExist {
 		return &errbyte.Results{

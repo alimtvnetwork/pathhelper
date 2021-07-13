@@ -9,7 +9,8 @@ import (
 func GetSimpleStat(
 	location string,
 ) *SimpleStat {
-	info, isExist, err := chmodhelper.GetPathExistStat(location)
+	info, isExist, err := chmodhelper.GetPathExistStatExpand(
+		location)
 
 	if err != nil {
 		pathErr := errnew.Path(

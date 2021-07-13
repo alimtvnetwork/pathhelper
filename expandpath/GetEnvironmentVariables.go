@@ -15,20 +15,8 @@ func GetEnvironmentVariables(
 		return []string{}
 	}
 
-	// Check which regular expression case is true
-	isAnyCaseMatches := regexEachWordPercent.
-		MatchString(pathContainsEnvVarStartingDollarSymbol) ||
-		regexEachWordDollar.
-			MatchString(pathContainsEnvVarStartingDollarSymbol)
-
-	isNoCaseMatches := !isAnyCaseMatches
-
-	if isNoCaseMatches {
-		return []string{}
-	}
-
-	envVariableRawKeys, _ :=
-		getDollarOrPercentSymbolIdentifierEnvInfos(
+	envVariableRawKeys :=
+		GetDollarOrPercentSymbolIdentifierEnvInfos(
 			pathContainsEnvVarStartingDollarSymbol)
 
 	simpleVars := stringslice.MakeLen(len(envVariableRawKeys))

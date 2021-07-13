@@ -8,14 +8,14 @@ package expandpath
 // Acceptable Env paths:
 // ${Java_home} $java_home %{java_home} %java_home all will be expand e
 func ExpandVariables(pathContainsEnvVariables string) string {
-	keyNameArray, _ := getDollarOrPercentSymbolIdentifierEnvInfos(
+	envInfos := GetDollarOrPercentSymbolIdentifierEnvInfos(
 		pathContainsEnvVariables)
 
-	if len(keyNameArray) == 0 {
+	if len(envInfos) == 0 {
 		return pathContainsEnvVariables
 	}
 
-	replacementMap := expandEnvironmentVariable(&keyNameArray)
+	replacementMap := ExpandEnvironmentVariable(&envInfos)
 
 	return GetCompiledPath(
 		pathContainsEnvVariables,

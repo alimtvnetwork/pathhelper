@@ -7,7 +7,12 @@ import (
 	"gitlab.com/evatix-go/core/coreutils/stringutil"
 )
 
-func curlyBraceRemoveFromKeys(slice []string) []EnvKeyInfo {
+// GetEnvInfosKeyNames will be retrieved from slice strings
+//
+// Key Names may be formatter like :
+//
+//  ${identifier} or $identifier or %{identifier} or %identifier
+func GetEnvInfosKeyNames(slice []string) []EnvKeyInfo {
 	length := len(slice)
 	newSlice := make(
 		[]EnvKeyInfo,

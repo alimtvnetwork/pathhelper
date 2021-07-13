@@ -1,29 +1,12 @@
 package expandpath
 
-import (
-	"strings"
-
-	"gitlab.com/evatix-go/pathhelper/ispath"
-)
+import "gitlab.com/evatix-go/core/coreutils/stringutil"
 
 func GetCompiledPath(
 	pathTemplate string,
 	compilingMap map[string]string,
 ) string {
-	if ispath.Empty(pathTemplate) {
-		return pathTemplate
-	}
-
-	if compilingMap == nil || len(compilingMap) == 0 {
-		return pathTemplate
-	}
-
-	for key, value := range compilingMap {
-		pathTemplate = strings.ReplaceAll(
-			pathTemplate,
-			key,
-			value)
-	}
-
-	return pathTemplate
+	return stringutil.ReplaceByMap(
+		pathTemplate,
+		compilingMap)
 }
