@@ -336,7 +336,7 @@ func (pathsCollection *PathsCollection) String() string {
 		*pathsCollection.Strings(),
 		constants.NewLineUnix)
 
-	list[coreindexes.I0] = "Root Path :" + pathsCollection.rootPath
+	list[coreindexes.I0] = "Root Location :" + pathsCollection.rootPath
 	list[coreindexes.I1] = "Separator :" + pathsCollection.separator
 	if pathsCollection.ErrorWrapper.HasError() {
 		list[coreindexes.I2] = "Error :" + pathsCollection.ErrorWrapper.

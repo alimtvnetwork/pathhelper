@@ -24,7 +24,7 @@ func changeOwnershipWindowsRecursive(path, userName, groupName string) *errorwra
 			err = os.Chown(name, uid, gid)
 		}
 
-		if err == filepath.SkipDir {
+		if errors.Is(err, filepath.SkipDir) {
 			return nil
 		}
 

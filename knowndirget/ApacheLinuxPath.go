@@ -9,7 +9,7 @@ import (
 // ApacheLinuxPath "/etc/apache/"
 func ApacheLinuxPath() string {
 	if osconsts.IsWindows {
-		panic("Path only available for Unix OS") // todo test for panic
+		panic("Location only available for Unix OS") // todo test for panic
 	}
 
 	return knowndir.ApacheLinuxPath.Value()

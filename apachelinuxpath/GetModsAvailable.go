@@ -10,7 +10,7 @@ import (
 // GetModsAvailable returns /etc/apache/mods-available as a string
 func GetModsAvailable() string {
 	if osconsts.IsWindows {
-		panic("Path only available for Unix OS")
+		panic("Location only available for Unix OS")
 	}
 
 	return knowndir.ModsAvailable.CombineWith(knowndirget.ApacheLinuxPath())

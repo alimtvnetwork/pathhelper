@@ -9,7 +9,6 @@ import (
 	"gitlab.com/evatix-go/errorwrapper/errwrappers"
 	"gitlab.com/evatix-go/pathhelper/fs"
 	"gitlab.com/evatix-go/pathhelper/pathinsfmt"
-	"gitlab.com/evatix-go/pathhelper/pathinsfmtexec/copyinsexec"
 	"gitlab.com/evatix-go/pathhelper/pathinsfmtexec/pathmodifierverify"
 	"gitlab.com/evatix-go/pathhelper/pathjoin"
 )
@@ -65,18 +64,12 @@ func main() {
 
 	fmt.Println(fs.CopyFileContents(wkPath, wkPath+"2.json"))
 
-	ins := pathinsfmt.CopyPath{
-		Source:            "./cmd",
-		Destination:       pathjoin.Join(os.TempDir(), "pathhelper", true),
-		IsRecursive:       true,
-		IsClearBeforeCopy: true,
-		IsNormalize:       true,
-		IsExpand:          false,
-	}
+	pathFinal := pathjoin.WithTempPlusDefaults(
+		"alim",
+		"loca1",
+		"loc2")
 
-	err := copyinsexec.Apply(&ins)
-
-	fmt.Println(err)
+	fmt.Println(pathFinal)
 
 	// wr := fs.
 	// 	WriteJsonResult(false, errorCollection.Json(),wkPath)

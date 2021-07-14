@@ -1,30 +1,12 @@
 package pathinsfmt
 
-import (
-	"gitlab.com/evatix-go/core/constants"
-	"gitlab.com/evatix-go/pathhelper/pathjoin"
-)
-
 type CopyPath struct {
-	Source, Destination string
-	IsRecursive         bool
-	IsClearBeforeCopy   bool
-	IsNormalize         bool
-	IsExpand            bool
+	SourceDestinationPlusCompiled
+	BaseIsRename
+	Rename  string           `json:"Rename,omitempty"`
+	Options *CopyPathOptions `json:"Options,omitempty"`
 }
 
-func (it CopyPath) DestinationFixedPath() string {
-	return pathjoin.JoinConditionalNormalizedExpandIf(
-		it.IsNormalize,
-		it.IsExpand,
-		it.Destination,
-		constants.EmptyString)
-}
-
-func (it CopyPath) SourceFixedPath() string {
-	return pathjoin.JoinConditionalNormalizedExpandIf(
-		it.IsNormalize,
-		it.IsExpand,
-		it.Source,
-		constants.EmptyString)
+func (it *CopyPath) HasOptions() bool {
+	return it != nil && it.Options != nil
 }

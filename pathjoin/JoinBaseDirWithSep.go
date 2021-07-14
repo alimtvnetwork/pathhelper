@@ -10,7 +10,7 @@ import (
 	"gitlab.com/evatix-go/pathhelper/normalize"
 )
 
-// JoinBaseDirWithSep isNormalizePlusLongPathFix if true then for windows add UNC Path fix
+// JoinBaseDirWithSep isNormalizePlusLongPathFix if true then for windows add UNC Location fix
 //
 // Omits baseDir if not given
 func JoinBaseDirWithSep(

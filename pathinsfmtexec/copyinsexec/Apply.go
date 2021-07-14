@@ -14,14 +14,20 @@ import (
 	"gitlab.com/evatix-go/pathhelper/pathjoin"
 )
 
+// Apply Not implemented
 func Apply(copyPath *pathinsfmt.CopyPath) *errorwrapper.Wrapper {
 	if copyPath == nil {
 		return errnew.EmptyPtr
 	}
 
+	errnew.NotImplPanic("", "Not implemented yet, tech debt")
+
+	hasOptions := copyPath.HasOptions()
+	options := copyPath.Options
+
 	delCondition := deletepaths.Condition{
-		IsRemove:           copyPath.IsClearBeforeCopy,
-		IsRecursive:        copyPath.IsRecursive,
+		IsRemove:           hasOptions && options.IsClearAtFirst,
+		IsRecursive:        hasOptions && copyPath.IsRecursive,
 		IsExistBeforeClear: true,
 	}
 

@@ -28,7 +28,7 @@ func ReadFile(filePath string) *errbyte.Results {
 				errtype.EmptyContent,
 				filePath,
 				"fsinternal.ReadFile",
-				"Path doesn't contain any valid data but nil."),
+				"Location doesn't contain any valid data but nil."),
 		}
 	}
 

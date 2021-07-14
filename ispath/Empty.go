@@ -5,5 +5,5 @@ func Empty(path string) bool {
 }
 
 func EmptyPtr(path *string) bool {
-	return path == nil || &path == nil || Empty(*path)
+	return path == nil || Empty(*path)
 }

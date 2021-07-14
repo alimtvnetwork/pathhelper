@@ -4,7 +4,7 @@ import (
 	"gitlab.com/evatix-go/core/simplewrap"
 )
 
-// compileEnvPathToLinuxRawEnvPathFormat Path="...."
+// compileEnvPathToLinuxRawEnvPathFormat Location="...."
 //
 // Adds double quotation and prepends `PATH="..."`
 // Given string gx will become `PATH="gx"` without any further checking.
