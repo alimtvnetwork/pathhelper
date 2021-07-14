@@ -6,13 +6,14 @@ import (
 )
 
 type PathOptions struct {
-	IsNormalize     bool `json:"IsNormalize,omitempty"`
-	IsExpandEnvVar  bool `json:"IsExpandEnvVariable,omitempty"` // can expand environment variables with %{Name} $Name %{Java_home} ${Java_HOME}
-	IsRecursive     bool `json:"IsRecursive,omitempty"`
-	IsSkipOnInvalid bool `json:"IsSkipOnInvalid,omitempty"`
-	IsSkipOnExist   bool `json:"IsSkipOnExist,omitempty"`
-	IsSkipOnEmpty   bool `json:"IsSkipOnEmpty,omitempty"`
-	IsRelative      bool `json:"IsRelative,omitempty"`
+	IsContinueOnError bool `json:"IsContinueOnError,omitempty"`
+	IsNormalize       bool `json:"IsNormalize,omitempty"`
+	IsExpandEnvVar    bool `json:"IsExpandEnvVariable,omitempty"` // can expand environment variables with %{Name} $Name %{Java_home} ${Java_HOME}
+	IsRecursive       bool `json:"IsRecursive,omitempty"`
+	IsSkipOnInvalid   bool `json:"IsSkipOnInvalid,omitempty"`
+	IsSkipOnExist     bool `json:"IsSkipOnExist,omitempty"`
+	IsSkipOnEmpty     bool `json:"IsSkipOnEmpty,omitempty"`
+	IsRelative        bool `json:"IsRelative,omitempty"`
 }
 
 func (it *PathOptions) GetFixedPath(location string) string {

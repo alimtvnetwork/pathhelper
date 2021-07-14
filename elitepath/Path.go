@@ -12,6 +12,7 @@ import (
 	"gitlab.com/evatix-go/errorwrapper/errdata/errbyte"
 	"gitlab.com/evatix-go/errorwrapper/errdata/errstr"
 	"gitlab.com/evatix-go/errorwrapper/errnew"
+	"gitlab.com/evatix-go/errorwrapper/errtype"
 	"gitlab.com/evatix-go/errorwrapper/errwrappers"
 	"gitlab.com/evatix-go/pathhelper"
 	"gitlab.com/evatix-go/pathhelper/fs"
@@ -186,6 +187,26 @@ func (it *Path) ReadFileBytes() *errbyte.Results {
 
 func (it *Path) ReadFileString() *errstr.Result {
 	return fs.ReadFileStringUsingLock(it.CompiledPath())
+}
+
+func (it *Path) ChmodCondition() *chmodins.Condition {
+	condition := chmodins.Condition{
+		IsSkipOnInvalid:   it.IsSkipOnInvalid,
+		IsContinueOnError: it.IsContinueOnError,
+		IsRecursive:       it.IsRecursive,
+	}
+
+	return &condition
+}
+
+func (it *Path) ApplyFileMode(mode os.FileMode) *errorwrapper.Wrapper {
+	condition := it.ChmodCondition()
+
+	err := chmodhelper.FileModeApplyChmod(mode, condition, it.Path)
+
+	return errnew.NewPtr(
+		errtype.ChmodApplyFailed,
+		err)
 }
 
 func (it *Path) ReadFileUnmarshal(
