@@ -54,10 +54,7 @@ func (it *Variant) StringSumOf(
 ) *errstr.Result {
 	outputBytesResults := it.SumOf(inputBytes)
 
-	return &errstr.Result{
-		Value:        outputBytesResults.String(),
-		ErrorWrapper: outputBytesResults.ErrorWrapper,
-	}
+	return outputBytesResults.ErrStr()
 }
 
 func (it *Variant) SumOf(

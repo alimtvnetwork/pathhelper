@@ -8,5 +8,5 @@ func IsPathExistsUsingLock(location string) bool {
 
 	_, err := os.Stat(location)
 
-	return !os.IsNotExist(err)
+	return err == nil || !os.IsNotExist(err)
 }

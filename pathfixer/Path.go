@@ -14,6 +14,23 @@ type Location struct {
 	compiledPath *string
 }
 
+func NewLocation(location string) *Location {
+	return &Location{
+		PathOptions: PathOptions{},
+		Path:        location,
+	}
+}
+
+func NewLocationUsingOptions(
+	location string,
+	options PathOptions,
+) *Location {
+	return &Location{
+		PathOptions: options,
+		Path:        location,
+	}
+}
+
 func (it *Location) IsEmptyPath() bool {
 	return it == nil || it.Path == constants.EmptyString
 }

@@ -21,8 +21,16 @@ func JoinBaseDirWithSep(
 	baseDir string,
 	paths ...string,
 ) string {
-	if len(paths) == 0 {
+	if len(paths) == 0 && baseDir == "" {
 		return constants.EmptyString
+	}
+
+	if len(paths) == 0 && baseDir != "" {
+		return JoinConditionalNormalizedExpandIf(
+			isNormalizePlusLongPathFix,
+			isExpandEnvVariables,
+			baseDir,
+			constants.EmptyString)
 	}
 
 	if isSkipEmpty {

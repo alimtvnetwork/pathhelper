@@ -1,21 +1,15 @@
 package pathjoin
 
 import (
-	"os"
+	"path"
 
-	"gitlab.com/evatix-go/core/osconsts"
+	"gitlab.com/evatix-go/pathhelper/normalize"
 )
 
 func WithTemp(
-	isNormalize,
-	isExpand bool,
 	locations ...string,
 ) string {
-	return JoinBaseDirWithSep(
-		false,
-		isExpand,
-		isNormalize,
-		osconsts.PathSeparator,
-		os.TempDir(),
-		locations...)
+	joinedPath := path.Join(locations...)
+
+	return normalize.Path(joinedPath)
 }

@@ -10,11 +10,17 @@ import (
 )
 
 func CreateMany(
+	isLock,
 	isIgnoreOnExist bool,
 	files []string,
 ) ([]*os.File, *errorwrapper.Wrapper) {
 	if len(files) == 0 {
 		return []*os.File{}, errnew.EmptyPtr
+	}
+
+	if isLock {
+		lockerMutex.Lock()
+		defer lockerMutex.Unlock()
 	}
 
 	slice := make(
@@ -29,6 +35,7 @@ func CreateMany(
 			}
 
 			file, errWp := CreateSingle(
+				false,
 				filePath,
 			)
 
@@ -45,6 +52,7 @@ func CreateMany(
 	// no checking create
 	for _, filePath := range files {
 		file, errWp := CreateSingle(
+			false,
 			filePath,
 		)
 

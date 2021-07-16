@@ -5,5 +5,6 @@ func AllDirectories(fullPaths ...string) bool {
 		return false
 	}
 
-	return AllDirectoriesPtr(&fullPaths)
+	return AllDirectoriesPtr(
+		&fullPaths)
 }

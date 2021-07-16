@@ -5,7 +5,7 @@ import (
 	"sync"
 )
 
-// For each path converted to file info wrapper and finally returns as an array.
+// Get For each path converted to file info wrapper and finally returns as an array.
 func Get(fullPaths *[]string) *[]os.FileInfo {
 	if fullPaths == nil {
 		return &[]os.FileInfo{}

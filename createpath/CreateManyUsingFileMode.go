@@ -10,12 +10,18 @@ import (
 )
 
 func CreateManyUsingFileMode(
-	mode os.FileMode,
+	isLock,
 	isIgnoreOnExist bool,
+	mode os.FileMode,
 	files []string,
 ) ([]*os.File, *errorwrapper.Wrapper) {
 	if len(files) == 0 {
 		return []*os.File{}, errnew.EmptyPtr
+	}
+
+	if isLock {
+		lockerMutex.Lock()
+		defer lockerMutex.Unlock()
 	}
 
 	slice := make(
@@ -30,6 +36,7 @@ func CreateManyUsingFileMode(
 			}
 
 			file, errWp := CreateSingleUsingFileMode(
+				false,
 				mode,
 				filePath,
 			)
@@ -47,6 +54,7 @@ func CreateManyUsingFileMode(
 	// no checking create
 	for _, filePath := range files {
 		file, errWp := CreateSingleUsingFileMode(
+			false,
 			mode,
 			filePath,
 		)

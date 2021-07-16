@@ -7,7 +7,7 @@ import (
 func File(path string) bool {
 	currentFileInfo, err := os.Stat(path)
 
-	if err != nil {
+	if err != nil || currentFileInfo == nil {
 		return false
 	}
 

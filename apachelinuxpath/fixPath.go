@@ -8,10 +8,3 @@ func fixPath(root, next string) string {
 		root,
 		next)
 }
-
-func fixPathIf(isFix bool, root, next string) string {
-	return normalizeinternal.JoinFixIf(
-		isFix,
-		root,
-		next)
-}

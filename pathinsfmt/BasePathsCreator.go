@@ -4,6 +4,7 @@ import (
 	"os"
 
 	"gitlab.com/evatix-go/core/chmodhelper"
+	"gitlab.com/evatix-go/core/filemode"
 	"gitlab.com/evatix-go/errorwrapper"
 	"gitlab.com/evatix-go/errorwrapper/errdata/errstr"
 	"gitlab.com/evatix-go/errorwrapper/errnew"
@@ -113,29 +114,53 @@ func (it *BasePathsCreator) PathsChmodMap() *errstr.Hashmap {
 	}
 }
 
-func (it *BasePathsCreator) CreatePaths(mode os.FileMode) (
+func (it *BasePathsCreator) CreatePaths(isLock bool, mode os.FileMode) (
 	[]*os.File,
 	*errorwrapper.Wrapper,
 ) {
 	return it.createFiles(
+		isLock,
 		mode,
 		it.FlatPaths())
 }
 
-func (it *BasePathsCreator) CreateLazyPathsWithoutMode() (
+func (it *BasePathsCreator) SetupDefault() *errorwrapper.Wrapper {
+	return it.Setup(true, true, filemode.X755)
+}
+
+func (it *BasePathsCreator) Setup(
+	isLock bool,
+	isRemoveBefore bool,
+	mode os.FileMode,
+) *errorwrapper.Wrapper {
+	if isRemoveBefore {
+		_, err := it.DeleteAllThenCreateLazyFlatFiles(
+			isLock, mode)
+
+		return err
+	}
+
+	_, err := it.CreatePaths(isLock, mode)
+
+	return err
+}
+
+func (it *BasePathsCreator) CreateLazyPathsWithoutMode(isLock bool,) (
 	[]*os.File,
 	*errorwrapper.Wrapper,
 ) {
 	return createpath.CreateMany(
+		isLock,
 		false,
 		it.LazyFlatPaths())
 }
 
-func (it *BasePathsCreator) CreatePathsWithoutMode() (
+func (it *BasePathsCreator) CreatePathsWithoutMode(isLock bool) (
 	[]*os.File,
 	*errorwrapper.Wrapper,
 ) {
 	return createpath.CreateMany(
+		isLock,
 		false,
 		it.FlatPaths())
 }
@@ -148,16 +173,18 @@ func (it *BasePathsCreator) ApplyLinuxRecursiveFileModeOnRoot(
 		it.RootDir)
 }
 
-func (it *BasePathsCreator) CreateLazyFlatFiles(mode os.FileMode) (
+func (it *BasePathsCreator) CreateLazyFlatFiles(isLock bool, mode os.FileMode) (
 	[]*os.File,
 	*errorwrapper.Wrapper,
 ) {
 	return it.createFiles(
+		isLock,
 		mode,
 		it.LazyFlatPaths())
 }
 
 func (it *BasePathsCreator) DeleteAllThenCreateLazyFlatFiles(
+	isLock bool,
 	mode os.FileMode,
 ) (
 	[]*os.File,
@@ -166,15 +193,17 @@ func (it *BasePathsCreator) DeleteAllThenCreateLazyFlatFiles(
 	deleteAllErr := it.DeleteAllPaths()
 
 	if deleteAllErr.HasError() {
-		return []*os.File{}, errnew.EmptyPtr
+		return []*os.File{}, deleteAllErr
 	}
 
 	return it.createFiles(
+		isLock,
 		mode,
 		it.LazyFlatPaths())
 }
 
 func (it *BasePathsCreator) DeleteAllThenCreateFlatFiles(
+	isLock bool,
 	mode os.FileMode,
 ) (
 	[]*os.File,
@@ -183,15 +212,17 @@ func (it *BasePathsCreator) DeleteAllThenCreateFlatFiles(
 	deleteAllErr := it.DeleteAllPaths()
 
 	if deleteAllErr.HasError() {
-		return []*os.File{}, errnew.EmptyPtr
+		return []*os.File{}, deleteAllErr
 	}
 
 	return it.createFiles(
+		isLock,
 		mode,
 		it.FlatPaths())
 }
 
 func (it *BasePathsCreator) createFiles(
+	isLock bool,
 	mode os.FileMode,
 	files []string,
 ) ([]*os.File, *errorwrapper.Wrapper) {
@@ -200,8 +231,9 @@ func (it *BasePathsCreator) createFiles(
 	}
 
 	return createpath.CreateManySameDirWithFileMode(
-		mode,
+		isLock,
 		false,
+		mode,
 		it.RootDir,
 		files,
 	)

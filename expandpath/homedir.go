@@ -98,7 +98,7 @@ func Home(path string) (string, *errorwrapper.Wrapper) {
 func dirUnix() (string, error) {
 	homeEnv := homeCaps
 	if runtime.GOOS == "plan9" {
-		// On plan9, env vars are lowercase.
+		// On plan9, env pathsconst are lowercase.
 		homeEnv = "home"
 	}
 

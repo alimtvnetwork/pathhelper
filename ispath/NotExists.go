@@ -3,7 +3,9 @@ package ispath
 import "os"
 
 func NotExists(path string) bool {
-	_, err := os.Stat(path)
+	fileInfo, err := os.Stat(path)
 
-	return err != nil
+	return err != nil &&
+		os.IsNotExist(err) ||
+		fileInfo == nil
 }

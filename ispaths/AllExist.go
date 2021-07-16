@@ -5,9 +5,9 @@ func AllExist(paths ...string) bool {
 		return false
 	}
 
-	allExistResults := ExistPtr(&paths)
+	allExistResults := Exist(paths...)
 
-	for _, isExist := range *allExistResults {
+	for _, isExist := range allExistResults {
 		if !isExist {
 			return false
 		}

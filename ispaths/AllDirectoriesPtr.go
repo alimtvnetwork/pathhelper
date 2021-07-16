@@ -13,7 +13,10 @@ func AllDirectoriesPtr(fullPaths *[]string) bool {
 		fullPaths)
 
 	for _, wrapper := range *convertedFileInfos {
-		if wrapper == nil || !wrapper.IsDir() {
+		isAnyNotDir := wrapper == nil ||
+			!wrapper.IsDir()
+
+		if isAnyNotDir {
 			return false
 		}
 	}

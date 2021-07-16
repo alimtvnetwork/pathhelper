@@ -1,5 +1,7 @@
 package nginxlinuxpath
 
 var (
-	DefaultNginxDirStructure = GetFullDirStructure(true, DefaultRoot)
+	DefaultDirStructure = GetFullDirStructure(
+		true,
+		DefaultRoot)
 )

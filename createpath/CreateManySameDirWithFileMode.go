@@ -6,17 +6,24 @@ import (
 	"gitlab.com/evatix-go/core/constants"
 	"gitlab.com/evatix-go/errorwrapper"
 	"gitlab.com/evatix-go/errorwrapper/errnew"
+	"gitlab.com/evatix-go/pathhelper/internal/chmodinternal"
 	"gitlab.com/evatix-go/pathhelper/internal/fsinternal"
 )
 
 func CreateManySameDirWithFileMode(
-	mode os.FileMode,
+	isLock,
 	isIgnoreOnExist bool,
+	mode os.FileMode,
 	rootDir string,
 	files []string,
 ) ([]*os.File, *errorwrapper.Wrapper) {
 	if len(files) == 0 {
 		return []*os.File{}, errnew.EmptyPtr
+	}
+
+	if isLock {
+		lockerMutex.Lock()
+		defer lockerMutex.Unlock()
 	}
 
 	slice := make(
@@ -31,6 +38,7 @@ func CreateManySameDirWithFileMode(
 			}
 
 			file, errWp := CreateSingle(
+				false,
 				filePath,
 			)
 
@@ -41,14 +49,17 @@ func CreateManySameDirWithFileMode(
 			slice = append(slice, file)
 		}
 
-		return slice, applyLinuxRecursiveChmodOnDir(
+		return slice, chmodinternal.Apply(
+			false,
 			mode,
-			rootDir)
+			rootDir,
+			files)
 	}
 
 	// no checking create
 	for _, filePath := range files {
 		file, errWp := CreateSingle(
+			false,
 			filePath,
 		)
 
@@ -59,7 +70,9 @@ func CreateManySameDirWithFileMode(
 		slice = append(slice, file)
 	}
 
-	return slice, applyLinuxRecursiveChmodOnDir(
+	return slice, chmodinternal.Apply(
+		false,
 		mode,
-		rootDir)
+		rootDir,
+		files)
 }

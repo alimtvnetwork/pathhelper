@@ -10,12 +10,18 @@ import (
 )
 
 func CreateSingleUsingFileMode(
+	isLock bool,
 	mode os.FileMode,
 	filePath string,
 ) (
 	*os.File,
 	*errorwrapper.Wrapper,
 ) {
+	if isLock {
+		lockerMutex.Lock()
+		defer lockerMutex.Unlock()
+	}
+
 	dirCreateErr := fsinternal.CreateDirectoryAllUptoParent(
 		filePath)
 

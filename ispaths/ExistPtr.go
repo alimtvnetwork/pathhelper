@@ -5,16 +5,16 @@ import (
 	"sync"
 )
 
-func ExistPtr(paths *[]string) *[]bool {
+func Exist(paths ...string) []bool {
 	if paths == nil {
-		return &[]bool{}
+		return []bool{}
 	}
 
-	length := len(*paths)
+	length := len(paths)
 	list := make([]bool, length)
 
 	if length == 0 {
-		return &list
+		return list
 	}
 
 	wg := &sync.WaitGroup{}
@@ -31,11 +31,11 @@ func ExistPtr(paths *[]string) *[]bool {
 		}
 	}
 
-	for i, fullPath := range *paths {
+	for i, fullPath := range paths {
 		go inPlaceProcessor(i, fullPath)
 	}
 
 	wg.Wait()
 
-	return &list
+	return list
 }
