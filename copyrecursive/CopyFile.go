@@ -8,18 +8,18 @@ import (
 )
 
 func CopyFile(src, dst string, fileMode os.FileMode) error {
-	sourceFileStat, err := os.Stat(src)
-	if err != nil {
-		return err
+	sourceFileStat, errStat := os.Stat(src)
+	if errStat != nil {
+		return errStat
 	}
 
 	if !sourceFileStat.Mode().IsRegular() {
 		return fmt.Errorf("%s is not a regular file", src)
 	}
 
-	source, err := os.Open(src)
-	if err != nil {
-		return err
+	source, errOpen := os.Open(src)
+	if errOpen != nil {
+		return errOpen
 	}
 
 	defer source.Close()
@@ -29,13 +29,13 @@ func CopyFile(src, dst string, fileMode os.FileMode) error {
 		return err
 	}
 
-	destination, err := os.Create(dst)
-	if err != nil {
-		return err
+	destination, errCreate := os.Create(dst)
+	if errCreate != nil {
+		return errCreate
 	}
 
 	defer destination.Close()
-	_, err = io.Copy(destination, source)
+	_, errOpen = io.Copy(destination, source)
 
-	return err
+	return errOpen
 }

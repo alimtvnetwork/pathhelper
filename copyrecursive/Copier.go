@@ -7,6 +7,7 @@ import (
 	"gitlab.com/evatix-go/errorwrapper"
 	"gitlab.com/evatix-go/errorwrapper/errnew"
 	"gitlab.com/evatix-go/errorwrapper/errtype"
+
 	"gitlab.com/evatix-go/pathhelper/pathjoin"
 )
 
@@ -65,20 +66,36 @@ func (it *Copier) Copy() *errorwrapper.Wrapper {
 	if srcFileStat.IsRegular() {
 		copyErr := it.copyFile(it.src, it.dst)
 
-		return errnew.NewRef2(
-			errtype.Copy,
-			copyErr,
-			"src",
-			it.src,
-			"dst",
-			it.dst)
+		if copyErr != nil {
+			return errnew.NewRef2(
+				errtype.Copy,
+				copyErr,
+				"src",
+				it.src,
+				"dst",
+				it.dst)
+		}
+
+		// Only delete source iff the copy is successful
+		if it.opts.IsMove {
+			errRemove := os.RemoveAll(it.src)
+
+			return errnew.NewRef2(
+				errtype.RemoveFailed,
+				errRemove,
+				"src",
+				it.src,
+				"dst",
+				it.dst)
+		}
 	}
 
-	if it.opts.IsRecursive {
-		copyDirErr := it.copyDir(
-			it.src,
-			it.dst)
+	copyDirErr := it.copyDir(
+		it.opts.IsRecursive,
+		it.src,
+		it.dst)
 
+	if copyDirErr != nil {
 		return errnew.NewRef2(
 			errtype.Copy,
 			copyDirErr,
@@ -88,7 +105,20 @@ func (it *Copier) Copy() *errorwrapper.Wrapper {
 			it.dst)
 	}
 
-	return errnew.NotImplemented
+	// Remove src iff the copy is successful
+	if it.opts.IsMove {
+		errRemove := os.RemoveAll(it.src)
+
+		return errnew.NewRef2(
+			errtype.RemoveFailed,
+			errRemove,
+			"src",
+			it.src,
+			"dst",
+			it.dst)
+	}
+
+	return errnew.EmptyPtr
 }
 
 // copySymLink copies a symbolic link from src to dst.
@@ -119,11 +149,10 @@ func (it *Copier) copyFile(src, dst string) error {
 	}
 
 	return CopyFile(src, dst, defaultFileMode)
-
 }
 
-// copyDir recursively copies a src directory to a destination.
-func (it *Copier) copyDir(src, dst string) error {
+// copyDir copies a src directory to a destination.
+func (it *Copier) copyDir(isRecursive bool, src, dst string) error {
 	entries, err := ioutil.ReadDir(src)
 	if err != nil {
 		return err
@@ -138,12 +167,27 @@ func (it *Copier) copyDir(src, dst string) error {
 			return err
 		}
 
+		// Flag check
+		if it.opts.IsSkipOnExist {
+			if isExists(destPath) {
+				continue
+			}
+		}
+
 		switch fileInfo.Mode() & os.ModeType {
 		case os.ModeDir:
+			if !isRecursive {
+				continue
+			}
+
+			// Should non recursive version also create the empty directories?
+			// Probably not
+
 			if err := it.createDir(destPath, defaultFileMode); err != nil {
 				return err
 			}
-			if err := DoSimple(sourcePath, destPath); err != nil {
+
+			if err := it.copyDir(true, sourcePath, destPath); err != nil {
 				return err
 			}
 		case os.ModeSymlink:
@@ -173,6 +217,7 @@ func (it *Copier) copyDir(src, dst string) error {
 
 		isSymlink := entry.Mode()&os.ModeSymlink != 0
 		if !isSymlink {
+			// Changing the destination permission as same as the source permission
 			if err := os.Chmod(destPath, entry.Mode()); err != nil {
 				return err
 			}

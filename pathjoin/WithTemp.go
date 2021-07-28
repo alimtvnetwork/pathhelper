@@ -1,15 +1,13 @@
 package pathjoin
 
 import (
-	"path"
-
-	"gitlab.com/evatix-go/pathhelper/normalize"
+	"gitlab.com/evatix-go/pathhelper/pathsconst"
 )
 
 func WithTemp(
 	locations ...string,
 ) string {
-	joinedPath := path.Join(locations...)
-
-	return normalize.Path(joinedPath)
+	return Fixed(
+		pathsconst.TempDir,
+		locations...)
 }

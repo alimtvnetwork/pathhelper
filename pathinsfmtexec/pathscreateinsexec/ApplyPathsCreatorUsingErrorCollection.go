@@ -10,6 +10,7 @@ import (
 )
 
 func ApplyPathsCreatorUsingErrorCollection(
+	isLock,
 	isDeleteAllBeforeCreate,
 	isLazyPaths,
 	isIgnoreOnExist bool,
@@ -45,8 +46,9 @@ func ApplyPathsCreatorUsingErrorCollection(
 
 		// create using chmod
 		_, filesCreateErr := createpath.CreateManySameDirWithFileMode(
-			fileMode,
+			isLock,
 			isIgnoreOnExist,
+			fileMode,
 			pathsCreator.RootDir,
 			workingPaths)
 
@@ -58,6 +60,7 @@ func ApplyPathsCreatorUsingErrorCollection(
 	} else {
 		// create without chmod
 		_, filesCreateErr := createpath.CreateMany(
+			isLock,
 			isIgnoreOnExist,
 			workingPaths)
 

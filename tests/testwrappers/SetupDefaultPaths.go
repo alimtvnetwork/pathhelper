@@ -8,6 +8,7 @@ func SetupDefaultPathsUnix() []string {
 	errCollection := pathscreateinsexec.ApplyPathsCreatorCollectionsReturnErrorCollection(
 		true,
 		true,
+		true,
 		false,
 		PathsCreateInstructionsUnix)
 

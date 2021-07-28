@@ -5,8 +5,13 @@ import (
 	"crypto/sha1"
 	"crypto/sha256"
 	"crypto/sha512"
+	"encoding/hex"
 	"hash"
+	"io"
+	"os"
 
+	"gitlab.com/evatix-go/core/conditional"
+	"gitlab.com/evatix-go/core/constants"
 	"gitlab.com/evatix-go/core/coreinterface"
 	"gitlab.com/evatix-go/errorwrapper"
 	"gitlab.com/evatix-go/errorwrapper/errdata/errbyte"
@@ -54,7 +59,62 @@ func (it *Variant) StringSumOf(
 ) *errstr.Result {
 	outputBytesResults := it.SumOf(inputBytes)
 
-	return outputBytesResults.ErrStr()
+	bytesValuePtr := outputBytesResults.Values
+
+	return &errstr.Result{
+		Value: conditional.String(bytesValuePtr == nil,
+			constants.EmptyString,
+			hex.EncodeToString(*outputBytesResults.Values),
+		),
+		ErrorWrapper: outputBytesResults.ErrorWrapper,
+	}
+}
+
+func (it *Variant) SumOfFile(
+	fileName string,
+) *errbyte.Results {
+	if fileName == constants.EmptyString {
+		return &errbyte.Results{
+			Values: &[]byte{},
+			ErrorWrapper: errnew.MessagesPtr(
+				errtype.EmptyString,
+				"File name is empty"),
+		}
+	}
+
+	hashWriter, errWp := it.NewHash()
+
+	if errWp.HasError() {
+		return &errbyte.Results{
+			Values:       &[]byte{},
+			ErrorWrapper: errWp,
+		}
+	}
+
+	file, errOpen := os.Open(fileName)
+	if errOpen != nil {
+		return &errbyte.Results{
+			Values:       &[]byte{},
+			ErrorWrapper: errnew.ErrPtr(errOpen),
+		}
+	}
+
+	defer file.Close()
+
+	_, errCopy := io.Copy(hashWriter, file)
+	if errCopy != nil {
+		return &errbyte.Results{
+			Values:       &[]byte{},
+			ErrorWrapper: errnew.ErrPtr(errCopy),
+		}
+	}
+
+	hashedBytes := hashWriter.Sum(nil)
+
+	return &errbyte.Results{
+		Values:       &hashedBytes,
+		ErrorWrapper: errnew.EmptyPtr,
+	}
 }
 
 func (it *Variant) SumOf(

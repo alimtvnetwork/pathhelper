@@ -1,9 +1,8 @@
 package pathjoin
 
 import (
-	"os"
-
 	"gitlab.com/evatix-go/core/osconsts"
+	"gitlab.com/evatix-go/pathhelper/pathsconst"
 )
 
 func WithTempPlus(
@@ -17,6 +16,6 @@ func WithTempPlus(
 		isExpand,
 		isNormalize,
 		osconsts.PathSeparator,
-		JoinSimple(os.TempDir(), baseDir),
+		JoinSimple(pathsconst.TempDir, baseDir),
 		locations...)
 }

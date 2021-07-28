@@ -6,6 +6,7 @@ import (
 )
 
 func ApplyBasePathsCreatorUsingErrorCollection(
+	isLock,
 	isDeleteAllBeforeCreate,
 	isLazyPaths,
 	isIgnoreOnExist bool,
@@ -25,6 +26,7 @@ func ApplyBasePathsCreatorUsingErrorCollection(
 	}
 
 	return ApplyPathsCreatorUsingErrorCollection(
+		isLock,
 		isDeleteAllBeforeCreate,
 		isLazyPaths,
 		isIgnoreOnExist,
