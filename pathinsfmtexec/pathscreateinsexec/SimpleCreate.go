@@ -12,6 +12,7 @@ import (
 )
 
 func SimpleCreate(
+	isLock,
 	isRemoveBeforeCreate bool,
 	filePath string,
 	mode os.FileMode,
@@ -26,6 +27,7 @@ func SimpleCreate(
 	}
 
 	file, errWp := createpath.CreateSingleUsingFileMode(
+		isLock,
 		mode,
 		filePath,
 	)

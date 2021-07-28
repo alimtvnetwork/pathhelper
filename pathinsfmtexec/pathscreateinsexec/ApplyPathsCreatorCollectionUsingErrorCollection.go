@@ -8,6 +8,7 @@ import (
 )
 
 func ApplyPathsCreatorCollectionUsingErrorCollection(
+	isLock,
 	isDeleteAllBeforeCreate,
 	isLazyPaths,
 	isIgnoreOnExist bool,
@@ -33,6 +34,7 @@ func ApplyPathsCreatorCollectionUsingErrorCollection(
 
 	// paths create
 	_, filesCreateErr := createpath.CreateMany(
+		isLock,
 		isIgnoreOnExist,
 		workingPaths)
 

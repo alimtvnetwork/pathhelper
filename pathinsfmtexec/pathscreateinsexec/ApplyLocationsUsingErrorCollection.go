@@ -12,6 +12,7 @@ import (
 )
 
 func ApplyLocationsUsingErrorCollection(
+	isLock,
 	isDeleteAllBeforeCreate,
 	isIgnoreOnExist bool,
 	errorCollection *errwrappers.Collection,
@@ -35,6 +36,7 @@ func ApplyLocationsUsingErrorCollection(
 	// paths create
 	// create without chmod
 	_, filesCreateErr := createpath.CreateMany(
+		isLock,
 		isIgnoreOnExist,
 		locations)
 

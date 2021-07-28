@@ -3,8 +3,14 @@ package main
 import (
 	"fmt"
 	"io/ioutil"
+	"path/filepath"
+	"runtime"
+	"sort"
+	"time"
 
+	"gitlab.com/evatix-go/pathhelper/checksummer"
 	"gitlab.com/evatix-go/pathhelper/copyrecursive"
+	"gitlab.com/evatix-go/pathhelper/hashas"
 	"gitlab.com/evatix-go/pathhelper/pathsconst"
 )
 
@@ -70,20 +76,24 @@ func main() {
 	// // 	WriteJsonResult(false, errorCollection.Json(),wkPath)
 	//
 	// // fmt.Println(wr)
-	CopierTest()
+	// CopierTest()
 	// CopierTest2()
 
+	// TestHashSumSync()
+	// TestHashSumAsync()
+	CopierTest()
 }
 
 func CopierTest() {
-	tmpDir, _ := ioutil.TempDir(pathsconst.DefaultTempTestDir, "ttt")
-	tmpDir = tmpDir + "/a/something"
+	tmpDir, _ := ioutil.TempDir("", "ttt")
+	_, b, _, _ := runtime.Caller(0)
+	srcDir := filepath.Join(filepath.Dir(b), "..", "..")
 	fmt.Println("to", tmpDir)
-	fmt.Println("from", pathsconst.RootDir)
+	fmt.Println("from", srcDir)
 	errW := copyrecursive.NewCopier(
-		pathsconst.RootDir, tmpDir, copyrecursive.Options{
+		srcDir, tmpDir, copyrecursive.Options{
 			IsSkipOnExist:      false,
-			IsRecursive:        true,
+			IsRecursive:        false,
 			IsClearDestination: false,
 			IsUseShellOrCmd:    false,
 			IsNormalize:        true,
@@ -91,6 +101,42 @@ func CopierTest() {
 	).Copy()
 
 	errW.HandleError()
+}
+
+const v = false
+
+func prettyPrint(m map[string][]byte) {
+	names := make([]string, 0, len(m))
+	for name := range m {
+		names = append(names, name)
+	}
+	sort.Strings(names)
+
+	for _, key := range names {
+		fmt.Printf("%x: %s\n", m[key], key)
+	}
+}
+
+func TestHashSumSync() {
+	start := time.Now()
+	c := checksummer.NewSync(true, "D:\\vm", hashas.Md5)
+	elapsed := time.Since(start)
+	if v {
+		prettyPrint(c.GetMap())
+	}
+
+	fmt.Printf("Elapsed Sync: %s\n", elapsed)
+}
+
+func TestHashSumAsync() {
+	start := time.Now()
+	c := checksummer.NewAsync(true, "D:\\vm", hashas.Md5)
+	elapsed := time.Since(start)
+	if v {
+		prettyPrint(c.GetMap())
+	}
+
+	fmt.Printf("Elapsed Async: %s\n", elapsed)
 }
 
 func CopierTest2() {

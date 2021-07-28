@@ -6,6 +6,7 @@ import (
 )
 
 func ApplyPathsCreatorCollectionReturnErrorCollection(
+	isLock,
 	isDeleteAllBeforeCreate,
 	isLazyPaths,
 	isIgnoreOnExist bool,
@@ -20,6 +21,7 @@ func ApplyPathsCreatorCollectionReturnErrorCollection(
 	errorCollection = errwrappers.Empty()
 
 	ApplyPathsCreatorCollectionUsingErrorCollection(
+		isLock,
 		isDeleteAllBeforeCreate,
 		isLazyPaths,
 		isIgnoreOnExist,

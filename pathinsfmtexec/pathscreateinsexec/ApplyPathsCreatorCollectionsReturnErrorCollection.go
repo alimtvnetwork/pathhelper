@@ -6,6 +6,7 @@ import (
 )
 
 func ApplyPathsCreatorCollectionsReturnErrorCollection(
+	isLock,
 	isDeleteAllBeforeCreate,
 	isLazyPaths,
 	isIgnoreOnExist bool,
@@ -21,6 +22,7 @@ func ApplyPathsCreatorCollectionsReturnErrorCollection(
 
 	for _, collection := range pathsCreatorCollection {
 		ApplyPathsCreatorCollectionUsingErrorCollection(
+			isLock,
 			isDeleteAllBeforeCreate,
 			isLazyPaths,
 			isIgnoreOnExist,
