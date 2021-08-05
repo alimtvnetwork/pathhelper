@@ -9,6 +9,7 @@ import (
 )
 
 func RemoveCreateAll(
+	isApplyCreate,
 	isLock,
 	isRemove bool,
 	location string,
@@ -31,8 +32,12 @@ func RemoveCreateAll(
 			location)
 	}
 
-	return errnew.Path(
-		errtype.CreateDirectoryFailed,
-		os.MkdirAll(location, mode),
-		location)
+	if isApplyCreate {
+		return errnew.Path(
+			errtype.CreateDirectoryFailed,
+			os.MkdirAll(location, mode),
+			location)
+	}
+
+	return errnew.EmptyPtr
 }

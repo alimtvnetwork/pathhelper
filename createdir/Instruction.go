@@ -31,8 +31,18 @@ func (it *Instruction) FileModeOrDefault() os.FileMode {
 	return DefaultDirectoryFileMode
 }
 
+func (it *Instruction) CreateIf(isCreate bool, mode os.FileMode) *errorwrapper.Wrapper {
+	return RemoveCreateAll(
+		isCreate,
+		it.IsLock,
+		it.IsRemoveAll,
+		it.Location,
+		mode)
+}
+
 func (it *Instruction) Create(mode os.FileMode) *errorwrapper.Wrapper {
 	return RemoveCreateAll(
+		true,
 		it.IsLock,
 		it.IsRemoveAll,
 		it.Location,
@@ -43,6 +53,18 @@ func (it *Instruction) CreateParent(mode os.FileMode) *errorwrapper.Wrapper {
 	parent := it.ParentDir()
 
 	return RemoveCreateAll(
+		true,
+		it.IsLock,
+		it.IsRemoveAll,
+		parent,
+		mode)
+}
+
+func (it *Instruction) CreateParentIf(isCreate bool, mode os.FileMode) *errorwrapper.Wrapper {
+	parent := it.ParentDir()
+
+	return RemoveCreateAll(
+		isCreate,
 		it.IsLock,
 		it.IsRemoveAll,
 		parent,
@@ -51,6 +73,7 @@ func (it *Instruction) CreateParent(mode os.FileMode) *errorwrapper.Wrapper {
 
 func (it *Instruction) CreateDefault() *errorwrapper.Wrapper {
 	return RemoveCreateAll(
+		true,
 		it.IsLock,
 		it.IsRemoveAll,
 		it.Location,

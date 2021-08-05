@@ -13,24 +13,23 @@ func Apply(download *pathinsfmt.Download) *errorwrapper.Wrapper {
 		return errnew.EmptyPtr
 	}
 
-	if download.IsCreateDir {
-		createdir.RemoveCreateAll(
-			true,
-			download.IsClearDir,
-			download.Destination,
-			download.FileModeDir)
+	createErr := createdir.RemoveCreateAll(
+		download.IsCreateDir,
+		true,
+		download.IsClearDir,
+		download.Destination,
+		download.FileModeDir)
+
+	if createErr.HasError() {
+		return createErr
 	}
 
-	ariaCommand := errcmd.ArgsJoin(
-		Aria2C,
-		download.URL,
-		HyphenD,
-		download.Destination,
-		HyphenO,
-		download.FileName,
-	)
-
 	return errcmd.
-		BashScripts(ariaCommand).
-		CompiledErrorWrapper()
+		BashArgsErrorWrapper(
+			Aria2C,
+			download.URL,
+			HyphenD,
+			download.Destination,
+			HyphenO,
+			download.FileName)
 }
