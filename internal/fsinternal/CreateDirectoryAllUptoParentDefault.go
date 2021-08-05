@@ -1,21 +1,16 @@
 package fsinternal
 
 import (
-	"os"
-
 	"gitlab.com/evatix-go/errorwrapper"
 	"gitlab.com/evatix-go/errorwrapper/errnew"
 )
 
-func CreateDirectoryAllUptoParent(
-	location string,
-	fileMode os.FileMode,
-) *errorwrapper.Wrapper {
+func CreateDirectoryAllUptoParentDefault(location string) *errorwrapper.Wrapper {
 	parentDir := ParentDir(location)
 
 	if IsDirectory(parentDir) {
 		return errnew.EmptyPtr
 	}
 
-	return CreateDirectoryAll(parentDir, fileMode)
+	return CreateDirectoryAllDefault(parentDir)
 }

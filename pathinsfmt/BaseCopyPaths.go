@@ -1,5 +1,5 @@
 package pathinsfmt
 
 type BaseCopyPaths struct {
-	CopyPaths
+	CopyPaths *CopyPaths `json:"CopyPaths,omitempty"`
 }

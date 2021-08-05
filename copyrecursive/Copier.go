@@ -139,7 +139,7 @@ func (it *Copier) createDir(
 		return nil
 	}
 
-	return createDir(dir, perm)
+	return os.MkdirAll(dir, perm)
 }
 
 func (it *Copier) copyFile(src, dst string) error {

@@ -145,7 +145,7 @@ func (it *BasePathsCreator) Setup(
 	return err
 }
 
-func (it *BasePathsCreator) CreateLazyPathsWithoutMode(isLock bool,) (
+func (it *BasePathsCreator) CreateLazyPathsWithoutMode(isLock bool) (
 	[]*os.File,
 	*errorwrapper.Wrapper,
 ) {

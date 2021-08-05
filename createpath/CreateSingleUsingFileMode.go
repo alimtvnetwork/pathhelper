@@ -22,7 +22,7 @@ func CreateSingleUsingFileMode(
 		defer lockerMutex.Unlock()
 	}
 
-	dirCreateErr := fsinternal.CreateDirectoryAllUptoParent(
+	dirCreateErr := fsinternal.CreateDirectoryAllUptoParentDefault(
 		filePath)
 
 	if dirCreateErr.HasError() {

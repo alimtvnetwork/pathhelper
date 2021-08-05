@@ -45,7 +45,8 @@ func CreateUsingSymbolicLink(symLink *pathinsfmt.SymbolicLink) *errorwrapper.Wra
 	}
 
 	if symLink.IsMkDirAll {
-		errW := fsinternal.CreateDirectoryAllUptoParent(symLink.Dst)
+		errW := fsinternal.CreateDirectoryAllUptoParentDefault(
+			symLink.Dst)
 
 		if errW.HasError() {
 			return errW

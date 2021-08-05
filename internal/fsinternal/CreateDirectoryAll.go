@@ -6,12 +6,14 @@ import (
 	"gitlab.com/evatix-go/errorwrapper"
 	"gitlab.com/evatix-go/errorwrapper/errnew"
 	"gitlab.com/evatix-go/errorwrapper/errtype"
-	"gitlab.com/evatix-go/pathhelper/internal/consts"
 )
 
-func CreateDirectoryAllDefault(location string) *errorwrapper.Wrapper {
+func CreateDirectoryAll(
+	location string,
+	mode os.FileMode,
+) *errorwrapper.Wrapper {
 	return errnew.Path(
 		errtype.CreateDirectoryFailed,
-		os.MkdirAll(location, consts.DefaultDirectoryFileMode),
+		os.MkdirAll(location, mode),
 		location)
 }

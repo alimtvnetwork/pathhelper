@@ -25,7 +25,7 @@ func CopyFile(src, dst string, fileMode os.FileMode) error {
 	defer source.Close()
 
 	// Create all the parent folder if needed
-	if err := createDir(filepath.Dir(dst), fileMode); err != nil {
+	if err := os.MkdirAll(filepath.Dir(dst), fileMode); err != nil {
 		return err
 	}
 

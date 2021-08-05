@@ -5,20 +5,21 @@ import (
 
 	"gitlab.com/evatix-go/errorwrapper"
 	"gitlab.com/evatix-go/errorwrapper/errnew"
+	"gitlab.com/evatix-go/errorwrapper/errtype"
 
 	"gitlab.com/evatix-go/pathhelper/fileinfo"
 	"gitlab.com/evatix-go/pathhelper/performingas"
 )
 
 type Result struct {
-	FileInfoWrapper   *fileinfo.Wrapper
-	Error             *errorwrapper.Wrapper
-	RawPath           string
 	IsValidDir        bool
-	FileModeRequested *os.FileMode
 	HasIssues         bool
 	IsIgnoredAction   bool
 	Action            performingas.Action
+	RawPath           string
+	FileModeRequested *os.FileMode
+	FileInfoWrapper   *fileinfo.Wrapper
+	Error             *errorwrapper.Wrapper
 }
 
 func Empty() *Result {
@@ -41,7 +42,10 @@ func EmptyUsingInfo(fileWrapperInfo *fileinfo.Wrapper) *Result {
 func New(fileOrDirPath string) *Result {
 	isFilePathEmpty := fileOrDirPath == ""
 	fileInfo, err := os.Stat(fileOrDirPath)
-	errWrapper := errorwrapper.NewDirectoryPtr(err)
+	errWrapper := errnew.Path(
+		errtype.CreateDirectoryFailed,
+		err,
+		fileOrDirPath)
 	isErrorEmpty := errWrapper.IsEmpty()
 
 	fileInfoWrapper := &fileinfo.Wrapper{
