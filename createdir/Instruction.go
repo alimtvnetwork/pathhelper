@@ -11,6 +11,7 @@ type Instruction struct {
 	Location string
 	FileMode os.FileMode // 0 means no apply
 	IsLock,
+	IsCreate,
 	IsSkipOnExist,
 	IsRemoveAll bool
 }
@@ -33,18 +34,20 @@ func (it *Instruction) FileModeOrDefault() os.FileMode {
 
 func (it *Instruction) CreateIf(isCreate bool, mode os.FileMode) *errorwrapper.Wrapper {
 	return RemoveCreateAll(
-		isCreate,
 		it.IsLock,
+		it.IsSkipOnExist,
 		it.IsRemoveAll,
+		isCreate,
 		it.Location,
 		mode)
 }
 
 func (it *Instruction) Create(mode os.FileMode) *errorwrapper.Wrapper {
 	return RemoveCreateAll(
-		true,
 		it.IsLock,
+		it.IsSkipOnExist,
 		it.IsRemoveAll,
+		it.IsCreate,
 		it.Location,
 		mode)
 }
@@ -53,9 +56,10 @@ func (it *Instruction) CreateParent(mode os.FileMode) *errorwrapper.Wrapper {
 	parent := it.ParentDir()
 
 	return RemoveCreateAll(
-		true,
 		it.IsLock,
+		it.IsSkipOnExist,
 		it.IsRemoveAll,
+		it.IsCreate,
 		parent,
 		mode)
 }
@@ -64,18 +68,20 @@ func (it *Instruction) CreateParentIf(isCreate bool, mode os.FileMode) *errorwra
 	parent := it.ParentDir()
 
 	return RemoveCreateAll(
-		isCreate,
 		it.IsLock,
+		it.IsSkipOnExist,
 		it.IsRemoveAll,
+		isCreate,
 		parent,
 		mode)
 }
 
 func (it *Instruction) CreateDefault() *errorwrapper.Wrapper {
 	return RemoveCreateAll(
-		true,
 		it.IsLock,
+		it.IsSkipOnExist,
 		it.IsRemoveAll,
+		it.IsCreate,
 		it.Location,
 		it.FileModeOrDefault())
 }
