@@ -8,9 +8,13 @@ import (
 	"sort"
 	"time"
 
+	"gitlab.com/evatix-go/core/filemode"
+
 	"gitlab.com/evatix-go/pathhelper/checksummer"
 	"gitlab.com/evatix-go/pathhelper/copyrecursive"
 	"gitlab.com/evatix-go/pathhelper/hashas"
+	"gitlab.com/evatix-go/pathhelper/pathinsfmt"
+	"gitlab.com/evatix-go/pathhelper/pathinsfmtexec/downloadinsexec"
 	"gitlab.com/evatix-go/pathhelper/pathsconst"
 )
 
@@ -81,7 +85,25 @@ func main() {
 
 	// TestHashSumSync()
 	// TestHashSumAsync()
-	CopierTest()
+	// CopierTest()
+
+	DownloadTest()
+}
+
+func DownloadTest() {
+	ins := &pathinsfmt.Download{
+		URL:              "https://github.com/robbyrussell/oh-my-zsh/raw/master/tools/install.sh",
+		Destination:      "/home/a/dtestxxxx",
+		FileName:         "installx.sh",
+		IsCreateDir:      true,
+		IsClearDir:       true,
+		ParallelRequests: 4,
+		MaxRetries:       5,
+		FileModeDir:      filemode.X666,
+	}
+
+	errW := downloadinsexec.Apply(ins)
+	fmt.Println(errW)
 }
 
 func CopierTest() {

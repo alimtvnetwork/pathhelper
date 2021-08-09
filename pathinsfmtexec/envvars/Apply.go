@@ -11,8 +11,8 @@ func Apply(environmentVariables *pathinsfmt.BaseEnvironmentVariables) *errorwrap
 		return errnew.EmptyPtr
 	}
 
-	for _, envVar := range environmentVariables.EnvVars {
-		errW := ApplyEnvVar(&envVar)
+	for i := range environmentVariables.EnvVars {
+		errW := ApplyEnvVar(&environmentVariables.EnvVars[i])
 		if errW.HasError() {
 			return errW
 		}

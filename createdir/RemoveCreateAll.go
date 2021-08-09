@@ -6,18 +6,24 @@ import (
 	"gitlab.com/evatix-go/errorwrapper"
 	"gitlab.com/evatix-go/errorwrapper/errnew"
 	"gitlab.com/evatix-go/errorwrapper/errtype"
+	"gitlab.com/evatix-go/pathhelper/internal/fsinternal"
 )
 
 func RemoveCreateAll(
-	isApplyCreate,
 	isLock,
-	isRemove bool,
+	isSkipOnExist,
+	isRemove,
+	isApplyCreate bool,
 	location string,
 	mode os.FileMode,
 ) *errorwrapper.Wrapper {
 	if isLock {
 		mutexLock.Lock()
 		defer mutexLock.Unlock()
+	}
+
+	if isSkipOnExist && fsinternal.IsPathExists(location) {
+		return errnew.EmptyPtr
 	}
 
 	var removeErr error

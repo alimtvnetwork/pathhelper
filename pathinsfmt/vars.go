@@ -7,7 +7,7 @@ import (
 )
 
 var (
-	lockerMutex = sync.Mutex{}
+	lockerMutex                 = sync.Mutex{}
 	defaultRecursiveCopyOptions = &copyrecursive.Options{
 		IsSkipOnExist:      false,
 		IsRecursive:        false,

@@ -5,4 +5,6 @@ const (
 	Aria2C          = "aria2c"
 	HyphenD         = "-d"
 	HyphenO         = "-o"
+	HyphenX         = "-x"
+	MaxRetries      = "--max-tries="
 )
