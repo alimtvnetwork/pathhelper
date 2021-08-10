@@ -1,17 +1,13 @@
 package recursiveinternal
 
 import (
-	"io/fs"
 	"io/ioutil"
 	"os"
-	"path/filepath"
 	"sync"
 
 	"gitlab.com/evatix-go/core"
-	"gitlab.com/evatix-go/core/constants"
 	"gitlab.com/evatix-go/errorwrapper/errtype"
 	"gitlab.com/evatix-go/errorwrapper/errwrappers"
-
 	"gitlab.com/evatix-go/pathhelper/internal/ds"
 )
 
@@ -37,29 +33,6 @@ func GetPaths(
 		fileInfos,
 		err,
 		isContinueOnEmpty)
-}
-
-// Probably need refinements
-func _getPaths(root string) ([]string, *errwrappers.Collection) {
-	paths := make([]string, 0, constants.ArbitraryCapacity64)
-	errCollection := errwrappers.NewCap2()
-	err := filepath.Walk(
-		root,
-		func(path string, info fs.FileInfo, err error) error {
-			if err != nil {
-				errCollection.AddError(err)
-
-				return err
-			}
-
-			paths = append(paths, path)
-			return nil
-		},
-	)
-
-	errCollection.AddError(err)
-
-	return paths, errCollection
 }
 
 func getPaths(

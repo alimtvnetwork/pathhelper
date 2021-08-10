@@ -9,6 +9,7 @@ import (
 	"time"
 
 	"gitlab.com/evatix-go/core/filemode"
+	"gitlab.com/evatix-go/pathhelper/pathrecurseinfo"
 
 	"gitlab.com/evatix-go/pathhelper/checksummer"
 	"gitlab.com/evatix-go/pathhelper/copyrecursive"
@@ -87,7 +88,21 @@ func main() {
 	// TestHashSumAsync()
 	// CopierTest()
 
-	DownloadTest()
+	instruction := pathrecurseinfo.Instruction{
+		Root:               pathsconst.RootDir,
+		ExcludingNames:     []string{".git"},
+		IsIncludeFilesOnly: false,
+		IsIncludeDirsOnly:  true,
+		IsIncludeAll:       false,
+		IsExcludeRoot:      true,
+		IsRecursive:        true,
+		IsNormalize:        true,
+		IsRelativePath:     false,
+	}
+
+	fmt.Println(instruction.Result().PathsString())
+
+	// DownloadTest()
 }
 
 func DownloadTest() {

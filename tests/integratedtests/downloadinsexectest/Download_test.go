@@ -36,4 +36,3 @@ func Test_Download(t *testing.T) {
 		convey.So(*errBytesResults.Values, convey.ShouldResemble, buff)
 	})
 }
-
