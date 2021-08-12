@@ -8,7 +8,10 @@ import (
 	"sort"
 	"time"
 
+	"gitlab.com/evatix-go/core/enums/stringcompareas"
 	"gitlab.com/evatix-go/core/filemode"
+	"gitlab.com/evatix-go/pathhelper"
+	"gitlab.com/evatix-go/pathhelper/elitepath"
 	"gitlab.com/evatix-go/pathhelper/pathrecurseinfo"
 
 	"gitlab.com/evatix-go/pathhelper/checksummer"
@@ -90,7 +93,7 @@ func main() {
 
 	instruction := pathrecurseinfo.Instruction{
 		Root:               pathsconst.RootDir,
-		ExcludingNames:     []string{".git"},
+		ExcludingRootNames: []string{".git", ".idea"},
 		IsIncludeFilesOnly: false,
 		IsIncludeDirsOnly:  true,
 		IsIncludeAll:       false,
@@ -100,8 +103,26 @@ func main() {
 		IsRelativePath:     false,
 	}
 
-	fmt.Println(instruction.Result().PathsString())
+	result := instruction.Result()
+	// fmt.Println(result.PathsString())
+	fmt.Println(pathhelper.GetLocationInfo("ab/c/d.tx").String())
+	fmt.Println(pathhelper.GetLocationInfo("d.tx").String())
 
+	collection := elitepath.NewPathCollectionDirect(nil, result.PathsResult.ExpandingPaths.Items...)
+	filter := &elitepath.Filter{
+		NameFilter: &elitepath.ValueFilter{
+			Value:           "checksummer",
+			IsCaseSensitive: false,
+			Compare:         stringcompareas.EndsWith,
+		},
+		ExistFilter:     &elitepath.ExistFilter{
+			IsExist: true,
+			IsDir:   true,
+		},
+		NameRegexFilter: "",
+		PathRegexFilter: `\\.+checksummer$`,
+	}
+	fmt.Println(collection.FilterPathCollection(filter).String())
 	// DownloadTest()
 }
 

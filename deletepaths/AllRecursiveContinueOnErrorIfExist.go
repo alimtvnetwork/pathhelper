@@ -15,7 +15,7 @@ func AllRecursiveContinueOnErrorIfExist(
 		errCount := errorCollection.Length()
 
 		for _, location := range locations {
-			recursiveErr := RecursiveIfExist(location)
+			recursiveErr := RecursiveOnExist(location)
 
 			errorCollection.AddWrapperPtr(recursiveErr)
 		}

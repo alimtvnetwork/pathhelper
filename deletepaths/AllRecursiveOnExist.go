@@ -11,7 +11,7 @@ func AllRecursiveOnExist(locations []string) *errorwrapper.Wrapper {
 	}
 
 	for _, location := range locations {
-		recursiveErr := RecursiveIfExist(location)
+		recursiveErr := RecursiveOnExist(location)
 
 		if recursiveErr.HasError() {
 			return recursiveErr

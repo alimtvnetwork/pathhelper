@@ -66,7 +66,28 @@ func (it *SimpleStat) ReadBytes() *errbyte.Results {
 	return fsinternal.ReadFile(it.Location)
 }
 
-func (it *SimpleStat) CheckSum(hashType hashas.Variant) *errstr.Result {
+func (it *SimpleStat) CheckSum(hashType hashas.Variant) *errbyte.Results {
+	errWp := it.notFileError()
+	if errWp.HasError() {
+		return &errbyte.Results{
+			Values:       &[]byte{},
+			ErrorWrapper: errWp,
+		}
+	}
+
+	allBytes := it.ReadBytes()
+
+	if allBytes.HasError() {
+		return &errbyte.Results{
+			Values:       &[]byte{},
+			ErrorWrapper: allBytes.ErrorWrapper,
+		}
+	}
+
+	return hashType.SumOf(*allBytes.Values)
+}
+
+func (it *SimpleStat) CheckSumHexString(hashType hashas.Variant) *errstr.Result {
 	errWp := it.notFileError()
 	if errWp.HasError() {
 		return &errstr.Result{

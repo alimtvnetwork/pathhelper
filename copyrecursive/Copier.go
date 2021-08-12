@@ -4,6 +4,7 @@ import (
 	"io/ioutil"
 	"os"
 
+	"gitlab.com/evatix-go/core/osconsts"
 	"gitlab.com/evatix-go/errorwrapper"
 	"gitlab.com/evatix-go/errorwrapper/errnew"
 	"gitlab.com/evatix-go/errorwrapper/errtype"
@@ -41,7 +42,7 @@ func NewCopierUsingInstruction(
 }
 
 func (it *Copier) Copy() *errorwrapper.Wrapper {
-	if it.opts.IsUseShellOrCmd {
+	if it.opts.IsUseShellOrCmd && osconsts.IsLinux {
 		return copyUsingLinuxCP(
 			it.opts,
 			it.src,

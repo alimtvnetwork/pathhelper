@@ -7,6 +7,8 @@ import (
 	"gitlab.com/evatix-go/core/chmodhelper/chmodins"
 	"gitlab.com/evatix-go/core/constants"
 	"gitlab.com/evatix-go/core/coredata/corejson"
+	"gitlab.com/evatix-go/core/coredata/corestr"
+	"gitlab.com/evatix-go/core/msgtype"
 	"gitlab.com/evatix-go/core/osconsts"
 	"gitlab.com/evatix-go/errorwrapper"
 	"gitlab.com/evatix-go/errorwrapper/errdata/errbyte"
@@ -15,7 +17,12 @@ import (
 	"gitlab.com/evatix-go/errorwrapper/errtype"
 	"gitlab.com/evatix-go/errorwrapper/errwrappers"
 	"gitlab.com/evatix-go/pathhelper"
+	"gitlab.com/evatix-go/pathhelper/checksummer"
+	"gitlab.com/evatix-go/pathhelper/copyrecursive"
+	"gitlab.com/evatix-go/pathhelper/deletepaths"
 	"gitlab.com/evatix-go/pathhelper/fs"
+	"gitlab.com/evatix-go/pathhelper/hashas"
+	"gitlab.com/evatix-go/pathhelper/internal/splitinternal"
 	"gitlab.com/evatix-go/pathhelper/pathchmod"
 	"gitlab.com/evatix-go/pathhelper/pathext"
 	"gitlab.com/evatix-go/pathhelper/pathfixer"
@@ -23,6 +30,7 @@ import (
 	"gitlab.com/evatix-go/pathhelper/pathinsfmtexec/namegroup"
 	"gitlab.com/evatix-go/pathhelper/pathinsfmtexec/pathmodifierverify"
 	"gitlab.com/evatix-go/pathhelper/pathjoin"
+	"gitlab.com/evatix-go/pathhelper/pathrecurseinfo"
 	"gitlab.com/evatix-go/pathhelper/pathstatlinux"
 	"gitlab.com/evatix-go/pathhelper/pathwrapper"
 )
@@ -32,7 +40,27 @@ type Path struct {
 	fixedPathSlice []string
 }
 
-func (it *Path) CombineToEnhance(
+func (it *Path) Join(location string) string {
+	return pathjoin.JoinSimple(
+		it.CompiledPath(),
+		location)
+}
+
+func (it *Path) Join2(location1, location2 string) string {
+	return pathjoin.JoinSimple3(
+		it.CompiledPath(),
+		location1,
+		location2)
+}
+
+func (it *Path) Joins(isNormalize bool, locations ...string) string {
+	return pathjoin.FixedIf(
+		isNormalize,
+		it.CompiledPath(),
+		locations...)
+}
+
+func (it *Path) JoinsToPath(
 	relativePaths ...string,
 ) *Path {
 	combinedPath := it.Combine(relativePaths...)
@@ -62,7 +90,10 @@ func (it *Path) Combine(relativePaths ...string) string {
 }
 
 func (it *Path) enhancePathsToSliceStrings(enhancePaths ...*Path) []string {
-	slice := make([]string, 0, len(enhancePaths))
+	slice := make(
+		[]string,
+		0,
+		len(enhancePaths))
 
 	if len(enhancePaths) == 0 {
 		return slice
@@ -73,13 +104,15 @@ func (it *Path) enhancePathsToSliceStrings(enhancePaths ...*Path) []string {
 			continue
 		}
 
-		slice = append(slice, enhancePath.CompiledPath())
+		slice = append(
+			slice,
+			enhancePath.CompiledPath())
 	}
 
 	return slice
 }
 
-func (it *Path) CombineWithEnhancePaths(
+func (it *Path) CombineWithElitePaths(
 	enhancePaths ...*Path,
 ) string {
 	relativePaths := it.enhancePathsToSliceStrings(
@@ -88,10 +121,10 @@ func (it *Path) CombineWithEnhancePaths(
 	return it.Combine(relativePaths...)
 }
 
-func (it *Path) CombineWithEnhancePathsToEnhancePath(
+func (it *Path) CombineWithElitePathsToElitePath(
 	enhancePaths ...*Path,
 ) *Path {
-	finalPath := it.CombineWithEnhancePaths(
+	finalPath := it.CombineWithElitePaths(
 		enhancePaths...)
 
 	return it.ClonePathUsingNew(finalPath)
@@ -103,6 +136,16 @@ func (it *Path) FileInfo() os.FileInfo {
 
 func (it *Path) FileMode() os.FileMode {
 	return it.ExistStat().FileInfo.Mode()
+}
+
+func (it *Path) SafeFileMode() os.FileMode {
+	stat := it.ExistStat()
+
+	if stat.HasFileInfo() {
+		return stat.FileInfo.Mode()
+	}
+
+	return constants.Zero
 }
 
 func (it *Path) IsDir() bool {
@@ -117,6 +160,10 @@ func (it *Path) IsFile() bool {
 	return existStat.IsFile()
 }
 
+func (it *Path) IsFilterMatch(filter *Filter) bool {
+	return filter.IsMatch(it)
+}
+
 func (it *Path) IsInvalid() bool {
 	existStat := it.ExistStat()
 
@@ -129,6 +176,20 @@ func (it *Path) RwxWrapper() *pathchmod.RwxWrapperWithError {
 
 func (it *Path) ExistStat() *chmodhelper.PathExistStat {
 	return chmodhelper.GetPathExistStat(it.CompiledPath())
+}
+
+func (it *Path) DeletePath(isSkipOnNonExist bool) *errorwrapper.Wrapper {
+	if isSkipOnNonExist {
+		return deletepaths.RecursiveOnExist(it.CompiledPath())
+	}
+
+	return deletepaths.Recursive(it.CompiledPath())
+}
+
+func (it *Path) Move(toPath string) *errorwrapper.Wrapper {
+	err := os.Rename(it.CompiledPath(), toPath)
+
+	return errnew.Path(errtype.PathMove, err, toPath)
 }
 
 func (it *Path) SimpleStat() *pathchmod.SimpleStat {
@@ -148,6 +209,86 @@ func (it *Path) PathLinuxStat() *pathstatlinux.Info {
 	return pathstatlinux.Get(it.CompiledPath())
 }
 
+func (it *Path) CheckSummer(
+	isAsync,
+	isRecursive bool,
+	hashMethod hashas.Variant,
+) *checksummer.Instance {
+	src := it.CompiledPath()
+	if it.IsEmptyPath() {
+		return checksummer.Invalid(
+			false,
+			src,
+			hashMethod,
+			msgtype.InvalidEmptyPathErrorMessage.ErrorNoRefs(src))
+	}
+
+	return checksummer.New(
+		isAsync,
+		isRecursive,
+		src,
+		hashMethod)
+}
+
+func (it *Path) IsChecksumEqual(
+	isRecursive bool,
+	hashMethod hashas.Variant,
+	comparingPath string,
+) bool {
+	src := it.CompiledPath()
+	if it.IsEmptyPath() && comparingPath == "" {
+		return true
+	}
+
+	if it.IsEmptyPath() || comparingPath == "" {
+		return false
+	}
+
+	sourceCheckSummer := checksummer.New(
+		true,
+		isRecursive,
+		src,
+		hashMethod)
+
+	destinationCheckSummer := checksummer.New(
+		true,
+		isRecursive,
+		comparingPath,
+		hashMethod)
+
+	return sourceCheckSummer.IsEqual(
+		true,
+		destinationCheckSummer)
+}
+
+func (it *Path) VerifyCheckSumTreeError(
+	isRecursive bool,
+	hashMethod hashas.Variant,
+	comparingPath string,
+) *errwrappers.Collection {
+	src := it.CompiledPath()
+	if it.IsEmptyPath() {
+		return errwrappers.NewCap1().AddWrapperPtr(errnew.EmptyFilePath)
+	}
+
+	sourceCheckSummer := checksummer.New(
+		true,
+		isRecursive,
+		src,
+		hashMethod)
+
+	destinationCheckSummer := checksummer.New(
+		true,
+		isRecursive,
+		comparingPath,
+		hashMethod)
+
+	return sourceCheckSummer.VerifyError(
+		true,
+		true,
+		destinationCheckSummer)
+}
+
 func (it *Path) PathWrapper() pathwrapper.Wrapper {
 	if it.IsEmptyPath() {
 		return constants.EmptyString
@@ -163,6 +304,31 @@ func (it *Path) PathExtWrapper() *pathext.Wrapper {
 	}
 
 	return pathext.NewPtr(it.CompiledPath())
+}
+
+func (it *Path) FileNameWithExt() string {
+	return splitinternal.GetFileNameWithExt(
+		it.CompiledPath())
+}
+
+func (it *Path) FileNameWithoutExt() string {
+	return splitinternal.GetFileNameWithoutExt(
+		it.CompiledPath())
+}
+
+func (it *Path) BothExt() (dotExt, ext string) {
+	return splitinternal.GetBothExtension(
+		it.CompiledPath())
+}
+
+func (it *Path) ParentDir() string {
+	return splitinternal.GetBaseDir(
+		it.CompiledPath())
+}
+
+func (it *Path) BaseDir() string {
+	return splitinternal.GetBaseDir(
+		it.CompiledPath())
 }
 
 func (it *Path) LocationInfo() *pathhelper.LocationInfo {
@@ -187,6 +353,140 @@ func (it *Path) ReadFileBytes() *errbyte.Results {
 
 func (it *Path) ReadFileString() *errstr.Result {
 	return fs.ReadFileStringUsingLock(it.CompiledPath())
+}
+
+func (it *Path) RecursivePathsAll(
+	isRelativePath bool,
+	isExcludeRootName bool,
+	excludeRootNames ...string,
+) *corestr.SimpleSlice {
+	if !it.IsPathExist() {
+		return corestr.EmptySimpleSlice()
+	}
+
+	src := it.CompiledPath()
+
+	if it.IsFile() {
+		return corestr.NewSimpleSlice(1).Add(src)
+	}
+
+	instruction := pathrecurseinfo.Instruction{
+		Root:               src,
+		ExcludingRootNames: excludeRootNames,
+		IsIncludeFilesOnly: false,
+		IsRelativePath:     isRelativePath,
+		IsIncludeDirsOnly:  false,
+		IsIncludeAll:       true,
+		IsExcludeRoot:      isExcludeRootName,
+		IsRecursive:        true,
+		IsNormalize:        false,
+	}
+
+	return instruction.
+		Result().
+		PathsResult.
+		ExpandingPaths
+}
+
+func (it *Path) RecursiveFilePaths(
+	isRelativePath bool,
+
+	excludeRootNames ...string,
+) *corestr.SimpleSlice {
+	if !it.IsPathExist() {
+		return corestr.EmptySimpleSlice()
+	}
+
+	src := it.CompiledPath()
+
+	if it.IsFile() {
+		return corestr.NewSimpleSlice(1).Add(src)
+	}
+
+	instruction := pathrecurseinfo.Instruction{
+		Root:               src,
+		ExcludingRootNames: excludeRootNames,
+		IsIncludeFilesOnly: true,
+		IsRelativePath:     isRelativePath,
+		IsIncludeDirsOnly:  false,
+		IsIncludeAll:       false,
+		IsExcludeRoot:      false,
+		IsRecursive:        true,
+		IsNormalize:        false,
+	}
+
+	return instruction.
+		Result().
+		PathsResult.
+		ExpandingPaths
+}
+
+func (it *Path) RecursiveDirPaths(
+	isRelativePath bool,
+
+	excludeRootNames ...string,
+) *corestr.SimpleSlice {
+	if !it.IsPathExist() {
+		return corestr.EmptySimpleSlice()
+	}
+
+	src := it.CompiledPath()
+
+	if it.IsFile() {
+		return corestr.NewSimpleSlice(1).Add(src)
+	}
+
+	instruction := pathrecurseinfo.Instruction{
+		Root:               src,
+		ExcludingRootNames: excludeRootNames,
+		IsIncludeFilesOnly: false,
+		IsRelativePath:     isRelativePath,
+		IsIncludeDirsOnly:  true,
+		IsIncludeAll:       false,
+		IsExcludeRoot:      false,
+		IsRecursive:        true,
+		IsNormalize:        false,
+	}
+
+	return instruction.
+		Result().
+		PathsResult.
+		ExpandingPaths
+}
+
+func (it *Path) CopyTo(
+	isClearBefore,
+	isRecursive bool,
+	toPath string,
+) *errorwrapper.Wrapper {
+	src := it.CompiledPath()
+
+	return copyrecursive.DoOptions(src, toPath, copyrecursive.Options{
+		IsSkipOnExist:      false,
+		IsRecursive:        isRecursive,
+		IsMove:             false,
+		IsClearDestination: isClearBefore,
+		IsUseShellOrCmd:    true,
+		IsNormalize:        false,
+		IsExpandVar:        false,
+	})
+}
+
+func (it *Path) MoveTo(
+	isClearBefore,
+	isRecursive bool,
+	toPath string,
+) *errorwrapper.Wrapper {
+	src := it.CompiledPath()
+	return copyrecursive.DoOptions(src, toPath, copyrecursive.Options{
+		IsSkipOnExist:      false,
+		IsRecursive:        isRecursive,
+		IsMove:             true,
+		IsClearDestination: isClearBefore,
+		IsUseShellOrCmd:    true,
+		IsNormalize:        false,
+		IsExpandVar:        false,
+	})
 }
 
 func (it *Path) ChmodCondition() *chmodins.Condition {
@@ -317,7 +617,9 @@ func (it *Path) ClonePath() *Path {
 
 func (it *Path) ClonePathUsingNew(newLocation string) *Path {
 	if it == nil {
-		return nil
+		return &Path{
+			Location: *pathfixer.NewLocation(newLocation),
+		}
 	}
 
 	newPath := Path{
@@ -327,4 +629,35 @@ func (it *Path) ClonePathUsingNew(newLocation string) *Path {
 	newPath.Path = newLocation
 
 	return &newPath
+}
+
+func (it *Path) LazyPath() *LazyPath {
+	return &LazyPath{
+		Path: it,
+	}
+}
+
+func (it *Path) IsEqual(another *Path) bool {
+	if it == nil && another == nil {
+		return true
+	}
+
+	if it == nil || another == nil {
+		return false
+	}
+
+	return it.Location.IsEqual(
+		&another.Location)
+}
+
+func (it *Path) IsEqualWithoutOptions(another *Path) bool {
+	if it == nil && another == nil {
+		return true
+	}
+
+	if it == nil || another == nil {
+		return false
+	}
+
+	return it.Path == another.Path
 }

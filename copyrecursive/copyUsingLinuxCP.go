@@ -26,9 +26,11 @@ func copyUsingLinuxCP(opts Options, src, dst string) *errorwrapper.Wrapper {
 	if opts.IsRecursive {
 		args = append(args, cpArgRecursive)
 	}
+
 	if opts.IsSkipOnExist {
 		args = append(args, cpArgSkipOnExist)
 	}
+
 	if opts.IsClearDestination {
 		args = append(args, cpArgRemoveDst)
 	}

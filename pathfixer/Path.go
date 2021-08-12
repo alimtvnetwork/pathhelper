@@ -77,3 +77,32 @@ func (it *Location) ClonePath() *Location {
 		PathOptions: *it.ClonePathOptions(),
 	}
 }
+
+func (it *Location) IsEqual(another *Location) bool {
+	if it == nil && another == nil {
+		return true
+	}
+
+	if it == nil || another == nil {
+		return false
+	}
+
+	if it.Path != another.Path {
+		return false
+	}
+
+	return it.PathOptions.IsEqual(
+		&another.PathOptions)
+}
+
+func (it *Location) IsEqualWithoutOptions(another *Location) bool {
+	if it == nil && another == nil {
+		return true
+	}
+
+	if it == nil || another == nil {
+		return false
+	}
+
+	return it.Path == another.Path
+}

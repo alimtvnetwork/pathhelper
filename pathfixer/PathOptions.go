@@ -31,6 +31,12 @@ func (it *PathOptions) GetFixedPathJoined(location1, location2 string) string {
 		location2)
 }
 
+func (it *PathOptions) Join(location1, location2 string) string {
+	return pathjoin.JoinSimple(
+		location1,
+		location2)
+}
+
 func (it *PathOptions) GetFixedPathJoinedMany(
 	locations ...string,
 ) string {
@@ -48,11 +54,32 @@ func (it *PathOptions) ClonePathOptions() *PathOptions {
 	}
 
 	return &PathOptions{
-		IsNormalize:     it.IsNormalize,
-		IsRelative:      it.IsRelative,
-		IsExpandEnvVar:  it.IsExpandEnvVar,
-		IsSkipOnInvalid: it.IsSkipOnInvalid,
-		IsSkipOnExist:   it.IsSkipOnExist,
-		IsSkipOnEmpty:   it.IsSkipOnEmpty,
+		IsContinueOnError: it.IsContinueOnError,
+		IsNormalize:       it.IsNormalize,
+		IsExpandEnvVar:    it.IsExpandEnvVar,
+		IsRecursive:       it.IsRecursive,
+		IsSkipOnInvalid:   it.IsSkipOnInvalid,
+		IsSkipOnExist:     it.IsSkipOnExist,
+		IsSkipOnEmpty:     it.IsSkipOnEmpty,
+		IsRelative:        it.IsRelative,
 	}
+}
+
+func (it *PathOptions) IsEqual(another *PathOptions) bool {
+	if it == nil && another == nil {
+		return true
+	}
+
+	if it == nil || another == nil {
+		return false
+	}
+
+	return it.IsContinueOnError == another.IsContinueOnError &&
+		it.IsNormalize == another.IsNormalize &&
+		it.IsExpandEnvVar == another.IsExpandEnvVar &&
+		it.IsRecursive == another.IsRecursive &&
+		it.IsSkipOnInvalid == another.IsSkipOnInvalid &&
+		it.IsSkipOnExist == another.IsSkipOnExist &&
+		it.IsSkipOnEmpty == another.IsSkipOnEmpty &&
+		it.IsRelative == another.IsRelative
 }

@@ -18,7 +18,7 @@ func Do(
 	deleteErr := errnew.EmptyPtr
 
 	if isClearBeforeCopy {
-		deleteErr = deletepaths.RecursiveIfExist(
+		deleteErr = deletepaths.RecursiveOnExist(
 			dst)
 	}
 
