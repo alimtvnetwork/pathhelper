@@ -17,6 +17,10 @@ func GetLocationInfo(location string) *LocationInfo {
 		ext = dotExt[1:]
 	}
 
+	if baseDir == fileNameWithExt {
+		baseDir = ""
+	}
+
 	return &LocationInfo{
 		RawLocation:           location,
 		FileNameWithExtension: fileNameWithExt,

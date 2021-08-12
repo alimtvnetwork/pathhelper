@@ -9,7 +9,7 @@ import (
 	"gitlab.com/evatix-go/pathhelper/internal/fsinternal"
 )
 
-func RecursiveIfExist(location string) *errorwrapper.Wrapper {
+func RecursiveOnExist(location string) *errorwrapper.Wrapper {
 	if !fsinternal.IsPathExists(location) || len(location) == 0 {
 		return errnew.EmptyPtr
 	}

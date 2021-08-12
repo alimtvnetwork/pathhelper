@@ -23,20 +23,20 @@ func GetInstructionResult(instruction *Instruction) *Result {
 			nil)
 	}
 
-	root := normalize.PathUsingSingleIf(
+	normalizedRoot := normalize.PathUsingSingleIf(
 		instruction.IsNormalize,
 		instruction.Root)
 
 	pathStat := chmodhelper.GetPathExistStat(
-		root)
+		normalizedRoot)
 	if pathStat.HasError() {
 		errW := errnew.Path(
 			errtype.MissingPathsOrInvalidPaths,
 			pathStat.Error,
-			root)
+			normalizedRoot)
 
 		return InvalidResult(
-			root,
+			normalizedRoot,
 			errW,
 			pathStat)
 	}
@@ -45,10 +45,10 @@ func GetInstructionResult(instruction *Instruction) *Result {
 		// not exist
 		errW := errnew.PathMessages(
 			errtype.MissingPathsOrInvalidPaths,
-			root)
+			normalizedRoot)
 
 		return InvalidResult(
-			root,
+			normalizedRoot,
 			errW,
 			pathStat)
 	}
@@ -59,7 +59,7 @@ func GetInstructionResult(instruction *Instruction) *Result {
 			PathStat:        pathStat,
 			IsInvalidResult: false,
 			PathsResult: &PathsResult{
-				ExpandingPaths: corestr.NewSimpleSliceUsing(false, []string{root}),
+				ExpandingPaths: corestr.NewSimpleSliceUsing(false, []string{normalizedRoot}),
 				IsExist:        true,
 				IsFile:         true,
 				IsDir:          false,
@@ -71,7 +71,7 @@ func GetInstructionResult(instruction *Instruction) *Result {
 
 	if !instruction.IsRecursive {
 		return nonRecursiveResult(
-			root,
+			normalizedRoot,
 			instruction,
 			pathStat)
 	}
@@ -87,8 +87,8 @@ func GetInstructionResult(instruction *Instruction) *Result {
 	isExcludeRoot := instruction.IsExcludeRoot
 	isRelativePath := instruction.IsRelativePath
 
-	filepath.Walk(
-		root,
+	finalErr := filepath.Walk(
+		normalizedRoot,
 		func(path string, info fs.FileInfo, err error) error {
 			if err != nil {
 				sliceErr = append(sliceErr, err.Error()+" - "+path)
@@ -102,11 +102,21 @@ func GetInstructionResult(instruction *Instruction) *Result {
 				return err
 			}
 
-			if isExcludeAny && nameExcludes.Has(info.Name()) {
+			if isExcludeRoot && normalizedRoot == path {
 				return nil
 			}
 
-			if isExcludeRoot && root == path {
+			isExcludeRootCondition := isExcludeAny &&
+				nameExcludes.Has(info.Name())
+			isRootNameExclude := isExcludeRootCondition &&
+				normalizedRoot != path &&
+				strings.TrimPrefix(path, normalizedRoot)[1:] == info.Name()
+
+			if isRootNameExclude && info.IsDir() {
+				return filepath.SkipDir
+			}
+
+			if isRootNameExclude && !info.IsDir() {
 				return nil
 			}
 
@@ -114,7 +124,7 @@ func GetInstructionResult(instruction *Instruction) *Result {
 			if isRelativePath {
 				finalizedPath = strings.Replace(
 					finalizedPath,
-					root,
+					normalizedRoot,
 					constants.EmptyString,
 					1)
 			}
@@ -136,10 +146,14 @@ func GetInstructionResult(instruction *Instruction) *Result {
 		},
 	)
 
+	if finalErr != nil {
+		sliceErr = append(sliceErr, finalErr.Error())
+	}
+
 	compiledErr := msgtype.SliceToError(sliceErr)
 
 	return &Result{
-		Root:            root,
+		Root:            normalizedRoot,
 		PathStat:        pathStat,
 		IsInvalidResult: false,
 		PathsResult: &PathsResult{
@@ -149,6 +163,6 @@ func GetInstructionResult(instruction *Instruction) *Result {
 			IsDir:          true,
 		},
 		IsRelative: instruction.IsRelativePath,
-		ErrWrapper: errnew.Path(errtype.PathExpand, compiledErr, root),
+		ErrWrapper: errnew.Path(errtype.PathExpand, compiledErr, normalizedRoot),
 	}
 }

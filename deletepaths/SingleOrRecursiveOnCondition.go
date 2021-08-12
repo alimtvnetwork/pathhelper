@@ -15,7 +15,7 @@ func SingleOrRecursiveOnCondition(
 	}
 
 	if condition.IsRecursive && condition.IsExistBeforeClear {
-		return RecursiveIfExist(location)
+		return RecursiveOnExist(location)
 	} else if condition.IsRecursive && !condition.IsExistBeforeClear {
 		return Recursive(location)
 	}

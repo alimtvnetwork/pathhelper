@@ -12,7 +12,7 @@ import (
 
 type Instruction struct {
 	Root                string
-	ExcludingNames      []string //  path names contains in this will be ignored
+	ExcludingRootNames  []string //  path names contains in this will be ignored
 	IsIncludeFilesOnly, //  includes only files if IsIncludeAll false
 	IsRelativePath, // remove root path from paths
 	IsIncludeDirsOnly, // includes only dir if IsIncludeAll false
@@ -28,7 +28,7 @@ func (it *Instruction) Result() *Result {
 }
 
 func (it *Instruction) HasAnyExcludingCondition() bool {
-	return len(it.ExcludingNames) > 0
+	return len(it.ExcludingRootNames) > 0
 }
 
 func (it *Instruction) ExcludingNamesHashset() *corestr.Hashset {
@@ -36,7 +36,7 @@ func (it *Instruction) ExcludingNamesHashset() *corestr.Hashset {
 		return it.excludingNamesHashset
 	}
 
-	slicePtr := stringslice.SlicePtr(it.ExcludingNames)
+	slicePtr := stringslice.SlicePtr(it.ExcludingRootNames)
 	it.excludingNamesHashset = corestr.NewHashsetUsingStrings(
 		slicePtr)
 

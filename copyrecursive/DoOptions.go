@@ -18,7 +18,7 @@ func DoOptions(
 	deleteErr := errnew.EmptyPtr
 
 	if options.IsClearDestination {
-		deleteErr = deletepaths.RecursiveIfExist(
+		deleteErr = deletepaths.RecursiveOnExist(
 			dst)
 	}
 

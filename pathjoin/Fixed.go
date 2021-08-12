@@ -7,7 +7,7 @@ import (
 
 // Fixed
 //
-// Paths are applied with
+// Items are applied with
 // normalize,
 // skip on empty path given
 func Fixed(

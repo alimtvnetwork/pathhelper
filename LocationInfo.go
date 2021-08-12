@@ -1,8 +1,10 @@
 package pathhelper
 
 import (
+	"fmt"
 	"strings"
 
+	"gitlab.com/evatix-go/core/constants"
 	"gitlab.com/evatix-go/pathhelper/pathchmod"
 )
 
@@ -123,4 +125,10 @@ func (it *LocationInfo) PathCombineWithBaseAsLocationInfo(
 
 func (it *LocationInfo) PathSimpleStat() *pathchmod.SimpleStat {
 	return pathchmod.GetSimpleStat(it.RawLocation)
+}
+
+func (it *LocationInfo) String() string {
+	return fmt.Sprintf(
+		constants.SprintFullPropertyNameValueFormat,
+		*it)
 }
