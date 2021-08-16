@@ -5,6 +5,10 @@ import (
 	"gitlab.com/evatix-go/errorwrapper"
 )
 
+// WriteAnyLock should be used with caution,
+// it should only be used when one is trying
+// convert struct to string then save it to file.
+// it is not the right way to the file back.
 func WriteAnyLock(
 	filePath string,
 	content interface{},

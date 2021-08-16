@@ -27,6 +27,14 @@ func Apply(download *pathinsfmt.Download) *errorwrapper.Wrapper {
 
 	bashCommandArg := aria2cBashCommandArg(download)
 
-	return errcmd.
+	scriptRunningErr := errcmd.
 		BashScriptsErrorWrapper(bashCommandArg)
+
+	if scriptRunningErr.HasError() {
+		return scriptRunningErr
+	}
+
+	return downloadChecksumVerify(download)
 }
+
+

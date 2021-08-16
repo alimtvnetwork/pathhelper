@@ -25,6 +25,7 @@ func Test_Download(t *testing.T) {
 
 	download := pathinsfmt.NewDownload(ts.URL, filePath)
 	errW := downloadinsexec.Apply(download)
+	errW.HandleError()
 
 	convey.Convey("Download ErrorWrapper Should Return False", t, func() {
 		convey.So(errW.HasError(), convey.ShouldBeFalse)

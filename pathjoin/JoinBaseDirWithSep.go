@@ -48,12 +48,12 @@ func JoinBaseDirWithSep(
 			finalPath
 	}
 
-	normalized := normalize.PathUsingSeparatorUsingSingleIf(
-		isNormalizePlusLongPathFix,
-		osconsts.PathSeparator,
+	expand := expandpath.ExpandVariablesIf(
+		isExpandEnvVariables,
 		finalPath)
 
-	return expandpath.ExpandVariablesIf(
-		isExpandEnvVariables,
-		normalized)
+	return normalize.PathUsingSeparatorUsingSingleIf(
+		isNormalizePlusLongPathFix,
+		osconsts.PathSeparator,
+		expand)
 }

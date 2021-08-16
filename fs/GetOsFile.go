@@ -12,9 +12,9 @@ import (
 // GetOsFile defer function must be called to close the file.
 func GetOsFile(
 	existingErrorWrapper *errorwrapper.Wrapper, // can be nil
-	filePath string,
 	osFlag int,
 	fileMode os.FileMode,
+	filePath string,
 ) *OsFile {
 	osFile, fileOpenErr := os.OpenFile(
 		filePath,

@@ -1,8 +1,7 @@
 package pathrecurseinfo
 
 import (
-	"path"
-
+	"gitlab.com/evatix-go/core/corecompare"
 	"gitlab.com/evatix-go/core/coredata/corestr"
 	"gitlab.com/evatix-go/pathhelper/normalize"
 	"gitlab.com/evatix-go/pathhelper/pathjoin"
@@ -15,32 +14,89 @@ type PathsResult struct {
 	IsDir bool
 }
 
+func (it *PathsResult) IsEqual(another *PathsResult) bool {
+	if !it.IsEqualOnlyItems(another) {
+		return false
+	}
+
+	if it.IsExist != another.IsExist {
+		return false
+	}
+
+	if it.IsDir != another.IsDir {
+		return false
+	}
+
+	if it.IsFile != another.IsFile {
+		return false
+	}
+
+	return true
+}
+
+func (it *PathsResult) IsEqualOnlyItems(another *PathsResult) bool {
+	if it == nil && another == nil {
+		return true
+	}
+
+	if it == nil || another == nil {
+		return false
+	}
+
+	if it.ExpandingPaths.Length() != another.ExpandingPaths.Length() {
+		return false
+	}
+
+	return corecompare.StringsEqual(
+		it.ExpandingPaths.Items,
+		another.ExpandingPaths.Items)
+}
+
+func (it *PathsResult) IsDistinctEqualItems(another *PathsResult) bool {
+	if it == nil && another == nil {
+		return true
+	}
+
+	if it == nil || another == nil {
+		return false
+	}
+
+	current := it.ExpandingPaths.Hashset()
+	anotherHashset := another.ExpandingPaths.Hashset()
+
+	return current.IsEqualsPtr(anotherHashset)
+}
+
 func (it *PathsResult) JoinWithRoot(
-	root string,
+	isFixAll,
 	isNormalize bool,
+	root string,
 ) *corestr.SimpleSlice {
 	if it.ExpandingPaths.IsEmpty() {
 		return corestr.NewSimpleSlice(0)
 	}
 
-	rootFix := normalize.PathUsingSingleIf(isNormalize, root)
+	rootFix := normalize.PathUsingSingleIf(
+		isNormalize,
+		root)
+	newSlice := make(
+		[]string,
+		it.ExpandingPaths.Length())
 
-	newSlice := make([]string, it.ExpandingPaths.Length())
+	isLibFunc := !isNormalize
 
-	if isNormalize {
-		for _, item := range it.ExpandingPaths.Items {
-			newPath := pathjoin.JoinSimple(rootFix, item)
+	for i, item := range it.ExpandingPaths.Items {
+		newPath := pathjoin.JoinSimpleIf(
+			isLibFunc,
+			rootFix,
+			item)
 
-			newSlice = append(newSlice, newPath)
+		if isFixAll {
+			newPath = normalize.Path(
+				newPath)
 		}
 
-		return corestr.NewSimpleSliceUsing(false, newSlice)
-	}
-
-	for _, item := range it.ExpandingPaths.Items {
-		newPath := path.Join(rootFix, item)
-
-		newSlice = append(newSlice, newPath)
+		newSlice[i] = newPath
 	}
 
 	return corestr.NewSimpleSliceUsing(

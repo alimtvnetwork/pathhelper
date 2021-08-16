@@ -14,7 +14,8 @@ func GetOsFileWriteOrCreate(
 ) *OsFile {
 	return GetOsFile(
 		existingErrorWrapper,
-		filePath,
 		FlagWriteOrCreate,
-		fileMode)
+		fileMode,
+		filePath,
+	)
 }

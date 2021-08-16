@@ -8,9 +8,10 @@ import (
 	"gitlab.com/evatix-go/pathhelper/normalize"
 )
 
+// Location Don't use Path Directly but use CompiledPath
 type Location struct {
 	PathOptions
-	Path         string `json:"Location,omitempty"` // empty path will be ignored from applying.
+	Path         string `json:"Location,omitempty"` // empty path will be ignored from applying, must use CompiledPath
 	compiledPath *string
 }
 
@@ -45,24 +46,20 @@ func (it *Location) IsPathExist() bool {
 }
 
 func (it *Location) CompiledPath() string {
-	if it.IsEmptyPath() {
-		return constants.EmptyString
-	}
-
 	if it.compiledPath != nil {
 		return *it.compiledPath
 	}
 
+	expandPath := expandpath.ExpandVariablesIf(
+		it.IsExpandEnvVar,
+		it.Path)
+
 	normalized := normalize.PathUsingSeparatorUsingSingleIf(
 		it.IsNormalize,
 		osconsts.PathSeparator,
-		it.Path)
+		expandPath)
 
-	expandPath := expandpath.ExpandVariablesIf(
-		it.IsExpandEnvVar,
-		normalized)
-
-	it.compiledPath = &expandPath
+	it.compiledPath = &normalized
 
 	return *it.compiledPath
 }
@@ -79,15 +76,7 @@ func (it *Location) ClonePath() *Location {
 }
 
 func (it *Location) IsEqual(another *Location) bool {
-	if it == nil && another == nil {
-		return true
-	}
-
-	if it == nil || another == nil {
-		return false
-	}
-
-	if it.Path != another.Path {
+	if !it.IsEqualWithoutOptions(another) {
 		return false
 	}
 

@@ -31,11 +31,17 @@ func GetSimpleStat(
 		}
 	}
 
+	var name string
+	if info != nil {
+		name = info.Name()
+	}
+
 	return &SimpleStat{
 		Location:        location,
 		FileInfo:        info,
 		HasFileInfo:     info != nil,
 		InvalidFileInfo: info == nil,
+		Name:            name,
 		IsNotExist:      !isExist,
 		IsExist:         isExist,
 		IsDir:           isExist && info != nil && info.IsDir(),

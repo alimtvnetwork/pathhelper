@@ -112,6 +112,21 @@ func (it *Path) enhancePathsToSliceStrings(enhancePaths ...*Path) []string {
 	return slice
 }
 
+// OsFile use fs.Flag to use appropriate file flags
+//
+// Must call fs.OsFile.AttachDeferCloseOnRequire()
+func (it *Path) OsFile(
+	existingErrorWrapper *errorwrapper.Wrapper, // can be nil
+	osFlag int,
+	fileMode os.FileMode,
+) *fs.OsFile {
+	return fs.GetOsFile(
+		existingErrorWrapper,
+		osFlag,
+		fileMode,
+		it.CompiledPath())
+}
+
 func (it *Path) CombineWithElitePaths(
 	enhancePaths ...*Path,
 ) string {
@@ -321,6 +336,11 @@ func (it *Path) BothExt() (dotExt, ext string) {
 		it.CompiledPath())
 }
 
+func (it *Path) ParentDirPath() *Path {
+	return it.ClonePathUsingNew(splitinternal.GetBaseDir(
+		it.CompiledPath()))
+}
+
 func (it *Path) ParentDir() string {
 	return splitinternal.GetBaseDir(
 		it.CompiledPath())
@@ -329,6 +349,87 @@ func (it *Path) ParentDir() string {
 func (it *Path) BaseDir() string {
 	return splitinternal.GetBaseDir(
 		it.CompiledPath())
+}
+
+// AllPaths returns all immediate paths but not nested or recursive paths.
+func (it *Path) AllPaths() *errstr.Results {
+	pathWrapper := it.PathWrapper()
+
+	return pathWrapper.GetAllPathsDefault()
+}
+
+func (it *Path) AllPathsSimpleStat() (*pathchmod.SimpleStats, *errorwrapper.Wrapper) {
+	if it.IsFile() {
+		return pathchmod.
+				NewSimpleStats(1).
+				Add(it.CompiledPath()),
+			errnew.EmptyPtr
+	}
+
+	allPaths := it.AllPaths()
+
+	if allPaths.HasError() {
+		return pathchmod.NewSimpleStats(0),
+			allPaths.ErrorWrapper
+	}
+
+	return pathchmod.NewSimpleStatsUsingItems(
+			allPaths.ValueNonPtr()...),
+		errnew.EmptyPtr
+}
+
+func (it *Path) AllFilesSimpleStat() (*pathchmod.SimpleStats, *errorwrapper.Wrapper) {
+	if it.IsFile() {
+		return pathchmod.
+				NewSimpleStats(1).
+				Add(it.CompiledPath()),
+			errnew.EmptyPtr
+	}
+
+	files := it.Files()
+
+	if files.HasError() {
+		return pathchmod.NewSimpleStats(0),
+			files.ErrorWrapper
+	}
+
+	return pathchmod.NewSimpleStatsUsingItems(
+			files.ValueNonPtr()...),
+		errnew.EmptyPtr
+}
+
+func (it *Path) AllDirsSimpleStat() (*pathchmod.SimpleStats, *errorwrapper.Wrapper) {
+	paths := it.Directories()
+
+	if paths.HasError() {
+		return pathchmod.NewSimpleStats(0),
+			paths.ErrorWrapper
+	}
+
+	return pathchmod.NewSimpleStatsUsingItems(
+			paths.ValueNonPtr()...),
+		errnew.EmptyPtr
+}
+
+// Files it doesn't return recursive files but just immediate nested files
+func (it *Path) Files() *errstr.Results {
+	if it.IsFile() {
+		return &errstr.Results{
+			Values:       &[]string{it.CompiledPath()},
+			ErrorWrapper: errnew.EmptyPtr,
+		}
+	}
+
+	pathWrapper := it.PathWrapper()
+
+	return pathWrapper.GetFilesDefault()
+}
+
+// Directories it doesn't return recursive directories but just immediate nested directories
+func (it *Path) Directories() *errstr.Results {
+	pathWrapper := it.PathWrapper()
+
+	return pathWrapper.GetDirectoriesDefault()
 }
 
 func (it *Path) LocationInfo() *pathhelper.LocationInfo {
@@ -347,12 +448,63 @@ func (it *Path) LocationInfo() *pathhelper.LocationInfo {
 		it.CompiledPath())
 }
 
+func (it *Path) NotDirError() *errorwrapper.Wrapper {
+	if it.IsDir() {
+		return errnew.EmptyPtr
+	}
+
+	return errnew.PathMessages(
+		errtype.InvalidDir,
+		it.CompiledPath(),
+		"not a valid directory")
+}
+
+func (it *Path) NotFileError() *errorwrapper.Wrapper {
+	if it.IsFile() {
+		return errnew.EmptyPtr
+	}
+
+	return errnew.PathMessages(
+		errtype.FileInvalid,
+		it.CompiledPath(),
+		"not a valid file")
+}
+
+func (it *Path) ReadFileBytesMust() []byte {
+	rs := it.ReadFileBytes()
+	rs.ErrorWrapper.HandleError()
+
+	return rs.ValueNonPtr()
+}
+
 func (it *Path) ReadFileBytes() *errbyte.Results {
 	return fs.ReadFileUsingLock(it.CompiledPath())
 }
 
+func (it *Path) ReadFileStringMust() string {
+	rs := it.ReadFileString()
+	rs.ErrorWrapper.HandleError()
+
+	return rs.Value
+}
+
 func (it *Path) ReadFileString() *errstr.Result {
 	return fs.ReadFileStringUsingLock(it.CompiledPath())
+}
+
+func (it *Path) ReadLinesMust() []string {
+	rs := it.ReadLines()
+	rs.ErrorWrapper.HandleError()
+
+	return rs.ValueNonPtr()
+}
+
+func (it *Path) ReadLines() *errstr.Results {
+	return fs.ReadFileLinesUsingLock(it.CompiledPath())
+}
+
+func (it *Path) WriteLines(lines []string) *errorwrapper.Wrapper {
+	return fs.WriteStringLinesToFileUsingLock(it.CompiledPath(), lines)
 }
 
 func (it *Path) RecursivePathsAll(
@@ -390,18 +542,9 @@ func (it *Path) RecursivePathsAll(
 
 func (it *Path) RecursiveFilePaths(
 	isRelativePath bool,
-
 	excludeRootNames ...string,
 ) *corestr.SimpleSlice {
-	if !it.IsPathExist() {
-		return corestr.EmptySimpleSlice()
-	}
-
 	src := it.CompiledPath()
-
-	if it.IsFile() {
-		return corestr.NewSimpleSlice(1).Add(src)
-	}
 
 	instruction := pathrecurseinfo.Instruction{
 		Root:               src,
@@ -423,18 +566,9 @@ func (it *Path) RecursiveFilePaths(
 
 func (it *Path) RecursiveDirPaths(
 	isRelativePath bool,
-
 	excludeRootNames ...string,
 ) *corestr.SimpleSlice {
-	if !it.IsPathExist() {
-		return corestr.EmptySimpleSlice()
-	}
-
 	src := it.CompiledPath()
-
-	if it.IsFile() {
-		return corestr.NewSimpleSlice(1).Add(src)
-	}
 
 	instruction := pathrecurseinfo.Instruction{
 		Root:               src,
@@ -502,7 +636,7 @@ func (it *Path) ChmodCondition() *chmodins.Condition {
 func (it *Path) ApplyFileMode(mode os.FileMode) *errorwrapper.Wrapper {
 	condition := it.ChmodCondition()
 
-	err := chmodhelper.FileModeApplyChmod(mode, condition, it.Path)
+	err := chmodhelper.FileModeApplyChmod(mode, condition, it.CompiledPath())
 
 	return errnew.NewPtr(
 		errtype.ChmodApplyFailed,
@@ -659,5 +793,5 @@ func (it *Path) IsEqualWithoutOptions(another *Path) bool {
 		return false
 	}
 
-	return it.Path == another.Path
+	return it.CompiledPath() == another.CompiledPath()
 }

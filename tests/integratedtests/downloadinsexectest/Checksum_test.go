@@ -7,15 +7,16 @@ import (
 
 	"github.com/smartystreets/goconvey/convey"
 
-	"gitlab.com/evatix-go/pathhelper/fs"
+	"gitlab.com/evatix-go/pathhelper/checksummer"
+	"gitlab.com/evatix-go/pathhelper/hashas"
 	"gitlab.com/evatix-go/pathhelper/internal/consts"
 	"gitlab.com/evatix-go/pathhelper/pathinsfmt"
 	"gitlab.com/evatix-go/pathhelper/pathinsfmtexec/downloadinsexec"
 )
 
-func Test_SkipOnExist(t *testing.T) {
+func Test_Checksum(t *testing.T) {
 	// 0. Setup
-	tempFile, buff := createTempFile(t)
+	tempFile, _ := createTempFile(t)
 
 	// spin up the server
 	ts := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
@@ -23,15 +24,15 @@ func Test_SkipOnExist(t *testing.T) {
 	}))
 
 	defer ts.Close()
-	writeERR := fs.WriteStringToFileUsingLock(filePath, "hello,world")
-	writeERR.HandleError()
 
 	download := &pathinsfmt.Download{
-		Url:           ts.URL,
-		Destination:   fileDir,
-		FileName:      file,
-		IsSkipOnExist: true,
-		FileModeDir:   consts.DefaultDirectoryFileMode,
+		Url:                  ts.URL,
+		Destination:          fileDir,
+		FileName:             file,
+		IsSkipOnExist:        true,
+		FileModeDir:          consts.DefaultDirectoryFileMode,
+		ChecksumVerifyMethod: hashas.Md5,
+		ChecksumVerify:       "469e01d115cb913ad709c749df1c5666",
 	}
 
 	errW := downloadinsexec.Apply(download)
@@ -40,9 +41,9 @@ func Test_SkipOnExist(t *testing.T) {
 		convey.So(errW.HasError(), convey.ShouldBeFalse)
 	})
 
-	convey.Convey("Download Content Should Not Resemble Temp Content", t, func() {
-		errBytesResults := fs.ReadFile(filePath)
-		convey.So(errBytesResults.HasError(), convey.ShouldBeFalse)
-		convey.So(*errBytesResults.Values, convey.ShouldNotResemble, buff)
+	convey.Convey("Downloaded Content's Checksum Should Match", t, func() {
+		fileCheckSum := checksummer.NewSync(true, filePath, download.ChecksumVerifyMethod)
+
+		convey.So(fileCheckSum.SingleHash(), convey.ShouldEqual, download.ChecksumVerify)
 	})
 }

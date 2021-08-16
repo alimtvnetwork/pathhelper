@@ -5,8 +5,8 @@ import (
 	"strings"
 
 	"gitlab.com/evatix-go/core/chmodhelper"
-	"gitlab.com/evatix-go/core/constants"
 	"gitlab.com/evatix-go/core/coredata/corestr"
+	"gitlab.com/evatix-go/core/osconsts"
 	"gitlab.com/evatix-go/errorwrapper/errnew"
 	"gitlab.com/evatix-go/errorwrapper/errtype"
 	"gitlab.com/evatix-go/pathhelper/pathjoin"
@@ -18,7 +18,6 @@ func nonRecursiveResult(
 	stat *chmodhelper.PathExistStat,
 ) *Result {
 	fileInfos, err := ioutil.ReadDir(normalizedRoot)
-
 	if err != nil {
 		errW := errnew.PathMessages(
 			errtype.PathExpand,
@@ -30,20 +29,44 @@ func nonRecursiveResult(
 			stat)
 	}
 
+	isExcludeAny := instruction.HasExcludingRootNames()
+	nameExcludes := instruction.ExcludingNamesHashset()
+	excludingPaths := instruction.ExcludingPathsHashset()
+	hasAnyExcludingPaths := excludingPaths.Length() > 0
+	isUseLibFunc := !instruction.IsNormalize
+
+	if excludingPaths.Has(normalizedRoot) {
+		return &Result{
+			Root:            normalizedRoot,
+			PathStat:        stat,
+			IsInvalidResult: false,
+			PathsResult: &PathsResult{
+				ExpandingPaths: corestr.EmptySimpleSlice(),
+				IsExist:        true,
+				IsFile:         false,
+				IsDir:          true,
+			},
+			IsRelative: instruction.IsRelativePath,
+			ErrWrapper: errnew.EmptyPtr,
+		}
+	}
+
 	paths := make(
 		[]string,
 		0,
-		len(fileInfos))
+		len(fileInfos)+5)
 
-	isExcludeAny := instruction.HasAnyExcludingCondition()
-	nameExcludes := instruction.ExcludingNamesHashset()
+	if !instruction.IsRelativePath && !instruction.IsExcludeRoot {
+		paths = append(paths, normalizedRoot)
+	}
 
 	for _, info := range fileInfos {
 		if isExcludeAny && nameExcludes.Has(info.Name()) {
 			continue
 		}
 
-		fullPath := pathjoin.JoinSimple(
+		fullPath := pathjoin.JoinSimpleIf(
+			isUseLibFunc,
 			normalizedRoot,
 			info.Name())
 
@@ -51,16 +74,21 @@ func nonRecursiveResult(
 			continue
 		}
 
+		if hasAnyExcludingPaths && excludingPaths.Has(fullPath) {
+			continue
+		}
+
 		if instruction.IsRelativePath {
-			fullPath = strings.Replace(
-				fullPath,
-				normalizedRoot,
-				constants.EmptyString,
-				1)
+			fullPath = strings.TrimPrefix(fullPath, normalizedRoot)
 		}
 
 		if fullPath == "" {
 			continue
+		}
+
+		if instruction.IsRelativePath &&
+			strings.HasPrefix(fullPath, osconsts.PathSeparator) {
+			fullPath = fullPath[1:]
 		}
 
 		switch {
