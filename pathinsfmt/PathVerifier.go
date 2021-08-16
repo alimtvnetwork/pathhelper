@@ -1,6 +1,8 @@
 package pathinsfmt
 
-import "gitlab.com/evatix-go/core/chmodhelper/chmodins"
+import (
+	"gitlab.com/evatix-go/core/chmodhelper/chmodins"
+)
 
 type PathVerifier struct {
 	UserGroupName

@@ -17,6 +17,7 @@ import (
 type SimpleStat struct {
 	Location        string
 	FileInfo        os.FileInfo
+	Name            string // name with extension
 	HasFileInfo     bool
 	InvalidFileInfo bool
 	IsNotExist      bool
@@ -43,6 +44,13 @@ func (it *SimpleStat) ReadString() *errstr.Result {
 	}
 }
 
+func (it *SimpleStat) ReadStringMust() string {
+	rs := it.ReadString()
+	rs.ErrorWrapper.HandleError()
+
+	return rs.Value
+}
+
 func (it *SimpleStat) notFileError() *errorwrapper.Wrapper {
 	if !it.IsExist || it.IsDir {
 		return errnew.PathMessages(
@@ -64,6 +72,13 @@ func (it *SimpleStat) ReadBytes() *errbyte.Results {
 	}
 
 	return fsinternal.ReadFile(it.Location)
+}
+
+func (it *SimpleStat) ReadBytesMust() []byte {
+	rs := it.ReadBytes()
+	rs.ErrorWrapper.HandleError()
+
+	return rs.ValueNonPtr()
 }
 
 func (it *SimpleStat) CheckSum(hashType hashas.Variant) *errbyte.Results {

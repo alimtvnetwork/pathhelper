@@ -1,6 +1,8 @@
 package pathjoin
 
-import "gitlab.com/evatix-go/core/osconsts"
+import (
+	"gitlab.com/evatix-go/core/osconsts"
+)
 
 // JoinSimple doesn't apply normalize
 func JoinSimple(path1, path2 string) string {

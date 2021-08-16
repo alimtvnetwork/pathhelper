@@ -18,9 +18,10 @@ func appendFileContent(filePath string, content []byte) (finalErrorWrapper *erro
 
 	osFile := GetOsFile(
 		finalErrorWrapper,
-		filePath,
 		FlagAppendOrWrite,
-		chmod)
+		chmod,
+		filePath,
+	)
 
 	if osFile.HasError() {
 		return osFile.ErrorWrapper

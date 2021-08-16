@@ -6,6 +6,7 @@ import (
 	"gitlab.com/evatix-go/core/chmodhelper"
 	"gitlab.com/evatix-go/core/constants"
 	"gitlab.com/evatix-go/pathhelper/createdir"
+	"gitlab.com/evatix-go/pathhelper/hashas"
 	"gitlab.com/evatix-go/pathhelper/internal/consts"
 	"gitlab.com/evatix-go/pathhelper/internal/fsinternal"
 	"gitlab.com/evatix-go/pathhelper/pathjoin"
@@ -14,17 +15,19 @@ import (
 // Download Use aria2c
 // Reference : https://aria2.github.io/manual/en/html/aria2c.html#options
 type Download struct {
-	URL              string      `json:"URL,omitempty"`
-	Destination      string      `json:"Destination,omitempty"`
-	FileName         string      `json:"FileName,omitempty"`
-	ParallelRequests byte        `json:"ParallelRequests,omitempty"`
-	MaxRetries       byte        `json:"MaxRetries,omitempty"`
-	IsCreateDir      bool        `json:"IsCreateDir,omitempty"`
-	IsClearDir       bool        `json:"IsClearDir,omitempty"`
-	IsNormalizePath  bool        `json:"IsNormalizePath,omitempty"`
-	IsSkipOnExist    bool        `json:"IsSkipOnExist,omitempty"`
-	FileModeDir      os.FileMode `json:"FileModeDir,omitempty"`
-	fixPath          *string
+	Url                  string         `json:"Url,omitempty"`
+	Destination          string         `json:"Destination,omitempty"`
+	FileName             string         `json:"FileName,omitempty"`
+	ParallelRequests     byte           `json:"ParallelRequests,omitempty"`
+	MaxRetries           byte           `json:"MaxRetries,omitempty"`
+	IsCreateDir          bool           `json:"IsCreateDir,omitempty"`
+	IsClearDir           bool           `json:"IsClearDir,omitempty"`
+	IsNormalizePath      bool           `json:"IsNormalizePath,omitempty"`
+	IsSkipOnExist        bool           `json:"IsSkipOnExist,omitempty"`
+	FileModeDir          os.FileMode    `json:"FileModeDir,omitempty"`
+	ChecksumVerifyMethod hashas.Variant `json:"ChecksumVerifyMethod,omitempty"` // Md5, Sha1, Sha256
+	ChecksumVerify       string         `json:"CheckSumVerify,omitempty"`       // only verify if given
+	fixPath              *string
 }
 
 // NewDownload Example :
@@ -33,7 +36,7 @@ func NewDownload(url, destination string) *Download {
 	parentDir, fileName := fsinternal.GetDirFileName(destination)
 
 	return &Download{
-		URL:              url,
+		Url:              url,
 		Destination:      parentDir,
 		FileName:         fileName,
 		ParallelRequests: constants.Capacity2,

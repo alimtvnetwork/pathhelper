@@ -11,7 +11,7 @@ import (
 
 func aria2cBashCommandArg(download *pathinsfmt.Download) string {
 	cmdArray := make([]string, constants.Two, constants.Eight)
-	cmdArray = append(cmdArray, Aria2C, download.URL)
+	cmdArray = append(cmdArray, Aria2C, download.Url)
 
 	if download.Destination != constants.EmptyString {
 		cmdArray = append(cmdArray, HyphenD, download.Destination)

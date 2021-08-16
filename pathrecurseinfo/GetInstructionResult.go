@@ -11,6 +11,7 @@ import (
 	"gitlab.com/evatix-go/core/msgtype"
 	"gitlab.com/evatix-go/errorwrapper/errnew"
 	"gitlab.com/evatix-go/errorwrapper/errtype"
+	"gitlab.com/evatix-go/pathhelper/expandpath"
 	"gitlab.com/evatix-go/pathhelper/normalize"
 )
 
@@ -23,9 +24,13 @@ func GetInstructionResult(instruction *Instruction) *Result {
 			nil)
 	}
 
+	expand := expandpath.ExpandVariablesIf(
+		instruction.IsExpandEnvironmentVar,
+		instruction.Root)
+
 	normalizedRoot := normalize.PathUsingSingleIf(
 		instruction.IsNormalize,
-		instruction.Root)
+		expand)
 
 	pathStat := chmodhelper.GetPathExistStat(
 		normalizedRoot)
@@ -82,10 +87,12 @@ func GetInstructionResult(instruction *Instruction) *Result {
 		constants.ArbitraryCapacity32)
 
 	var sliceErr []string
-	isExcludeAny := instruction.HasAnyExcludingCondition()
+	isExcludeAny := instruction.HasExcludingRootNames()
 	nameExcludes := instruction.ExcludingNamesHashset()
 	isExcludeRoot := instruction.IsExcludeRoot
 	isRelativePath := instruction.IsRelativePath
+	excludingPaths := instruction.ExcludingPathsHashset()
+	hasAnyExcludingPaths := excludingPaths.Length() > 0
 
 	finalErr := filepath.Walk(
 		normalizedRoot,
@@ -106,17 +113,29 @@ func GetInstructionResult(instruction *Instruction) *Result {
 				return nil
 			}
 
+			isDir := info.IsDir()
 			isExcludeRootCondition := isExcludeAny &&
 				nameExcludes.Has(info.Name())
 			isRootNameExclude := isExcludeRootCondition &&
 				normalizedRoot != path &&
 				strings.TrimPrefix(path, normalizedRoot)[1:] == info.Name()
 
-			if isRootNameExclude && info.IsDir() {
+			if isRootNameExclude && isDir {
 				return filepath.SkipDir
 			}
 
-			if isRootNameExclude && !info.IsDir() {
+			if isRootNameExclude && !isDir {
+				return nil
+			}
+
+			isExcludingPath := hasAnyExcludingPaths &&
+				excludingPaths.Has(path)
+
+			if isExcludingPath && isDir {
+				return filepath.SkipDir
+			}
+
+			if isExcludingPath {
 				return nil
 			}
 
@@ -127,6 +146,10 @@ func GetInstructionResult(instruction *Instruction) *Result {
 					normalizedRoot,
 					constants.EmptyString,
 					1)
+			}
+
+			if isRelativePath && finalizedPath != "" {
+				finalizedPath = finalizedPath[1:]
 			}
 
 			if finalizedPath == "" {

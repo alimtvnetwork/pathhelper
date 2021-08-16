@@ -70,6 +70,25 @@ func (it *Variant) StringSumOf(
 	}
 }
 
+func (it *Variant) StringSumOfFile(
+	fileName string,
+) *errstr.Result {
+	byteResults := it.SumOfFile(fileName)
+	if byteResults.HasError() {
+		return &errstr.Result{
+			ErrorWrapper: byteResults.ErrorWrapper,
+		}
+	}
+
+	return &errstr.Result{
+		Value: conditional.String(byteResults.Values == nil,
+			constants.EmptyString,
+			hex.EncodeToString(*byteResults.Values),
+		),
+		ErrorWrapper: errnew.EmptyPtr,
+	}
+}
+
 func (it *Variant) SumOfFile(
 	fileName string,
 ) *errbyte.Results {
@@ -94,8 +113,12 @@ func (it *Variant) SumOfFile(
 	file, errOpen := os.Open(fileName)
 	if errOpen != nil {
 		return &errbyte.Results{
-			Values:       &[]byte{},
-			ErrorWrapper: errnew.ErrPtr(errOpen),
+			Values: &[]byte{},
+			ErrorWrapper: errnew.ErrorWithMessagesPtr(
+				errtype.FileRead,
+				errOpen,
+				"Error opening file : "+fileName,
+			),
 		}
 	}
 
@@ -104,8 +127,12 @@ func (it *Variant) SumOfFile(
 	_, errCopy := io.Copy(hashWriter, file)
 	if errCopy != nil {
 		return &errbyte.Results{
-			Values:       &[]byte{},
-			ErrorWrapper: errnew.ErrPtr(errCopy),
+			Values: &[]byte{},
+			ErrorWrapper: errnew.ErrorWithMessagesPtr(
+				errtype.Copy,
+				errOpen,
+				"Error copying to  file : "+fileName,
+			),
 		}
 	}
 
@@ -138,8 +165,19 @@ func (it *Variant) SumOf(
 		}
 	}
 
-	hashedBytes := hashWriter.Sum(
-		inputBytes)
+	_, err := hashWriter.Write(inputBytes)
+	if err != nil {
+		return &errbyte.Results{
+			Values: &[]byte{},
+			ErrorWrapper: errnew.ErrorWithMessagesPtr(
+				errtype.Hash,
+				err,
+				"Error in writing hash",
+			),
+		}
+	}
+
+	hashedBytes := hashWriter.Sum(nil)
 
 	return &errbyte.Results{
 		Values:       &hashedBytes,

@@ -19,7 +19,7 @@ func (it Filter) nameRegex() (*regexp.Regexp, error) {
 		return nil, emptyRegexError
 	}
 
-	return regexnew.New(it.NameRegexFilter)
+	return regexnew.NewLock(it.NameRegexFilter)
 }
 
 func (it Filter) pathRegex() (*regexp.Regexp, error) {
@@ -27,7 +27,7 @@ func (it Filter) pathRegex() (*regexp.Regexp, error) {
 		return nil, emptyRegexError
 	}
 
-	return regexnew.New(it.PathRegexFilter)
+	return regexnew.NewLock(it.PathRegexFilter)
 }
 
 func (it *Filter) IsMatch(path *Path) bool {

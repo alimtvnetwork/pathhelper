@@ -17,12 +17,12 @@ func JoinConditionalNormalizedExpandIf(
 		path2,
 	)
 
-	normalizedPath := normalize.PathUsingSeparatorUsingSingleIf(
-		isNormalizePlusLongPathFix,
-		osconsts.PathSeparator,
+	expand := expandpath.ExpandVariablesIf(
+		isExpand,
 		combined)
 
-	return expandpath.ExpandVariablesIf(
-		isExpand,
-		normalizedPath)
+	return normalize.PathUsingSeparatorUsingSingleIf(
+		isNormalizePlusLongPathFix,
+		osconsts.PathSeparator,
+		expand)
 }

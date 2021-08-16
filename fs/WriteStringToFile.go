@@ -5,7 +5,8 @@ import (
 )
 
 func WriteStringToFile(
-	filePath string, content string,
+	filePath string,
+	content string,
 ) *errorwrapper.Wrapper {
 	return WriteFile(
 		filePath, []byte(content))

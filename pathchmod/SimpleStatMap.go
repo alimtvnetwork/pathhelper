@@ -52,7 +52,7 @@ func (it *SimpleStatMap) Add(loc string) *SimpleStatMap {
 }
 
 func (it *SimpleStatMap) Adds(locations ...string) *SimpleStatMap {
-	if locations == nil || len(locations) == 0 {
+	if len(locations) == 0 {
 		return it
 	}
 
@@ -75,6 +75,18 @@ func (it *SimpleStatMap) Locations() []string {
 	index := 0
 	for loc := range it.Items {
 		slice[index] = loc
+		index++
+	}
+
+	return slice
+}
+
+func (it *SimpleStatMap) Names() []string {
+	slice := make([]string, it.Length())
+
+	index := 0
+	for _, loc := range it.Items {
+		slice[index] = loc.Name
 		index++
 	}
 

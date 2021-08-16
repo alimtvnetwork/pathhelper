@@ -30,7 +30,7 @@ func writeExistingFileContent(
 		return errnew.PathMessages(
 			errtype.FileWrite,
 			filePath,
-			"fs.WriteFile",
+			"fs.writeExistingFileContent",
 			"Failed write file contents.",
 			writeErr.Error())
 	}

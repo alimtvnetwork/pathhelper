@@ -1,12 +1,16 @@
 package pathjoin
 
-import "gitlab.com/evatix-go/pathhelper/expandpath"
+import (
+	"gitlab.com/evatix-go/pathhelper/expandpath"
+	"gitlab.com/evatix-go/pathhelper/normalize"
+)
 
 // JoinNormalizedExpand3 normalized and expand applied auto
 func JoinNormalizedExpand3(
 	path1, path2, path3 string,
 ) string {
-	normalized := JoinNormalized3(path1, path2, path3)
+	joined := JoinSimple3(path1, path2, path3)
+	expand := expandpath.ExpandVariables(joined)
 
-	return expandpath.ExpandVariables(normalized)
+	return normalize.Path(expand)
 }

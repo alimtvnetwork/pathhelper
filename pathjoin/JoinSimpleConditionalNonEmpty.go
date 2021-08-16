@@ -5,7 +5,7 @@ import (
 	"gitlab.com/evatix-go/core/osconsts"
 )
 
-// JoinSimpleConditionalNonEmpty Doesn't apply normalize or doesn't join if empty
+// JoinSimpleConditionalNonEmpty Don't apply normalize or not join if empty
 func JoinSimpleConditionalNonEmpty(
 	path1,
 	path2 string,

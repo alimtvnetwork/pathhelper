@@ -14,7 +14,8 @@ func GetOsFileReadOnly(
 ) *OsFile {
 	return GetOsFile(
 		existingErrorWrapper,
-		filePath,
 		FlagReadOnly,
-		fileMode)
+		fileMode,
+		filePath,
+	)
 }

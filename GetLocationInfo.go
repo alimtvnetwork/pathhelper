@@ -10,7 +10,7 @@ import (
 func GetLocationInfo(location string) *LocationInfo {
 	baseDir := splitinternal.GetBaseDir(location)
 	fileNameWithExt, dotExt := splitinternal.GetFileNameDotExt(location)
-	fileName := strings.Replace(fileNameWithExt, dotExt, constants.EmptyString, constants.One)
+	fileName := strings.TrimSuffix(fileNameWithExt, dotExt)
 	var ext string
 
 	if len(dotExt) >= constants.One {

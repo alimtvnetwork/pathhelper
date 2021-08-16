@@ -72,20 +72,20 @@ func (it *Joiner) Adds(addingPaths ...string) *Joiner {
 
 // ToString isNormalizePlusLongPathFix if true then adds UNC path fix for Windows
 func (it *Joiner) ToString(
-	sep string,
 	isExpandEnvVars,
 	isNormalizePlusLongPathFix bool,
+	sep string,
 ) string {
 	finalPath := strings.Join(it.items, sep)
 
-	finalNormalized := normalize.PathUsingSeparatorUsingSingleIf(
-		isNormalizePlusLongPathFix,
-		sep,
+	expand := expandpath.ExpandVariablesIf(
+		isExpandEnvVars,
 		finalPath)
 
-	return expandpath.ExpandVariablesIf(
-		isExpandEnvVars,
-		finalNormalized)
+	return normalize.PathUsingSeparatorUsingSingleIf(
+		isNormalizePlusLongPathFix,
+		sep,
+		expand)
 }
 
 // OsSeparatorJoin
@@ -96,27 +96,29 @@ func (it *Joiner) OsSeparatorJoin(
 	isNormalizePlusLongPathFix bool,
 ) string {
 	return it.ToString(
-		osconsts.PathSeparator,
 		isExpandEnvVars,
-		isNormalizePlusLongPathFix)
+		isNormalizePlusLongPathFix,
+		osconsts.PathSeparator)
 }
 
 func (it *Joiner) OsSeparatorJoinNormalized(
 	isExpandEnvVars bool,
 ) string {
 	return it.ToString(
-		osconsts.PathSeparator,
 		isExpandEnvVars,
-		true)
+		true,
+		osconsts.PathSeparator,
+	)
 }
 
 func (it *Joiner) OsSeparatorJoinExpand(
 	isNormalizePlusLongPathFix bool,
 ) string {
 	return it.ToString(
-		osconsts.PathSeparator,
 		true,
-		isNormalizePlusLongPathFix)
+		isNormalizePlusLongPathFix,
+		osconsts.PathSeparator,
+	)
 }
 
 // String normalize + expand and long path fix true

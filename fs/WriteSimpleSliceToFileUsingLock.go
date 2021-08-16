@@ -4,19 +4,21 @@ import (
 	"strings"
 
 	"gitlab.com/evatix-go/core/constants"
+	"gitlab.com/evatix-go/core/coredata/corestr"
 	"gitlab.com/evatix-go/errorwrapper"
 )
 
-func WriteStringLinesToFileUsingLock(
+func WriteSimpleSliceToFileUsingLock(
 	filePath string,
-	contentLines []string,
+	simpleSlice *corestr.SimpleSlice,
 ) *errorwrapper.Wrapper {
-	if len(contentLines) == 0 {
-		return WriteEmptyStringLock(filePath)
+	if simpleSlice.IsEmpty() {
+		return WriteEmptyStringLock(
+			filePath)
 	}
 
 	content := strings.Join(
-		contentLines,
+		simpleSlice.Items,
 		constants.NewLineUnix)
 
 	return WriteFileLock(

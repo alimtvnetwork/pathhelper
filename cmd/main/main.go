@@ -8,15 +8,12 @@ import (
 	"sort"
 	"time"
 
-	"gitlab.com/evatix-go/core/enums/stringcompareas"
 	"gitlab.com/evatix-go/core/filemode"
-	"gitlab.com/evatix-go/pathhelper"
-	"gitlab.com/evatix-go/pathhelper/elitepath"
-	"gitlab.com/evatix-go/pathhelper/pathrecurseinfo"
 
 	"gitlab.com/evatix-go/pathhelper/checksummer"
 	"gitlab.com/evatix-go/pathhelper/copyrecursive"
 	"gitlab.com/evatix-go/pathhelper/hashas"
+	"gitlab.com/evatix-go/pathhelper/internal/consts"
 	"gitlab.com/evatix-go/pathhelper/pathinsfmt"
 	"gitlab.com/evatix-go/pathhelper/pathinsfmtexec/downloadinsexec"
 	"gitlab.com/evatix-go/pathhelper/pathsconst"
@@ -90,45 +87,71 @@ func main() {
 	// TestHashSumSync()
 	// TestHashSumAsync()
 	// CopierTest()
+	//
+	// instruction := pathrecurseinfo.Instruction{
+	// 	Root:                   pathsconst.RootDir,
+	// 	ExcludingRootNames:     []string{".git"},
+	// 	ExcludingPaths:         []string{"D:\\others-git\\gitlabs\\pathhelper\\apachelinuxpath"},
+	// 	IsIncludeFilesOnly:     false,
+	// 	IsRelativePath:         true,
+	// 	IsIncludeDirsOnly:      true,
+	// 	IsIncludeAll:           false,
+	// 	IsExcludeRoot:          false,
+	// 	IsRecursive:            true,
+	// 	IsExpandEnvironmentVar: false,
+	// 	IsNormalize:            false,
+	// }
+	//
+	// result := instruction.Result()
+	// // fmt.Println(result.PathsString())
+	// fmt.Println(result.PathsResult.JoinWithRoot(true, false, "d:\\a//").String())
+	// fmt.Println(pathhelper.GetLocationInfo("ab/c\\d.tx").String())
+	// fmt.Println(pathhelper.GetLocationInfo("ab/c/d").String())
+	// fmt.Println(pathhelper.GetLocationInfo("d.tx").String())
+	// //
+	// collection := elitepath.NewPathCollectionDirect(nil, pathsconst.RootDir)
+	// fmt.Println(collection.First().BothExt())
 
-	instruction := pathrecurseinfo.Instruction{
-		Root:               pathsconst.RootDir,
-		ExcludingRootNames: []string{".git", ".idea"},
-		IsIncludeFilesOnly: false,
-		IsIncludeDirsOnly:  true,
-		IsIncludeAll:       false,
-		IsExcludeRoot:      true,
-		IsRecursive:        true,
-		IsNormalize:        true,
-		IsRelativePath:     false,
-	}
-
-	result := instruction.Result()
-	// fmt.Println(result.PathsString())
-	fmt.Println(pathhelper.GetLocationInfo("ab/c/d.tx").String())
-	fmt.Println(pathhelper.GetLocationInfo("d.tx").String())
-
-	collection := elitepath.NewPathCollectionDirect(nil, result.PathsResult.ExpandingPaths.Items...)
-	filter := &elitepath.Filter{
-		NameFilter: &elitepath.ValueFilter{
-			Value:           "checksummer",
-			IsCaseSensitive: false,
-			Compare:         stringcompareas.EndsWith,
-		},
-		ExistFilter:     &elitepath.ExistFilter{
-			IsExist: true,
-			IsDir:   true,
-		},
-		NameRegexFilter: "",
-		PathRegexFilter: `\\.+checksummer$`,
-	}
-	fmt.Println(collection.FilterPathCollection(filter).String())
+	// filter := &elitepath.Filter{
+	// 	// PathFilter: &elitepath.ValueFilter{
+	// 	// 	Value:           "checksummer",
+	// 	// 	IsCaseSensitive: false,
+	// 	// 	Compare:         stringcompareas.EndsWith,
+	// 	// },
+	// 	ExistFilter: &elitepath.ExistFilter{
+	// 		IsExist: true,
+	// 		IsDir:   true,
+	// 	},
+	// 	// NameRegexFilter: "",
+	// 	// PathRegexFilter: `\\.+checksummer$`,
+	// }
+	// fmt.Println(collection.Skip(2).Take(5).FilterPathCollection(filter).String())
 	// DownloadTest()
+
+	downloadChecksumTest()
+}
+
+func downloadChecksumTest() {
+	download := &pathinsfmt.Download{
+		// Url:                  "https://github.com/aria2/aria2/releases/download/release-1.35.0/aria2-1.35.0.tar.xz",
+		Url:                  "https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh",
+		Destination:          "/home/a/checksum2",
+		FileName:             "install.sh",
+		IsSkipOnExist:        false,
+		IsCreateDir:          true,
+		FileModeDir:          consts.DefaultDirectoryFileMode,
+		ChecksumVerifyMethod: hashas.Sha256,
+		// ChecksumVerify:       "1e2b7fd08d6af228856e51c07173cfcf987528f1ac97e04c5af4a47642617dfd",
+		ChecksumVerify: "b6af836b2662f21081091e0bd851d92b2507abb94ece340b663db7e4019f8c7c",
+	}
+
+	errW := downloadinsexec.Apply(download)
+	errW.HandleError()
 }
 
 func DownloadTest() {
 	ins := &pathinsfmt.Download{
-		URL:              "https://github.com/robbyrussell/oh-my-zsh/raw/master/tools/install.sh",
+		Url:              "https://github.com/robbyrussell/oh-my-zsh/raw/master/tools/install.sh",
 		Destination:      "/home/a/dtestxxxx",
 		FileName:         "installx.sh",
 		IsCreateDir:      true,
