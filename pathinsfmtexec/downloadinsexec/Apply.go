@@ -36,5 +36,3 @@ func Apply(download *pathinsfmt.Download) *errorwrapper.Wrapper {
 
 	return downloadChecksumVerify(download)
 }
-
-

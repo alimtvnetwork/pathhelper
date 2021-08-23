@@ -6,6 +6,8 @@ import (
 
 	"gitlab.com/evatix-go/core/constants"
 	"gitlab.com/evatix-go/core/coreinterface"
+	"gitlab.com/evatix-go/errorwrapper"
+	"gitlab.com/evatix-go/errorwrapper/errwrappers"
 	"gitlab.com/evatix-go/pathhelper/pathfixer"
 )
 
@@ -194,6 +196,29 @@ func (it *PathCollection) AddValid(path *Path) *PathCollection {
 	it.Items = append(it.Items, path)
 
 	return it
+}
+
+func (it *PathCollection) ExecuteAll(
+	isContinueOnError bool,
+	errCollection *errwrappers.Collection,
+	exeFunc func(path *Path) *errorwrapper.Wrapper,
+) (isSuccess bool) {
+	if it.IsEmpty() {
+		return true
+	}
+
+	stateTracker := errCollection.StateTracker()
+
+	for _, item := range it.Items {
+		err := exeFunc(item)
+		errCollection.AddWrapperPtr(err)
+
+		if !isContinueOnError && err.HasError() {
+			return false
+		}
+	}
+
+	return stateTracker.IsSuccess()
 }
 
 func (it *PathCollection) AddIf(

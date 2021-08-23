@@ -40,6 +40,21 @@ type Path struct {
 	fixedPathSlice []string
 }
 
+func NewPathExpandNormalizeDefault(path string) *Path {
+	return &Path{
+		Location: *pathfixer.NewLocationUsingOptions(path, pathfixer.PathOptions{
+			IsNormalize:    true,
+			IsExpandEnvVar: true,
+		}),
+	}
+}
+
+func NewPathDefault(path string) *Path {
+	return &Path{
+		Location: *pathfixer.NewLocation(path),
+	}
+}
+
 func (it *Path) Join(location string) string {
 	return pathjoin.JoinSimple(
 		it.CompiledPath(),
@@ -167,6 +182,24 @@ func (it *Path) IsDir() bool {
 	existStat := it.ExistStat()
 
 	return existStat.IsDir()
+}
+
+func (it *Path) IsInvalidPath() bool {
+	existStat := it.ExistStat()
+
+	return !existStat.IsExist
+}
+
+func (it *Path) IsExistButDir() bool {
+	existStat := it.ExistStat()
+
+	return existStat.IsExist && existStat.IsDir()
+}
+
+func (it *Path) IsExistButFile() bool {
+	existStat := it.ExistStat()
+
+	return existStat.IsExist && existStat.IsFile()
 }
 
 func (it *Path) IsFile() bool {
@@ -518,10 +551,6 @@ func (it *Path) RecursivePathsAll(
 
 	src := it.CompiledPath()
 
-	if it.IsFile() {
-		return corestr.NewSimpleSlice(1).Add(src)
-	}
-
 	instruction := pathrecurseinfo.Instruction{
 		Root:               src,
 		ExcludingRootNames: excludeRootNames,
@@ -542,6 +571,7 @@ func (it *Path) RecursivePathsAll(
 
 func (it *Path) RecursiveFilePaths(
 	isRelativePath bool,
+
 	excludeRootNames ...string,
 ) *corestr.SimpleSlice {
 	src := it.CompiledPath()
@@ -636,7 +666,10 @@ func (it *Path) ChmodCondition() *chmodins.Condition {
 func (it *Path) ApplyFileMode(mode os.FileMode) *errorwrapper.Wrapper {
 	condition := it.ChmodCondition()
 
-	err := chmodhelper.FileModeApplyChmod(mode, condition, it.CompiledPath())
+	err := chmodhelper.FileModeApplyChmod(
+		mode,
+		condition,
+		it.Path)
 
 	return errnew.NewPtr(
 		errtype.ChmodApplyFailed,

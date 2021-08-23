@@ -8,13 +8,17 @@ type ValueFilter struct {
 	Compare         stringcompareas.Variant
 }
 
+func (it *ValueFilter) IsIgnoreCase() bool {
+	return !it.IsCaseSensitive
+}
+
 func (it *ValueFilter) IsMatch(content string) bool {
 	if it == nil {
 		return true
 	}
 
 	return it.Compare.IsCompareSuccess(
+		it.IsIgnoreCase(),
 		content,
-		it.Value,
-		it.IsCaseSensitive)
+		it.Value)
 }
