@@ -1,6 +1,8 @@
 package pathfixer
 
 import (
+	"os"
+
 	"gitlab.com/evatix-go/core/chmodhelper"
 	"gitlab.com/evatix-go/core/constants"
 	"gitlab.com/evatix-go/core/osconsts"
@@ -50,16 +52,20 @@ func (it *Location) CompiledPath() string {
 		return *it.compiledPath
 	}
 
-	expandPath := expandpath.ExpandVariablesIf(
-		it.IsExpandEnvVar,
-		it.Path)
+	normalizedPath := it.Path
 
-	normalized := normalize.PathUsingSeparatorUsingSingleIf(
-		it.IsNormalize,
-		osconsts.PathSeparator,
-		expandPath)
+	if normalizedPath != "" {
+		expandPath := expandpath.ExpandVariablesIf(
+			it.IsExpandEnvVar,
+			normalizedPath)
 
-	it.compiledPath = &normalized
+		normalizedPath = normalize.PathUsingSeparatorUsingSingleIf(
+			it.IsNormalize,
+			osconsts.PathSeparator,
+			expandPath)
+	}
+
+	it.compiledPath = &normalizedPath
 
 	return *it.compiledPath
 }
@@ -94,4 +100,60 @@ func (it *Location) IsEqualWithoutOptions(another *Location) bool {
 	}
 
 	return it.Path == another.Path
+}
+
+func (it *Location) ExistStat() *chmodhelper.PathExistStat {
+	return chmodhelper.GetPathExistStat(it.CompiledPath())
+}
+
+func (it *Location) FileInfo() os.FileInfo {
+	fileInfo, _ := os.Stat(it.CompiledPath())
+
+	return fileInfo
+}
+
+func (it *Location) FileMode() os.FileMode {
+	fileInfo, _ := os.Stat(it.CompiledPath())
+
+	return fileInfo.Mode()
+}
+
+func (it *Location) SafeFileMode() os.FileMode {
+	fileInfo, _ := os.Stat(it.CompiledPath())
+
+	if fileInfo != nil {
+		return fileInfo.Mode()
+	}
+
+	return constants.Zero
+}
+
+func (it *Location) IsDir() bool {
+	existStat := it.ExistStat()
+
+	return existStat.IsDir()
+}
+
+func (it *Location) IsInvalidPath() bool {
+	existStat := it.ExistStat()
+
+	return !existStat.IsExist
+}
+
+func (it *Location) IsExistButDir() bool {
+	existStat := it.ExistStat()
+
+	return existStat.IsExist && existStat.IsDir()
+}
+
+func (it *Location) IsExistButFile() bool {
+	existStat := it.ExistStat()
+
+	return existStat.IsExist && existStat.IsFile()
+}
+
+func (it *Location) IsFile() bool {
+	existStat := it.ExistStat()
+
+	return existStat.IsFile()
 }

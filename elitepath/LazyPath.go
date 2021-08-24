@@ -145,6 +145,14 @@ func (it *LazyPath) IsExist() bool {
 	return it.isExist.IsTrue()
 }
 
+func (it *LazyPath) IsExistButFile() bool {
+	return it.IsExist() && it.IsFile()
+}
+
+func (it *LazyPath) IsExistButDir() bool {
+	return it.IsExist() && it.IsDir()
+}
+
 func (it *LazyPath) Clone() *LazyPath {
 	if it == nil {
 		return nil
