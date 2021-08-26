@@ -62,9 +62,10 @@ func GetRecursive(
 			filter)
 
 		if results.HasError() {
-			errWrappers.AddCollections(
-				results.ErrorWrappers)
+			errWrappers.AddWrapperPtr(
+				results.ErrorWrapper)
 			wg.Done()
+
 			continue
 		}
 

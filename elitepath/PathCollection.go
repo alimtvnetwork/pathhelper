@@ -1,13 +1,17 @@
 package elitepath
 
 import (
+	"encoding/json"
 	"regexp"
 	"strings"
 
 	"gitlab.com/evatix-go/core/constants"
+	"gitlab.com/evatix-go/core/coredata/corejson"
 	"gitlab.com/evatix-go/core/coreinterface"
+	"gitlab.com/evatix-go/core/defaulterr"
 	"gitlab.com/evatix-go/errorwrapper"
 	"gitlab.com/evatix-go/errorwrapper/errwrappers"
+	"gitlab.com/evatix-go/pathhelper/fs"
 	"gitlab.com/evatix-go/pathhelper/pathfixer"
 )
 
@@ -520,8 +524,113 @@ func (it *PathCollection) AllFilesPaths() *PathCollection {
 	return &PathCollection{Items: newPaths}
 }
 
+func (it *PathCollection) SaveToFile(
+	filePath string,
+) *errorwrapper.Wrapper {
+	return fs.WriteJsonResultUsingLock(
+		false,
+		it.Json(),
+		filePath,
+	)
+}
+
+func (it *PathCollection) ReadFromFile(
+	filePath string,
+) *errorwrapper.Wrapper {
+	return fs.ReadJsonParseSelfInjectorUsingLock(
+		filePath,
+		it)
+}
+
 func (it *PathCollection) String() string {
 	return strings.Join(it.Strings(), constants.NewLineUnix)
+}
+
+func (it *PathCollection) JsonModel() *PathCollection {
+	return it
+}
+
+func (it *PathCollection) JsonModelAny() interface{} {
+	return it.JsonModel()
+}
+
+func (it *PathCollection) MarshalJSON() ([]byte, error) {
+	return json.Marshal(it.JsonModel())
+}
+
+func (it *PathCollection) UnmarshalJSON(
+	data []byte,
+) error {
+	var dataModel PathCollection
+	err := json.Unmarshal(data, &dataModel)
+
+	if err == nil {
+		it.Items = dataModel.Items
+	}
+
+	return err
+}
+
+func (it *PathCollection) Json() *corejson.Result {
+	if it.IsEmpty() {
+		return corejson.EmptyWithoutErrorPtr()
+	}
+
+	jsonBytes, err := json.Marshal(it)
+
+	return corejson.NewPtr(jsonBytes, err)
+}
+
+func (it *PathCollection) ParseInjectUsingJson(
+	jsonResult *corejson.Result,
+) (*PathCollection, error) {
+	if jsonResult == nil || jsonResult.IsEmptyJsonBytes() {
+		return EmptyPathCollection(), defaulterr.UnMarshallingFailedDueToNilOrEmpty
+	}
+
+	err := json.Unmarshal(*jsonResult.Bytes, &it)
+
+	if err != nil {
+		return EmptyPathCollection(), err
+	}
+
+	return it, nil
+}
+
+// ParseInjectUsingJsonMust Panic if error
+func (it *PathCollection) ParseInjectUsingJsonMust(
+	jsonResult *corejson.Result,
+) *PathCollection {
+	parsedResult, err := it.
+		ParseInjectUsingJson(jsonResult)
+
+	if err != nil {
+		panic(err)
+	}
+
+	return parsedResult
+}
+
+func (it *PathCollection) AsJsoner() corejson.Jsoner {
+	return it
+}
+
+func (it *PathCollection) JsonParseSelfInject(
+	jsonResult *corejson.Result,
+) error {
+	_, err := it.ParseInjectUsingJson(
+		jsonResult,
+	)
+
+	return err
+}
+
+func (it *PathCollection) AsJsonParseSelfInjector() corejson.JsonParseSelfInjector {
+	return it
+}
+
+func (it *PathCollection) AsJsonMarshaller() corejson.JsonMarshaller {
+	return it
 }
 
 func (it *PathCollection) AsBasicSliceContractsBinder() coreinterface.BasicSlicerContractsBinder {

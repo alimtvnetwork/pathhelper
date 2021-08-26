@@ -4,8 +4,6 @@ import (
 	"gitlab.com/evatix-go/core/coreutils/stringutil"
 	"gitlab.com/evatix-go/errorwrapper"
 	"gitlab.com/evatix-go/errorwrapper/errnew"
-
-	"gitlab.com/evatix-go/pathhelper/internal/recursiveinternal"
 )
 
 type FileNamesCollection struct {
@@ -108,20 +106,6 @@ func (filesNamesCollection *FileNamesCollection) GetFilePaths(
 	}
 
 	return &filePaths
-}
-
-// Recursive path access, get all recursive files.
-func (filesNamesCollection *FileNamesCollection) GetRecursiveFilePaths(
-	separator string,
-) *[]string {
-	filePaths := recursiveinternal.GetFilesPaths(
-		separator,
-		filesNamesCollection.RootPath,
-		true)
-
-	filePaths.ErrorWrappers.HandleError()
-
-	return filePaths.Values
 }
 
 func (filesNamesCollection *FileNamesCollection) IsParentWrappersEmpty() bool {

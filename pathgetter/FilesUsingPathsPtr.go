@@ -6,19 +6,22 @@ import (
 	"gitlab.com/evatix-go/core/coredata/corestr"
 	"gitlab.com/evatix-go/core/coreindexes"
 	"gitlab.com/evatix-go/errorwrapper/errdata/errstr"
+	"gitlab.com/evatix-go/errorwrapper/errnew"
 	"gitlab.com/evatix-go/errorwrapper/errwrappers"
 )
 
 func FilesUsingPathsPtr(
-	separator string,
 	isNormalize bool,
+	separator string,
 	exploringPaths *[]string,
-) *errstr.ResultsWithErrorCollection {
+) *errstr.Results {
 	length := corestr.LengthOfStrings(exploringPaths)
 
 	if length == 0 {
-		return errstr.
-			EmptyResultsWithErrorCollectionPtr()
+		return &errstr.Results{
+			Values:       &[]string{},
+			ErrorWrapper: errnew.EmptyPtr,
+		}
 	}
 
 	if length == 1 {
@@ -26,9 +29,10 @@ func FilesUsingPathsPtr(
 			(*exploringPaths)[coreindexes.First]
 
 		return Files(
+			isNormalize,
 			separator,
 			exploringPath,
-			isNormalize)
+		)
 	}
 
 	linkedCollections :=
@@ -39,12 +43,13 @@ func FilesUsingPathsPtr(
 
 	for _, eachExploringPath := range *exploringPaths {
 		allPaths := Files(
+			isNormalize,
 			separator,
 			eachExploringPath,
-			isNormalize)
+		)
 
 		if allPaths.HasError() {
-			errWrappers.AddCollections(allPaths.ErrorWrappers)
+			errWrappers.AddWrapperPtr(allPaths.ErrorWrapper)
 			wg.Done()
 
 			continue
@@ -58,8 +63,8 @@ func FilesUsingPathsPtr(
 
 	wg.Wait()
 
-	return &errstr.ResultsWithErrorCollection{
-		Values:        linkedCollections.ListPtr(),
-		ErrorWrappers: errWrappers,
+	return &errstr.Results{
+		Values:       linkedCollections.ListPtr(),
+		ErrorWrapper: errWrappers.GetAsErrorWrapperPtr(),
 	}
 }

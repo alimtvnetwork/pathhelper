@@ -16,7 +16,7 @@ type Filter struct {
 
 func (it Filter) nameRegex() (*regexp.Regexp, error) {
 	if it.NameRegexFilter == "" {
-		return nil, emptyRegexError
+		return nil, errEmptyRegex
 	}
 
 	return regexnew.NewLock(it.NameRegexFilter)
@@ -24,7 +24,7 @@ func (it Filter) nameRegex() (*regexp.Regexp, error) {
 
 func (it Filter) pathRegex() (*regexp.Regexp, error) {
 	if it.PathRegexFilter == "" {
-		return nil, emptyRegexError
+		return nil, errEmptyRegex
 	}
 
 	return regexnew.NewLock(it.PathRegexFilter)

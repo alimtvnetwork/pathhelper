@@ -4,8 +4,7 @@ import (
 	"gitlab.com/evatix-go/core/constants"
 	"gitlab.com/evatix-go/core/coredata/corestr"
 	"gitlab.com/evatix-go/errorwrapper/errdata/errstr"
-	"gitlab.com/evatix-go/errorwrapper/errwrappers"
-
+	"gitlab.com/evatix-go/errorwrapper/errnew"
 	"gitlab.com/evatix-go/pathhelper/internal/splitinternal"
 	"gitlab.com/evatix-go/pathhelper/pathext"
 	"gitlab.com/evatix-go/pathhelper/pathgetter"
@@ -15,16 +14,16 @@ func getFilesForEachPath(
 	separator string,
 	eachPath string,
 	filter *Query,
-) *errstr.ResultsWithErrorCollection {
+) *errstr.Results {
 	eachPathExtWrapper := pathext.New(eachPath)
 	isPossibilityOfMatchingExtensionAndFile :=
 		eachPathExtWrapper.HasExtension() &&
 			eachPathExtWrapper.IsFile()
 
 	if isPossibilityOfMatchingExtensionAndFile {
-		return &errstr.ResultsWithErrorCollection{
-			Values:        &[]string{eachPath},
-			ErrorWrappers: errwrappers.Empty(),
+		return &errstr.Results{
+			Values:       &[]string{eachPath},
+			ErrorWrapper: errnew.EmptyPtr,
 		}
 	}
 
@@ -35,9 +34,9 @@ func getFilesForEachPath(
 				filter.ExtensionsLength())
 
 	if isMatchesWithAnyExtension {
-		return &errstr.ResultsWithErrorCollection{
-			Values:        &[]string{eachPath},
-			ErrorWrappers: errwrappers.Empty(),
+		return &errstr.Results{
+			Values:       &[]string{eachPath},
+			ErrorWrapper: errnew.EmptyPtr,
 		}
 	}
 
@@ -51,15 +50,17 @@ func getFilesForEachPath(
 			eachPath)
 
 		return pathgetter.Files(
+			false,
 			separator,
 			dir,
-			false)
+		)
 	}
 
 	files := pathgetter.Files(
+		false,
 		separator,
 		eachPath,
-		false)
+	)
 
 	if files.HasError() {
 		return files
@@ -73,8 +74,8 @@ func getFilesForEachPath(
 		collection,
 		filter)
 
-	return &errstr.ResultsWithErrorCollection{
-		Values:        results,
-		ErrorWrappers: errwrappers.Empty(),
+	return &errstr.Results{
+		Values:       results,
+		ErrorWrapper: errnew.EmptyPtr,
 	}
 }

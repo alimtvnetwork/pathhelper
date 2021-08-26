@@ -2,6 +2,7 @@ package elitepath
 
 import (
 	"os"
+	"strings"
 
 	"gitlab.com/evatix-go/core/chmodhelper"
 	"gitlab.com/evatix-go/core/chmodhelper/chmodins"
@@ -127,6 +128,10 @@ func (it *Path) enhancePathsToSliceStrings(enhancePaths ...*Path) []string {
 	return slice
 }
 
+func (it *Path) RwxWrapper() *pathchmod.RwxWrapperWithError {
+	return pathchmod.ExistingRwxWrapperWithError(it.CompiledPath())
+}
+
 // OsFile use fs.Flag to use appropriate file flags
 //
 // Must call fs.OsFile.AttachDeferCloseOnRequire()
@@ -160,70 +165,8 @@ func (it *Path) CombineWithElitePathsToElitePath(
 	return it.ClonePathUsingNew(finalPath)
 }
 
-func (it *Path) FileInfo() os.FileInfo {
-	return it.ExistStat().FileInfo
-}
-
-func (it *Path) FileMode() os.FileMode {
-	return it.ExistStat().FileInfo.Mode()
-}
-
-func (it *Path) SafeFileMode() os.FileMode {
-	stat := it.ExistStat()
-
-	if stat.HasFileInfo() {
-		return stat.FileInfo.Mode()
-	}
-
-	return constants.Zero
-}
-
-func (it *Path) IsDir() bool {
-	existStat := it.ExistStat()
-
-	return existStat.IsDir()
-}
-
-func (it *Path) IsInvalidPath() bool {
-	existStat := it.ExistStat()
-
-	return !existStat.IsExist
-}
-
-func (it *Path) IsExistButDir() bool {
-	existStat := it.ExistStat()
-
-	return existStat.IsExist && existStat.IsDir()
-}
-
-func (it *Path) IsExistButFile() bool {
-	existStat := it.ExistStat()
-
-	return existStat.IsExist && existStat.IsFile()
-}
-
-func (it *Path) IsFile() bool {
-	existStat := it.ExistStat()
-
-	return existStat.IsFile()
-}
-
 func (it *Path) IsFilterMatch(filter *Filter) bool {
 	return filter.IsMatch(it)
-}
-
-func (it *Path) IsInvalid() bool {
-	existStat := it.ExistStat()
-
-	return !existStat.HasFileInfo()
-}
-
-func (it *Path) RwxWrapper() *pathchmod.RwxWrapperWithError {
-	return pathchmod.ExistingRwxWrapperWithError(it.CompiledPath())
-}
-
-func (it *Path) ExistStat() *chmodhelper.PathExistStat {
-	return chmodhelper.GetPathExistStat(it.CompiledPath())
 }
 
 func (it *Path) DeletePath(isSkipOnNonExist bool) *errorwrapper.Wrapper {
@@ -369,9 +312,24 @@ func (it *Path) BothExt() (dotExt, ext string) {
 		it.CompiledPath())
 }
 
+func (it *Path) IsExtension(extCompare string) bool {
+	_, ext := it.BothExt()
+
+	return strings.EqualFold(ext, extCompare)
+}
+
+func (it *Path) IsDotExtension(dotExtCompare string) bool {
+	dotExt, _ := it.BothExt()
+
+	return strings.EqualFold(
+		dotExt,
+		dotExtCompare)
+}
+
 func (it *Path) ParentDirPath() *Path {
-	return it.ClonePathUsingNew(splitinternal.GetBaseDir(
-		it.CompiledPath()))
+	return it.ClonePathUsingNew(
+		splitinternal.GetBaseDir(
+			it.CompiledPath()))
 }
 
 func (it *Path) ParentDir() string {

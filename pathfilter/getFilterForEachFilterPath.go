@@ -18,17 +18,17 @@ func getFilterForEachFilterPath(
 			PanicNoRefs("args")
 	}
 
-	allDirs, errWrapper := pathgetter.Dirs(
+	allDirs := pathgetter.Dirs(
 		arg.separator,
 		arg.eachFilterPath,
 		false)
 
-	errWrapper.HandleError()
-	length := len(*allDirs) * arg.extensionsLength
+	allDirs.ErrorWrapper.HandleError()
+	length := allDirs.Length() * arg.extensionsLength
 	newFilters := make([]string, length)
 	i := 0
 
-	for _, s := range *allDirs {
+	for _, s := range *allDirs.Values {
 		// removing starting root, only the filters needed
 		for i2, ext := range *arg.extensions {
 			newFilters[i+i2] = strings.Replace(

@@ -4,9 +4,9 @@ import (
 	"gitlab.com/evatix-go/core/constants"
 	"gitlab.com/evatix-go/core/coredata/corestr"
 	"gitlab.com/evatix-go/errorwrapper/errdata/errstr"
-	"gitlab.com/evatix-go/errorwrapper/errwrappers"
+	"gitlab.com/evatix-go/errorwrapper/errnew"
+	"gitlab.com/evatix-go/pathhelper/recursivepaths"
 
-	"gitlab.com/evatix-go/pathhelper/internal/recursiveinternal"
 	"gitlab.com/evatix-go/pathhelper/internal/splitinternal"
 	"gitlab.com/evatix-go/pathhelper/pathext"
 	"gitlab.com/evatix-go/pathhelper/pathgetter"
@@ -16,16 +16,16 @@ func getRecursiveForEachPath(
 	separator string,
 	eachPath string,
 	filter *Query,
-) *errstr.ResultsWithErrorCollection {
+) *errstr.Results {
 	eachPathExtWrapper := pathext.New(eachPath)
 	isPossibilityOfMatchingExtensionAndFile :=
 		eachPathExtWrapper.HasExtension() &&
 			eachPathExtWrapper.IsFile()
 
 	if isPossibilityOfMatchingExtensionAndFile {
-		return &errstr.ResultsWithErrorCollection{
-			Values:        &[]string{eachPath},
-			ErrorWrappers: errwrappers.Empty(),
+		return &errstr.Results{
+			Values:       &[]string{eachPath},
+			ErrorWrapper: errnew.EmptyPtr,
 		}
 	}
 
@@ -36,9 +36,9 @@ func getRecursiveForEachPath(
 				filter.ExtensionsLength())
 
 	if isMatchesWithAnyExtension {
-		return &errstr.ResultsWithErrorCollection{
-			Values:        &[]string{eachPath},
-			ErrorWrappers: errwrappers.Empty(),
+		return &errstr.Results{
+			Values:       &[]string{eachPath},
+			ErrorWrapper: errnew.EmptyPtr,
 		}
 	}
 
@@ -52,15 +52,15 @@ func getRecursiveForEachPath(
 			eachPath)
 
 		return pathgetter.Files(
+			false,
 			separator,
 			dir,
-			false)
+		)
 	}
 
-	files := recursiveinternal.GetFilesPaths(
-		separator,
+	files := recursivepaths.Files(
 		eachPath,
-		false)
+	)
 
 	if files.HasIssuesOrEmpty() {
 		return files
@@ -74,8 +74,8 @@ func getRecursiveForEachPath(
 		collection,
 		filter)
 
-	return &errstr.ResultsWithErrorCollection{
-		Values:        results,
-		ErrorWrappers: files.ErrorWrappers,
+	return &errstr.Results{
+		Values:       results,
+		ErrorWrapper: files.ErrorWrapper,
 	}
 }

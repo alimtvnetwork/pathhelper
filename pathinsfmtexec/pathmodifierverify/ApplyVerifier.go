@@ -2,7 +2,6 @@ package pathmodifierverify
 
 import (
 	"gitlab.com/evatix-go/errorwrapper/errwrappers"
-	"gitlab.com/evatix-go/pathhelper/internal/recursiveinternal"
 	"gitlab.com/evatix-go/pathhelper/normalize"
 	"gitlab.com/evatix-go/pathhelper/pathinsfmt"
 )
@@ -20,28 +19,24 @@ func ApplyVerifier(
 		return true
 	}
 
-	errCount := errCollection.Length()
-	locationsNormalized := normalize.PathsUsingSingleIfAsync(
-		isNormalize,
-		locations)
-
-	locationsWithErrors := recursiveinternal.GetPathsOfPathsIf(
+	stateTracker := errCollection.StateTracker()
+	locationsWithError := recursiveOrNonRecursiveLocations(
+		isContinueOnError,
 		isRecursiveCheck,
-		locationsNormalized,
-		isContinueOnError)
+		isNormalize,
+		locations,
+	)
 
-	errorCollection2 := locationsWithErrors.ErrorWrappers
-	if !isContinueOnError && errorCollection2.HasError() {
-		errCollection.AddCollections(errorCollection2)
+	errCollection.AddWrapperPtr(locationsWithError.ErrorWrapper)
 
+	if !isContinueOnError && locationsWithError.HasError() {
 		return false
 	}
 
-	errCollection.AddCollections(errorCollection2)
 	existingPathsFileInfoMap := normalize.GetFilterPathsInfoMap(
 		false,
 		isSkipCheckingOnInvalid,
-		*locationsWithErrors.Values)
+		locationsWithError.ValueNonPtr())
 
 	applyVerifierInternal(
 		isContinueOnError,
@@ -49,5 +44,5 @@ func ApplyVerifier(
 		errCollection,
 		existingPathsFileInfoMap)
 
-	return errCount == errCollection.Length()
+	return stateTracker.IsSuccess()
 }

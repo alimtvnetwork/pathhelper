@@ -12,7 +12,7 @@ func Filter(
 	isNormalize bool,
 	isIgnoreOnError bool,
 	filter pathfuncs.Filter,
-) *[]*pathfuncs.FilterResult {
+) []*pathfuncs.FilterResult {
 	rootPath2 := normalize.PathUsingSeparatorUsingSingleIf(
 		isNormalize,
 		separator,
@@ -23,7 +23,7 @@ func Filter(
 	if err != nil {
 		empty := make([]*pathfuncs.FilterResult, 0)
 
-		return &empty
+		return empty
 	}
 
 	results := make([]*pathfuncs.FilterResult, 0, len(allPaths))
@@ -40,23 +40,22 @@ func Filter(
 			name
 
 		arg := &pathfuncs.FilterArg{
-			RootPath:   rootPath,
-			FileName:   name,
-			FullPath:   combinedPath,
-			Separator:  separator,
-			IsFile:     !isDir,
-			IsDirector: isDir,
-			FileInfo:   fileInfo,
+			RootPath:    rootPath,
+			FileName:    name,
+			FullPath:    combinedPath,
+			Separator:   separator,
+			IsFile:      !isDir,
+			IsDirectory: isDir,
+			FileInfo:    fileInfo,
 		}
 
 		result := filter(arg)
+		hasError := result.ErrorWrapper.HasError()
 
-		if result.Wrapper != nil {
-			if result.HasError() && isIgnoreOnError {
-				continue
-			}
-
-			result.HandleError()
+		if hasError && isIgnoreOnError {
+			continue
+		} else {
+			result.ErrorWrapper.HandleError()
 		}
 
 		if result.IsKeep {
@@ -64,9 +63,9 @@ func Filter(
 		}
 
 		if result.IsBreak {
-			return &results
+			return results
 		}
 	}
 
-	return &results
+	return results
 }

@@ -1,6 +1,9 @@
 package hashas
 
-import "gitlab.com/evatix-go/core/coreimpl/enumimpl"
+import (
+	"gitlab.com/evatix-go/core/coredata/coredynamic"
+	"gitlab.com/evatix-go/core/coreimpl/enumimpl"
+)
 
 var (
 	ranges = [...]string{
@@ -12,5 +15,6 @@ var (
 	}
 
 	BasicEnumImpl = enumimpl.NewBasicByteUsingIndexedSlice(
+		coredynamic.TypeName(Undefined),
 		ranges[:])
 )

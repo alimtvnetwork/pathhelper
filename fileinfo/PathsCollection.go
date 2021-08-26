@@ -8,14 +8,11 @@ import (
 	"gitlab.com/evatix-go/core/constants"
 	"gitlab.com/evatix-go/core/coredata/corejson"
 	"gitlab.com/evatix-go/core/coreindexes"
-	"gitlab.com/evatix-go/core/coreutils/stringutil"
 	"gitlab.com/evatix-go/core/defaulterr"
 	"gitlab.com/evatix-go/errorwrapper"
 	"gitlab.com/evatix-go/errorwrapper/errdata/errstr"
 	"gitlab.com/evatix-go/errorwrapper/errnew"
 	"gitlab.com/evatix-go/errorwrapper/errwrappers"
-
-	"gitlab.com/evatix-go/pathhelper/internal/recursiveinternal"
 )
 
 type PathsCollection struct {
@@ -126,75 +123,6 @@ func NewPathsUsingPaths(
 	return wrappers
 }
 
-func (pathsCollection *PathsCollection) AllRecursivePaths() *errstr.ResultsWithErrorCollection {
-	if pathsCollection.allRecursivePaths != nil {
-		return pathsCollection.allRecursivePaths
-	}
-
-	allPaths, errWrappers := recursiveinternal.GetPaths(
-		pathsCollection.separator,
-		pathsCollection.rootPath,
-		false)
-
-	if errWrappers.IsEmpty() {
-		pathsCollection.allRecursivePaths =
-			&errstr.ResultsWithErrorCollection{
-				Values:        allPaths,
-				ErrorWrappers: errWrappers,
-			}
-
-		return pathsCollection.allRecursivePaths
-	}
-
-	pathsCollection.allRecursivePaths =
-		&errstr.ResultsWithErrorCollection{
-			Values:        core.EmptyStringsPtr(),
-			ErrorWrappers: errWrappers,
-		}
-
-	return pathsCollection.allRecursivePaths
-}
-
-func (pathsCollection *PathsCollection) AllRecursiveFiles() *errstr.ResultsWithErrorCollection {
-	if pathsCollection.allRecursiveFiles != nil {
-		return pathsCollection.allRecursiveFiles
-	}
-
-	pathsCollection.allRecursiveFiles = recursiveinternal.GetFilesPaths(
-		pathsCollection.separator,
-		pathsCollection.rootPath,
-		false)
-
-	return pathsCollection.allRecursiveFiles
-}
-
-func (pathsCollection *PathsCollection) AllRecursiveDirs() *errstr.ResultsWithErrorCollection {
-	if pathsCollection.allRecursiveDirs != nil {
-		return pathsCollection.allRecursiveDirs
-	}
-
-	allPaths, errWrappers := recursiveinternal.GetDirectoryPaths(
-		pathsCollection.separator,
-		pathsCollection.rootPath,
-		false)
-
-	if errWrappers.IsEmpty() {
-		pathsCollection.allRecursiveDirs = &errstr.ResultsWithErrorCollection{
-			Values:        allPaths,
-			ErrorWrappers: errWrappers,
-		}
-
-		return pathsCollection.allRecursiveDirs
-	}
-
-	pathsCollection.allRecursiveDirs = &errstr.ResultsWithErrorCollection{
-		Values:        core.EmptyStringsPtr(),
-		ErrorWrappers: errWrappers,
-	}
-
-	return pathsCollection.allRecursiveDirs
-}
-
 func (pathsCollection *PathsCollection) Directories() *[]string {
 	if pathsCollection.directories != nil {
 		return pathsCollection.directories
@@ -293,17 +221,6 @@ func (pathsCollection *PathsCollection) AddPtr(
 		wrapper)
 
 	return pathsCollection
-}
-
-func (pathsCollection *PathsCollection) IsContains(
-	path string,
-	isCaseSensitive bool,
-) bool {
-	return stringutil.IsContainsPtrSimple(
-		pathsCollection.AllRecursivePaths().Values,
-		path,
-		0,
-		isCaseSensitive)
 }
 
 func (pathsCollection *PathsCollection) AddWrapper(

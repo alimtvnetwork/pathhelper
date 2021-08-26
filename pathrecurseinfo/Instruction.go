@@ -1,27 +1,23 @@
 package pathrecurseinfo
 
 import (
-	"strings"
-
-	"gitlab.com/evatix-go/core/chmodhelper"
-	"gitlab.com/evatix-go/core/constants"
 	"gitlab.com/evatix-go/core/coredata/corestr"
 	"gitlab.com/evatix-go/core/coredata/stringslice"
-	"gitlab.com/evatix-go/errorwrapper/errinf"
+	"gitlab.com/evatix-go/errorwrapper/errdata/errstr"
 )
 
 type Instruction struct {
-	Root                string
-	ExcludingRootNames  []string //  root file or dir names contains in this will be ignored
-	ExcludingPaths      []string //  path contains in this will be ignored
-	IsIncludeFilesOnly, //  includes only files if IsIncludeAll false
+	Root               string
+	ExcludingRootNames []string //  root file or dir names contains in this will be ignored
+	ExcludingPaths     []string //  path contains in this will be ignored
+	IsRecursive,       // Recursively get paths if dir
 	IsRelativePath, // remove root path from paths
-	IsIncludeDirsOnly, // includes only dir if IsIncludeAll false
 	IsIncludeAll, // includes dir, files all
-	IsExcludeRoot, // Don't include root path
-	IsRecursive, // Recursively get paths if dir
+	IsIncludeDirsOnly, // includes only dir if IsIncludeAll false
+	IsIncludeFilesOnly, //  includes only files if IsIncludeAll false
+	IsNormalize,
 	IsExpandEnvironmentVar, // Expand environment variable
-	IsNormalize bool
+	IsExcludeRoot bool // Don't include root path
 	excludingNamesHashset, excludingPathsHashset *corestr.Hashset
 }
 
@@ -34,10 +30,21 @@ func (it *Instruction) SliceResult() *corestr.SimpleSlice {
 		return corestr.EmptySimpleSlice()
 	}
 
-	return it.
-		Result().
+	rs := it.Result()
+
+	if rs.IsInvalidResult || rs.IsEmpty() {
+		return corestr.EmptySimpleSlice()
+	}
+
+	return rs.
 		PathsResult.
 		ExpandingPaths
+}
+
+func (it *Instruction) StringsResults() *errstr.Results {
+	rs := it.Result()
+
+	return rs.StringsResults()
 }
 
 func (it *Instruction) HasExcludingRootNames() bool {
@@ -70,36 +77,4 @@ func (it *Instruction) ExcludingPathsHashset() *corestr.Hashset {
 		slicePtr)
 
 	return it.excludingPathsHashset
-}
-
-func (it *Result) Paths() []string {
-	if it == nil || it.PathsResult == nil {
-		return []string{}
-	}
-
-	return it.PathsResult.ExpandingPaths.Items
-}
-
-func (it *Result) PathsString() string {
-	if it == nil || it.PathsResult == nil {
-		return constants.EmptyString
-	}
-
-	return strings.Join(
-		it.PathsResult.ExpandingPaths.Items,
-		constants.NewLineUnix)
-}
-
-func InvalidResult(
-	root string,
-	errorWrapper errinf.ErrWrapper,
-	stat *chmodhelper.PathExistStat,
-) *Result {
-	return &Result{
-		Root:            root,
-		IsInvalidResult: true,
-		PathStat:        stat,
-		ErrWrapper:      errorWrapper,
-		PathsResult:     nil,
-	}
 }

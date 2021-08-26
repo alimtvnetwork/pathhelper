@@ -93,21 +93,16 @@ func (it *Variant) SumOfFile(
 	fileName string,
 ) *errbyte.Results {
 	if fileName == constants.EmptyString {
-		return &errbyte.Results{
-			Values: &[]byte{},
-			ErrorWrapper: errnew.MessagesPtr(
+		return errbyte.EmptyResultsWithError(
+			errnew.MessagesPtr(
 				errtype.EmptyString,
-				"File name is empty"),
-		}
+				"File name is empty"))
 	}
 
 	hashWriter, errWp := it.NewHash()
 
 	if errWp.HasError() {
-		return &errbyte.Results{
-			Values:       &[]byte{},
-			ErrorWrapper: errWp,
-		}
+		return errbyte.EmptyResultsWithError(errWp)
 	}
 
 	file, errOpen := os.Open(fileName)
@@ -138,10 +133,7 @@ func (it *Variant) SumOfFile(
 
 	hashedBytes := hashWriter.Sum(nil)
 
-	return &errbyte.Results{
-		Values:       &hashedBytes,
-		ErrorWrapper: errnew.EmptyPtr,
-	}
+	return errbyte.EmptyErrorResults(hashedBytes)
 }
 
 func (it *Variant) SumOf(
@@ -287,6 +279,14 @@ func (it Variant) ValueByte() byte {
 
 func (it Variant) Value() byte {
 	return byte(it)
+}
+
+func (it Variant) RangeNamesCsv() string {
+	return BasicEnumImpl.RangeNamesCsv()
+}
+
+func (it Variant) TypeName() string {
+	return BasicEnumImpl.TypeName()
 }
 
 func (it *Variant) RangesByte() []byte {

@@ -3,6 +3,7 @@ package pathinsfmt
 import (
 	"gitlab.com/evatix-go/core/chmodhelper/chmodins"
 	"gitlab.com/evatix-go/core/constants"
+	"gitlab.com/evatix-go/core/coredata/stringslice"
 	"gitlab.com/evatix-go/errorwrapper/errcmd"
 )
 
@@ -44,4 +45,15 @@ func (c *ChmodCommands) CreateCmdOnceCollection() *errcmd.CmdOnceCollection {
 
 	return cmdOnceCollection.
 		AddBashEachScriptAsEachCmdOnce(c.Commands...)
+}
+
+func (c *ChmodCommands) Clone() *ChmodCommands {
+	if c == nil {
+		return nil
+	}
+
+	return &ChmodCommands{
+		Condition: c.Condition.Clone(),
+		Commands:  stringslice.Clone(c.Commands),
+	}
 }

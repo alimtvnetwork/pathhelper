@@ -29,7 +29,7 @@ func applyVerifierInternal(
 			filteredPathFileInfoMap)
 	}
 
-	existingErrorCount := errCollection.Length()
+	stateTracker := errCollection.StateTracker()
 	if filteredPathFileInfoMap.Error != nil {
 		errCollection.AddTypeError(
 			errtype.PathMissingOrInvalid,
@@ -93,8 +93,5 @@ func applyVerifierInternal(
 		}
 	}
 
-	isSuccess = existingErrorCount ==
-		errCollection.Length()
-
-	return isSuccess
+	return stateTracker.IsSuccess()
 }

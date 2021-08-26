@@ -1,22 +1,12 @@
 package recursivepaths
 
 import (
-	"gitlab.com/evatix-go/core/osconsts"
-	"gitlab.com/evatix-go/errorwrapper/errwrappers"
-
-	"gitlab.com/evatix-go/pathhelper/internal/recursiveinternal"
-	"gitlab.com/evatix-go/pathhelper/normalize"
+	"gitlab.com/evatix-go/errorwrapper/errdata/errstr"
 )
 
-func All(rootPath string, isContinueOnError bool) (*[]string, *errwrappers.Collection) {
-	normalizePath := normalize.PathUsingSeparator(
-		osconsts.PathSeparator,
-		rootPath,
-		true,
-		true)
-
-	return recursiveinternal.GetPaths(
-		osconsts.PathSeparator,
-		normalizePath,
-		isContinueOnError)
+func All(rootPath string) *errstr.Results {
+	return AllOptions(
+		false,
+		false,
+		rootPath)
 }

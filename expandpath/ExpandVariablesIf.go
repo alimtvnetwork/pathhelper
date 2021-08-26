@@ -12,5 +12,9 @@ func ExpandVariablesIf(
 		return pathContainsEnvVariables
 	}
 
+	if pathContainsEnvVariables == "" {
+		return pathContainsEnvVariables
+	}
+
 	return ExpandVariables(pathContainsEnvVariables)
 }
