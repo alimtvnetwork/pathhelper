@@ -10,6 +10,7 @@ import (
 	"gitlab.com/evatix-go/pathhelper/internal/normalizeinternal"
 )
 
+// GetAllFiles only gives files not nested files
 func GetAllFiles(isFixPaths bool, separator, rootPath string) *errstr.Results {
 	if rootPath == "" {
 		return &errstr.Results{

@@ -8,7 +8,9 @@ import (
 	"sort"
 	"time"
 
+	"gitlab.com/evatix-go/core/chmodhelper/chmodins"
 	"gitlab.com/evatix-go/core/filemode"
+	"gitlab.com/evatix-go/errorwrapper/errwrappers"
 
 	"gitlab.com/evatix-go/pathhelper/checksummer"
 	"gitlab.com/evatix-go/pathhelper/copyrecursive"
@@ -16,6 +18,7 @@ import (
 	"gitlab.com/evatix-go/pathhelper/internal/consts"
 	"gitlab.com/evatix-go/pathhelper/pathinsfmt"
 	"gitlab.com/evatix-go/pathhelper/pathinsfmtexec/downloadinsexec"
+	"gitlab.com/evatix-go/pathhelper/pathinsfmtexec/pathmodifierverify"
 	"gitlab.com/evatix-go/pathhelper/pathsconst"
 )
 
@@ -119,7 +122,7 @@ func main() {
 	// 	// 	Compare:         stringcompareas.EndsWith,
 	// 	// },
 	// 	ExistFilter: &elitepath.ExistFilter{
-	// 		IsExist: true,
+	// 		HasSafeItems: true,
 	// 		IsDir:   true,
 	// 	},
 	// 	// NameRegexFilter: "",
@@ -128,7 +131,43 @@ func main() {
 	// fmt.Println(collection.Skip(2).Take(5).FilterPathCollection(filter).String())
 	// DownloadTest()
 
-	downloadChecksumTest()
+	// downloadChecksumTest()
+
+	testPathWithVerifier()
+}
+
+func testPathWithVerifier() {
+	ins := &pathinsfmt.PathWithVerifier{
+		PathWithOptions: pathinsfmt.PathWithOptions{
+			Path:          "/home/a/download_test",
+			IsNormalize:   true,
+			IsRecursive:   true,
+			IsSkipInvalid: false,
+		},
+		Verifier: &pathinsfmt.PathVerifier{
+			UserGroupName: pathinsfmt.UserGroupName{
+				UserName: "root",
+				BaseGroupName: pathinsfmt.BaseGroupName{
+					GroupName: "root",
+				},
+			},
+			BaseRwxInstructions: chmodins.BaseRwxInstructions{
+				RwxInstructions: []chmodins.RwxInstruction{
+					{
+						RwxOwnerGroupOther: chmodins.RwxOwnerGroupOther{
+							Owner: "rw-",
+							Group: "r--",
+							Other: "r--",
+						},
+					},
+				},
+			},
+		},
+	}
+
+	errColl := errwrappers.Empty()
+	pathmodifierverify.ApplyPathWithVerifier(true, errColl, ins)
+	errColl.HandleError()
 }
 
 func downloadChecksumTest() {

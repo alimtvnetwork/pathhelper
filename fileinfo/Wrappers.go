@@ -7,9 +7,6 @@ import (
 	"gitlab.com/evatix-go/core/defaulterr"
 	"gitlab.com/evatix-go/errorwrapper"
 	"gitlab.com/evatix-go/errorwrapper/errnew"
-
-	"gitlab.com/evatix-go/pathhelper/internal/recursiveinternal"
-	"gitlab.com/evatix-go/pathhelper/pathfuncs"
 )
 
 type Wrappers struct {
@@ -22,51 +19,6 @@ type Wrappers struct {
 	pathsCollection     *PathsCollection
 	recursiveDirs       *PathsCollection
 	fileNamesCollection *FileNamesCollection
-}
-
-func (wrappers *Wrappers) RecursiveDirs() *PathsCollection {
-	if wrappers.recursiveDirs != nil {
-		return wrappers.recursiveDirs
-	}
-
-	allPaths, errorCollection :=
-		recursiveinternal.GetDirectoryPaths(
-			wrappers.Separator,
-			wrappers.RootPath,
-			isErrorContinueDefault)
-
-	errorCollection.HandleError()
-
-	wrappers.recursiveDirs = NewPathsUsingPaths(
-		wrappers.RootPath,
-		wrappers.Separator,
-		allPaths)
-
-	wrappers.recursiveDirs.parentWrappers = wrappers
-	wrappers.recursiveDirs.directories = allPaths
-
-	return wrappers.recursiveDirs
-}
-
-func (wrappers *Wrappers) RecursivePathsFilter(
-	filter pathfuncs.Filter,
-) *PathsCollection {
-	allPaths, errorCollection := recursiveinternal.GetFilterPaths(
-		wrappers.Separator,
-		wrappers.RootPath,
-		isErrorContinueDefault,
-		filter)
-
-	errorCollection.HandleError()
-
-	newPathsCollection := NewPathsUsingPaths(
-		wrappers.RootPath,
-		wrappers.Separator,
-		allPaths)
-
-	newPathsCollection.parentWrappers = wrappers
-
-	return newPathsCollection
 }
 
 func (wrappers *Wrappers) HasAny() bool {
@@ -184,17 +136,6 @@ func (wrappers *Wrappers) Length() int {
 	return len(*wrappers.Items)
 }
 
-func (wrappers *Wrappers) IsPathContains(
-	path string,
-	isCaseSensitive bool,
-) bool {
-	return wrappers.
-		PathsCollection().
-		IsContains(
-			path,
-			isCaseSensitive)
-}
-
 func (wrappers *Wrappers) IsNameContains(
 	name string,
 	isCaseSensitive bool,
@@ -260,7 +201,7 @@ func (wrappers *Wrappers) ParseInjectUsingJson(
 	return wrappers, nil
 }
 
-// Panic if error
+// ParseInjectUsingJsonMust Panic if error
 func (wrappers *Wrappers) ParseInjectUsingJsonMust(
 	jsonResult *corejson.Result,
 ) *Wrappers {

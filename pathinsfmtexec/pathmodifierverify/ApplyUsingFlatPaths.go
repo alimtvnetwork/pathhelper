@@ -2,7 +2,6 @@ package pathmodifierverify
 
 import (
 	"gitlab.com/evatix-go/errorwrapper/errwrappers"
-	"gitlab.com/evatix-go/pathhelper/internal/recursiveinternal"
 	"gitlab.com/evatix-go/pathhelper/normalize"
 	"gitlab.com/evatix-go/pathhelper/pathinsfmt"
 )
@@ -17,35 +16,31 @@ func ApplyUsingFlatPaths(
 		return true
 	}
 
-	existingErrorCount := errCollection.Length()
-	locationsNormalized := normalize.PathsUsingSingleIfAsync(
-		verifiers.IsNormalize,
-		locations)
-
-	locationsWithErrors := recursiveinternal.GetPathsOfPathsIf(
+	stateTracker := errCollection.StateTracker()
+	locationsWithError := recursiveOrNonRecursiveLocations(
+		isContinueOnError,
 		verifiers.IsRecursiveCheck,
-		locationsNormalized,
-		isContinueOnError)
+		verifiers.IsNormalize,
+		locations,
+	)
 
-	if !isContinueOnError && locationsWithErrors.HasError() {
-		errCollection.AddCollections(locationsWithErrors.ErrorWrappers)
+	errCollection.AddWrapperPtr(locationsWithError.ErrorWrapper)
 
+	if !isContinueOnError && locationsWithError.HasError() {
 		return false
 	}
-
-	errCollection.AddCollections(locationsWithErrors.ErrorWrappers)
 
 	existingPathsFileInfoMap := normalize.GetFilterPathsInfoMap(
 		false,
 		verifiers.IsSkipCheckingOnInvalid,
-		*locationsWithErrors.Values)
+		locationsWithError.ValueNonPtr())
 
 	// exit immediately
 	if !isContinueOnError {
-		for _, verifier := range verifiers.PathVerifiers {
+		for i := range verifiers.PathVerifiers {
 			isSuccess = applyVerifierInternal(
 				isContinueOnError,
-				&verifier,
+				&verifiers.PathVerifiers[i],
 				errCollection,
 				existingPathsFileInfoMap)
 
@@ -56,15 +51,13 @@ func ApplyUsingFlatPaths(
 	}
 
 	// continue on error
-	for _, verifier := range verifiers.PathVerifiers {
+	for i := range verifiers.PathVerifiers {
 		applyVerifierInternal(
 			isContinueOnError,
-			&verifier,
+			&verifiers.PathVerifiers[i],
 			errCollection,
 			existingPathsFileInfoMap)
 	}
 
-	isSuccess = existingErrorCount == errCollection.Length()
-
-	return isSuccess
+	return stateTracker.IsSuccess()
 }

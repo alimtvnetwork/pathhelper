@@ -10,12 +10,12 @@ func AllInfoWrapperPtr(
 	separator string,
 	isNormalize bool,
 	exploringPaths *[]string,
-) *[]*fileinfo.Wrappers {
+) []*fileinfo.Wrappers {
 	length := corestr.LengthOfStrings(exploringPaths)
 	wrappersOfWrappers := make([]*fileinfo.Wrappers, length)
 
 	if length == 0 {
-		return &wrappersOfWrappers
+		return wrappersOfWrappers
 	}
 
 	for i, expPath := range *exploringPaths {
@@ -27,5 +27,5 @@ func AllInfoWrapperPtr(
 		wrappersOfWrappers[i] = wrappers
 	}
 
-	return &wrappersOfWrappers
+	return wrappersOfWrappers
 }

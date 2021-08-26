@@ -13,7 +13,6 @@ import (
 
 	"gitlab.com/evatix-go/pathhelper/dirinfo"
 	"gitlab.com/evatix-go/pathhelper/fileinfo"
-	"gitlab.com/evatix-go/pathhelper/internal/recursiveinternal"
 	"gitlab.com/evatix-go/pathhelper/internal/splitinternal"
 	"gitlab.com/evatix-go/pathhelper/normalize"
 	"gitlab.com/evatix-go/pathhelper/pathext"
@@ -150,7 +149,7 @@ func (receiver *Wrapper) HasItems() bool {
 	return receiver.collection.HasItems()
 }
 
-// same one needs to be inserted
+// Has same one needs to be inserted
 func (receiver *Wrapper) Has(
 	pathSplit string,
 ) bool {
@@ -263,24 +262,26 @@ func (receiver *Wrapper) GetFinalizePath() *errstr.Result {
 
 func (receiver *Wrapper) GetFilesOnPath(
 	isNormalize bool,
-) *errstr.ResultsWithErrorCollection {
+) *errstr.Results {
 	currentPath := receiver.String()
 
 	return pathgetter.Files(
+		isNormalize,
 		receiver.separator,
 		currentPath,
-		isNormalize)
+	)
 }
 
 func (receiver *Wrapper) GetBaseDirFiles(
 	isNormalize bool,
-) *errstr.ResultsWithErrorCollection {
+) *errstr.Results {
 	currentPath := receiver.GetBaseDir()
 
 	return pathgetter.Files(
+		isNormalize,
 		receiver.separator,
 		currentPath,
-		isNormalize)
+	)
 }
 
 func (receiver *Wrapper) GetDirectoriesOfBaseDir(
@@ -288,72 +289,17 @@ func (receiver *Wrapper) GetDirectoriesOfBaseDir(
 ) *errstr.Results {
 	currentPath := receiver.GetBaseDir()
 
-	dirs, errWrapper := pathgetter.Dirs(
+	return pathgetter.Dirs(
 		receiver.separator,
 		currentPath,
 		isNormalize)
-
-	return &errstr.Results{
-		Values:       dirs,
-		ErrorWrapper: errWrapper,
-	}
 }
 
-// Get Recursive dirs from the basedir path
-func (receiver *Wrapper) GetRecursiveDirectoriesOfBaseDir(
-	isNormalize bool,
-) *errstr.ResultsWithErrorCollection {
+// GetRecursiveFilesOnBaseDir Get Recursive files from the basedir
+func (receiver *Wrapper) GetRecursiveFilesOnBaseDir() *errstr.Results {
 	currentPath := receiver.GetBaseDir()
 
-	dirs, errsCollection := recursiveinternal.GetDirectoryPaths(
-		receiver.separator,
-		currentPath,
-		isNormalize)
-
-	return &errstr.ResultsWithErrorCollection{
-		Values:        dirs,
-		ErrorWrappers: errsCollection,
-	}
-}
-
-// Get Recursive dirs from the whole path
-func (receiver *Wrapper) GetRecursiveDirectories(
-	isNormalize bool,
-) *errstr.ResultsWithErrorCollection {
-	currentPath := receiver.String()
-
-	dirs, errsCollection := recursiveinternal.GetDirectoryPaths(
-		receiver.separator,
-		currentPath,
-		isNormalize)
-
-	return &errstr.ResultsWithErrorCollection{
-		Values:        dirs,
-		ErrorWrappers: errsCollection,
-	}
-}
-
-// Get Recursive files from the whole path
-func (receiver *Wrapper) GetRecursiveFiles(
-	isContinueOnError bool,
-) *errstr.ResultsWithErrorCollection {
-	currentPath := receiver.String()
-
-	return recursiveinternal.GetFilesPaths(
-		receiver.separator,
-		currentPath,
-		isContinueOnError)
-}
-
-// Get Recursive files from the basedir
-func (receiver *Wrapper) GetRecursiveFilesOnBaseDir(
-	isContinueOnError bool,
-) *errstr.ResultsWithErrorCollection {
-	currentPath := receiver.GetBaseDir()
-
-	return recursivepaths.Files(
-		currentPath,
-		isContinueOnError)
+	return recursivepaths.Files(currentPath)
 }
 
 func (receiver *Wrapper) GetBaseDir() string {

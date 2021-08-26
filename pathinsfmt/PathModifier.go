@@ -11,23 +11,36 @@ type PathModifier struct {
 	ChangeGroup   *ChangeGroup   `json:"ChangeGroup,omitempty"`
 }
 
-func (p *PathModifier) HasChmodCommands() bool {
-	return p != nil &&
-		p.ChmodCommands != nil &&
-		p.ChmodCommands.HasAnyItem()
+func (it *PathModifier) HasChmodCommands() bool {
+	return it != nil &&
+		it.ChmodCommands != nil &&
+		it.ChmodCommands.HasAnyItem()
 }
 
-func (p *PathModifier) HasChangeGroup() bool {
-	return p != nil &&
-		p.ChangeGroup != nil
+func (it *PathModifier) HasChangeGroup() bool {
+	return it != nil &&
+		it.ChangeGroup != nil
 }
 
-func (p *PathModifier) HasChown() bool {
-	return p != nil &&
-		p.Chown != nil
+func (it *PathModifier) HasChown() bool {
+	return it != nil &&
+		it.Chown != nil
 }
 
-func (p *PathModifier) HasRwxInstructions() bool {
-	return p != nil &&
-		p.RwxInstructions != nil
+func (it *PathModifier) HasRwxInstructions() bool {
+	return it != nil &&
+		it.RwxInstructions != nil
+}
+
+func (it *PathModifier) Clone() *PathModifier {
+	if it == nil {
+		return nil
+	}
+
+	return &PathModifier{
+		BaseRwxInstructions: *it.BaseRwxInstructions.Clone(),
+		ChmodCommands:       it.ChmodCommands.Clone(),
+		Chown:               it.Chown.Clone(),
+		ChangeGroup:         it.ChangeGroup.Clone(),
+	}
 }

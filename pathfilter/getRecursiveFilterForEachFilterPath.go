@@ -5,8 +5,7 @@ import (
 
 	"gitlab.com/evatix-go/core/constants"
 	"gitlab.com/evatix-go/errorwrapper/errtype"
-
-	"gitlab.com/evatix-go/pathhelper/internal/recursiveinternal"
+	"gitlab.com/evatix-go/pathhelper/recursivepaths"
 )
 
 //goland:noinspection GoNilness
@@ -18,17 +17,16 @@ func getRecursiveFilterForEachFilterPath(
 			PanicNoRefs("args")
 	}
 
-	allDirs, errCollection := recursiveinternal.GetDirectoryPaths(
-		arg.separator,
+	allDirs := recursivepaths.Directories(
 		arg.eachFilterPath,
-		false)
+	)
 
-	errCollection.HandleError() // panic if necessary
-	length := len(*allDirs) * arg.extensionsLength
+	allDirs.ErrorWrapper.HandleError() // panic if necessary
+	length := allDirs.Length() * arg.extensionsLength
 	newFilters := make([]string, length)
 	i := 0
 
-	for _, s := range *allDirs {
+	for _, s := range *allDirs.Values {
 		// removing starting root, only the filters needed
 		for i2, ext := range *arg.extensions {
 			newFilters[i+i2] = strings.Replace(

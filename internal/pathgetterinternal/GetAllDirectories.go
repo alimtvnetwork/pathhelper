@@ -10,6 +10,7 @@ import (
 	"gitlab.com/evatix-go/pathhelper/internal/normalizeinternal"
 )
 
+// GetAllDirectories all directories but not nested directories
 func GetAllDirectories(isFixPaths bool, separator, rootPath string) *errstr.Results {
 	if rootPath == "" {
 		return &errstr.Results{

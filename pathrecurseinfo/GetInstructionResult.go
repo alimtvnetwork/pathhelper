@@ -15,7 +15,7 @@ import (
 	"gitlab.com/evatix-go/pathhelper/normalize"
 )
 
-// GetInstructionResult TODO implementation not complete, exclude names requires work
+// GetInstructionResult returns result
 func GetInstructionResult(instruction *Instruction) *Result {
 	if instruction == nil || instruction.Root == "" {
 		return InvalidResult(
@@ -34,6 +34,7 @@ func GetInstructionResult(instruction *Instruction) *Result {
 
 	pathStat := chmodhelper.GetPathExistStat(
 		normalizedRoot)
+
 	if pathStat.HasError() {
 		errW := errnew.Path(
 			errtype.MissingPathsOrInvalidPaths,
@@ -59,18 +60,23 @@ func GetInstructionResult(instruction *Instruction) *Result {
 	}
 
 	if pathStat.IsFile() {
+		if instruction.IsRelativePath {
+			normalizedRoot = strings.TrimPrefix(normalizedRoot, normalizedRoot)
+		}
+
 		return &Result{
-			Root:            instruction.Root,
+			Root:            normalizedRoot,
 			PathStat:        pathStat,
 			IsInvalidResult: false,
 			PathsResult: &PathsResult{
-				ExpandingPaths: corestr.NewSimpleSliceUsing(false, []string{normalizedRoot}),
-				IsExist:        true,
-				IsFile:         true,
-				IsDir:          false,
+				ExpandingPaths: corestr.NewSimpleSliceUsing(
+					false, []string{normalizedRoot}),
+				IsExist: true,
+				IsFile:  true,
+				IsDir:   false,
 			},
-			IsRelative: instruction.IsRelativePath,
-			ErrWrapper: errnew.EmptyPtr,
+			IsRelative:   instruction.IsRelativePath,
+			ErrorWrapper: errnew.EmptyPtr,
 		}
 	}
 
@@ -178,7 +184,7 @@ func GetInstructionResult(instruction *Instruction) *Result {
 	return &Result{
 		Root:            normalizedRoot,
 		PathStat:        pathStat,
-		IsInvalidResult: false,
+		IsInvalidResult: compiledErr != nil,
 		PathsResult: &PathsResult{
 			ExpandingPaths: corestr.NewSimpleSliceUsing(false, paths),
 			IsExist:        true,
@@ -186,6 +192,9 @@ func GetInstructionResult(instruction *Instruction) *Result {
 			IsDir:          true,
 		},
 		IsRelative: instruction.IsRelativePath,
-		ErrWrapper: errnew.Path(errtype.PathExpand, compiledErr, normalizedRoot),
+		ErrorWrapper: errnew.Path(
+			errtype.PathExpand,
+			compiledErr,
+			normalizedRoot),
 	}
 }

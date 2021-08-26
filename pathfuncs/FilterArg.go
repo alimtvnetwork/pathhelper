@@ -8,7 +8,7 @@ import (
 
 type FilterArg struct {
 	RootPath, FileName, FullPath, Separator string
-	IsFile, IsDirector                      bool
+	IsFile, IsDirectory                     bool
 	os.FileInfo
 }
 

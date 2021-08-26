@@ -5,5 +5,5 @@ import "gitlab.com/evatix-go/errorwrapper"
 type FilterResult struct {
 	FullPath        string
 	IsKeep, IsBreak bool
-	*errorwrapper.Wrapper
+	ErrorWrapper    *errorwrapper.Wrapper
 }

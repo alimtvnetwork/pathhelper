@@ -1,26 +1,28 @@
 package pathgetter
 
 import (
-	"gitlab.com/evatix-go/core/constants"
-	"gitlab.com/evatix-go/errorwrapper"
+	"gitlab.com/evatix-go/errorwrapper/errdata/errstr"
 	"gitlab.com/evatix-go/errorwrapper/errnew"
 )
 
 func All(
-	separator string,
 	isNormalize bool,
+	separator string,
 	exploringPaths ...string,
-) (*[]string, *errorwrapper.Wrapper) {
+) *errstr.Results {
 	length := len(exploringPaths)
 
 	if length == 0 {
-		return &(constants.EmptyStrings), errnew.EmptyPtr
+		return &errstr.Results{
+			Values:       &[]string{},
+			ErrorWrapper: errnew.EmptyPtr,
+		}
 	}
 
 	if length == 1 {
 		return AllOfSinglePath(
-			separator,
 			isNormalize,
+			separator,
 			(exploringPaths)[0])
 	}
 

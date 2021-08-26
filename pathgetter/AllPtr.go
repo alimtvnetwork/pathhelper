@@ -3,9 +3,8 @@ package pathgetter
 import (
 	"sync"
 
-	"gitlab.com/evatix-go/core/constants"
 	"gitlab.com/evatix-go/core/coredata/corestr"
-	"gitlab.com/evatix-go/errorwrapper"
+	"gitlab.com/evatix-go/errorwrapper/errdata/errstr"
 	"gitlab.com/evatix-go/errorwrapper/errnew"
 )
 
@@ -13,43 +12,50 @@ func AllPtr(
 	separator string,
 	isNormalize bool,
 	exploringPaths *[]string,
-) (*[]string, *errorwrapper.Wrapper) {
+) *errstr.Results {
 	length := corestr.LengthOfStrings(exploringPaths)
 
 	if length == 0 {
-		return &(constants.EmptyStrings),
-			errnew.EmptyPtr
+		return &errstr.Results{
+			Values:       &[]string{},
+			ErrorWrapper: errnew.EmptyPtr,
+		}
 	}
 
 	if length == 1 {
 		return AllOfSinglePath(
-			separator,
 			isNormalize,
+			separator,
 			(*exploringPaths)[0])
 	}
 
 	linkedCollection := corestr.NewLinkedCollections()
 	wg := &sync.WaitGroup{}
-	wg.Add(length)
 
 	for _, expPath := range *exploringPaths {
-		allPaths, errW := AllOfSinglePath(
-			separator,
+		wg.Add(1)
+		allPaths := AllOfSinglePath(
 			isNormalize,
+			separator,
 			expPath)
 
-		if errW.HasError() {
-			return linkedCollection.ListPtr(),
-				errW
+		if allPaths.HasError() {
+			return &errstr.Results{
+				Values:       linkedCollection.ListPtr(),
+				ErrorWrapper: allPaths.ErrorWrapper,
+			}
 		}
 
 		linkedCollection.AddStringsPtrAsync(
 			wg,
-			allPaths,
+			allPaths.ValueMust(),
 			false)
 	}
 
 	wg.Wait()
 
-	return linkedCollection.ListPtr(), errnew.EmptyPtr
+	return &errstr.Results{
+		Values:       linkedCollection.ListPtr(),
+		ErrorWrapper: errnew.EmptyPtr,
+	}
 }

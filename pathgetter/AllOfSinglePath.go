@@ -3,8 +3,7 @@ package pathgetter
 import (
 	"io/ioutil"
 
-	"gitlab.com/evatix-go/core/constants"
-	"gitlab.com/evatix-go/errorwrapper"
+	"gitlab.com/evatix-go/errorwrapper/errdata/errstr"
 	"gitlab.com/evatix-go/errorwrapper/errnew"
 	"gitlab.com/evatix-go/errorwrapper/errtype"
 
@@ -12,10 +11,10 @@ import (
 )
 
 func AllOfSinglePath(
-	separator string,
 	isNormalize bool,
+	separator string,
 	exploringPath string,
-) (*[]string, *errorwrapper.Wrapper) {
+) *errstr.Results {
 	rootPath2 := normalize.PathUsingSeparatorUsingSingleIf(
 		isNormalize,
 		separator,
@@ -24,8 +23,13 @@ func AllOfSinglePath(
 	allPaths, err := ioutil.ReadDir(rootPath2)
 
 	if err != nil {
-		return &(constants.EmptyStrings),
-			errnew.NewPtr(errtype.FileInfo, err)
+		return &errstr.Results{
+			Values: &[]string{},
+			ErrorWrapper: errnew.Path(
+				errtype.PathExpand,
+				err,
+				rootPath2),
+		}
 	}
 
 	results := make([]string, len(allPaths))
@@ -36,5 +40,8 @@ func AllOfSinglePath(
 			fileInfo.Name()
 	}
 
-	return &results, errnew.EmptyPtr
+	return &errstr.Results{
+		Values:       &results,
+		ErrorWrapper: errnew.EmptyPtr,
+	}
 }

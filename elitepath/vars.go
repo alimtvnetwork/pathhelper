@@ -3,5 +3,6 @@ package elitepath
 import "errors"
 
 var (
-	emptyRegexError = errors.New("empty regex")
+	// errEmptyRegex
+	errEmptyRegex = errors.New("empty regex")
 )

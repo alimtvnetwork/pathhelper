@@ -46,8 +46,8 @@ func nonRecursiveResult(
 				IsFile:         false,
 				IsDir:          true,
 			},
-			IsRelative: instruction.IsRelativePath,
-			ErrWrapper: errnew.EmptyPtr,
+			IsRelative:   instruction.IsRelativePath,
+			ErrorWrapper: errnew.EmptyPtr,
 		}
 	}
 
@@ -104,14 +104,14 @@ func nonRecursiveResult(
 	return &Result{
 		Root:            normalizedRoot,
 		PathStat:        stat,
-		IsInvalidResult: false,
+		IsInvalidResult: !stat.IsExist,
 		PathsResult: &PathsResult{
 			ExpandingPaths: corestr.NewSimpleSliceUsing(false, paths),
 			IsExist:        true,
 			IsFile:         false,
 			IsDir:          true,
 		},
-		IsRelative: instruction.IsRelativePath,
-		ErrWrapper: errnew.EmptyPtr,
+		IsRelative:   instruction.IsRelativePath,
+		ErrorWrapper: errnew.EmptyPtr,
 	}
 }

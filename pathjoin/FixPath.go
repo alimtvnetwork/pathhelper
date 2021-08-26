@@ -12,6 +12,10 @@ func FixPath(
 	isExpand bool,
 	location string,
 ) string {
+	if location == "" {
+		return ""
+	}
+
 	location = normalize.PathUsingSeparatorUsingSingleIf(
 		isNormalizePlusLogPathFix,
 		osconsts.PathSeparator,
