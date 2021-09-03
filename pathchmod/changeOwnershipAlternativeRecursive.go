@@ -35,9 +35,9 @@ func changeOwnershipWindowsRecursive(path, userName, groupName string) *errorwra
 				", \nfailed for chown (name, uid, gid): " +
 				name +
 				constants.CommaSpace +
-				converters.AnyToString(uid) +
+				converters.AnyToValueString(uid) +
 				constants.CommaSpace +
-				converters.AnyToString(gid)
+				converters.AnyToValueString(gid)
 
 			return errors.New(compiledErrMsg)
 		}

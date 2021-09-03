@@ -116,7 +116,7 @@ func NewPathsUsingPaths(
 
 	wrappers.allRecursivePaths =
 		&errstr.ResultsWithErrorCollection{
-			Values:        recursivePaths,
+			Values:        *recursivePaths,
 			ErrorWrappers: errwrappers.Empty(),
 		}
 
@@ -312,7 +312,7 @@ func (pathsCollection *PathsCollection) ParseInjectUsingJson(
 		return nil, defaulterr.UnMarshallingFailedDueToNilOrEmpty
 	}
 
-	err := json.Unmarshal(*jsonResult.Bytes, &pathsCollection)
+	err := json.Unmarshal(jsonResult.Bytes, &pathsCollection)
 
 	if err != nil {
 		return nil, err

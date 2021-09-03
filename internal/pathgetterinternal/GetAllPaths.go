@@ -3,6 +3,7 @@ package pathgetterinternal
 import (
 	"io/ioutil"
 
+	"gitlab.com/evatix-go/core/constants"
 	"gitlab.com/evatix-go/errorwrapper/errdata/errstr"
 	"gitlab.com/evatix-go/errorwrapper/errnew"
 	"gitlab.com/evatix-go/errorwrapper/errtype"
@@ -10,23 +11,18 @@ import (
 )
 
 func GetAllPaths(isFixPaths bool, separator, rootPath string) *errstr.Results {
-	if rootPath == "" {
-		return &errstr.Results{
-			Values:       &[]string{},
-			ErrorWrapper: errnew.EmptyPtr,
-		}
+	if rootPath == constants.EmptyString {
+		return errstr.EmptyResults()
 	}
 
 	fileInfos, err := ioutil.ReadDir(rootPath)
 
 	if err != nil {
-		return &errstr.Results{
-			Values: &[]string{},
-			ErrorWrapper: errnew.Path(
+		return errstr.EmptyResultsWithError(
+			errnew.Path(
 				errtype.PathStatusCannotRead,
 				err,
-				rootPath),
-		}
+				rootPath))
 	}
 
 	slice := make(
@@ -42,8 +38,6 @@ func GetAllPaths(isFixPaths bool, separator, rootPath string) *errstr.Results {
 			isFixPaths, currentPath)
 	}
 
-	return &errstr.Results{
-		Values:       &slice,
-		ErrorWrapper: errnew.EmptyPtr,
-	}
+	return errstr.EmptyErrorResults(
+		slice...)
 }

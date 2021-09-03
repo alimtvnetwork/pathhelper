@@ -5,6 +5,10 @@ func PathUsingSeparatorUsingSingleIf(
 	pathSeparator,
 	givenPath string,
 ) string {
+	if !isNormalizeLongPathForce {
+		return givenPath
+	}
+
 	return PathUsingSeparatorIf(
 		isNormalizeLongPathForce,
 		isNormalizeLongPathForce,

@@ -22,13 +22,10 @@ func Files(
 	allPaths, err := ioutil.ReadDir(rootPath2)
 
 	if err != nil {
-		return &errstr.Results{
-			Values: &[]string{},
-			ErrorWrapper: errnew.Path(
-				errtype.PathExpand,
-				err,
-				rootPath2),
-		}
+		return errstr.EmptyResultsWithError(errnew.Path(
+			errtype.PathExpand,
+			err,
+			rootPath2))
 	}
 
 	results := make([]string, 0, len(allPaths))
@@ -45,8 +42,5 @@ func Files(
 		results = append(results, combinedPath)
 	}
 
-	return &errstr.Results{
-		Values:       &results,
-		ErrorWrapper: errnew.EmptyPtr,
-	}
+	return errstr.EmptyErrorResults(results...)
 }

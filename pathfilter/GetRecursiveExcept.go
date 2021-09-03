@@ -16,9 +16,9 @@ func GetRecursiveExcept(
 	filter, excepts *Query,
 ) *errstr.ResultsWithErrorCollection {
 	var selectedFilesHashset,
-		exceptFilesHashset *corestr.Hashset
+	exceptFilesHashset *corestr.Hashset
 	var selectedFilesResults,
-		exceptFilesResults *errstr.ResultsWithErrorCollection
+	exceptFilesResults *errstr.ResultsWithErrorCollection
 
 	wg := &sync.WaitGroup{}
 	wg.Add(constants.Two)
@@ -42,7 +42,7 @@ func GetRecursiveExcept(
 		}
 
 		selectedFilesHashset = corestr.NewHashsetUsingStrings(
-			selectedFilesResults.Values)
+			selectedFilesResults.ValueMust())
 	}()
 
 	go func() {
@@ -60,7 +60,7 @@ func GetRecursiveExcept(
 		}
 
 		exceptFilesHashset = corestr.NewHashsetUsingStrings(
-			exceptFilesResults.Values)
+			exceptFilesResults.ValueMust())
 	}()
 
 	wg.Wait()
@@ -76,7 +76,7 @@ func GetRecursiveExcept(
 		exceptFilesHashset)
 
 	return &errstr.ResultsWithErrorCollection{
-		Values:        finalResult,
+		Values:        *finalResult,
 		ErrorWrappers: selectedFilesResults.ErrorWrappers,
 	}
 }

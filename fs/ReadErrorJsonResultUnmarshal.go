@@ -32,7 +32,7 @@ func ReadErrorJsonResultUnmarshal(
 			"Read as nil or empty data cannot unmarshall properly.")
 	}
 
-	err := json.Unmarshal(*errJson.Bytes, unmarshalObject)
+	err := json.Unmarshal(errJson.Bytes, unmarshalObject)
 
 	return errnew.Path(errtype.Unmarshalling, err, filePath)
 }

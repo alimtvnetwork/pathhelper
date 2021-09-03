@@ -71,14 +71,14 @@ func GetRecursive(
 
 		linkedCollections.AddStringsPtrAsync(
 			wg,
-			results.Values,
+			results.ValueMust(),
 			false)
 	}
 
 	wg.Wait()
 
 	return &errstr.ResultsWithErrorCollection{
-		Values:        linkedCollections.ListPtr(),
+		Values:        *linkedCollections.ListPtr(),
 		ErrorWrappers: errWrappers,
 	}
 }

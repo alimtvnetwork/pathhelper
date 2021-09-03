@@ -60,7 +60,7 @@ func NewMap(
 
 	return &WrappersMap{
 		separator: sep,
-		items:     &list,
+		items:     list,
 	}
 }
 
@@ -73,6 +73,6 @@ func NewMapUsingCap(
 
 	return &WrappersMap{
 		separator: sep,
-		items:     &list,
+		items:     list,
 	}
 }

@@ -43,6 +43,6 @@ func Test_SkipOnExist(t *testing.T) {
 	convey.Convey("Download Content Should Not Resemble Temp Content", t, func() {
 		errBytesResults := fs.ReadFile(filePath)
 		convey.So(errBytesResults.HasError(), convey.ShouldBeFalse)
-		convey.So(*errBytesResults.Values, convey.ShouldNotResemble, buff)
+		convey.So(errBytesResults.Values, convey.ShouldNotResemble, buff)
 	})
 }

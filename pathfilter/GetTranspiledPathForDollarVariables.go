@@ -14,7 +14,7 @@ func GetTranspiledPathForDollarVariables(
 	if pathTranspiler != nil && !pathTranspiler.IsEmpty() {
 		mappedItems := pathTranspiler.Items()
 
-		for k, v := range *mappedItems {
+		for k, v := range mappedItems {
 			givenPath = strings.ReplaceAll(givenPath, constants.Dollar+k, v)
 		}
 	}

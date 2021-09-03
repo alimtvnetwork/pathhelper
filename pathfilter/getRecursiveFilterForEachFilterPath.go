@@ -26,7 +26,7 @@ func getRecursiveFilterForEachFilterPath(
 	newFilters := make([]string, length)
 	i := 0
 
-	for _, s := range *allDirs.Values {
+	for _, s := range allDirs.Values {
 		// removing starting root, only the filters needed
 		for i2, ext := range *arg.extensions {
 			newFilters[i+i2] = strings.Replace(

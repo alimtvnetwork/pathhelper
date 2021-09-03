@@ -5,12 +5,10 @@ import (
 	"crypto/sha1"
 	"crypto/sha256"
 	"crypto/sha512"
-	"encoding/hex"
 	"hash"
 	"io"
 	"os"
 
-	"gitlab.com/evatix-go/core/conditional"
 	"gitlab.com/evatix-go/core/constants"
 	"gitlab.com/evatix-go/core/coreinterface"
 	"gitlab.com/evatix-go/errorwrapper"
@@ -58,14 +56,10 @@ func (it *Variant) StringSumOf(
 	inputBytes []byte,
 ) *errstr.Result {
 	outputBytesResults := it.SumOf(inputBytes)
-
-	bytesValuePtr := outputBytesResults.Values
+	toString := outputBytesResults.NonEmptyString(convertBytesResultsToEncodedHexString)
 
 	return &errstr.Result{
-		Value: conditional.String(bytesValuePtr == nil,
-			constants.EmptyString,
-			hex.EncodeToString(*outputBytesResults.Values),
-		),
+		Value:        toString,
 		ErrorWrapper: outputBytesResults.ErrorWrapper,
 	}
 }
@@ -80,11 +74,11 @@ func (it *Variant) StringSumOfFile(
 		}
 	}
 
+	toString := byteResults.NonEmptyString(
+		convertBytesResultsToEncodedHexString)
+
 	return &errstr.Result{
-		Value: conditional.String(byteResults.Values == nil,
-			constants.EmptyString,
-			hex.EncodeToString(*byteResults.Values),
-		),
+		Value:        toString,
 		ErrorWrapper: errnew.EmptyPtr,
 	}
 }
@@ -107,86 +101,71 @@ func (it *Variant) SumOfFile(
 
 	file, errOpen := os.Open(fileName)
 	if errOpen != nil {
-		return &errbyte.Results{
-			Values: &[]byte{},
-			ErrorWrapper: errnew.ErrorWithMessagesPtr(
+		return errbyte.EmptyResultsWithError(
+			errnew.Path(
 				errtype.FileRead,
 				errOpen,
 				"Error opening file : "+fileName,
-			),
-		}
+			))
 	}
 
 	defer file.Close()
 
 	_, errCopy := io.Copy(hashWriter, file)
 	if errCopy != nil {
-		return &errbyte.Results{
-			Values: &[]byte{},
-			ErrorWrapper: errnew.ErrorWithMessagesPtr(
+		return errbyte.EmptyResultsWithError(
+			errnew.Path(
 				errtype.Copy,
 				errOpen,
 				"Error copying to  file : "+fileName,
-			),
-		}
+			))
 	}
 
 	hashedBytes := hashWriter.Sum(nil)
 
-	return errbyte.EmptyErrorResults(hashedBytes)
+	return errbyte.EmptyErrorResults(hashedBytes...)
 }
 
 func (it *Variant) SumOf(
 	inputBytes []byte,
 ) *errbyte.Results {
 	if inputBytes == nil {
-		return &errbyte.Results{
-			Values: &[]byte{},
-			ErrorWrapper: errnew.MessagesPtr(
+		return errbyte.EmptyResultsWithError(
+			errnew.MessagesPtr(
 				errtype.EmptyPointerOrNullPointer,
-				"Cannot perform SumOf on Nil Pointer!"),
-		}
+				"Cannot perform SumOf on Nil Pointer!"))
 	}
 
 	hashWriter, errWp := it.NewHash()
 
 	if errWp.HasError() {
-		return &errbyte.Results{
-			Values:       &[]byte{},
-			ErrorWrapper: errWp,
-		}
+		return errbyte.EmptyResultsWithError(
+			errWp)
 	}
 
 	_, err := hashWriter.Write(inputBytes)
 	if err != nil {
-		return &errbyte.Results{
-			Values: &[]byte{},
-			ErrorWrapper: errnew.ErrorWithMessagesPtr(
+		return errbyte.EmptyResultsWithError(
+			errnew.ErrorWithMessagesPtr(
 				errtype.Hash,
 				err,
-				"Error in writing hash",
-			),
-		}
+				"writing hash hashWriter.Write(inputBytes)",
+			))
 	}
 
 	hashedBytes := hashWriter.Sum(nil)
 
-	return &errbyte.Results{
-		Values:       &hashedBytes,
-		ErrorWrapper: errnew.EmptyPtr,
-	}
+	return errbyte.EmptyErrorResults(hashedBytes...)
 }
 
 func (it *Variant) SumOfErrorBytes(
 	errBytes *errbyte.Results,
 ) *errbyte.Results {
 	if errBytes == nil || errBytes.Values == nil {
-		return &errbyte.Results{
-			Values: &[]byte{},
-			ErrorWrapper: errnew.MessagesPtr(
+		return errbyte.EmptyResultsWithError(
+			errnew.MessagesPtr(
 				errtype.EmptyPointerOrNullPointer,
-				"Cannot perform SumOfErrorBytes on Nil Pointer!"),
-		}
+				"Cannot perform SumOfErrorBytes on Nil Pointer!"))
 	}
 
 	if errBytes.HasError() {
@@ -196,19 +175,13 @@ func (it *Variant) SumOfErrorBytes(
 	hashWriter, errWp := it.NewHash()
 
 	if errWp.HasError() {
-		return &errbyte.Results{
-			Values:       &[]byte{},
-			ErrorWrapper: errWp,
-		}
+		return errbyte.EmptyResultsWithError(errWp)
 	}
 
 	hashedBytes := hashWriter.Sum(
-		*errBytes.Values)
+		errBytes.Values)
 
-	return &errbyte.Results{
-		Values:       &hashedBytes,
-		ErrorWrapper: errnew.EmptyPtr,
-	}
+	return errbyte.EmptyErrorResults(hashedBytes...)
 }
 
 func (it Variant) IsUndefined() bool {

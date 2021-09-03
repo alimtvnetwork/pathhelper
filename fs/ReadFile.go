@@ -9,31 +9,24 @@ import (
 )
 
 func ReadFile(filePath string) *errbyte.Results {
-	data, err := ioutil.ReadFile(filePath)
+	fileBytes, err := ioutil.ReadFile(filePath)
 	if err != nil {
-		return &errbyte.Results{
-			Values: &[]byte{},
-			ErrorWrapper: errnew.PathMessages(
+		return errbyte.EmptyResultsWithError(
+			errnew.PathMessages(
 				errtype.ReadRequestFailed,
 				filePath,
 				"fs.ReadFile",
-				err.Error()),
-		}
+				err.Error()))
 	}
 
-	if data == nil {
-		return &errbyte.Results{
-			Values: &[]byte{},
-			ErrorWrapper: errnew.PathMessages(
+	if fileBytes == nil {
+		return errbyte.EmptyResultsWithError(
+			errnew.PathMessages(
 				errtype.EmptyContent,
 				filePath,
 				"fs.ReadFile",
-				"Location doesn't contain any valid data but nil."),
-		}
+				"Location doesn't contain any valid fileBytes but nil."))
 	}
 
-	return &errbyte.Results{
-		Values:       &data,
-		ErrorWrapper: errnew.EmptyPtr,
-	}
+	return errbyte.EmptyErrorResults(fileBytes...)
 }

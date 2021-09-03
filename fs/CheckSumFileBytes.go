@@ -15,23 +15,19 @@ func CheckSumFileBytes(
 	fileInfo, isExist, _ := chmodhelper.GetPathExistStatExpand(location)
 
 	if !isExist {
-		return &errbyte.Results{
-			Values: &[]byte{},
-			ErrorWrapper: errnew.PathMessages(
+		return errbyte.EmptyResultsWithError(
+			errnew.PathMessages(
 				errtype.PathMissingOrInvalid,
 				location,
-				"cannot hash non readable file."),
-		}
+				"cannot hash non readable file."))
 	}
 
 	if fileInfo.IsDir() {
-		return &errbyte.Results{
-			Values: &[]byte{},
-			ErrorWrapper: errnew.PathMessages(
+		return errbyte.EmptyResultsWithError(
+			errnew.PathMessages(
 				errtype.UnexpectedDirectory,
 				location,
-				"cannot hash directory."),
-		}
+				"cannot hash directory (use checksummer)."))
 	}
 
 	readBytes := ReadFile(location)

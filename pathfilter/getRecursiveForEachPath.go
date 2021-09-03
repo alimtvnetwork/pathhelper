@@ -4,7 +4,6 @@ import (
 	"gitlab.com/evatix-go/core/constants"
 	"gitlab.com/evatix-go/core/coredata/corestr"
 	"gitlab.com/evatix-go/errorwrapper/errdata/errstr"
-	"gitlab.com/evatix-go/errorwrapper/errnew"
 	"gitlab.com/evatix-go/pathhelper/recursivepaths"
 
 	"gitlab.com/evatix-go/pathhelper/internal/splitinternal"
@@ -23,10 +22,7 @@ func getRecursiveForEachPath(
 			eachPathExtWrapper.IsFile()
 
 	if isPossibilityOfMatchingExtensionAndFile {
-		return &errstr.Results{
-			Values:       &[]string{eachPath},
-			ErrorWrapper: errnew.EmptyPtr,
-		}
+		return errstr.EmptyErrorResults(eachPath)
 	}
 
 	isMatchesWithAnyExtension :=
@@ -36,10 +32,7 @@ func getRecursiveForEachPath(
 				filter.ExtensionsLength())
 
 	if isMatchesWithAnyExtension {
-		return &errstr.Results{
-			Values:       &[]string{eachPath},
-			ErrorWrapper: errnew.EmptyPtr,
-		}
+		return errstr.EmptyErrorResults(eachPath)
 	}
 
 	// get all files in the dir.
@@ -75,7 +68,7 @@ func getRecursiveForEachPath(
 		filter)
 
 	return &errstr.Results{
-		Values:       results,
+		Values:       *results,
 		ErrorWrapper: files.ErrorWrapper,
 	}
 }

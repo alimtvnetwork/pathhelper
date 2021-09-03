@@ -10,7 +10,7 @@ type Instruction struct {
 	Root               string
 	ExcludingRootNames []string //  root file or dir names contains in this will be ignored
 	ExcludingPaths     []string //  path contains in this will be ignored
-	IsRecursive,       // Recursively get paths if dir
+	IsRecursive, // Recursively get paths if dir
 	IsRelativePath, // remove root path from paths
 	IsIncludeAll, // includes dir, files all
 	IsIncludeDirsOnly, // includes only dir if IsIncludeAll false

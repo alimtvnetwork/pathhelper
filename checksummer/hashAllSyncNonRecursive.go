@@ -43,7 +43,7 @@ func hashAllSyncNonRecursive(
 			continue
 		}
 
-		filesHashes[path] = *errResult.Values
+		filesHashes[path] = errResult.Values
 	}
 
 	return filesHashes, msgtype.SliceToError(hashErrors)

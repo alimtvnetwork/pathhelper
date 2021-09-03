@@ -5,16 +5,24 @@ import (
 	"gitlab.com/evatix-go/pathhelper/pathsconst"
 )
 
+// WithTempPlus
+//
+//  skip on empty path and others optional
+//
+//  Windows
+//      - "%temp%\locations\..."
+//  Unix
+//      - "/tmp/locations/..."
 func WithTempPlus(
-	isNormalize,
-	isExpand bool,
+	isNormalizeLongPathFix,
+	isExpandEnvVar bool,
 	baseDir string,
 	locations ...string,
 ) string {
 	return JoinBaseDirWithSep(
-		false,
-		isExpand,
-		isNormalize,
+		true,
+		isExpandEnvVar,
+		isNormalizeLongPathFix,
 		osconsts.PathSeparator,
 		JoinSimple(pathsconst.TempDir, baseDir),
 		locations...)

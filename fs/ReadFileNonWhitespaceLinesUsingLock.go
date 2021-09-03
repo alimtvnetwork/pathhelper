@@ -12,10 +12,8 @@ func ReadFileNonWhitespaceLinesUsingLock(filePath string) *errstr.Results {
 	errString := ReadFileStringUsingLock(filePath)
 
 	if errString.Value == "" {
-		return &errstr.Results{
-			Values:       &[]string{},
-			ErrorWrapper: errString.ErrorWrapper,
-		}
+		return errstr.EmptyResultsWithError(
+			errString.ErrorWrapper)
 	}
 
 	lines := strings.Split(
@@ -25,7 +23,7 @@ func ReadFileNonWhitespaceLinesUsingLock(filePath string) *errstr.Results {
 	nonEmptyLines := stringslice.NonWhitespaceSlice(lines)
 
 	return &errstr.Results{
-		Values:       &nonEmptyLines,
+		Values:       nonEmptyLines,
 		ErrorWrapper: errString.ErrorWrapper,
 	}
 }

@@ -5,6 +5,7 @@ import (
 
 	"gitlab.com/evatix-go/core/constants"
 	"gitlab.com/evatix-go/errorwrapper/errdata/errstr"
+	"gitlab.com/evatix-go/errorwrapper/errnew"
 	"gitlab.com/evatix-go/errorwrapper/errtype"
 	"gitlab.com/evatix-go/errorwrapper/errwrappers"
 
@@ -15,112 +16,116 @@ type WrappersMap struct {
 	separator   string
 	isFinalized bool
 	sync.Mutex
-	items *map[string]*unipath.Wrapper
+	items map[string]*unipath.Wrapper
 }
 
-func (receiver *WrappersMap) IsFinalized() bool {
-	return receiver.isFinalized
+func (it *WrappersMap) IsFinalized() bool {
+	return it.isFinalized
 }
 
-func (receiver *WrappersMap) Lock() {
-	receiver.Lock()
+func (it *WrappersMap) Lock() {
+	it.Lock()
 }
 
-func (receiver *WrappersMap) Unlock() {
-	receiver.Unlock()
+func (it *WrappersMap) Unlock() {
+	it.Unlock()
 }
 
-func (receiver *WrappersMap) AddLock(
+func (it *WrappersMap) AddLock(
 	key,
 	anyPath string,
 ) *WrappersMap {
-	receiver.Lock()
-	defer receiver.Unlock()
+	it.Lock()
+	defer it.Unlock()
 
-	return receiver.addLock(key, anyPath)
+	return it.addLock(key, anyPath)
 }
 
-func (receiver *WrappersMap) addLock(
+func (it *WrappersMap) addLock(
 	key,
 	anyPath string,
 ) *WrappersMap {
-	wrapper, has := (*receiver.items)[key]
+	wrapper, has := it.items[key]
 
 	if !has {
-		wrapper = unipath.New(receiver.separator)
-		(*receiver.items)[key] = wrapper
+		wrapper = unipath.New(it.separator)
+		it.items[key] = wrapper
 	}
 
 	wrapper.AddLock(anyPath)
 
-	return receiver
+	return it
 }
 
-func (receiver *WrappersMap) Add(
+func (it *WrappersMap) Add(
 	key,
 	anyPath string,
 ) *WrappersMap {
-	wrapper, has := (*receiver.items)[key]
+	wrapper, has := it.items[key]
 
 	if !has {
-		wrapper = unipath.New(receiver.separator)
-		(*receiver.items)[key] = wrapper
+		wrapper = unipath.New(it.separator)
+		it.items[key] = wrapper
 	}
 
 	wrapper.Add(anyPath)
 
-	return receiver
+	return it
 }
 
-func (receiver *WrappersMap) Length() int {
-	return len(*receiver.items)
+func (it *WrappersMap) Length() int {
+	if it == nil {
+		return 0
+	}
+
+	return len(it.items)
 }
 
-func (receiver *WrappersMap) HasItems() bool {
-	return receiver.Length() > constants.Zero
+func (it *WrappersMap) HasItems() bool {
+	return it.Length() > constants.Zero
 }
 
-// same one needs to be inserted
-func (receiver *WrappersMap) Has(
+// Has same one needs to be inserted
+func (it *WrappersMap) Has(
 	key,
 	pathSplit string,
 ) bool {
-	wrapper, has := (*receiver.items)[key]
+	wrapper, has := it.items[key]
 
 	return has && wrapper.Has(pathSplit)
 }
 
-func (receiver *WrappersMap) IsEmpty() bool {
-	return receiver.Length() == constants.Zero
+func (it *WrappersMap) IsEmpty() bool {
+	return it.Length() == constants.Zero
 }
 
-func (receiver *WrappersMap) IsEqual(wrappersMap *WrappersMap) bool {
-	if wrappersMap == nil && receiver == nil {
+func (it *WrappersMap) IsEqual(wrappersMap *WrappersMap) bool {
+	if wrappersMap == nil && it == nil {
 		return true
 	}
 
-	if wrappersMap == nil || receiver == nil {
+	if wrappersMap == nil || it == nil {
 		return false
 	}
 
-	if wrappersMap == receiver {
+	if wrappersMap == it {
 		return true
 	}
 
-	if wrappersMap.isFinalized != receiver.isFinalized {
+	if wrappersMap.isFinalized != it.isFinalized {
 		return false
 	}
 
-	if wrappersMap.Length() != receiver.Length() {
+	if wrappersMap.Length() != it.Length() {
 		return false
 	}
 
-	if receiver.items == wrappersMap.items {
+	if &it.items == &wrappersMap.items {
 		return true
 	}
 
-	for key, receiverWrapper := range *receiver.items {
-		anotherWrapper, has := (*wrappersMap.items)[key]
+	for key, receiverWrapper := range it.items {
+		anotherWrapper, has := wrappersMap.items[key]
 
 		if !has {
 			return false
@@ -135,41 +140,42 @@ func (receiver *WrappersMap) IsEqual(wrappersMap *WrappersMap) bool {
 }
 
 // FinalizeAll all wrappers
-func (receiver *WrappersMap) FinalizeAll() {
-	if receiver.isFinalized {
+func (it *WrappersMap) FinalizeAll() {
+	if it.isFinalized {
 		return
 	}
 
 	// set finalize error
-	receiver.isFinalized = true
-	for _, wrapper := range *receiver.items {
+	it.isFinalized = true
+	for _, wrapper := range it.items {
 		wrapper.Finalize()
 	}
 }
 
-func (receiver *WrappersMap) GetFinalizePath(
+func (it *WrappersMap) GetFinalizePath(
 	key string,
 ) *errstr.Result {
-	wrapper, has := (*receiver.items)[key]
+	wrapper, has := it.items[key]
 
 	if has {
 		return wrapper.GetFinalizePath()
 	}
 
-	return errstr.ErrorPtr(
-		errtype.
-			NotContainsExpectation.
-			ErrorNoRefs(key))
+	return errstr.ErrorWrapper(
+		errnew.Ref1(
+			errtype.NotContainsExpectation,
+			"Key",
+			key))
 }
 
-func (receiver *WrappersMap) GetFinalizePaths() *errstr.ResultsWithErrorCollection {
-	if !receiver.IsFinalized() {
+func (it *WrappersMap) GetFinalizePaths() *errstr.ResultsWithErrorCollection {
+	if !it.IsFinalized() {
 		return errstr.NewResultsWithErrorCollectionUsingTypeMessagePtr(
 			errtype.Unexpected,
 			nonFinalizePathsCannotBeRetrievedMessage)
 	}
 
-	length := receiver.Length()
+	length := it.Length()
 	list := make(
 		[]string,
 		length,
@@ -178,7 +184,7 @@ func (receiver *WrappersMap) GetFinalizePaths() *errstr.ResultsWithErrorCollecti
 	errCollection := errwrappers.Empty()
 
 	i := constants.Zero
-	for _, wrapper := range *receiver.items {
+	for _, wrapper := range it.items {
 		finalizedResult := wrapper.GetFinalizePath()
 		errCollection.AddWrapperPtr(finalizedResult.ErrorWrapper)
 		list[i] = finalizedResult.Value
@@ -187,35 +193,35 @@ func (receiver *WrappersMap) GetFinalizePaths() *errstr.ResultsWithErrorCollecti
 	}
 
 	return &errstr.ResultsWithErrorCollection{
-		Values:        &list,
+		Values:        list,
 		ErrorWrappers: errCollection,
 	}
 }
 
-func (receiver *WrappersMap) Items() *map[string]*unipath.Wrapper {
-	return receiver.items
+func (it *WrappersMap) Items() map[string]*unipath.Wrapper {
+	return it.items
 }
 
-func (receiver *WrappersMap) ListPtr() *[]*unipath.Wrapper {
-	list := make([]*unipath.Wrapper, receiver.Length())
+func (it *WrappersMap) ListPtr() []*unipath.Wrapper {
+	list := make([]*unipath.Wrapper, it.Length())
 
 	i := constants.Zero
-	for _, wrapper := range *receiver.items {
+	for _, wrapper := range it.items {
 		list[i] = wrapper
 		i++
 	}
 
-	return &list
+	return list
 }
 
-func (receiver *WrappersMap) ToStringsPtr(
+func (it *WrappersMap) ToStringsPtr(
 	separator string,
 	isNormalize bool,
 ) *[]string {
-	list := make([]string, receiver.Length())
+	list := make([]string, it.Length())
 
 	i := constants.Zero
-	for _, wrapper := range *receiver.items {
+	for _, wrapper := range it.items {
 		list[i] = wrapper.ToString(
 			separator,
 			isNormalize)
@@ -225,11 +231,11 @@ func (receiver *WrappersMap) ToStringsPtr(
 	return &list
 }
 
-func (receiver *WrappersMap) StringsPtr() *[]string {
-	list := make([]string, receiver.Length())
+func (it *WrappersMap) StringsPtr() *[]string {
+	list := make([]string, it.Length())
 
 	i := constants.Zero
-	for _, wrapper := range *receiver.items {
+	for _, wrapper := range it.items {
 		list[i] = wrapper.String()
 		i++
 	}
@@ -237,8 +243,8 @@ func (receiver *WrappersMap) StringsPtr() *[]string {
 	return &list
 }
 
-func (receiver *WrappersMap) Get(
+func (it *WrappersMap) Get(
 	key string,
 ) *unipath.Wrapper {
-	return (*receiver.items)[key]
+	return it.items[key]
 }

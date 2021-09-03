@@ -15,5 +15,5 @@ func ReadSimpleSliceUsingLock(
 		return corestr.EmptySimpleSlice(), results.ErrorWrapper
 	}
 
-	return &corestr.SimpleSlice{Items: *results.Values}, errnew.EmptyPtr
+	return &corestr.SimpleSlice{Items: results.Values}, errnew.EmptyPtr
 }

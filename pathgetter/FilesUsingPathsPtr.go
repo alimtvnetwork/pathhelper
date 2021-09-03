@@ -6,7 +6,6 @@ import (
 	"gitlab.com/evatix-go/core/coredata/corestr"
 	"gitlab.com/evatix-go/core/coreindexes"
 	"gitlab.com/evatix-go/errorwrapper/errdata/errstr"
-	"gitlab.com/evatix-go/errorwrapper/errnew"
 	"gitlab.com/evatix-go/errorwrapper/errwrappers"
 )
 
@@ -18,10 +17,7 @@ func FilesUsingPathsPtr(
 	length := corestr.LengthOfStrings(exploringPaths)
 
 	if length == 0 {
-		return &errstr.Results{
-			Values:       &[]string{},
-			ErrorWrapper: errnew.EmptyPtr,
-		}
+		return errstr.EmptyResults()
 	}
 
 	if length == 1 {
@@ -64,7 +60,7 @@ func FilesUsingPathsPtr(
 	wg.Wait()
 
 	return &errstr.Results{
-		Values:       linkedCollections.ListPtr(),
+		Values:       *linkedCollections.ListPtr(),
 		ErrorWrapper: errWrappers.GetAsErrorWrapperPtr(),
 	}
 }

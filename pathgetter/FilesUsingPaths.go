@@ -2,7 +2,6 @@ package pathgetter
 
 import (
 	"gitlab.com/evatix-go/errorwrapper/errdata/errstr"
-	"gitlab.com/evatix-go/errorwrapper/errnew"
 )
 
 func FilesUsingPaths(
@@ -11,10 +10,7 @@ func FilesUsingPaths(
 	exploringPaths ...string,
 ) *errstr.Results {
 	if exploringPaths == nil {
-		return &errstr.Results{
-			Values:       &[]string{},
-			ErrorWrapper: errnew.EmptyPtr,
-		}
+		return errstr.EmptyResults()
 	}
 
 	return FilesUsingPathsPtr(

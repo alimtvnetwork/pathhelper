@@ -6,7 +6,6 @@ import (
 	"time"
 
 	"gitlab.com/evatix-go/core/coredata/corejson"
-	"gitlab.com/evatix-go/core/defaulterr"
 	"gitlab.com/evatix-go/core/issetter"
 	"gitlab.com/evatix-go/errorwrapper"
 	"gitlab.com/evatix-go/errorwrapper/errnew"
@@ -147,11 +146,7 @@ func (wrapper *Wrapper) Json() *corejson.Result {
 func (wrapper *Wrapper) ParseInjectUsingJson(
 	jsonResult *corejson.Result,
 ) (*Wrapper, error) {
-	if jsonResult == nil || jsonResult.IsEmptyJsonBytes() {
-		return nil, defaulterr.UnMarshallingFailedDueToNilOrEmpty
-	}
-
-	err := json.Unmarshal(*jsonResult.Bytes, &wrapper)
+	err := jsonResult.Unmarshal(&wrapper)
 
 	if err != nil {
 		return nil, err
