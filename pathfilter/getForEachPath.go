@@ -4,7 +4,6 @@ import (
 	"gitlab.com/evatix-go/core/constants"
 	"gitlab.com/evatix-go/core/coredata/corestr"
 	"gitlab.com/evatix-go/errorwrapper/errdata/errstr"
-	"gitlab.com/evatix-go/errorwrapper/errnew"
 	"gitlab.com/evatix-go/pathhelper/internal/splitinternal"
 	"gitlab.com/evatix-go/pathhelper/pathext"
 	"gitlab.com/evatix-go/pathhelper/pathgetter"
@@ -21,10 +20,7 @@ func getFilesForEachPath(
 			eachPathExtWrapper.IsFile()
 
 	if isPossibilityOfMatchingExtensionAndFile {
-		return &errstr.Results{
-			Values:       &[]string{eachPath},
-			ErrorWrapper: errnew.EmptyPtr,
-		}
+		return errstr.EmptyErrorResults(eachPath)
 	}
 
 	isMatchesWithAnyExtension :=
@@ -34,10 +30,7 @@ func getFilesForEachPath(
 				filter.ExtensionsLength())
 
 	if isMatchesWithAnyExtension {
-		return &errstr.Results{
-			Values:       &[]string{eachPath},
-			ErrorWrapper: errnew.EmptyPtr,
-		}
+		return errstr.EmptyErrorResults(eachPath)
 	}
 
 	// get all files in the dir.
@@ -74,8 +67,5 @@ func getFilesForEachPath(
 		collection,
 		filter)
 
-	return &errstr.Results{
-		Values:       results,
-		ErrorWrapper: errnew.EmptyPtr,
-	}
+	return errstr.EmptyErrorResults(*results...)
 }

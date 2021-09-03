@@ -19,7 +19,7 @@ func JsonReadUnmarshal(
 	}
 
 	err := json.Unmarshal(
-		*readContents.Values,
+		readContents.Values,
 		unmarshallObjectRef)
 
 	if err != nil {

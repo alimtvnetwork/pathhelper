@@ -11,22 +11,23 @@ import (
 )
 
 // GetAllFiles only gives files not nested files
-func GetAllFiles(isFixPaths bool, separator, rootPath string) *errstr.Results {
-	if rootPath == "" {
-		return &errstr.Results{
-			Values:       &[]string{},
-			ErrorWrapper: errnew.EmptyPtr,
-		}
+func GetAllFiles(
+	isFixPaths bool,
+	separator,
+	rootPath string,
+) *errstr.Results {
+	if rootPath == constants.EmptyString {
+		return errstr.EmptyResults()
 	}
 
 	fileInfos, err := ioutil.ReadDir(rootPath)
 
 	if err != nil {
-		return &errstr.Results{
-			Values: &[]string{},
-			ErrorWrapper: errnew.Path(
-				errtype.PathStatusCannotRead, err, rootPath),
-		}
+		return errstr.EmptyResultsWithError(
+			errnew.Path(
+				errtype.PathStatusCannotRead,
+				err,
+				rootPath))
 	}
 
 	slice := make(
@@ -42,16 +43,19 @@ func GetAllFiles(isFixPaths bool, separator, rootPath string) *errstr.Results {
 		currentPath = normalizeinternal.JoinPathsFixIf(
 			isFixPaths, currentPath)
 
-		if IsDirectory(currentPath) {
+		if info == nil {
+			continue
+		}
+
+		if info.IsDir() {
 			continue
 		}
 
 		slice = append(
-			slice, currentPath)
+			slice,
+			currentPath)
 	}
 
-	return &errstr.Results{
-		Values:       &slice,
-		ErrorWrapper: errnew.EmptyPtr,
-	}
+	return errstr.EmptyErrorResults(
+		slice...)
 }

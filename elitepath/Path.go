@@ -405,10 +405,7 @@ func (it *Path) AllDirsSimpleStat() (*pathchmod.SimpleStats, *errorwrapper.Wrapp
 // Files it doesn't return recursive files but just immediate nested files
 func (it *Path) Files() *errstr.Results {
 	if it.IsFile() {
-		return &errstr.Results{
-			Values:       &[]string{it.CompiledPath()},
-			ErrorWrapper: errnew.EmptyPtr,
-		}
+		return errstr.EmptyErrorResults(it.CompiledPath())
 	}
 
 	pathWrapper := it.PathWrapper()

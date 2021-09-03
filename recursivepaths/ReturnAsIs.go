@@ -2,7 +2,6 @@ package recursivepaths
 
 import (
 	"gitlab.com/evatix-go/errorwrapper/errdata/errstr"
-	"gitlab.com/evatix-go/errorwrapper/errnew"
 	"gitlab.com/evatix-go/pathhelper/pathjoin"
 )
 
@@ -16,8 +15,6 @@ func ReturnAsIs(
 		isExpandEnv,
 		rootPath)
 
-	return &errstr.Results{
-		Values:       &[]string{fixedPath},
-		ErrorWrapper: errnew.EmptyPtr,
-	}
+	return errstr.EmptyErrorResults(
+		fixedPath)
 }

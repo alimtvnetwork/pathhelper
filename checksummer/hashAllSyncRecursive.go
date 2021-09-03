@@ -35,7 +35,7 @@ func hashAllSyncRecursive(
 				return nil
 			}
 
-			filesHashes[path] = *errResult.Values
+			filesHashes[path] = errResult.Values
 
 			return nil
 		})

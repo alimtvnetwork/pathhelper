@@ -3,14 +3,15 @@ package pathjoin
 import (
 	"gitlab.com/evatix-go/core/constants"
 	"gitlab.com/evatix-go/core/osconsts"
+	"gitlab.com/evatix-go/pathhelper/normalize"
 )
 
-// JoinFix
+// JoinFixWithoutLongPath
 //
 // Items are applied with
 // normalize,
 // skip on empty path given
-func JoinFix(
+func JoinFixWithoutLongPath(
 	baseDir string,
 	paths ...string,
 ) string {
@@ -18,11 +19,15 @@ func JoinFix(
 		return constants.EmptyString
 	}
 
-	return JoinBaseDirWithSep(
+	joined := JoinBaseDirWithSep(
 		true,
 		false,
-		true,
+		false,
 		osconsts.PathSeparator,
 		baseDir,
 		paths...)
+
+	return normalize.PathFixWithoutLongPathIf(
+		true,
+		joined)
 }

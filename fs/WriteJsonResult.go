@@ -43,5 +43,5 @@ func WriteJsonResult(
 
 	return WriteFile(
 		location,
-		*jsonResult.Bytes)
+		jsonResult.Bytes)
 }

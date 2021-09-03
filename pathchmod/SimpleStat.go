@@ -65,10 +65,8 @@ func (it *SimpleStat) notFileError() *errorwrapper.Wrapper {
 func (it *SimpleStat) ReadBytes() *errbyte.Results {
 	errWp := it.notFileError()
 	if errWp.HasError() {
-		return &errbyte.Results{
-			Values:       &[]byte{},
-			ErrorWrapper: errWp,
-		}
+		return errbyte.EmptyResultsWithError(
+			errWp)
 	}
 
 	return fsinternal.ReadFile(it.Location)
@@ -84,22 +82,18 @@ func (it *SimpleStat) ReadBytesMust() []byte {
 func (it *SimpleStat) CheckSum(hashType hashas.Variant) *errbyte.Results {
 	errWp := it.notFileError()
 	if errWp.HasError() {
-		return &errbyte.Results{
-			Values:       &[]byte{},
-			ErrorWrapper: errWp,
-		}
+		return errbyte.EmptyResultsWithError(
+			errWp)
 	}
 
 	allBytes := it.ReadBytes()
 
 	if allBytes.HasError() {
-		return &errbyte.Results{
-			Values:       &[]byte{},
-			ErrorWrapper: allBytes.ErrorWrapper,
-		}
+		return errbyte.EmptyResultsWithError(
+			allBytes.ErrorWrapper)
 	}
 
-	return hashType.SumOf(*allBytes.Values)
+	return hashType.SumOf(allBytes.Values)
 }
 
 func (it *SimpleStat) CheckSumHexString(hashType hashas.Variant) *errstr.Result {
@@ -120,7 +114,7 @@ func (it *SimpleStat) CheckSumHexString(hashType hashas.Variant) *errstr.Result 
 		}
 	}
 
-	return hashType.StringSumOf(*allBytes.Values)
+	return hashType.StringSumOf(allBytes.Values)
 }
 
 func (it *SimpleStat) GetChmodWithError() *ChmodWithError {

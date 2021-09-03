@@ -129,13 +129,16 @@ func (it *Result) FilterStringsResults(filter pathfuncs.Filter) *errstr.Results 
 
 	err := msgtype.SliceToError(errSlice)
 
-	return &errstr.Results{
-		Values: &slice,
-		ErrorWrapper: errnew.Path(
-			errtype.PathExpand,
-			err,
-			it.Root),
+	if err != nil {
+		return errstr.EmptyResultsWithError(
+			errnew.Path(
+				errtype.PathExpand,
+				err,
+				it.Root))
 	}
+
+	return errstr.EmptyErrorResults(
+		slice...)
 }
 
 func (it *Result) FilterResults(filter pathfuncs.Filter) *Result {
@@ -165,23 +168,18 @@ func (it *Result) FilterResults(filter pathfuncs.Filter) *Result {
 
 func (it *Result) StringsResults() *errstr.Results {
 	if it == nil {
-		return &errstr.Results{
-			Values:       &[]string{},
-			ErrorWrapper: errnew.NilOrEmpty,
-		}
+		return errstr.EmptyResultsWithError(
+			errnew.NilOrEmpty)
 	}
 
 	if it.ErrorWrapper.HasError() || it.IsEmpty() {
-		return &errstr.Results{
-			Values:       &[]string{},
-			ErrorWrapper: it.ErrorWrapper,
-		}
+		return errstr.EmptyResultsWithError(
+			it.ErrorWrapper)
 	}
 
-	return &errstr.Results{
-		Values:       &it.PathsResult.ExpandingPaths.Items,
-		ErrorWrapper: it.ErrorWrapper,
-	}
+	return errstr.NewResults(
+		it.ErrorWrapper,
+		it.PathsResult.ExpandingPaths.Items...)
 }
 
 func (it *Result) Clone() *Result {

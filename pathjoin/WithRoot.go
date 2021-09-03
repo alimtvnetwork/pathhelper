@@ -5,5 +5,5 @@ import (
 )
 
 func WithRoot(paths ...string) string {
-	return Fixed(pathsconst.RootDir, paths...)
+	return JoinFix(pathsconst.RootDir, paths...)
 }

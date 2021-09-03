@@ -588,7 +588,7 @@ func (it *PathCollection) ParseInjectUsingJson(
 		return EmptyPathCollection(), defaulterr.UnMarshallingFailedDueToNilOrEmpty
 	}
 
-	err := json.Unmarshal(*jsonResult.Bytes, &it)
+	err := json.Unmarshal(jsonResult.Bytes, &it)
 
 	if err != nil {
 		return EmptyPathCollection(), err

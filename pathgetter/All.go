@@ -2,7 +2,6 @@ package pathgetter
 
 import (
 	"gitlab.com/evatix-go/errorwrapper/errdata/errstr"
-	"gitlab.com/evatix-go/errorwrapper/errnew"
 )
 
 func All(
@@ -13,10 +12,7 @@ func All(
 	length := len(exploringPaths)
 
 	if length == 0 {
-		return &errstr.Results{
-			Values:       &[]string{},
-			ErrorWrapper: errnew.EmptyPtr,
-		}
+		return errstr.EmptyResults()
 	}
 
 	if length == 1 {

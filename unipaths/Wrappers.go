@@ -213,7 +213,7 @@ func (receiver *Wrappers) GetFinalizePaths() *errstr.ResultsWithErrorCollection 
 	}
 
 	return &errstr.ResultsWithErrorCollection{
-		Values:        &list,
+		Values:        list,
 		ErrorWrappers: errCollection,
 	}
 }

@@ -16,10 +16,8 @@ func pathsOfLocationsIf(
 	locations []string,
 ) *errstr.Results {
 	if !isRecursive {
-		return &errstr.Results{
-			Values:       stringslice.SlicePtr(locations),
-			ErrorWrapper: errnew.EmptyPtr,
-		}
+		return errstr.EmptyErrorResults(
+			locations...)
 	}
 
 	isExitImmediate := !isContinueOnError
@@ -43,7 +41,7 @@ func pathsOfLocationsIf(
 		if isExitImmediate && results.HasError() {
 			err := msgtype.SliceToError(sliceErr)
 			return &errstr.Results{
-				Values: &slice,
+				Values: slice,
 				ErrorWrapper: errnew.Path(
 					errtype.FileExpand,
 					err,
@@ -53,12 +51,14 @@ func pathsOfLocationsIf(
 	}
 
 	err := msgtype.SliceToError(sliceErr)
-
-	return &errstr.Results{
-		Values: &slice,
-		ErrorWrapper: errnew.Path(
-			errtype.FileExpand,
-			err,
-			""),
+	if err != nil {
+		return errstr.EmptyResultsWithError(
+			errnew.Path(
+				errtype.FileExpand,
+				err,
+				""))
 	}
+
+	return errstr.EmptyErrorResults(
+		slice...)
 }

@@ -13,6 +13,6 @@ func ReadErrorJsonResult(filePath string) *errjson.Result {
 	}
 
 	return errjson.NewBytesPtr(
-		errBytes.Values,
+		errBytes.ValueMust(),
 		errBytes.ErrorWrapper)
 }

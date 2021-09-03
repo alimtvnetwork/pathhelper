@@ -11,10 +11,8 @@ func ReadFileLinesUsingLock(filePath string) *errstr.Results {
 	errString := ReadFileStringUsingLock(filePath)
 
 	if errString.Value == "" {
-		return &errstr.Results{
-			Values:       &[]string{},
-			ErrorWrapper: errString.ErrorWrapper,
-		}
+		return errstr.EmptyResultsWithError(
+			errString.ErrorWrapper)
 	}
 
 	lines := strings.Split(
@@ -22,7 +20,7 @@ func ReadFileLinesUsingLock(filePath string) *errstr.Results {
 		constants.NewLineUnix)
 
 	return &errstr.Results{
-		Values:       &lines,
+		Values:       lines,
 		ErrorWrapper: errString.ErrorWrapper,
 	}
 }

@@ -23,13 +23,11 @@ func AllOfSinglePath(
 	allPaths, err := ioutil.ReadDir(rootPath2)
 
 	if err != nil {
-		return &errstr.Results{
-			Values: &[]string{},
-			ErrorWrapper: errnew.Path(
+		return errstr.EmptyResultsWithError(
+			errnew.Path(
 				errtype.PathExpand,
 				err,
-				rootPath2),
-		}
+				rootPath2))
 	}
 
 	results := make([]string, len(allPaths))
@@ -40,8 +38,5 @@ func AllOfSinglePath(
 			fileInfo.Name()
 	}
 
-	return &errstr.Results{
-		Values:       &results,
-		ErrorWrapper: errnew.EmptyPtr,
-	}
+	return errstr.EmptyErrorResults(results...)
 }

@@ -16,10 +16,7 @@ func AllPtr(
 	length := corestr.LengthOfStrings(exploringPaths)
 
 	if length == 0 {
-		return &errstr.Results{
-			Values:       &[]string{},
-			ErrorWrapper: errnew.EmptyPtr,
-		}
+		return errstr.EmptyResults()
 	}
 
 	if length == 1 {
@@ -41,7 +38,7 @@ func AllPtr(
 
 		if allPaths.HasError() {
 			return &errstr.Results{
-				Values:       linkedCollection.ListPtr(),
+				Values:       *linkedCollection.ListPtr(),
 				ErrorWrapper: allPaths.ErrorWrapper,
 			}
 		}
@@ -55,7 +52,7 @@ func AllPtr(
 	wg.Wait()
 
 	return &errstr.Results{
-		Values:       linkedCollection.ListPtr(),
+		Values:       *linkedCollection.ListPtr(),
 		ErrorWrapper: errnew.EmptyPtr,
 	}
 }
