@@ -70,7 +70,7 @@ func (it *Path) Join2(location1, location2 string) string {
 }
 
 func (it *Path) Joins(isNormalize bool, locations ...string) string {
-	return pathjoin.FixedIf(
+	return pathjoin.JoinFixedIf(
 		isNormalize,
 		it.CompiledPath(),
 		locations...)

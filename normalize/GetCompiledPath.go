@@ -10,7 +10,7 @@ func GetCompiledPath(
 	pathTemplate string,
 	compilingMap map[string]string,
 ) string {
-	if isEmpty(pathTemplate) {
+	if pathTemplate == constants.EmptyString {
 		return pathTemplate
 	}
 

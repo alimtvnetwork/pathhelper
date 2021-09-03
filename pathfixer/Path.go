@@ -5,9 +5,7 @@ import (
 
 	"gitlab.com/evatix-go/core/chmodhelper"
 	"gitlab.com/evatix-go/core/constants"
-	"gitlab.com/evatix-go/core/osconsts"
-	"gitlab.com/evatix-go/pathhelper/expandpath"
-	"gitlab.com/evatix-go/pathhelper/normalize"
+	"gitlab.com/evatix-go/pathhelper/expandnormalize"
 )
 
 // Location Don't use Path Directly but use CompiledPath
@@ -61,14 +59,10 @@ func (it *Location) CompiledPath() string {
 	normalizedPath := it.Path
 
 	if normalizedPath != "" {
-		expandPath := expandpath.ExpandVariablesIf(
+		normalizedPath = expandnormalize.FixIf(
+			it.IsNormalize,
 			it.IsExpandEnvVar,
 			normalizedPath)
-
-		normalizedPath = normalize.PathUsingSeparatorUsingSingleIf(
-			it.IsNormalize,
-			osconsts.PathSeparator,
-			expandPath)
 	}
 
 	it.compiledPath = &normalizedPath

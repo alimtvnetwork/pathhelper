@@ -8,7 +8,7 @@ import (
 type PathOptions struct {
 	IsContinueOnError bool `json:"IsContinueOnError,omitempty"`
 	IsNormalize       bool `json:"IsNormalize,omitempty"`
-	IsExpandEnvVar    bool `json:"IsExpandEnvVariable,omitempty"` // can expand environment variables with %{Name} $Name %{Java_home} ${Java_HOME}
+	IsExpandEnvVar    bool `json:"IsExpandEnvVar,omitempty"` // can expand environment variables with %{Name} $Name %{Java_home} ${Java_HOME}
 	IsRecursive       bool `json:"IsRecursive,omitempty"`
 	IsSkipOnInvalid   bool `json:"IsSkipOnInvalid,omitempty"`
 	IsSkipOnExist     bool `json:"IsSkipOnExist,omitempty"`

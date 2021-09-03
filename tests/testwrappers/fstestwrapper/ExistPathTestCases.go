@@ -3,6 +3,7 @@ package fstestwrapper
 import (
 	"gitlab.com/evatix-go/core/ostype"
 	"gitlab.com/evatix-go/pathhelper/expandnormalize"
+	"gitlab.com/evatix-go/pathhelper/normalize"
 	"gitlab.com/evatix-go/pathhelper/pathsconst"
 )
 
@@ -58,7 +59,11 @@ var ExistPathTestCases = []ExistPathWrapper{
 		RelPath: setupFilePath,
 		OsType:  ostype.Windows,
 		Options: expandnormalize.Options{
-			IsNormalize:    true,
+			Options: normalize.Options{
+				IsNormalize:        true,
+				IsLongPathFix:      true,
+				IsForceLongPathFix: true,
+			},
 			IsExpandEnvVar: true,
 		},
 		IsExistExpectation: true,
@@ -71,7 +76,11 @@ var ExistPathTestCases = []ExistPathWrapper{
 		RelPath: "",
 		OsType:  ostype.Windows,
 		Options: expandnormalize.Options{
-			IsNormalize:    true,
+			Options: normalize.Options{
+				IsNormalize:        true,
+				IsLongPathFix:      true,
+				IsForceLongPathFix: true,
+			},
 			IsExpandEnvVar: true,
 		},
 		IsExistExpectation: true,

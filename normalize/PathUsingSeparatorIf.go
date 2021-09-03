@@ -10,8 +10,13 @@ func PathUsingSeparatorIf(
 	isApplyLongPathFix := !isNormalize &&
 		(isLongPathFix || isForceLongPath)
 
+	if isNormalize {
+		givenPath = TrimPrefixUncPath(
+			givenPath)
+	}
+
 	if isApplyLongPathFix {
-		return GetLongPathFixedUsingSeparator(
+		return getLongPathFixedUsingSeparator(
 			pathSeparator,
 			givenPath,
 			isForceLongPath)
@@ -21,9 +26,10 @@ func PathUsingSeparatorIf(
 		return givenPath
 	}
 
-	return PathUsingSeparator(
+	return pathUsingSeparator(
+		isLongPathFix,
+		isForceLongPath,
 		pathSeparator,
 		givenPath,
-		isLongPathFix,
-		isForceLongPath)
+	)
 }

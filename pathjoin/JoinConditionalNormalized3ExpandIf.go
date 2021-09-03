@@ -12,7 +12,7 @@ func JoinConditionalNormalized3ExpandIf(
 	isExpand bool,
 	path1, path2, path3 string,
 ) string {
-	combined := JoinSimple3ConditionalNonEmpty(
+	combined := normalize.SimpleJoinPath3(
 		path1,
 		path2,
 		path3)

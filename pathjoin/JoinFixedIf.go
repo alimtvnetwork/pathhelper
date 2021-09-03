@@ -8,10 +8,10 @@ import (
 	"gitlab.com/evatix-go/pathhelper/normalize"
 )
 
-// FixedIf
+// JoinFixedIf
 //
 // isNormalizePlusLongPathFix if true then for windows add UNC Location fix
-func FixedIf(
+func JoinFixedIf(
 	isFixed bool,
 	baseDir string,
 	paths ...string,

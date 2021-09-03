@@ -16,14 +16,12 @@ func FixPath(
 		return ""
 	}
 
-	location = normalize.PathUsingSeparatorUsingSingleIf(
-		isNormalizePlusLogPathFix,
-		osconsts.PathSeparator,
-		location)
-
-	location = expandpath.ExpandVariablesIf(
+	expand := expandpath.ExpandVariablesIf(
 		isExpand,
 		location)
 
-	return location
+	return normalize.PathUsingSeparatorUsingSingleIf(
+		isNormalizePlusLogPathFix,
+		osconsts.PathSeparator,
+		expand)
 }

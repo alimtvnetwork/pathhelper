@@ -10,6 +10,7 @@ import (
 	"os"
 
 	"gitlab.com/evatix-go/core/constants"
+	"gitlab.com/evatix-go/core/coredata/corejson"
 	"gitlab.com/evatix-go/core/coreinterface"
 	"gitlab.com/evatix-go/errorwrapper"
 	"gitlab.com/evatix-go/errorwrapper/errdata/errbyte"
@@ -77,10 +78,7 @@ func (it *Variant) StringSumOfFile(
 	toString := byteResults.NonEmptyString(
 		convertBytesResultsToEncodedHexString)
 
-	return &errstr.Result{
-		Value:        toString,
-		ErrorWrapper: errnew.EmptyPtr,
-	}
+	return errstr.EmptyErrorResult(toString)
 }
 
 func (it *Variant) SumOfFile(
@@ -182,6 +180,44 @@ func (it *Variant) SumOfErrorBytes(
 		errBytes.Values)
 
 	return errbyte.EmptyErrorResults(hashedBytes...)
+}
+
+func (it *Variant) SumOfJsonResult(
+	result *corejson.Result,
+) *errbyte.Results {
+	if result.HasError() {
+		return errbyte.EmptyResultsWithError(
+			errnew.MessagesPtr(
+				errtype.JsonSyntaxIssue,
+				"cannot hash on error json results!",
+				result.MeaningfulError().Error()))
+	}
+
+	hashWriter, errWp := it.NewHash()
+
+	if errWp.HasError() {
+		return errbyte.EmptyResultsWithError(errWp)
+	}
+
+	hashedBytes := hashWriter.Sum(
+		result.ValueMust())
+
+	return errbyte.EmptyErrorResults(hashedBytes...)
+}
+
+func (it *Variant) HexOfJsonResult(
+	result *corejson.Result,
+) *errstr.Result {
+	bytesResult := it.SumOfJsonResult(result)
+
+	if bytesResult.HasError() {
+		return errstr.ErrorWrapper(bytesResult.ErrorWrapper)
+	}
+
+	toString := bytesResult.NonEmptyString(
+		convertBytesResultsToEncodedHexString)
+
+	return errstr.EmptyErrorResult(toString)
 }
 
 func (it Variant) IsUndefined() bool {

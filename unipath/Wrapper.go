@@ -77,270 +77,270 @@ func NewCapStartingPath(cap int, sep, startingPath string) *Wrapper {
 	return wrapper.Add(startingPath)
 }
 
-func (receiver *Wrapper) IsFinalized() bool {
-	return receiver.isFinalized
+func (it *Wrapper) IsFinalized() bool {
+	return it.isFinalized
 }
 
-func (receiver *Wrapper) Lock() {
-	receiver.collection.Lock()
+func (it *Wrapper) Lock() {
+	it.collection.Lock()
 }
 
-func (receiver *Wrapper) Unlock() *Wrapper {
-	receiver.collection.Unlock()
+func (it *Wrapper) Unlock() *Wrapper {
+	it.collection.Unlock()
 
-	return receiver
+	return it
 }
 
-func (receiver *Wrapper) Separator() string {
-	return receiver.separator
+func (it *Wrapper) Separator() string {
+	return it.separator
 }
 
-// anyPath can contain separators or without separator both are fine
-func (receiver *Wrapper) AddLock(
+// AddLock anyPath can contain separators or without separator both are fine
+func (it *Wrapper) AddLock(
 	anyPath string,
 ) *Wrapper {
-	receiver.Lock()
-	defer receiver.Unlock()
+	it.Lock()
+	defer it.Unlock()
 
-	return receiver.Add(anyPath)
+	return it.Add(anyPath)
 }
 
 // anyPath can contain separators or without separator both are fine
 // One cannot add path after finalize.
-func (receiver *Wrapper) Add(
+func (it *Wrapper) Add(
 	anyPath string,
 ) *Wrapper {
-	receiver.handleFinalizeError()
-	receiver.collection.Add(anyPath)
+	it.handleFinalizeError()
+	it.collection.Add(anyPath)
 
-	return receiver
+	return it
 }
 
-func (receiver *Wrapper) handleFinalizeError() {
-	if receiver.IsFinalized() {
-		receiver.finalizedError.HandleErrorWithMsg(
+func (it *Wrapper) handleFinalizeError() {
+	if it.IsFinalized() {
+		it.finalizedError.HandleErrorWithMsg(
 			"Finalized unipath cannot add or modify data.")
 	}
 }
 
-func (receiver *Wrapper) AddStringsPtr(
+func (it *Wrapper) AddStringsPtr(
 	stringItems *[]string,
 ) *Wrapper {
-	receiver.handleFinalizeError()
-	receiver.collection.AddStringsPtr(stringItems)
+	it.handleFinalizeError()
+	it.collection.AddStringsPtr(stringItems)
 
-	return receiver
+	return it
 }
 
-func (receiver *Wrapper) AddPointerStringsPtr(
+func (it *Wrapper) AddPointerStringsPtr(
 	stringItems *[]*string,
 ) *Wrapper {
-	receiver.handleFinalizeError()
-	receiver.collection.AddPointerStringsPtr(stringItems)
+	it.handleFinalizeError()
+	it.collection.AddPointerStringsPtr(stringItems)
 
-	return receiver
+	return it
 }
 
-func (receiver *Wrapper) Length() int {
-	return receiver.collection.Length()
+func (it *Wrapper) Length() int {
+	return it.collection.Length()
 }
 
-func (receiver *Wrapper) HasItems() bool {
-	return receiver.collection.HasItems()
+func (it *Wrapper) HasItems() bool {
+	return it.collection.HasItems()
 }
 
 // Has same one needs to be inserted
-func (receiver *Wrapper) Has(
+func (it *Wrapper) Has(
 	pathSplit string,
 ) bool {
-	return receiver.collection.Has(pathSplit)
+	return it.collection.Has(pathSplit)
 }
 
-func (receiver *Wrapper) IsWindowsSeparator() bool {
-	return receiver.separator == constants.WindowsPathSeparator
+func (it *Wrapper) IsWindowsSeparator() bool {
+	return it.separator == constants.WindowsPathSeparator
 }
 
-func (receiver *Wrapper) IsUnixSeparator() bool {
-	return receiver.separator == constants.ForwardSlash
+func (it *Wrapper) IsUnixSeparator() bool {
+	return it.separator == constants.ForwardSlash
 }
 
-func (receiver *Wrapper) IsEmpty() bool {
-	return receiver.collection.IsEmpty()
+func (it *Wrapper) IsEmpty() bool {
+	return it.collection.IsEmpty()
 }
 
-func (receiver *Wrapper) IsValid() bool {
-	if receiver.collection.IsEmpty() {
+func (it *Wrapper) IsValid() bool {
+	if it.collection.IsEmpty() {
 		return false
 	}
 
-	_, errW := receiver.GetFileInfo()
+	_, errW := it.GetFileInfo()
 
 	return errW.IsEmpty()
 }
 
-func (receiver *Wrapper) IsEqual(wrapper *Wrapper) bool {
-	if wrapper == nil && receiver == nil {
+func (it *Wrapper) IsEqual(wrapper *Wrapper) bool {
+	if wrapper == nil && it == nil {
 		return true
 	}
 
-	if wrapper == nil || receiver == nil {
+	if wrapper == nil || it == nil {
 		return false
 	}
 
-	if wrapper.isFinalized != receiver.isFinalized {
+	if wrapper.isFinalized != it.isFinalized {
 		return false
 	}
 
-	if wrapper.GetFinalizePath() != receiver.GetFinalizePath() {
+	if wrapper.GetFinalizePath() != it.GetFinalizePath() {
 		return false
 	}
 
-	if wrapper.separator != receiver.separator {
+	if wrapper.separator != it.separator {
 		return false
 	}
 
-	if wrapper.finalizedError != nil && receiver.finalizedError != nil {
-		if !wrapper.finalizedError.IsEquals(receiver.finalizedError) {
+	if wrapper.finalizedError != nil && it.finalizedError != nil {
+		if !wrapper.finalizedError.IsEquals(it.finalizedError) {
 			return false
 		}
 	}
 
-	if wrapper.finalizedError == nil || receiver.finalizedError == nil {
+	if wrapper.finalizedError == nil || it.finalizedError == nil {
 		return false
 	}
 
-	return receiver.collection.
+	return it.collection.
 		IsEqualsPtr(
 			wrapper.collection)
 }
 
-func (receiver *Wrapper) Finalize() *errstr.Result {
-	if receiver.isFinalized == true {
+func (it *Wrapper) Finalize() *errstr.Result {
+	if it.isFinalized == true {
 		// done
 		return &errstr.Result{
-			Value:        receiver.finalPath,
-			ErrorWrapper: receiver.finalizedError,
+			Value:        it.finalPath,
+			ErrorWrapper: it.finalizedError,
 		}
 	}
 
 	// set finalize error
-	receiver.isFinalized = true
-	receiver.finalizedError = errorwrapper.
+	it.isFinalized = true
+	it.finalizedError = errorwrapper.
 		NewPtr(
 			errtype.FinalizedResourceCannotAccess)
 
-	finalPath := receiver.
+	finalPath := it.
 		collection.
-		Join(receiver.separator)
+		Join(it.separator)
 
-	receiver.finalPath = normalize.PathUsingSeparator(
-		receiver.separator,
-		finalPath,
+	it.finalPath = normalize.PathUsingSeparatorIf(
 		true,
-		true)
+		true,
+		true,
+		it.separator,
+		finalPath,
+	)
 
-	return &errstr.Result{
-		Value:        receiver.finalPath,
-		ErrorWrapper: errnew.EmptyPtr,
-	}
+	return errstr.EmptyErrorResult(
+		it.finalPath)
 }
 
-func (receiver *Wrapper) GetFinalizePath() *errstr.Result {
-	if !receiver.isFinalized {
+func (it *Wrapper) GetFinalizePath() *errstr.Result {
+	if !it.isFinalized {
 		// not finalized
 		return &errstr.Result{
-			Value:        receiver.finalPath,
+			Value:        it.finalPath,
 			ErrorWrapper: errorwrapper.NewPtr(errtype.CompileFailed),
 		}
 	}
 
 	return &errstr.Result{
-		Value:        receiver.finalPath,
+		Value:        it.finalPath,
 		ErrorWrapper: errnew.EmptyPtr,
 	}
 }
 
-func (receiver *Wrapper) GetFilesOnPath(
+func (it *Wrapper) GetFilesOnPath(
 	isNormalize bool,
 ) *errstr.Results {
-	currentPath := receiver.String()
+	currentPath := it.String()
 
 	return pathgetter.Files(
 		isNormalize,
-		receiver.separator,
+		it.separator,
 		currentPath,
 	)
 }
 
-func (receiver *Wrapper) GetBaseDirFiles(
+func (it *Wrapper) GetBaseDirFiles(
 	isNormalize bool,
 ) *errstr.Results {
-	currentPath := receiver.GetBaseDir()
+	currentPath := it.GetBaseDir()
 
 	return pathgetter.Files(
 		isNormalize,
-		receiver.separator,
+		it.separator,
 		currentPath,
 	)
 }
 
-func (receiver *Wrapper) GetDirectoriesOfBaseDir(
+func (it *Wrapper) GetDirectoriesOfBaseDir(
 	isNormalize bool,
 ) *errstr.Results {
-	currentPath := receiver.GetBaseDir()
+	currentPath := it.GetBaseDir()
 
 	return pathgetter.Dirs(
-		receiver.separator,
+		it.separator,
 		currentPath,
 		isNormalize)
 }
 
 // GetRecursiveFilesOnBaseDir Get Recursive files from the basedir
-func (receiver *Wrapper) GetRecursiveFilesOnBaseDir() *errstr.Results {
-	currentPath := receiver.GetBaseDir()
+func (it *Wrapper) GetRecursiveFilesOnBaseDir() *errstr.Results {
+	currentPath := it.GetBaseDir()
 
 	return recursivepaths.Files(currentPath)
 }
 
-func (receiver *Wrapper) GetBaseDir() string {
-	currentPath := receiver.String()
+func (it *Wrapper) GetBaseDir() string {
+	currentPath := it.String()
 
 	return splitinternal.GetBaseDir(
 		currentPath)
 }
 
-func (receiver *Wrapper) GetBaseDirName() string {
-	currentPath := receiver.String()
+func (it *Wrapper) GetBaseDirName() string {
+	currentPath := it.String()
 
 	return splitinternal.GetBaseDirNameOrEmpty(
 		currentPath)
 }
 
-func (receiver *Wrapper) GetBaseDirNames() *[]string {
-	currentPath := receiver.String()
+func (it *Wrapper) GetBaseDirNames() *[]string {
+	currentPath := it.String()
 
 	return splitinternal.GetBaseDirNames(
 		currentPath)
 }
 
-func (receiver *Wrapper) Splits() *[]string {
-	currentPath := receiver.String()
+func (it *Wrapper) Splits() *[]string {
+	currentPath := it.String()
 
 	return splitinternal.GetAllSplitsWithSep(
 		currentPath,
-		receiver.separator)
+		it.separator)
 }
 
-func (receiver *Wrapper) SplitsUsing(separator string) *[]string {
-	currentPath := receiver.String()
+func (it *Wrapper) SplitsUsing(separator string) *[]string {
+	currentPath := it.String()
 
 	return splitinternal.GetAllSplitsWithSep(
 		currentPath,
 		separator)
 }
 
-func (receiver *Wrapper) GetBaseDirFileInfo() (os.FileInfo, *errorwrapper.Wrapper) {
-	currentPath := receiver.GetBaseDir()
+func (it *Wrapper) GetBaseDirFileInfo() (os.FileInfo, *errorwrapper.Wrapper) {
+	currentPath := it.GetBaseDir()
 	curFileInfo, err := os.Stat(currentPath)
 
 	if err != nil {
@@ -351,8 +351,8 @@ func (receiver *Wrapper) GetBaseDirFileInfo() (os.FileInfo, *errorwrapper.Wrappe
 	return curFileInfo, errnew.EmptyPtr
 }
 
-func (receiver *Wrapper) IsBaseDirExists() bool {
-	currentFileInfo, errW := receiver.GetBaseDirFileInfo()
+func (it *Wrapper) IsBaseDirExists() bool {
+	currentFileInfo, errW := it.GetBaseDirFileInfo()
 
 	if errW.HasError() {
 		return false
@@ -361,8 +361,8 @@ func (receiver *Wrapper) IsBaseDirExists() bool {
 	return currentFileInfo.IsDir()
 }
 
-func (receiver *Wrapper) IsFileExists() bool {
-	currentFileInfo, errW := receiver.GetFileInfo()
+func (it *Wrapper) IsFileExists() bool {
+	currentFileInfo, errW := it.GetFileInfo()
 
 	if errW.HasError() {
 		return false
@@ -371,14 +371,14 @@ func (receiver *Wrapper) IsFileExists() bool {
 	return !currentFileInfo.IsDir()
 }
 
-func (receiver *Wrapper) GetBaseDirInfoResult() *dirinfo.Result {
-	baseDir := receiver.GetBaseDir()
+func (it *Wrapper) GetBaseDirInfoResult() *dirinfo.Result {
+	baseDir := it.GetBaseDir()
 
 	return dirinfo.New(baseDir)
 }
 
-func (receiver *Wrapper) GetFileInfo() (os.FileInfo, *errorwrapper.Wrapper) {
-	filePath := receiver.String()
+func (it *Wrapper) GetFileInfo() (os.FileInfo, *errorwrapper.Wrapper) {
+	filePath := it.String()
 	curFileInfo, err := os.Stat(filePath)
 
 	if err != nil {
@@ -388,60 +388,60 @@ func (receiver *Wrapper) GetFileInfo() (os.FileInfo, *errorwrapper.Wrapper) {
 	return curFileInfo, errnew.EmptyPtr
 }
 
-func (receiver *Wrapper) GetFileInfoWrapper() *fileinfo.Wrapper {
-	filePath := receiver.String()
+func (it *Wrapper) GetFileInfoWrapper() *fileinfo.Wrapper {
+	filePath := it.String()
 
-	return fileinfo.New(filePath, receiver.separator)
+	return fileinfo.New(filePath, it.separator)
 }
 
-func (receiver *Wrapper) GetFileInfoWrappers() *fileinfo.Wrappers {
-	filePath := receiver.String()
+func (it *Wrapper) GetFileInfoWrappers() *fileinfo.Wrappers {
+	filePath := it.String()
 
 	return fileinfo.NewWrappersPtr(
 		filePath,
-		receiver.separator,
+		it.separator,
 		false)
 }
 
-func (receiver *Wrapper) Parent() *Wrapper {
-	filePath := receiver.GetBaseDir()
+func (it *Wrapper) Parent() *Wrapper {
+	filePath := it.GetBaseDir()
 
 	return NewCap(
 		constants.ArbitraryCapacity1,
-		receiver.separator).
+		it.separator).
 		Add(filePath)
 }
 
-func (receiver *Wrapper) Collection() *corestr.Collection {
-	return receiver.collection
+func (it *Wrapper) Collection() *corestr.Collection {
+	return it.collection
 }
 
-func (receiver *Wrapper) ListPtr() *[]string {
-	return receiver.collection.ListPtr()
+func (it *Wrapper) ListPtr() *[]string {
+	return it.collection.ListPtr()
 }
 
-func (receiver *Wrapper) Strings() []string {
-	return *receiver.collection.ListPtr()
+func (it *Wrapper) Strings() []string {
+	return *it.collection.ListPtr()
 }
 
-func (receiver *Wrapper) StringsPtr() *[]string {
-	return receiver.collection.ListPtr()
+func (it *Wrapper) StringsPtr() *[]string {
+	return it.collection.ListPtr()
 }
 
-func (receiver *Wrapper) getFinalizedError() *errorwrapper.Wrapper {
-	if receiver.IsFinalized() {
-		return receiver.finalizedError
+func (it *Wrapper) getFinalizedError() *errorwrapper.Wrapper {
+	if it.IsFinalized() {
+		return it.finalizedError
 	}
 
 	return errnew.EmptyPtr
 }
 
-func (receiver *Wrapper) ToWrapperUpto(
+func (it *Wrapper) ToWrapperUpto(
 	uptoLastIndexMinus int,
 	sep string,
 	isNormalize bool,
 ) *Wrapper {
-	currPath := receiver.ToStringUptoLastMinus(
+	currPath := it.ToStringUptoLastMinus(
 		uptoLastIndexMinus,
 		sep,
 		isNormalize)
@@ -449,7 +449,7 @@ func (receiver *Wrapper) ToWrapperUpto(
 	return New(sep).Add(currPath)
 }
 
-func (receiver *Wrapper) ToStringUptoLastMinus(
+func (it *Wrapper) ToStringUptoLastMinus(
 	uptoLastIndexMinus int,
 	sep string,
 	isNormalize bool,
@@ -462,9 +462,9 @@ func (receiver *Wrapper) ToStringUptoLastMinus(
 				uptoLastIndexMinus)
 	}
 
-	generatedPath := receiver.
+	generatedPath := it.
 		collection.
-		Take(receiver.Length() - uptoLastIndexMinus).
+		Take(it.Length() - uptoLastIndexMinus).
 		Join(sep)
 
 	generatedPathNext := normalize.PathUsingSeparatorUsingSingleIf(
@@ -475,11 +475,11 @@ func (receiver *Wrapper) ToStringUptoLastMinus(
 	return generatedPathNext
 }
 
-func (receiver *Wrapper) ToString(
+func (it *Wrapper) ToString(
 	sep string,
 	isNormalize bool,
 ) string {
-	generatedPath := receiver.
+	generatedPath := it.
 		collection.
 		Join(sep)
 
@@ -491,51 +491,51 @@ func (receiver *Wrapper) ToString(
 	return generatedPathNext
 }
 
-func (receiver *Wrapper) String() string {
-	if receiver.IsFinalized() {
-		return receiver.finalPath
+func (it *Wrapper) String() string {
+	if it.IsFinalized() {
+		return it.finalPath
 	}
 
-	toStr := receiver.ToString(
-		receiver.separator,
+	toStr := it.ToString(
+		it.separator,
 		true)
 
 	return toStr
 }
 
-func (receiver *Wrapper) GetWindowsPath() string {
-	if receiver.IsFinalized() && receiver.IsWindowsSeparator() {
-		return receiver.finalPath
+func (it *Wrapper) GetWindowsPath() string {
+	if it.IsFinalized() && it.IsWindowsSeparator() {
+		return it.finalPath
 	}
 
-	toStr := receiver.ToString(
+	toStr := it.ToString(
 		constants.WindowsPathSeparator,
 		true)
 
 	return toStr
 }
 
-func (receiver *Wrapper) GetUnixPath() string {
-	if receiver.IsFinalized() && receiver.IsUnixSeparator() {
-		return receiver.finalPath
+func (it *Wrapper) GetUnixPath() string {
+	if it.IsFinalized() && it.IsUnixSeparator() {
+		return it.finalPath
 	}
 
-	toStr := receiver.ToString(
+	toStr := it.ToString(
 		constants.ForwardSlash,
 		true)
 
 	return toStr
 }
 
-func (receiver *Wrapper) GetAsPathWrapper() *pathwrapper.Wrapper {
-	toStr := receiver.String()
+func (it *Wrapper) GetAsPathWrapper() *pathwrapper.Wrapper {
+	toStr := it.String()
 	pathWrapper := pathwrapper.Wrapper(toStr)
 
 	return &pathWrapper
 }
 
-func (receiver *Wrapper) GetAsPathExt() *pathext.Wrapper {
-	toStr := receiver.String()
+func (it *Wrapper) GetAsPathExt() *pathext.Wrapper {
+	toStr := it.String()
 
 	return pathext.NewPtr(toStr)
 }

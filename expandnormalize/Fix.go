@@ -11,6 +11,6 @@ func Fix(
 	location = expandpath.ExpandVariables(
 		location)
 
-	return normalize.LongPathForce(
+	return normalize.Path(
 		location)
 }

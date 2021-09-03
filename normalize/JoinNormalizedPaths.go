@@ -6,7 +6,10 @@ import (
 	"gitlab.com/evatix-go/core/osconsts"
 )
 
-func JoinNormalizedPaths(baseLocation string, locations ...string) string {
+func JoinNormalizedPaths(
+	baseLocation string,
+	locations ...string,
+) string {
 	if len(locations) == 0 {
 		return Path(baseLocation)
 	}

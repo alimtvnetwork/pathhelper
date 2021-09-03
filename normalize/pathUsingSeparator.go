@@ -7,16 +7,16 @@ import (
 	"gitlab.com/evatix-go/core/osconsts"
 )
 
-// Always returns path without the separator at the end.
+// pathUsingSeparator Always returns path without the separator at the end.
 // Separator must be one char.
 // Long path fix will not be applied other than Windows operating system.
-func PathUsingSeparator(
-	pathSeparator,
-	givenPath string,
+func pathUsingSeparator(
 	isLongPathFix bool,
 	isForceLongPath bool,
+	pathSeparator,
+	givenPath string,
 ) string {
-	if isEmpty(givenPath) || osconsts.IsUnixGroup {
+	if givenPath == "" || osconsts.IsUnixGroup {
 		return givenPath
 	}
 
@@ -28,7 +28,7 @@ func PathUsingSeparator(
 		strings.TrimSpace(firstStepNormalize))
 
 	if isLongPathFix && osconsts.IsWindows {
-		result = GetLongPathFixedUsingSeparator(
+		result = getLongPathFixedUsingSeparator(
 			pathSeparator,
 			result,
 			isForceLongPath)

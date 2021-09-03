@@ -1,48 +1,63 @@
 package expandnormalize
 
 import (
-	"path/filepath"
-
-	"gitlab.com/evatix-go/core/coredata/corestr"
+	"gitlab.com/evatix-go/core/constants"
+	"gitlab.com/evatix-go/core/osconsts"
+	"gitlab.com/evatix-go/pathhelper/expandpath"
+	"gitlab.com/evatix-go/pathhelper/normalize"
 )
 
 type Options struct {
-	IsNormalize,
+	normalize.Options
 	IsExpandEnvVar bool
 }
 
 func (it Options) Fix(location string) string {
-	return FixIf(
-		it.IsNormalize,
+	expandedPath := expandpath.ExpandVariablesIf(
 		it.IsExpandEnvVar,
 		location)
+
+	return it.Options.FixPath(expandedPath)
 }
 
-func (it Options) Join(
-	baseDir string,
-	locations ...string,
+func (it Options) JoinPath(path1, path2 string) string {
+	if path1 == constants.EmptyString && path2 == constants.EmptyString {
+		return constants.EmptyString
+	}
+
+	if path1 == constants.EmptyString {
+		return it.FixPath(path2)
+	}
+
+	if path2 == constants.EmptyString {
+		return it.FixPath(path1)
+	}
+
+	join := path1 +
+		osconsts.PathSeparator +
+		path2
+
+	return it.FixPath(join)
+}
+
+func (it Options) JoinPath3(path1, path2, path3 string) string {
+	joined := normalize.SimpleJoinPath3(path1, path2, path3)
+
+	return it.FixPath(joined)
+}
+
+func (it Options) JoinPaths(locations ...string) string {
+	joined := normalize.SimpleJoinPaths(locations...)
+
+	return it.FixPath(joined)
+}
+
+func (it Options) JoinWithBaseDirPaths(
+	baseDir string, locations ...string,
 ) string {
-	if len(locations) == 0 {
-		return it.Fix(baseDir)
-	}
+	joined := normalize.SimpleBaseDirJoinPaths(
+		baseDir,
+		locations...)
 
-	combinedLocations := filepath.Join(locations...)
-	finalJoin := filepath.Join(baseDir, combinedLocations)
-
-	return it.Fix(finalJoin)
-}
-
-func (it Options) FixPaths(locations ...string) *corestr.SimpleSlice {
-	if len(locations) == 0 {
-		return corestr.EmptySimpleSlice()
-	}
-
-	fixSlice := corestr.NewSimpleSlice(
-		len(locations))
-
-	for i, location := range locations {
-		fixSlice.Items[i] = it.Fix(location)
-	}
-
-	return fixSlice
+	return it.FixPath(joined)
 }

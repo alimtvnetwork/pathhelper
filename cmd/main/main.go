@@ -11,14 +11,15 @@ import (
 	"gitlab.com/evatix-go/core/chmodhelper/chmodins"
 	"gitlab.com/evatix-go/core/filemode"
 	"gitlab.com/evatix-go/errorwrapper/errwrappers"
-
 	"gitlab.com/evatix-go/pathhelper/checksummer"
 	"gitlab.com/evatix-go/pathhelper/copyrecursive"
 	"gitlab.com/evatix-go/pathhelper/hashas"
 	"gitlab.com/evatix-go/pathhelper/internal/consts"
+	"gitlab.com/evatix-go/pathhelper/normalize"
 	"gitlab.com/evatix-go/pathhelper/pathinsfmt"
 	"gitlab.com/evatix-go/pathhelper/pathinsfmtexec/downloadinsexec"
 	"gitlab.com/evatix-go/pathhelper/pathinsfmtexec/pathmodifierverify"
+	"gitlab.com/evatix-go/pathhelper/pathjoin"
 	"gitlab.com/evatix-go/pathhelper/pathsconst"
 )
 
@@ -132,8 +133,19 @@ func main() {
 	// DownloadTest()
 
 	// downloadChecksumTest()
+	options := normalize.Options{
+		IsNormalize:        true,
+		IsLongPathFix:      true,
+		IsForceLongPathFix: true,
+	}
 
-	testPathWithVerifier()
+	samplePath := options.JoinWithBaseDirPaths(pathjoin.WithTemp(), "basedir", "something")
+	samplePath2 := options.JoinWithBaseDirPaths(samplePath, "basedir", "something")
+
+	fmt.Println(samplePath)
+	fmt.Println(samplePath2)
+
+	// testPathWithVerifier()
 }
 
 func testPathWithVerifier() {

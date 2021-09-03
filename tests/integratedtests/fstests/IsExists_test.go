@@ -21,7 +21,7 @@ func Test_IsExists(t *testing.T) {
 	setupErr.HandleError()
 
 	for _, testCase := range fstestwrapper.ExistPathTestCases {
-		location := testCase.Options.Join(
+		location := testCase.Options.JoinWithBaseDirPaths(
 			testCase.BaseDir,
 			testCase.RelPath)
 

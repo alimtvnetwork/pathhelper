@@ -1,7 +1,5 @@
 package normalize
 
-import "gitlab.com/evatix-go/core/osconsts"
-
 func PathsUsingSingleIf(
 	isNormalizeLongPathForce bool,
 	locations []string,
@@ -14,16 +12,11 @@ func PathsUsingSingleIf(
 		return locations
 	}
 
-	newItems := make([]string, len(locations))
-
-	for i, location := range locations {
-		newItems[i] = PathUsingSeparatorIf(
-			isNormalizeLongPathForce,
-			isNormalizeLongPathForce,
-			isNormalizeLongPathForce,
-			osconsts.PathSeparator,
-			location)
+	options := &Options{
+		IsNormalize:        isNormalizeLongPathForce,
+		IsLongPathFix:      isNormalizeLongPathForce,
+		IsForceLongPathFix: isNormalizeLongPathForce,
 	}
 
-	return newItems
+	return PathsUsingOptions(options, locations)
 }

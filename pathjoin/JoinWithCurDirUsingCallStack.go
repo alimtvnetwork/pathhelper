@@ -11,13 +11,14 @@ import (
 	"gitlab.com/evatix-go/pathhelper/normalize"
 )
 
-func JoinWithCurDir(
+func JoinWithCurDirUsingCallStack(
 	isNormalize,
 	isLongPathFix,
 	isExpandEnv bool,
+	frameStackSkip int,
 	paths ...string,
 ) string {
-	_, b, _, _ := runtime.Caller(1)
+	_, b, _, _ := runtime.Caller(frameStackSkip)
 	finalSlice := stringslice.PrependLineNew(filepath.Dir(b), paths)
 	joined := path.Join(finalSlice...)
 

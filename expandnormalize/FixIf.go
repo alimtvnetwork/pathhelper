@@ -14,11 +14,11 @@ func FixIf(
 		return location
 	}
 
-	location = normalize.PathUsingSingleIf(
-		isNormalizeLogPathFix,
-		location)
-
-	return expandpath.ExpandVariablesIf(
+	expanded := expandpath.ExpandVariablesIf(
 		isExpandEnvVars,
 		location)
+
+	return normalize.PathUsingSingleIf(
+		isNormalizeLogPathFix,
+		expanded)
 }
