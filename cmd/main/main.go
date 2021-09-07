@@ -9,6 +9,7 @@ import (
 	"time"
 
 	"gitlab.com/evatix-go/core/chmodhelper/chmodins"
+	"gitlab.com/evatix-go/core/coredata/corejson"
 	"gitlab.com/evatix-go/core/filemode"
 	"gitlab.com/evatix-go/errorwrapper/errwrappers"
 	"gitlab.com/evatix-go/pathhelper/checksummer"
@@ -24,114 +25,6 @@ import (
 )
 
 func main() {
-	// verifiers := pathinsfmt.PathVerifiers{
-	// 	BaseSpecPlusRequestIds: coreinstruction.BaseSpecPlusRequestIds{},
-	// 	PathVerifiers: []pathinsfmt.PathVerifier{
-	// 		{
-	// 			UserGroupName: *pathinsfmt.NewUserGroupName(
-	// 				"alim", ""),
-	// 			BaseRwxInstructions: chmodins.BaseRwxInstructions{
-	// 				RwxInstructions: []chmodins.RwxInstruction{
-	// 					{
-	// 						RwxOwnerGroupOther: chmodins.RwxOwnerGroupOther{
-	// 							Owner: "rwx",
-	// 							Group: "rw-",
-	// 							Other: "rw-",
-	// 						},
-	// 						Condition: chmodins.Condition{},
-	// 					},
-	// 				},
-	// 			},
-	// 		},
-	// 	},
-	// 	IsSkipCheckingOnInvalid: false,
-	// 	IsNormalize:             false,
-	// 	IsRecursiveCheck:        false,
-	// }
-	//
-	// locations := []string{
-	// 	os.TempDir(),
-	// }
-	//
-	// errorCollection := errwrappers.Empty()
-	// _ = pathmodifierverify.ApplyVerifier(
-	// 	true,
-	// 	true,
-	// 	true,
-	// 	true,
-	// 	&verifiers.PathVerifiers[0],
-	// 	errorCollection,
-	// 	locations)
-	//
-	// wkPath := os.TempDir() + "/main.json"
-	// errCollection2 := &errwrappers.Collection{}
-	//
-	// readWp := fs.
-	// 	ReadJsonParseSelfInjector(wkPath, errCollection2)
-	// fmt.Println(readWp)
-	//
-	// fmt.Println(errCollection2.IsSuccess(), errCollection2)
-	//
-	// fmt.Println(fs.CopyFileContents(wkPath, wkPath+"2.json"))
-	//
-	// pathFinal := pathjoin.WithTempPlusDefaults(
-	// 	"alim",
-	// 	"loca1",
-	// 	"loc2")
-	//
-	// fmt.Println(pathFinal)
-	//
-	// // wr := fs.
-	// // 	WriteJsonResult(false, errorCollection.Json(),wkPath)
-	//
-	// // fmt.Println(wr)
-	// CopierTest()
-	// CopierTest2()
-
-	// TestHashSumSync()
-	// TestHashSumAsync()
-	// CopierTest()
-	//
-	// instruction := pathrecurseinfo.Instruction{
-	// 	Root:                   pathsconst.RootDir,
-	// 	ExcludingRootNames:     []string{".git"},
-	// 	ExcludingPaths:         []string{"D:\\others-git\\gitlabs\\pathhelper\\apachelinuxpath"},
-	// 	IsIncludeFilesOnly:     false,
-	// 	IsRelativePath:         true,
-	// 	IsIncludeDirsOnly:      true,
-	// 	IsIncludeAll:           false,
-	// 	IsExcludeRoot:          false,
-	// 	IsRecursive:            true,
-	// 	IsExpandEnvironmentVar: false,
-	// 	IsNormalize:            false,
-	// }
-	//
-	// result := instruction.Result()
-	// // fmt.Println(result.PathsString())
-	// fmt.Println(result.PathsResult.JoinWithRoot(true, false, "d:\\a//").String())
-	// fmt.Println(pathhelper.GetLocationInfo("ab/c\\d.tx").String())
-	// fmt.Println(pathhelper.GetLocationInfo("ab/c/d").String())
-	// fmt.Println(pathhelper.GetLocationInfo("d.tx").String())
-	// //
-	// collection := elitepath.NewPathCollectionDirect(nil, pathsconst.RootDir)
-	// fmt.Println(collection.First().BothExt())
-
-	// filter := &elitepath.Filter{
-	// 	// PathFilter: &elitepath.ValueFilter{
-	// 	// 	Value:           "checksummer",
-	// 	// 	IsCaseSensitive: false,
-	// 	// 	Compare:         stringcompareas.EndsWith,
-	// 	// },
-	// 	ExistFilter: &elitepath.ExistFilter{
-	// 		HasSafeItems: true,
-	// 		IsDir:   true,
-	// 	},
-	// 	// NameRegexFilter: "",
-	// 	// PathRegexFilter: `\\.+checksummer$`,
-	// }
-	// fmt.Println(collection.Skip(2).Take(5).FilterPathCollection(filter).String())
-	// DownloadTest()
-
 	// downloadChecksumTest()
 	options := normalize.Options{
 		IsNormalize:        true,
@@ -141,6 +34,12 @@ func main() {
 
 	samplePath := options.JoinWithBaseDirPaths(pathjoin.WithTemp(), "basedir", "something")
 	samplePath2 := options.JoinWithBaseDirPaths(samplePath, "basedir", "something")
+
+	sha1 := hashas.Sha1
+
+	rs := sha1.HexOfJsonResult(corejson.NewFromAny(samplePath2))
+
+	fmt.Println(rs.Value)
 
 	fmt.Println(samplePath)
 	fmt.Println(samplePath2)

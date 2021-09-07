@@ -34,7 +34,7 @@ func (it Variant) NewHash() (hash.Hash, *errorwrapper.Wrapper) {
 	case Undefined:
 		return nil, errnew.MessagesPtr(
 			errtype.UnexpectedDefinition,
-			it.Name()+" is expected to be not defined. Thus nil hasher.",
+			it.Name()+"(HashMethod/Variant) is expected to be not defined. Thus nil hasher.",
 		)
 	case Md5:
 		return md5.New(), errnew.EmptyPtr
@@ -170,21 +170,20 @@ func (it *Variant) SumOfErrorBytes(
 		return errBytes
 	}
 
-	hashWriter, errWp := it.NewHash()
-
-	if errWp.HasError() {
-		return errbyte.EmptyResultsWithError(errWp)
-	}
-
-	hashedBytes := hashWriter.Sum(
-		errBytes.Values)
-
-	return errbyte.EmptyErrorResults(hashedBytes...)
+	return it.SumOf(errBytes.Values)
 }
 
 func (it *Variant) SumOfJsonResult(
 	result *corejson.Result,
 ) *errbyte.Results {
+	if result == nil || result.Bytes == nil {
+		return errbyte.EmptyResultsWithError(
+			errnew.MessagesPtr(
+				errtype.EmptyPointerOrNullPointer,
+				"cannot hash nil json result or nil bytes values!",
+			))
+	}
+
 	if result.HasError() {
 		return errbyte.EmptyResultsWithError(
 			errnew.MessagesPtr(
@@ -193,16 +192,7 @@ func (it *Variant) SumOfJsonResult(
 				result.MeaningfulError().Error()))
 	}
 
-	hashWriter, errWp := it.NewHash()
-
-	if errWp.HasError() {
-		return errbyte.EmptyResultsWithError(errWp)
-	}
-
-	hashedBytes := hashWriter.Sum(
-		result.ValueMust())
-
-	return errbyte.EmptyErrorResults(hashedBytes...)
+	return it.SumOf(result.ValueMust())
 }
 
 func (it *Variant) HexOfJsonResult(
