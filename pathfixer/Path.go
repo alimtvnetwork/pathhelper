@@ -2,6 +2,7 @@ package pathfixer
 
 import (
 	"os"
+	"time"
 
 	"gitlab.com/evatix-go/core/chmodhelper"
 	"gitlab.com/evatix-go/core/constants"
@@ -38,6 +39,30 @@ func (it *Location) IsEmptyPath() bool {
 
 func (it *Location) HasPath() bool {
 	return it != nil && it.Path != constants.EmptyString
+}
+
+func (it *Location) LastModifiedAt() *time.Time {
+	fileInfo := it.FileInfo()
+
+	if fileInfo == nil {
+		return nil
+	}
+
+	mod := fileInfo.ModTime()
+
+	return &mod
+}
+
+func (it *Location) Size() *int64 {
+	fileInfo := it.FileInfo()
+
+	if fileInfo == nil {
+		return nil
+	}
+
+	size := fileInfo.Size()
+
+	return &size
 }
 
 func (it *Location) IsInvalid() bool {

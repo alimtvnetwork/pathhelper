@@ -9,40 +9,80 @@ import (
 	"time"
 
 	"gitlab.com/evatix-go/core/chmodhelper/chmodins"
-	"gitlab.com/evatix-go/core/coredata/corejson"
+	"gitlab.com/evatix-go/core/converters"
 	"gitlab.com/evatix-go/core/filemode"
 	"gitlab.com/evatix-go/errorwrapper/errwrappers"
 	"gitlab.com/evatix-go/pathhelper/checksummer"
 	"gitlab.com/evatix-go/pathhelper/copyrecursive"
 	"gitlab.com/evatix-go/pathhelper/hashas"
+	"gitlab.com/evatix-go/pathhelper/hexchecksum"
 	"gitlab.com/evatix-go/pathhelper/internal/consts"
-	"gitlab.com/evatix-go/pathhelper/normalize"
 	"gitlab.com/evatix-go/pathhelper/pathinsfmt"
 	"gitlab.com/evatix-go/pathhelper/pathinsfmtexec/downloadinsexec"
 	"gitlab.com/evatix-go/pathhelper/pathinsfmtexec/pathmodifierverify"
-	"gitlab.com/evatix-go/pathhelper/pathjoin"
 	"gitlab.com/evatix-go/pathhelper/pathsconst"
+	"gitlab.com/evatix-go/pathhelper/recursivepaths"
 )
 
 func main() {
 	// downloadChecksumTest()
-	options := normalize.Options{
-		IsNormalize:        true,
-		IsLongPathFix:      true,
-		IsForceLongPathFix: true,
-	}
-
-	samplePath := options.JoinWithBaseDirPaths(pathjoin.WithTemp(), "basedir", "something")
-	samplePath2 := options.JoinWithBaseDirPaths(samplePath, "basedir", "something")
+	// options := normalize.Options{
+	// 	IsNormalize:        true,
+	// 	IsLongPathFix:      true,
+	// 	IsForceLongPathFix: true,
+	// }
+	//
+	// samplePath := options.JoinWithBaseDirPaths(pathjoin.WithTemp(), "basedir", "something")
+	// samplePath2 := options.JoinWithBaseDirPaths(samplePath, "basedir", "something")
+	//
+	// sha1 := hashas.Sha1
+	//
+	// rs := sha1.HexOfJsonResult(corejson.NewFromAny(samplePath2))
+	//
+	// fmt.Println(rs.Value)
+	//
+	// fmt.Println(samplePath)
+	// fmt.Println(samplePath2)
 
 	sha1 := hashas.Sha1
 
-	rs := sha1.HexOfJsonResult(corejson.NewFromAny(samplePath2))
+	slice1 := []string{
+		"alim1",
+		"alim2",
+		"alim3",
+	}
 
-	fmt.Println(rs.Value)
+	slice2 := []string{
+		"alim1",
+		"alim2",
+		"alim3",
+	}
 
-	fmt.Println(samplePath)
-	fmt.Println(samplePath2)
+	slice3 := []string{
+		"alim5",
+		"alim2",
+		"alim3",
+	}
+
+	rs2 := sha1.HexSumOfAnys(slice1, slice2, slice3)
+
+	fmt.Println(rs2.String())
+
+	rs3 := sha1.HexSumOfAnysSingle(slice1, slice2, slice3)
+
+	fmt.Println(rs3.String())
+
+	files := recursivepaths.Files(pathsconst.RootDir)
+	fmt.Println("Files", files.String())
+
+	rs5 := hexchecksum.ChecksumOfFiles(&hexchecksum.FilesChecksumRequest{
+		Method:                     sha1,
+		IsGenerateContentsChecksum: true,
+		Files:                      files.Values,
+	})
+
+	fmt.Println(converters.AnyToFullNameValueString(rs5))
+	fmt.Println(converters.AnyToFullNameValueString(rs5.CompileToSingle()))
 
 	// testPathWithVerifier()
 }

@@ -8,10 +8,13 @@ import (
 	"hash"
 	"io"
 	"os"
+	"strconv"
+	"sync"
 
 	"gitlab.com/evatix-go/core/constants"
 	"gitlab.com/evatix-go/core/coredata/corejson"
 	"gitlab.com/evatix-go/core/coreinterface"
+	"gitlab.com/evatix-go/core/msgtype"
 	"gitlab.com/evatix-go/errorwrapper"
 	"gitlab.com/evatix-go/errorwrapper/errdata/errbyte"
 	"gitlab.com/evatix-go/errorwrapper/errdata/errstr"
@@ -53,7 +56,7 @@ func (it Variant) NewHash() (hash.Hash, *errorwrapper.Wrapper) {
 	}
 }
 
-func (it *Variant) StringSumOf(
+func (it Variant) HexSumOf(
 	inputBytes []byte,
 ) *errstr.Result {
 	outputBytesResults := it.SumOf(inputBytes)
@@ -65,7 +68,7 @@ func (it *Variant) StringSumOf(
 	}
 }
 
-func (it *Variant) StringSumOfFile(
+func (it Variant) HexSumOfFile(
 	fileName string,
 ) *errstr.Result {
 	byteResults := it.SumOfFile(fileName)
@@ -81,7 +84,7 @@ func (it *Variant) StringSumOfFile(
 	return errstr.EmptyErrorResult(toString)
 }
 
-func (it *Variant) SumOfFile(
+func (it Variant) SumOfFile(
 	fileName string,
 ) *errbyte.Results {
 	if fileName == constants.EmptyString {
@@ -124,7 +127,7 @@ func (it *Variant) SumOfFile(
 	return errbyte.EmptyErrorResults(hashedBytes...)
 }
 
-func (it *Variant) SumOf(
+func (it Variant) SumOf(
 	inputBytes []byte,
 ) *errbyte.Results {
 	if inputBytes == nil {
@@ -156,7 +159,7 @@ func (it *Variant) SumOf(
 	return errbyte.EmptyErrorResults(hashedBytes...)
 }
 
-func (it *Variant) SumOfErrorBytes(
+func (it Variant) SumOfErrorBytes(
 	errBytes *errbyte.Results,
 ) *errbyte.Results {
 	if errBytes == nil || errBytes.Values == nil {
@@ -171,6 +174,80 @@ func (it *Variant) SumOfErrorBytes(
 	}
 
 	return it.SumOf(errBytes.Values)
+}
+
+func (it Variant) HexSumOfAny(
+	item interface{},
+) *errstr.Result {
+	jsonResult := corejson.NewFromAny(item)
+
+	return it.HexOfJsonResult(jsonResult)
+}
+
+func (it Variant) HexSumOfAnysSingle(
+	items ...interface{},
+) *errstr.Result {
+	results := it.HexSumOfAnys(items...)
+
+	if results.HasError() {
+		return errstr.ErrorWrapper(results.ErrorWrapper)
+	}
+
+	return it.HexSumOfAny(results.Values)
+}
+
+func (it Variant) HexSumOfAnys(
+	items ...interface{},
+) *errstr.Results {
+	if len(items) == 0 {
+		return errstr.EmptyResults()
+	}
+
+	locker := sync.Mutex{}
+	wg := &sync.WaitGroup{}
+	var sliceErr []string
+	checkSumSlice := make([]string,
+		len(items))
+
+	hexChecksum := func(index int, source interface{}) {
+		hexFileChecksumResult := it.HexSumOfAny(source)
+		checkSumSlice[index] = hexFileChecksumResult.Value
+
+		if hexFileChecksumResult.IsSuccess() {
+			wg.Done()
+
+			return
+		}
+
+		// failed
+		locker.Lock()
+		defer locker.Unlock()
+		sliceErr = append(
+			sliceErr,
+			"Failed Index : "+
+				strconv.Itoa(index)+
+				","+
+				hexFileChecksumResult.ErrorWrapper.String())
+		wg.Done()
+	}
+
+	for i, item := range items {
+		wg.Add(constants.One)
+		go hexChecksum(i, item)
+	}
+
+	wg.Wait()
+
+	err := msgtype.SliceToError(sliceErr)
+
+	if err == nil {
+		// success
+		return errstr.EmptyErrorResults(checkSumSlice...)
+	}
+
+	return errstr.ResultsError(
+		errtype.CheckSumCorrupted,
+		err)
 }
 
 func (it *Variant) SumOfJsonResult(

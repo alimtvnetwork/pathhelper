@@ -2,12 +2,12 @@ package pathchmod
 
 import (
 	"os"
+	"time"
 
 	"gitlab.com/evatix-go/core/constants"
 	"gitlab.com/evatix-go/errorwrapper"
 	"gitlab.com/evatix-go/errorwrapper/errdata/errbyte"
 	"gitlab.com/evatix-go/errorwrapper/errdata/errstr"
-	"gitlab.com/evatix-go/errorwrapper/errinf"
 	"gitlab.com/evatix-go/errorwrapper/errnew"
 	"gitlab.com/evatix-go/errorwrapper/errtype"
 	"gitlab.com/evatix-go/pathhelper/hashas"
@@ -24,7 +24,35 @@ type SimpleStat struct {
 	IsExist         bool
 	IsDir           bool
 	IsFile          bool
-	errinf.ErrWrapper
+	ErrorWrapper    *errorwrapper.Wrapper
+}
+
+func (it *SimpleStat) LastModifiedDate() *time.Time {
+	if it == nil || it.InvalidFileInfo {
+		return nil
+	}
+
+	mod := it.FileInfo.ModTime()
+
+	return &mod
+}
+
+func (it *SimpleStat) Size() *int64 {
+	if it == nil || it.InvalidFileInfo {
+		return nil
+	}
+
+	size := it.FileInfo.Size()
+
+	return &size
+}
+
+func (it *SimpleStat) IsEmptyError() bool {
+	return it == nil || it.ErrorWrapper.IsEmptyError()
+}
+
+func (it *SimpleStat) HasError() bool {
+	return it != nil && it.ErrorWrapper.HasError()
 }
 
 func (it *SimpleStat) ReadString() *errstr.Result {
@@ -96,7 +124,7 @@ func (it *SimpleStat) CheckSum(hashType hashas.Variant) *errbyte.Results {
 	return hashType.SumOf(allBytes.Values)
 }
 
-func (it *SimpleStat) CheckSumHexString(hashType hashas.Variant) *errstr.Result {
+func (it *SimpleStat) HexCheckSumString(hashType hashas.Variant) *errstr.Result {
 	errWp := it.notFileError()
 	if errWp.HasError() {
 		return &errstr.Result{
@@ -114,7 +142,7 @@ func (it *SimpleStat) CheckSumHexString(hashType hashas.Variant) *errstr.Result 
 		}
 	}
 
-	return hashType.StringSumOf(allBytes.Values)
+	return hashType.HexSumOf(allBytes.Values)
 }
 
 func (it *SimpleStat) GetChmodWithError() *ChmodWithError {

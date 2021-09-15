@@ -24,7 +24,7 @@ func downloadChecksumVerify(download *pathinsfmt.Download) *errorwrapper.Wrapper
 		)
 	}
 
-	hashedStrResult := download.ChecksumVerifyMethod.StringSumOfFile(downloadPath)
+	hashedStrResult := download.ChecksumVerifyMethod.HexSumOfFile(downloadPath)
 	if hashedStrResult.ErrorWrapper.HasError() {
 		return hashedStrResult.ErrorWrapper
 	}

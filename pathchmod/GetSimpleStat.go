@@ -27,7 +27,7 @@ func GetSimpleStat(
 			IsExist:         false,
 			IsDir:           false,
 			IsFile:          false,
-			ErrWrapper:      pathErr,
+			ErrorWrapper:    pathErr,
 		}
 	}
 
@@ -46,6 +46,6 @@ func GetSimpleStat(
 		IsExist:         isExist,
 		IsDir:           isExist && info != nil && info.IsDir(),
 		IsFile:          isExist && info != nil && !info.IsDir(),
-		ErrWrapper:      errnew.EmptyPtr,
+		ErrorWrapper:    errnew.EmptyPtr,
 	}
 }

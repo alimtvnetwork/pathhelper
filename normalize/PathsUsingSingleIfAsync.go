@@ -16,5 +16,5 @@ func PathsUsingSingleIfAsync(
 
 	return PathsUsingOptionsAsync(
 		options,
-		locations)
+		locations...)
 }

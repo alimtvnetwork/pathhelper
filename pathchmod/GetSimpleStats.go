@@ -4,7 +4,6 @@ func GetSimpleStats(
 	locations []string,
 ) *SimpleStatMap {
 	length := len(locations)
-
 	statMap := NewSimpleStatMap(length)
 
 	if length == 0 {

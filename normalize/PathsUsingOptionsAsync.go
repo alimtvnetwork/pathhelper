@@ -8,7 +8,7 @@ import (
 
 func PathsUsingOptionsAsync(
 	options *Options,
-	locations []string,
+	locations ...string,
 ) []string {
 	length := len(locations)
 	if length == 0 {
