@@ -11,7 +11,8 @@ func PathUsingSeparatorIf(
 		(isLongPathFix || isForceLongPath)
 
 	if isNormalize {
-		givenPath = TrimPrefixUncPath(
+		givenPath = TrimPrefixUncPathIf(
+			true,
 			givenPath)
 	}
 

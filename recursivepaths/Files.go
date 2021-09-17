@@ -7,6 +7,7 @@ import (
 // Files normalize, expand false
 func Files(rootPath string) *errstr.Results {
 	return FilesOptions(
+		true,
 		false,
 		false,
 		rootPath)

@@ -6,7 +6,9 @@ import (
 )
 
 func DirectoriesOptions(
-	isNormalize, isExpandEnv bool,
+	isRecursive,
+	isNormalize,
+	isExpandEnv bool,
 	rootPath string,
 ) *errstr.Results {
 	instruction := pathrecurseinfo.Instruction{
@@ -18,7 +20,7 @@ func DirectoriesOptions(
 		IsIncludeDirsOnly:      true,
 		IsIncludeAll:           false,
 		IsExcludeRoot:          false,
-		IsRecursive:            true,
+		IsRecursive:            isRecursive,
 		IsExpandEnvironmentVar: isExpandEnv,
 		IsNormalize:            isNormalize,
 	}

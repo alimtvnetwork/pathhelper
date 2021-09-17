@@ -6,11 +6,15 @@ import (
 
 func AllOptionsIf(
 	isRecursive bool,
-	isNormalize, isExpandEnv bool,
+	isNormalize,
+	isExpandEnv bool,
 	rootPath string,
 ) *errstr.Results {
 	if !isRecursive {
-		return ReturnAsIs(isNormalize, isExpandEnv, rootPath)
+		return ReturnAsIs(
+			isNormalize,
+			isExpandEnv,
+			rootPath)
 	}
 
 	return AllOptions(

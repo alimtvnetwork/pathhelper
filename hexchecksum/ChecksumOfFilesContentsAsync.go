@@ -24,14 +24,14 @@ func ChecksumOfFilesContentsAsync(
 	checkSumSlice := make([]string,
 		len(files))
 
-	hexChecksum := func(index int, source string) {
+	hexChecksum := func(index int, source string) bool {
 		hexFileChecksumResult := hashMethod.HexSumOfFile(source)
 
 		if hexFileChecksumResult.IsSuccess() {
 			wg.Done()
 			checkSumSlice[index] = hexFileChecksumResult.Value
 
-			return
+			return true
 		}
 
 		// failed
@@ -41,6 +41,8 @@ func ChecksumOfFilesContentsAsync(
 			sliceErr,
 			hexFileChecksumResult.ErrorWrapper.String())
 		wg.Done()
+
+		return false
 	}
 
 	for i, filePath := range files {

@@ -2,11 +2,11 @@ package recursivepaths
 
 import "gitlab.com/evatix-go/errorwrapper/errdata/errstr"
 
-func Directories(
+func DirectoriesNonRecursive(
 	rootPath string,
 ) *errstr.Results {
 	return DirectoriesOptions(
-		true,
+		false,
 		false,
 		false,
 		rootPath)

@@ -6,6 +6,7 @@ import (
 )
 
 func DirectoriesOptionsExcept(
+	isRecursive,
 	isNormalize,
 	isExpandEnv bool,
 	skipRootNames []string,
@@ -17,7 +18,7 @@ func DirectoriesOptionsExcept(
 		ExcludingRootNames:     skipRootNames,
 		ExcludingPaths:         skipPaths,
 		IsIncludeDirsOnly:      true,
-		IsRecursive:            true,
+		IsRecursive:            isRecursive,
 		IsExpandEnvironmentVar: isExpandEnv,
 		IsNormalize:            isNormalize,
 	}

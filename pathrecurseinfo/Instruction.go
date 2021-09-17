@@ -4,6 +4,7 @@ import (
 	"gitlab.com/evatix-go/core/coredata/corestr"
 	"gitlab.com/evatix-go/core/coredata/stringslice"
 	"gitlab.com/evatix-go/errorwrapper/errdata/errstr"
+	"gitlab.com/evatix-go/pathhelper/normalize"
 )
 
 type Instruction struct {
@@ -45,6 +46,20 @@ func (it *Instruction) StringsResults() *errstr.Results {
 	rs := it.Result()
 
 	return rs.StringsResults()
+}
+
+func (it *Instruction) StringsResultsWithoutUnc() *errstr.Results {
+	rs := it.Result()
+
+	results := rs.StringsResults()
+
+	if results.HasSafeItems() {
+		results.Values = normalize.TrimPrefixUncPaths(
+			true,
+			results.Values...)
+	}
+
+	return results
 }
 
 func (it *Instruction) HasExcludingRootNames() bool {

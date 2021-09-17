@@ -12,6 +12,7 @@ import (
 	"sync"
 
 	"gitlab.com/evatix-go/core/constants"
+	"gitlab.com/evatix-go/core/coredata/coredynamic"
 	"gitlab.com/evatix-go/core/coredata/corejson"
 	"gitlab.com/evatix-go/core/coreinterface"
 	"gitlab.com/evatix-go/core/msgtype"
@@ -209,14 +210,14 @@ func (it Variant) HexSumOfAnys(
 	checkSumSlice := make([]string,
 		len(items))
 
-	hexChecksum := func(index int, source interface{}) {
+	hexChecksum := func(index int, source interface{}) bool {
 		hexFileChecksumResult := it.HexSumOfAny(source)
 		checkSumSlice[index] = hexFileChecksumResult.Value
 
 		if hexFileChecksumResult.IsSuccess() {
 			wg.Done()
 
-			return
+			return true
 		}
 
 		// failed
@@ -226,9 +227,12 @@ func (it Variant) HexSumOfAnys(
 			sliceErr,
 			"Failed Index : "+
 				strconv.Itoa(index)+
-				","+
+				coredynamic.TypeName(source),
+			","+
 				hexFileChecksumResult.ErrorWrapper.String())
 		wg.Done()
+
+		return false
 	}
 
 	for i, item := range items {

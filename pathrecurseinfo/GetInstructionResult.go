@@ -98,7 +98,7 @@ func GetInstructionResult(instruction *Instruction) *Result {
 	isExcludeRoot := instruction.IsExcludeRoot
 	isRelativePath := instruction.IsRelativePath
 	excludingPaths := instruction.ExcludingPathsHashset()
-	hasAnyExcludingPaths := excludingPaths.Length() > 0
+	hasAnyExcludingPaths := excludingPaths.HasAnyItem()
 
 	finalErr := filepath.Walk(
 		normalizedRoot,

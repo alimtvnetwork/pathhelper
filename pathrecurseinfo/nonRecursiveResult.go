@@ -9,6 +9,7 @@ import (
 	"gitlab.com/evatix-go/core/osconsts"
 	"gitlab.com/evatix-go/errorwrapper/errnew"
 	"gitlab.com/evatix-go/errorwrapper/errtype"
+	"gitlab.com/evatix-go/pathhelper/normalize"
 	"gitlab.com/evatix-go/pathhelper/pathjoin"
 )
 
@@ -32,7 +33,7 @@ func nonRecursiveResult(
 	isExcludeAny := instruction.HasExcludingRootNames()
 	nameExcludes := instruction.ExcludingNamesHashset()
 	excludingPaths := instruction.ExcludingPathsHashset()
-	hasAnyExcludingPaths := excludingPaths.Length() > 0
+	hasAnyExcludingPaths := excludingPaths.HasAnyItem()
 	isUseLibFunc := !instruction.IsNormalize
 
 	if excludingPaths.Has(normalizedRoot) {
@@ -79,7 +80,9 @@ func nonRecursiveResult(
 		}
 
 		if instruction.IsRelativePath {
-			fullPath = strings.TrimPrefix(fullPath, normalizedRoot)
+			fullPath = normalize.TrimPrefixRoot(
+				fullPath,
+				normalizedRoot)
 		}
 
 		if fullPath == "" {

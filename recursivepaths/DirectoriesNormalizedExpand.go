@@ -8,5 +8,6 @@ func DirectoriesNormalizedExpand(
 	return DirectoriesOptions(
 		true,
 		true,
+		true,
 		rootPath)
 }

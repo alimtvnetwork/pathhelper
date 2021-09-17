@@ -5,6 +5,7 @@ import (
 	"path/filepath"
 	"runtime"
 
+	"gitlab.com/evatix-go/core/constants"
 	"gitlab.com/evatix-go/core/coredata/stringslice"
 	"gitlab.com/evatix-go/core/osconsts"
 	"gitlab.com/evatix-go/pathhelper/expandpath"
@@ -17,7 +18,7 @@ func JoinWithCurDir(
 	isExpandEnv bool,
 	paths ...string,
 ) string {
-	_, b, _, _ := runtime.Caller(1)
+	_, b, _, _ := runtime.Caller(constants.One)
 	finalSlice := stringslice.PrependLineNew(filepath.Dir(b), paths)
 	joined := path.Join(finalSlice...)
 
