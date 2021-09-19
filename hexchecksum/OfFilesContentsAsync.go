@@ -3,7 +3,6 @@ package hexchecksum
 import (
 	"sync"
 
-	"gitlab.com/evatix-go/core/constants"
 	"gitlab.com/evatix-go/core/msgtype"
 	"gitlab.com/evatix-go/errorwrapper/errdata/errstr"
 	"gitlab.com/evatix-go/errorwrapper/errtype"
@@ -48,8 +47,8 @@ func OfFilesContentsAsync(
 		return false
 	}
 
+	wg.Add(len(filesPaths))
 	for i, filePath := range filesPaths {
-		wg.Add(constants.One)
 		go hexChecksum(i, filePath)
 	}
 
