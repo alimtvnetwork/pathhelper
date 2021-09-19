@@ -8,7 +8,7 @@ import (
 	"gitlab.com/evatix-go/pathhelper/hashas"
 )
 
-type FilesChecksumResult struct {
+type FilesResult struct {
 	HexFilesListChecksum     string
 	HexFilesContentsChecksum string
 	FilesCount               int
@@ -16,7 +16,7 @@ type FilesChecksumResult struct {
 	ErrorWrapper             *errorwrapper.Wrapper
 }
 
-func (it *FilesChecksumResult) CompileToSingle() *errstr.Result {
+func (it *FilesResult) CompileToSingle() *errstr.Result {
 	if it == nil {
 		return nil
 	}
@@ -31,43 +31,43 @@ func (it *FilesChecksumResult) CompileToSingle() *errstr.Result {
 	return it.Method.HexSumOfAny(slice)
 }
 
-func (it *FilesChecksumResult) IsEmpty() bool {
+func (it *FilesResult) IsEmpty() bool {
 	return it.HasNoChecksum()
 }
 
-func (it *FilesChecksumResult) HasNoChecksum() bool {
+func (it *FilesResult) HasNoChecksum() bool {
 	return it == nil ||
 		it.HexFilesListChecksum == "" &&
 			it.HexFilesContentsChecksum == ""
 }
 
-func (it *FilesChecksumResult) HasAnyChecksum() bool {
+func (it *FilesResult) HasAnyChecksum() bool {
 	return it != nil &&
 		it.HexFilesListChecksum != "" ||
 		it.HexFilesContentsChecksum != ""
 }
 
-func (it *FilesChecksumResult) HasFilesListChecksum() bool {
+func (it *FilesResult) HasFilesListChecksum() bool {
 	return it != nil && it.HexFilesListChecksum != ""
 }
 
-func (it *FilesChecksumResult) HasContentsChecksum() bool {
+func (it *FilesResult) HasContentsChecksum() bool {
 	return it != nil && it.HexFilesContentsChecksum != ""
 }
 
-func (it *FilesChecksumResult) HasError() bool {
+func (it *FilesResult) HasError() bool {
 	return it != nil && it.ErrorWrapper.HasError()
 }
 
-func (it *FilesChecksumResult) IsSuccess() bool {
+func (it *FilesResult) IsSuccess() bool {
 	return it != nil && it.ErrorWrapper.IsSuccess()
 }
 
-func (it *FilesChecksumResult) IsFailed() bool {
+func (it *FilesResult) IsFailed() bool {
 	return it != nil && it.ErrorWrapper.IsFailed()
 }
 
-func (it *FilesChecksumResult) IsEqual(another *FilesChecksumResult) bool {
+func (it *FilesResult) IsEqual(another *FilesResult) bool {
 	if it == nil && another == nil {
 		return true
 	}

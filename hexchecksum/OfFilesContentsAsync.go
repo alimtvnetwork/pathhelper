@@ -10,25 +10,27 @@ import (
 	"gitlab.com/evatix-go/pathhelper/hashas"
 )
 
-func ChecksumOfFilesContentsAsync(
+func OfFilesContentsAsync(
 	hashMethod hashas.Variant,
-	files []string,
+	filesPaths ...string,
 ) *errstr.Result {
-	if len(files) == 0 {
+	if len(filesPaths) == 0 {
 		return errstr.Empty()
 	}
 
 	locker := sync.Mutex{}
 	wg := &sync.WaitGroup{}
 	var sliceErr []string
-	checkSumSlice := make([]string,
-		len(files))
+	checkSumSlice := make(
+		[]string,
+		len(filesPaths))
 
 	hexChecksum := func(index int, source string) bool {
-		hexFileChecksumResult := hashMethod.HexSumOfFile(source)
+		defer wg.Done()
+		hexFileChecksumResult := hashMethod.
+			HexSumOfFile(source)
 
 		if hexFileChecksumResult.IsSuccess() {
-			wg.Done()
 			checkSumSlice[index] = hexFileChecksumResult.Value
 
 			return true
@@ -36,27 +38,30 @@ func ChecksumOfFilesContentsAsync(
 
 		// failed
 		locker.Lock()
-		defer locker.Unlock()
 		sliceErr = append(
 			sliceErr,
-			hexFileChecksumResult.ErrorWrapper.String())
-		wg.Done()
+			hexFileChecksumResult.
+				ErrorWrapper.
+				String())
+		locker.Unlock()
 
 		return false
 	}
 
-	for i, filePath := range files {
+	for i, filePath := range filesPaths {
 		wg.Add(constants.One)
 		go hexChecksum(i, filePath)
 	}
 
 	wg.Wait()
 
-	err := msgtype.SliceToError(sliceErr)
+	err := msgtype.SliceToError(
+		sliceErr)
 
 	if err == nil {
 		// success
-		return hashMethod.HexSumOfAny(checkSumSlice)
+		return hashMethod.HexSumOfAny(
+			checkSumSlice)
 	}
 
 	return errstr.Error(

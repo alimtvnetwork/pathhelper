@@ -11,6 +11,7 @@ import (
 	"strconv"
 	"sync"
 
+	"gitlab.com/evatix-go/core/chmodhelper"
 	"gitlab.com/evatix-go/core/constants"
 	"gitlab.com/evatix-go/core/coredata/coredynamic"
 	"gitlab.com/evatix-go/core/coredata/corejson"
@@ -57,7 +58,7 @@ func (it Variant) NewHash() (hash.Hash, *errorwrapper.Wrapper) {
 	}
 }
 
-func (it Variant) HexSumOf(
+func (it *Variant) HexSumOf(
 	inputBytes []byte,
 ) *errstr.Result {
 	outputBytesResults := it.SumOf(inputBytes)
@@ -69,7 +70,7 @@ func (it Variant) HexSumOf(
 	}
 }
 
-func (it Variant) HexSumOfFile(
+func (it *Variant) HexSumOfFile(
 	fileName string,
 ) *errstr.Result {
 	byteResults := it.SumOfFile(fileName)
@@ -85,14 +86,24 @@ func (it Variant) HexSumOfFile(
 	return errstr.EmptyErrorResult(toString)
 }
 
-func (it Variant) SumOfFile(
-	fileName string,
+func (it *Variant) SumOfFile(
+	filePath string,
 ) *errbyte.Results {
-	if fileName == constants.EmptyString {
+	if filePath == constants.EmptyString {
 		return errbyte.EmptyResultsWithError(
 			errnew.MessagesPtr(
 				errtype.EmptyString,
 				"File name is empty"))
+	}
+
+	isExist, fileInfo := chmodhelper.IsPathExistsPlusFileInfo(filePath)
+
+	if !isExist || fileInfo == nil || fileInfo.IsDir() {
+		return errbyte.EmptyResultsWithError(
+			errnew.PathMessages(
+				errtype.InvalidPath,
+				filePath,
+				"File path either invalid or has permission issue or a folder for hash-checksum."))
 	}
 
 	hashWriter, errWp := it.NewHash()
@@ -101,13 +112,13 @@ func (it Variant) SumOfFile(
 		return errbyte.EmptyResultsWithError(errWp)
 	}
 
-	file, errOpen := os.Open(fileName)
+	file, errOpen := os.Open(filePath)
 	if errOpen != nil {
 		return errbyte.EmptyResultsWithError(
 			errnew.Path(
 				errtype.FileRead,
 				errOpen,
-				"Error opening file : "+fileName,
+				"Error opening file : "+filePath,
 			))
 	}
 
@@ -119,7 +130,7 @@ func (it Variant) SumOfFile(
 			errnew.Path(
 				errtype.Copy,
 				errOpen,
-				"Error copying to  file : "+fileName,
+				"Error copying to  file : "+filePath,
 			))
 	}
 
@@ -128,7 +139,7 @@ func (it Variant) SumOfFile(
 	return errbyte.EmptyErrorResults(hashedBytes...)
 }
 
-func (it Variant) SumOf(
+func (it *Variant) SumOf(
 	inputBytes []byte,
 ) *errbyte.Results {
 	if inputBytes == nil {
@@ -160,7 +171,7 @@ func (it Variant) SumOf(
 	return errbyte.EmptyErrorResults(hashedBytes...)
 }
 
-func (it Variant) SumOfErrorBytes(
+func (it *Variant) SumOfErrorBytes(
 	errBytes *errbyte.Results,
 ) *errbyte.Results {
 	if errBytes == nil || errBytes.Values == nil {
@@ -177,7 +188,7 @@ func (it Variant) SumOfErrorBytes(
 	return it.SumOf(errBytes.Values)
 }
 
-func (it Variant) HexSumOfAny(
+func (it *Variant) HexSumOfAny(
 	item interface{},
 ) *errstr.Result {
 	jsonResult := corejson.NewFromAny(item)
@@ -211,26 +222,30 @@ func (it Variant) HexSumOfAnys(
 		len(items))
 
 	hexChecksum := func(index int, source interface{}) bool {
+		defer wg.Done()
 		hexFileChecksumResult := it.HexSumOfAny(source)
 		checkSumSlice[index] = hexFileChecksumResult.Value
 
 		if hexFileChecksumResult.IsSuccess() {
-			wg.Done()
-
 			return true
 		}
 
 		// failed
 		locker.Lock()
 		defer locker.Unlock()
+
+		message := "Failed Index : " +
+			strconv.Itoa(index) +
+			constants.Comma +
+			coredynamic.TypeName(source) +
+			constants.Comma +
+			hexFileChecksumResult.
+				ErrorWrapper.
+				String()
+
 		sliceErr = append(
 			sliceErr,
-			"Failed Index : "+
-				strconv.Itoa(index)+
-				coredynamic.TypeName(source),
-			","+
-				hexFileChecksumResult.ErrorWrapper.String())
-		wg.Done()
+			message)
 
 		return false
 	}
@@ -242,11 +257,13 @@ func (it Variant) HexSumOfAnys(
 
 	wg.Wait()
 
-	err := msgtype.SliceToError(sliceErr)
+	err := msgtype.SliceToError(
+		sliceErr)
 
 	if err == nil {
 		// success
-		return errstr.EmptyErrorResults(checkSumSlice...)
+		return errstr.EmptyErrorResults(
+			checkSumSlice...)
 	}
 
 	return errstr.ResultsError(

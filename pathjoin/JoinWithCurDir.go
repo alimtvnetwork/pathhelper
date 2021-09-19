@@ -14,7 +14,6 @@ import (
 
 func JoinWithCurDir(
 	isNormalize,
-	isLongPathFix,
 	isExpandEnv bool,
 	paths ...string,
 ) string {
@@ -27,8 +26,8 @@ func JoinWithCurDir(
 		joined)
 
 	return normalize.PathUsingSeparatorIf(
-		isLongPathFix,
-		isLongPathFix,
+		false,
+		isNormalize,
 		isNormalize,
 		osconsts.PathSeparator,
 		expanded)

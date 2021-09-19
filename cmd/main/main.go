@@ -21,7 +21,7 @@ import (
 	"gitlab.com/evatix-go/pathhelper/pathinsfmtexec/downloadinsexec"
 	"gitlab.com/evatix-go/pathhelper/pathinsfmtexec/pathmodifierverify"
 	"gitlab.com/evatix-go/pathhelper/pathsconst"
-	"gitlab.com/evatix-go/pathhelper/recursivepaths"
+	"gitlab.com/evatix-go/pathhelper/pathsysinfo"
 )
 
 func main() {
@@ -44,45 +44,58 @@ func main() {
 	// fmt.Println(samplePath)
 	// fmt.Println(samplePath2)
 
-	sha1 := hashas.Sha1
+	// sha1 := hashas.Sha1
+	//
+	// slice1 := []string{
+	// 	"alim1",
+	// 	"alim2",
+	// 	"alim3",
+	// }
+	//
+	// slice2 := []string{
+	// 	"alim1",
+	// 	"alim2",
+	// 	"alim3",
+	// }
+	//
+	// slice3 := []string{
+	// 	"alim5",
+	// 	"alim2",
+	// 	"alim3",
+	// }
+	//
+	// rs2 := sha1.HexSumOfAnys(slice1, slice2, slice3)
+	//
+	// fmt.Println(rs2.String())
+	//
+	// rs3 := sha1.HexSumOfAnysSingle(slice1, slice2, slice3)
+	//
+	// fmt.Println(rs3.String())
+	//
+	// files := recursivepaths.Files(pathsconst.RootDir)
+	// fmt.Println("Files", files.String())
+	//
+	// rs5 := hexchecksum.OfFiles(&hexchecksum.FilesRequest{
+	// 	Method:                     sha1,
+	// 	IsGenerateContentsChecksum: true,
+	// 	Files:                      files.Values,
+	// })
+	//
+	// fmt.Println(converters.AnyToFullNameValueString(rs5))
+	// fmt.Println(converters.AnyToFullNameValueString(rs5.CompileToSingle()))
 
-	slice1 := []string{
-		"alim1",
-		"alim2",
-		"alim3",
-	}
+	result := hexchecksum.OfFilesContentsAsync(
+		hashas.Sha256,
+		"cmd/main/main.go")
 
-	slice2 := []string{
-		"alim1",
-		"alim2",
-		"alim3",
-	}
+	// result.ErrorWrapper.HandleError()
+	result.ErrorWrapper.Log()
+	fmt.Println(result.String())
 
-	slice3 := []string{
-		"alim5",
-		"alim2",
-		"alim3",
-	}
+	rs := pathsysinfo.GetPathUserGroupId("cmd/main")
 
-	rs2 := sha1.HexSumOfAnys(slice1, slice2, slice3)
-
-	fmt.Println(rs2.String())
-
-	rs3 := sha1.HexSumOfAnysSingle(slice1, slice2, slice3)
-
-	fmt.Println(rs3.String())
-
-	files := recursivepaths.Files(pathsconst.RootDir)
-	fmt.Println("Files", files.String())
-
-	rs5 := hexchecksum.ChecksumOfFiles(&hexchecksum.FilesChecksumRequest{
-		Method:                     sha1,
-		IsGenerateContentsChecksum: true,
-		Files:                      files.Values,
-	})
-
-	fmt.Println(converters.AnyToFullNameValueString(rs5))
-	fmt.Println(converters.AnyToFullNameValueString(rs5.CompileToSingle()))
+	fmt.Println(converters.AnyToFullNameValueString(rs))
+	fmt.Println(rs.Error)
 
 	// testPathWithVerifier()
 }

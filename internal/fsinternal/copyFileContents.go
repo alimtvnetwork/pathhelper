@@ -3,33 +3,57 @@ package fsinternal
 import (
 	"io"
 	"os"
+
+	"gitlab.com/evatix-go/errorwrapper"
+	"gitlab.com/evatix-go/errorwrapper/errdefer"
+	"gitlab.com/evatix-go/errorwrapper/errnew"
+	"gitlab.com/evatix-go/errorwrapper/errtype"
 )
 
-func copyFileContents(srcPath, dstPath string) (err error) {
+func CopyFileContents(srcPath, dstPath string) (errWp *errorwrapper.Wrapper) {
 	inFile, errOpen := os.Open(srcPath)
-	if errOpen != nil {
-		return errOpen
-	}
 
-	defer inFile.Close()
+	defer errdefer.CloseFile(
+		srcPath,
+		errWp,
+		inFile)
+
+	if errOpen != nil {
+		return errnew.Path(
+			errtype.FileRead,
+			errOpen,
+			srcPath)
+	}
 
 	outFile, errCreate := os.Create(dstPath)
+
+	defer errdefer.CloseFile(
+		dstPath,
+		errWp,
+		outFile)
+
 	if errCreate != nil {
-		return errCreate
+		return errnew.Path(
+			errtype.FileRead,
+			errCreate,
+			dstPath)
 	}
 
-	defer func() {
-		outCloseErr := outFile.Close()
-		if err == nil {
-			err = outCloseErr
-		}
-	}()
-
-	if _, err = io.Copy(outFile, inFile); err != nil {
-		return err
+	if _, err := io.Copy(outFile, inFile); err != nil {
+		return errnew.Path(
+			errtype.Copy,
+			err,
+			dstPath)
 	}
 
-	err = outFile.Sync()
+	err2 := outFile.Sync()
 
-	return err
+	if err2 != nil {
+		return errnew.Path(
+			errtype.Sync,
+			err2,
+			dstPath)
+	}
+
+	return errnew.EmptyPtr
 }

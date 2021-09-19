@@ -13,7 +13,6 @@ import (
 
 func JoinWithCurDirUsingCallStack(
 	isNormalize,
-	isLongPathFix,
 	isExpandEnv bool,
 	frameStackSkip int,
 	paths ...string,
@@ -27,8 +26,8 @@ func JoinWithCurDirUsingCallStack(
 		joined)
 
 	return normalize.PathUsingSeparatorIf(
-		isLongPathFix,
-		isLongPathFix,
+		false,
+		isNormalize,
 		isNormalize,
 		osconsts.PathSeparator,
 		expanded)

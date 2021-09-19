@@ -1,55 +1,30 @@
 package fs
 
 import (
-	"io"
-	"os"
-
 	"gitlab.com/evatix-go/errorwrapper"
-	"gitlab.com/evatix-go/errorwrapper/errdefer"
-	"gitlab.com/evatix-go/errorwrapper/errnew"
-	"gitlab.com/evatix-go/errorwrapper/errtype"
+	"gitlab.com/evatix-go/pathhelper/internal/fsinternal"
 )
 
-func CopyFileContents(srcPath, dstPath string) (errWp *errorwrapper.Wrapper) {
-	inFile, errOpen := os.Open(srcPath)
-
-	defer errdefer.CloseFile(
+func CopyFileContents(
+	srcPath,
+	dstPath string,
+) (errWp *errorwrapper.Wrapper) {
+	createDirErr := CreateParentDirWithChmodChown(
 		srcPath,
-		errWp,
-		inFile)
-
-	if errOpen != nil {
-		return errnew.Path(
-			errtype.FileRead,
-			errOpen,
-			srcPath)
+		dstPath)
+	if createDirErr.HasError() {
+		return createDirErr
 	}
 
-	outFile, errCreate := os.Create(dstPath)
+	copyErr := fsinternal.CopyFileContents(
+		srcPath,
+		dstPath)
 
-	defer errdefer.CloseFile(
-		dstPath,
-		errWp,
-		outFile)
-
-	if errCreate != nil {
-		return errnew.Path(
-			errtype.FileRead,
-			errCreate,
-			dstPath)
+	if copyErr.HasError() {
+		return copyErr
 	}
 
-	if _, err := io.Copy(outFile, inFile); err != nil {
-		return errnew.Path(
-			errtype.Copy,
-			err,
-			dstPath)
-	}
-
-	err2 := outFile.Sync()
-
-	return errnew.Path(
-		errtype.Sync,
-		err2,
+	return CopyChmodChown(
+		srcPath,
 		dstPath)
 }

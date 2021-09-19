@@ -34,14 +34,14 @@ func Do(
 			})
 	}
 
-	// if isExists(dst) && isSkipOnExist {
-	// 	return errnew.EmptyPtr
-	// }
-
 	isExist, fileInfo := chmodhelper.IsPathExistsPlusFileInfo(src)
 	if isExist && !fileInfo.IsDir() {
 		// file
 		fileCopyErr := CopyFile(src, dst, defaultFileMode)
+
+		if fileCopyErr == nil {
+			return errnew.EmptyPtr
+		}
 
 		return errnew.NewRef2(
 			errtype.Copy,
@@ -64,6 +64,10 @@ func Do(
 	err := DoSimple(
 		src,
 		dst)
+
+	if err == nil {
+		return errnew.EmptyPtr
+	}
 
 	return errnew.NewRef2(
 		errtype.Copy,

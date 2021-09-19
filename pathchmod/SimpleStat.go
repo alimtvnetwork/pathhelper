@@ -12,6 +12,7 @@ import (
 	"gitlab.com/evatix-go/errorwrapper/errtype"
 	"gitlab.com/evatix-go/pathhelper/hashas"
 	"gitlab.com/evatix-go/pathhelper/internal/fsinternal"
+	"gitlab.com/evatix-go/pathhelper/internal/splitinternal"
 )
 
 type SimpleStat struct {
@@ -27,7 +28,7 @@ type SimpleStat struct {
 	ErrorWrapper    *errorwrapper.Wrapper
 }
 
-func (it *SimpleStat) LastModifiedDate() *time.Time {
+func (it *SimpleStat) LastModifiedAt() *time.Time {
 	if it == nil || it.InvalidFileInfo {
 		return nil
 	}
@@ -105,6 +106,44 @@ func (it *SimpleStat) ReadBytesMust() []byte {
 	rs.ErrorWrapper.HandleError()
 
 	return rs.ValueNonPtr()
+}
+
+// FileName
+// Returns file name with extension
+func (it *SimpleStat) FileName() string {
+	if it.HasFileInfo {
+		return it.Name
+	}
+
+	return constants.EmptyString
+}
+
+func (it *SimpleStat) FileNameWithoutExt() string {
+	if it.HasFileInfo {
+		return splitinternal.GetFileNameWithoutExt(it.Name)
+	}
+
+	return constants.EmptyString
+}
+
+func (it *SimpleStat) BothExtension() (dotExt, ext string) {
+	if it.HasFileInfo {
+		return splitinternal.GetBothExtension(it.FileInfo.Name())
+	}
+
+	return constants.EmptyString, constants.EmptyString
+}
+
+func (it *SimpleStat) DotExtension() (fileName, dotExt string) {
+	if it.HasFileInfo {
+		return splitinternal.GetFileNameDotExt(it.FileInfo.Name())
+	}
+
+	return constants.EmptyString, constants.EmptyString
+}
+
+func (it *SimpleStat) FileNameExt() string {
+	return it.FileName()
 }
 
 func (it *SimpleStat) CheckSum(hashType hashas.Variant) *errbyte.Results {

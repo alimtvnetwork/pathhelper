@@ -3,7 +3,8 @@ package fs
 import "os"
 
 func IsPathExists(location string) bool {
-	_, err := os.Stat(location)
+	fileInfo, err := os.Stat(location)
 
-	return err == nil || !os.IsNotExist(err)
+	return err == nil && fileInfo != nil ||
+		err != nil && !os.IsNotExist(err)
 }

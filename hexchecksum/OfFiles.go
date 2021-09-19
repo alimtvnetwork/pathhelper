@@ -2,14 +2,14 @@ package hexchecksum
 
 import "gitlab.com/evatix-go/core/constants"
 
-func ChecksumOfFiles(request *FilesChecksumRequest) *FilesChecksumResult {
-	hexOfListing := ChecksumOfFilesList(
+func OfFiles(request *FilesRequest) *FilesResult {
+	hexOfListing := OfFilesList(
 		request.Method,
-		request.Files)
+		request.Files...)
 	filesCount := len(request.Files)
 
-	if hexOfListing.HasError() || !request.IsGenerateContentsChecksum {
-		return &FilesChecksumResult{
+	if hexOfListing.HasError() || !request.IsGenerateContentsChecksum || filesCount == 0 {
+		return &FilesResult{
 			HexFilesListChecksum:     hexOfListing.Value,
 			HexFilesContentsChecksum: constants.EmptyString,
 			Method:                   request.Method,
@@ -18,11 +18,11 @@ func ChecksumOfFiles(request *FilesChecksumRequest) *FilesChecksumResult {
 		}
 	}
 
-	hexContentsChecksum := ChecksumOfFilesContentsAsync(
+	hexContentsChecksum := OfFilesContentsAsync(
 		request.Method,
-		request.Files)
+		request.Files...)
 
-	return &FilesChecksumResult{
+	return &FilesResult{
 		HexFilesListChecksum:     hexOfListing.Value,
 		HexFilesContentsChecksum: hexContentsChecksum.Value,
 		Method:                   request.Method,

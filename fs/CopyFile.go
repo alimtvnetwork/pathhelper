@@ -7,6 +7,7 @@ import (
 	"gitlab.com/evatix-go/errorwrapper"
 	"gitlab.com/evatix-go/errorwrapper/errnew"
 	"gitlab.com/evatix-go/errorwrapper/errtype"
+	"gitlab.com/evatix-go/pathhelper/deletepaths"
 )
 
 // CopyFile Future ref: https://stackoverflow.com/a/21067803
@@ -33,35 +34,31 @@ func CopyFile(srcPath, dstPath string) *errorwrapper.Wrapper {
 			srcPath)
 	}
 
-	dstFileInfo, dstErr := os.Stat(dstPath)
-	if IsNotPathExistsUsing(dstFileInfo, dstErr) {
-		return errnew.Path(
-			errtype.PathStatFailed,
-			dstErr,
-			dstPath)
-	}
-
-	if !(dstFileInfo.Mode().IsRegular()) {
-		cannotCopyErr := fmt.Errorf(
-			"CopyFile: non-regular destination file %s (%q)",
-			dstFileInfo.Name(),
-			dstFileInfo.Mode().String())
+	if sourceFileInfo.IsDir() {
+		// cannot copy non-regular files (e.g., directories,
+		// symlinks, devices, etc.)
+		cannotCopyDir := fmt.Errorf(
+			"CopyFile: don't support dir copy %s (%q)",
+			sourceFileInfo.Name(),
+			srcPath)
 
 		return errnew.Path(
 			errtype.Copy,
-			cannotCopyErr,
+			cannotCopyDir,
 			srcPath)
 	}
 
-	if os.SameFile(sourceFileInfo, dstFileInfo) {
-		return errnew.EmptyPtr
+	dstFileInfo, dstErr := os.Stat(dstPath)
+	isExist := IsPathExistsUsing(dstFileInfo, dstErr)
+	if isExist && !dstFileInfo.IsDir() {
+		return deletepaths.Recursive(dstPath)
+	} else if isExist && dstFileInfo.IsDir() {
+		return errnew.PathMessages(
+			errtype.PathCopy,
+			dstPath,
+			"don't support copy dir on file copier.")
 	}
 
-	linkErr := os.Link(srcPath, dstPath)
-
-	if linkErr == nil {
-		return errnew.EmptyPtr
-	}
-
+	// copy new file
 	return CopyFileContents(srcPath, dstPath)
 }

@@ -8,7 +8,7 @@ import (
 	"gitlab.com/evatix-go/errorwrapper/errtype"
 )
 
-// ChangeOwnershipWindows non recursive
+// ChangeOwnershipWindows non-recursive
 func ChangeOwnershipWindows(location, user, group string) *errorwrapper.Wrapper {
 	uid, gid, errorWrapper := GetUserGroupId(user, group)
 	if errorWrapper.HasError() {

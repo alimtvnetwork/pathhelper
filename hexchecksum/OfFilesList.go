@@ -6,9 +6,9 @@ import (
 	"gitlab.com/evatix-go/pathhelper/hashas"
 )
 
-func ChecksumOfFilesList(
+func OfFilesList(
 	hashMethod hashas.Variant,
-	files []string,
+	files ...string,
 ) *errstr.Result {
 	jsonResult := corejson.NewFromAny(files)
 

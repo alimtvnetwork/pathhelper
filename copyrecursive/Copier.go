@@ -181,9 +181,8 @@ func (it *Copier) copyDir(isRecursive bool, src, dst string) error {
 				continue
 			}
 
-			// Should non recursive version also create the empty directories?
+			// Should non-recursive version also create the empty directories?
 			// Probably not
-
 			if err := it.createDir(destPath, defaultFileMode); err != nil {
 				return err
 			}
@@ -206,16 +205,15 @@ func (it *Copier) copyDir(isRecursive bool, src, dst string) error {
 		// available on windows). why?
 		/*
 			if runtime.GOOS != "windows" {
-					stat, ok := fileInfo.Sys().(*syscall.Stat_t)
-					if !ok {
-						return fmt.Errorf("failed to get raw syscall.Stat_t data for '%s'", sourcePath)
-					}
-					if err := os.Lchown(destPath, int(stat.Uid), int(stat.Gid)); err != nil {
-						return err
-					}
+				stat, ok := fileInfo.Sys().(*syscall.Stat_t)
+				if !ok {
+					return fmt.Errorf("failed to get raw syscall.Stat_t data for '%s'", sourcePath)
+				}
+				if err := os.Lchown(destPath, int(stat.Uid), int(stat.Gid)); err != nil {
+					return err
+				}
 			}
 		*/
-
 		isSymlink := entry.Mode()&os.ModeSymlink != 0
 		if !isSymlink {
 			// Changing the destination permission as same as the source permission
