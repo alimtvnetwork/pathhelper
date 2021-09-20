@@ -3,7 +3,6 @@ package normalize
 import (
 	"gitlab.com/evatix-go/core/constants"
 	"gitlab.com/evatix-go/core/coreindexes"
-	"gitlab.com/evatix-go/core/osconsts"
 )
 
 // pathUsingSeparator
@@ -28,12 +27,12 @@ func pathUsingSeparator(
 		return finalResult
 	}
 
-	isApplyLongPathFix := isLongPathFix && osconsts.IsWindows
-	if isApplyLongPathFix && finalResult[constants.Zero] == pathSeparator[constants.Zero] {
-		finalResult = finalResult[constants.One:]
-	}
-
+	isApplyLongPathFix := isLongPathFix && pathSeparator == WindowsPathSeparator
 	if isApplyLongPathFix {
+		if finalResult[constants.Zero] == pathSeparator[constants.Zero] {
+			finalResult = finalResult[constants.One:]
+		}
+
 		finalResult = getLongPathFixedUsingSeparator(
 			isForceLongPath,
 			pathSeparator,
