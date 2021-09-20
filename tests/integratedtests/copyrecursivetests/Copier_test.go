@@ -73,7 +73,6 @@ func TestCopierRecursive(t *testing.T) {
 
 func TestCopierNonRecursive(t *testing.T) {
 	convey.Convey("Testing copier non recursive", t, func() {
-
 		// Arrange
 		root, errW := copyrecursive.CopyToTempDir(TestIsRecursiveDir)
 		if errW.HasError() {
@@ -166,8 +165,8 @@ func TestCopierSkipOnExist(t *testing.T) {
 	dstSums := checksummer.NewSync(true, dstRoot, hashas.Md5).StringHashesMap()
 
 	srcFiles, dstFiles := sampleSrcDstFiles(srcRoot, dstRoot)
-	shouldBeDifferentChecksum := []int{0, 2}
-	shouldBeSameChecksum := []int{1, 3}
+	shouldBeDifferentChecksum := copyrecursivetestwrapper.IndexOfExistingFilesInSkipOnExistDir
+	shouldBeSameChecksum := copyrecursivetestwrapper.IndexOfNonExistingFilesInSkipOnExistDir
 
 	for _, idx := range shouldBeSameChecksum {
 		srcFile := srcFiles[idx]

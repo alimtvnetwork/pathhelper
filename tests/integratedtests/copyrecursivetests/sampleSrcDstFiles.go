@@ -1,22 +1,17 @@
 package copyrecursivetests
 
-import "path/filepath"
+import (
+	"path/filepath"
+
+	"gitlab.com/evatix-go/pathhelper/tests/testwrappers/copyrecursivetestwrapper"
+)
 
 func sampleSrcDstFiles(
 	srcRoot, dstRoot string,
 ) (srcFiles, dstFiles []string) {
-	srcFiles = []string{
-		filepath.Join(srcRoot, "dir1", "a.txt"),
-		filepath.Join(srcRoot, "dir2", "b.txt"),
-		filepath.Join(srcRoot, "file1.txt"),
-		filepath.Join(srcRoot, "file2.txt"),
-	}
-
-	dstFiles = []string{
-		filepath.Join(dstRoot, "dir1", "a.txt"),
-		filepath.Join(dstRoot, "dir2", "b.txt"),
-		filepath.Join(dstRoot, "file1.txt"),
-		filepath.Join(dstRoot, "file2.txt"),
+	for _, file := range copyrecursivetestwrapper.RelPathOfSrcFiles {
+		srcFiles = append(srcFiles, filepath.Join(srcRoot, file))
+		dstFiles = append(dstFiles, filepath.Join(dstRoot, file))
 	}
 
 	return srcFiles, dstFiles
