@@ -79,7 +79,13 @@ func CopySameRootFilesUsingRootReplaceAsync(
 		return false
 	}
 
-	if !isContinueOnError {
+	if isContinueOnError {
+		wg.Add(len(sourcePaths))
+		for _, sourceFullPath := range sourcePaths {
+			go copyOrMoveExecFunc(sourceFullPath)
+		}
+	} else {
+		// no continue
 		for _, sourceFullPath := range sourcePaths {
 			wg.Add(constants.One)
 			go copyOrMoveExecFunc(sourceFullPath)
@@ -87,12 +93,6 @@ func CopySameRootFilesUsingRootReplaceAsync(
 			if isFailed {
 				break
 			}
-		}
-	} else {
-		// continue
-		wg.Add(len(sourcePaths))
-		for _, sourceFullPath := range sourcePaths {
-			go copyOrMoveExecFunc(sourceFullPath)
 		}
 	}
 
