@@ -1,14 +1,13 @@
 package normalize
 
-import "gitlab.com/evatix-go/core/constants"
+import (
+	"gitlab.com/evatix-go/core/osconsts"
+)
 
 // Path By default apply long path fix and regular normalize using os.PathSeparator
 func Path(givenPath string) string {
-	return PathUsingSeparatorIf(
+	return LongPathFixPlusClean(
 		false,
-		true,
-		true,
-		constants.PathSeparator,
-		givenPath,
-	)
+		osconsts.PathSeparator,
+		givenPath)
 }

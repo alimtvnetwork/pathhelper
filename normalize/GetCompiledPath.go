@@ -19,11 +19,10 @@ func GetCompiledPath(
 	}
 
 	for key, value := range compilingMap {
-		pathTemplate = strings.Replace(
+		pathTemplate = strings.ReplaceAll(
 			pathTemplate,
 			key,
-			value,
-			constants.MinusOne)
+			value)
 	}
 
 	return pathTemplate

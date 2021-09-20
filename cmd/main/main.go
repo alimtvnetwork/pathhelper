@@ -20,6 +20,7 @@ import (
 	"gitlab.com/evatix-go/pathhelper/pathinsfmt"
 	"gitlab.com/evatix-go/pathhelper/pathinsfmtexec/downloadinsexec"
 	"gitlab.com/evatix-go/pathhelper/pathinsfmtexec/pathmodifierverify"
+	"gitlab.com/evatix-go/pathhelper/pathjoin"
 	"gitlab.com/evatix-go/pathhelper/pathsconst"
 	"gitlab.com/evatix-go/pathhelper/pathsysinfo"
 )
@@ -84,6 +85,27 @@ func main() {
 	// fmt.Println(converters.AnyToFullNameValueString(rs5))
 	// fmt.Println(converters.AnyToFullNameValueString(rs5.CompileToSingle()))
 
+	// checkSumCheck()
+
+	fmt.Println("Hello World")
+	a := "/tmp/dbapi/backup-storage//path-backup///alim-key1-dbapi/1/\\"
+	b := "/dbmodel/\\webserverstoremodel/\\\\ServerWithSSL.go"
+	joined3 := pathjoin.JoinConditionalNormalized3ExpandIf(
+		true,
+		false,
+		a,
+		b,
+		"")
+	fmt.Println(filepath.Clean(joined3))
+	fmt.Println(filepath.Join(a, b))
+
+	// joined := filepath.Join(a, b)
+	fmt.Println(filepath.Clean(a))
+
+	// testPathWithVerifier()
+}
+
+func checkSumCheck() {
 	result := hexchecksum.OfFilesContentsAsync(
 		hashas.Sha256,
 		"cmd/main/main.go")
@@ -96,8 +118,6 @@ func main() {
 
 	fmt.Println(converters.AnyToFullNameValueString(rs))
 	fmt.Println(rs.Error)
-
-	// testPathWithVerifier()
 }
 
 func testPathWithVerifier() {

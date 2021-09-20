@@ -7,16 +7,16 @@ func PathUsingSeparatorIf(
 	pathSeparator,
 	givenPath string,
 ) string {
-	isApplyLongPathFix := !isNormalize &&
+	isApplyLongPathFixOnly := !isNormalize &&
 		(isLongPathFix || isForceLongPath)
 
-	if isNormalize {
+	if isNormalize || isLongPathFix || isForceLongPath {
 		givenPath = TrimPrefixUncPathIf(
 			true,
 			givenPath)
 	}
 
-	if isApplyLongPathFix {
+	if isApplyLongPathFixOnly {
 		return getLongPathFixedUsingSeparator(
 			pathSeparator,
 			givenPath,

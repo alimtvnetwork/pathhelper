@@ -13,7 +13,9 @@ func JoinNormalized(
 		return normalize.Path(path1)
 	}
 
-	finalPath := path1 + osconsts.PathSeparator + path2
+	finalPath := path1 +
+		osconsts.PathSeparator +
+		path2
 
 	return normalize.Path(finalPath)
 }
