@@ -1,6 +1,8 @@
 package normalize
 
 import (
+	"os"
+
 	"gitlab.com/evatix-go/core/constants"
 	"gitlab.com/evatix-go/pathhelper/internal/consts"
 )
@@ -23,4 +25,6 @@ var (
 		consts.BrokenLongPathQuestionMarkPrefix,
 		consts.BrokenLongPathUncPrefix,
 	}
+
+	PathSeparatorChar = byte(os.PathSeparator)
 )

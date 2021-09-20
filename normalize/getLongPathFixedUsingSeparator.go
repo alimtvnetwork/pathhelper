@@ -10,9 +10,9 @@ import (
 // Ignores prefix apply if already has it (constants.LongPathUncPrefix or constants.LongPathQuestionMarkPrefix ) or path is empty or length less than 255
 // if path starts with `\\` then replaces with constants.LongPathUncPrefix
 func getLongPathFixedUsingSeparator(
+	isForce bool,
 	separator string,
 	givenAbsolutePath string,
-	isForce bool,
 ) string {
 	isIgnoreCase :=
 		givenAbsolutePath == "" ||

@@ -4,40 +4,40 @@ import (
 	"path/filepath"
 
 	"gitlab.com/evatix-go/core/constants"
-	"gitlab.com/evatix-go/core/coreindexes"
 	"gitlab.com/evatix-go/core/osconsts"
 )
 
 func LongPathFixPlusClean(
 	isForceLongPathFix bool,
-	pathSeparator,
 	givenPath string,
 ) string {
 	if givenPath == "" {
 		return givenPath
 	}
 
+	givenPath = TrimPrefixUncPath(
+		givenPath)
 	givenPath = unixFix(givenPath)
 	finalResult := filepath.Clean(givenPath)
 	if len(finalResult) == 0 {
 		return finalResult
 	}
 
-	if osconsts.IsWindows && finalResult[constants.Zero] == pathSeparator[constants.Zero] {
-		finalResult = finalResult[constants.One:]
-	}
-
 	if osconsts.IsWindows {
+		if finalResult[constants.Zero] == PathSeparatorChar {
+			finalResult = finalResult[constants.One:]
+		}
+
 		finalResult = getLongPathFixedUsingSeparator(
-			pathSeparator,
+			isForceLongPathFix,
+			osconsts.PathSeparator,
 			finalResult,
-			isForceLongPathFix)
+		)
 	}
 
-	length := len(finalResult)
-	lastIndex := length - 1
+	lastIndex := len(finalResult) - 1
 
-	if finalResult[lastIndex] == pathSeparator[coreindexes.First] {
+	if finalResult[lastIndex] == PathSeparatorChar {
 		// removing last path separator
 		return finalResult[:lastIndex]
 	}
