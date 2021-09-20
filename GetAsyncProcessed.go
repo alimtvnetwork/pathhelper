@@ -3,25 +3,23 @@ package pathhelper
 import (
 	"sync"
 
-	"gitlab.com/evatix-go/core"
-
 	"gitlab.com/evatix-go/pathhelper/pathfuncs"
 )
 
-// Don't modify existing paths and creates new one.
+// GetAsyncProcessed Don't modify existing paths and creates new one.
 func GetAsyncProcessed(
-	processingPaths *[]string,
+	processingPaths []string,
 	processor pathfuncs.Processor,
-) *[]string {
+) []string {
 	if processingPaths == nil {
-		return core.EmptyStringsPtr()
+		return []string{}
 	}
 
-	length := len(*processingPaths)
+	length := len(processingPaths)
 	list := make([]string, length)
 
 	if length == 0 {
-		return &list
+		return list
 	}
 
 	wg := &sync.WaitGroup{}
@@ -33,11 +31,11 @@ func GetAsyncProcessed(
 		list[index] = processor(index, fullPath)
 	}
 
-	for i, fullPath := range *processingPaths {
+	for i, fullPath := range processingPaths {
 		go inPlaceProcessor(i, fullPath)
 	}
 
 	wg.Wait()
 
-	return &list
+	return list
 }

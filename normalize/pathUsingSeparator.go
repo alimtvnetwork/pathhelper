@@ -1,14 +1,13 @@
 package normalize
 
 import (
-	"path/filepath"
-
 	"gitlab.com/evatix-go/core/constants"
 	"gitlab.com/evatix-go/core/coreindexes"
-	"gitlab.com/evatix-go/core/osconsts"
 )
 
-// pathUsingSeparator Always returns path without the separator at the end.
+// pathUsingSeparator
+//
+// Always returns path without the separator at the end.
 // Separator must be one char.
 // Long path fix will not be applied other than Windows operating system.
 func pathUsingSeparator(
@@ -21,26 +20,27 @@ func pathUsingSeparator(
 		return givenPath
 	}
 
-	givenPath = unixFix(givenPath)
-	finalResult := filepath.Clean(givenPath)
+	finalResult := removeAndFixDoubleSeparatorToFinalSeparator(
+		pathSeparator,
+		givenPath)
 	if len(finalResult) == 0 {
 		return finalResult
 	}
 
-	isApplyLongPathFix := isLongPathFix && osconsts.IsWindows
-	if isApplyLongPathFix && finalResult[constants.Zero] == pathSeparator[constants.Zero] {
-		finalResult = finalResult[constants.One:]
-	}
-
+	isApplyLongPathFix := isLongPathFix && pathSeparator == WindowsPathSeparator
 	if isApplyLongPathFix {
+		if finalResult[constants.Zero] == pathSeparator[constants.Zero] {
+			finalResult = finalResult[constants.One:]
+		}
+
 		finalResult = getLongPathFixedUsingSeparator(
+			isForceLongPath,
 			pathSeparator,
 			finalResult,
-			isForceLongPath)
+		)
 	}
 
-	length := len(finalResult)
-	lastIndex := length - 1
+	lastIndex := len(finalResult) - 1
 
 	if finalResult[lastIndex] == pathSeparator[coreindexes.First] {
 		// removing last path separator

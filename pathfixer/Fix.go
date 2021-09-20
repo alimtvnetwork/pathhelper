@@ -13,8 +13,6 @@ func Fix(isExpand bool, path string) string {
 	expand := expandpath.ExpandVariablesIf(
 		isExpand, path)
 
-	normalize := normalize.Path(
+	return normalize.Path(
 		expand)
-
-	return normalize
 }

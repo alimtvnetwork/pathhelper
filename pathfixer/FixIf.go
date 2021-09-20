@@ -13,9 +13,7 @@ func FixIf(isNormalize, isExpand bool, path string) string {
 	expand := expandpath.ExpandVariablesIf(
 		isExpand, path)
 
-	normalize := normalize.PathUsingSingleIf(
+	return normalize.PathUsingSingleIf(
 		isNormalize,
 		expand)
-
-	return normalize
 }

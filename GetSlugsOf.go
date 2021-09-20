@@ -1,16 +1,19 @@
 package pathhelper
 
-import "gitlab.com/evatix-go/core"
-
 func GetSlugsOf(
-	separatorOfChoice string,
-	paths ...string,
-) *[]string {
-	if paths == nil {
-		return core.EmptyStringsPtr()
-	}
-
-	return GetSlugsOfPtr(
-		separatorOfChoice,
-		&paths)
+	slugFixer, spaceSlugFixer rune,
+	paths []string,
+) []string {
+	return GetAsyncProcessed(
+		paths,
+		func(
+			index int,
+			currentPath string,
+		) (result string) {
+			return GetSlug(
+				slugFixer,
+				spaceSlugFixer,
+				currentPath,
+			)
+		})
 }

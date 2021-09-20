@@ -56,7 +56,7 @@ func CopyFile(srcPath, dstPath string) *errorwrapper.Wrapper {
 		return errnew.PathMessages(
 			errtype.PathCopy,
 			dstPath,
-			"don't support copy dir on file copier.")
+			"don't support copy dir on file copier. destination contains same file name dir.")
 	}
 
 	// copy new file

@@ -29,7 +29,9 @@ func DirFileCreate(
 		}
 	}
 
-	fullPath := pathjoin.JoinNormalized(directory, relativeFilePath)
+	fullPath := pathjoin.JoinNormalized(
+		directory,
+		relativeFilePath)
 	file, err := os.Create(fullPath)
 
 	deferClosingFunc := func() *errorwrapper.Wrapper {
