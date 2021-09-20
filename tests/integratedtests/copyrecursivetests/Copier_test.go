@@ -165,38 +165,34 @@ func TestCopierSkipOnExist(t *testing.T) {
 	srcSums := checksummer.NewSync(true, srcRoot, hashas.Md5).StringHashesMap()
 	dstSums := checksummer.NewSync(true, dstRoot, hashas.Md5).StringHashesMap()
 
-	src_dir1_a_txt := filepath.Join(srcRoot, "dir1", "a.txt")
-	src_dir2_b_txt := filepath.Join(srcRoot, "dir2", "b.txt")
-	src_file1_txt := filepath.Join(srcRoot, "file1.txt")
-	src_file2_txt := filepath.Join(srcRoot, "file2.txt")
+	srcFiles, dstFiles := sampleSrcDstFiles(srcRoot, dstRoot)
+	shouldBeDifferentChecksum := []int{0, 2}
+	shouldBeSameChecksum := []int{1, 3}
 
-	dst_dir1_a_txt := filepath.Join(dstRoot, "dir1", "a.txt")
-	dst_dir2_b_txt := filepath.Join(dstRoot, "dir2", "b.txt")
-	dst_file1_txt := filepath.Join(dstRoot, "file1.txt")
-	dst_file2_txt := filepath.Join(dstRoot, "file2.txt")
+	for _, idx := range shouldBeSameChecksum {
+		srcFile := srcFiles[idx]
+		dstFile := dstFiles[idx]
+		srcSum := srcSums[srcFile]
+		dstSum := dstSums[dstFile]
 
-	// Assert
-	// Skip on exist should not copy this file
-	if srcSums[src_dir1_a_txt] == dstSums[dst_dir1_a_txt] {
-		t.Errorf("expected different checksum, but found equal,"+
-			"\nsrc: %s\ndst: %s\n", src_dir1_a_txt, dst_dir1_a_txt)
+		if srcSum != dstSum {
+			t.Errorf("expected same checksum, but found different,"+
+				"\nsrc: %s sum: %s\ndst: %s sum: %s\n",
+				srcFile, srcSum, dstFile, dstSum)
+		}
 	}
 
-	if srcSums[src_file1_txt] == dstSums[dst_file1_txt] {
-		t.Errorf("expected different checksum, but found equal,"+
-			"\nsrc: %s\ndst: %s\n", src_dir1_a_txt, dst_dir1_a_txt)
-	}
+	for _, idx := range shouldBeDifferentChecksum {
+		srcFile := srcFiles[idx]
+		dstFile := dstFiles[idx]
+		srcSum := srcSums[srcFile]
+		dstSum := dstSums[dstFile]
 
-	if srcSums[src_dir2_b_txt] != dstSums[dst_dir2_b_txt] {
-		t.Errorf("expected same checksum, but found different,"+
-			"\nsrc: %s sum: %s\ndst: %s sum: %s\n",
-			src_dir2_b_txt, srcSums[src_dir2_b_txt], dst_dir2_b_txt, dstSums[dst_dir2_b_txt])
-	}
-
-	if srcSums[src_file2_txt] != dstSums[dst_file2_txt] {
-		t.Errorf("expected same checksum, but found different,"+
-			"\nsrc: %s sum: %s\ndst: %s sum: %s\n",
-			src_file2_txt, srcSums[src_file2_txt], dst_file2_txt, dstSums[dst_file2_txt])
+		if srcSum == dstSum {
+			t.Errorf("expected different checksum, but found same,"+
+				"\nsrc: %s sum: %s\ndst: %s sum: %s\n",
+				srcFile, srcSum, dstFile, dstSum)
+		}
 	}
 }
 
@@ -236,39 +232,19 @@ func TestCopierOverwrite(t *testing.T) {
 	srcSums := checksummer.NewSync(true, srcRoot, hashas.Md5).StringHashesMap()
 	dstSums := checksummer.NewSync(true, dstRoot, hashas.Md5).StringHashesMap()
 
-	src_dir1_a_txt := filepath.Join(srcRoot, "dir1", "a.txt")
-	src_dir2_b_txt := filepath.Join(srcRoot, "dir2", "b.txt")
-	src_file1_txt := filepath.Join(srcRoot, "file1.txt")
-	src_file2_txt := filepath.Join(srcRoot, "file2.txt")
+	srcFiles, dstFiles := sampleSrcDstFiles(srcRoot, dstRoot)
 
-	dst_dir1_a_txt := filepath.Join(dstRoot, "dir1", "a.txt")
-	dst_dir2_b_txt := filepath.Join(dstRoot, "dir2", "b.txt")
-	dst_file1_txt := filepath.Join(dstRoot, "file1.txt")
-	dst_file2_txt := filepath.Join(dstRoot, "file2.txt")
+	for i := range srcFiles {
+		srcFile := srcFiles[i]
+		dstFile := dstFiles[i]
+		srcSum := srcSums[srcFile]
+		dstSum := dstSums[dstFile]
 
-	// Assert
-	if srcSums[src_dir1_a_txt] != dstSums[dst_dir1_a_txt] {
-		t.Errorf("expected same checksum, but found different,"+
-			"\nsrc: %s sum: %s\ndst: %s sum: %s\n",
-			src_dir1_a_txt, srcSums[src_dir1_a_txt], dst_dir1_a_txt, dstSums[dst_dir1_a_txt])
-	}
-
-	if srcSums[src_file1_txt] != dstSums[dst_file1_txt] {
-		t.Errorf("expected same checksum, but found different,"+
-			"\nsrc: %s sum: %s\ndst: %s sum: %s\n",
-			src_dir1_a_txt, srcSums[src_file1_txt], dst_dir1_a_txt, dstSums[dst_file1_txt])
-	}
-
-	if srcSums[src_dir2_b_txt] != dstSums[dst_dir2_b_txt] {
-		t.Errorf("expected same checksum, but found different,"+
-			"\nsrc: %s sum: %s\ndst: %s sum: %s\n",
-			src_dir2_b_txt, srcSums[src_dir2_b_txt], dst_dir2_b_txt, dstSums[dst_dir2_b_txt])
-	}
-
-	if srcSums[src_file2_txt] != dstSums[dst_file2_txt] {
-		t.Errorf("expected same checksum, but found different,"+
-			"\nsrc: %s sum: %s\ndst: %s sum: %s\n",
-			src_file2_txt, srcSums[src_file2_txt], dst_file2_txt, dstSums[dst_file2_txt])
+		if srcSums[srcFile] != dstSums[dstFile] {
+			t.Errorf("expected same checksum, but found different,"+
+				"\nsrc: %s sum: %s\ndst: %s sum: %s\n",
+				srcFile, srcSum, dstFile, dstSum)
+		}
 	}
 }
 
