@@ -1,8 +1,9 @@
 package fs
 
 import (
+	"path/filepath"
+
 	"gitlab.com/evatix-go/core/constants"
-	"gitlab.com/evatix-go/pathhelper/internal/splitinternal"
 )
 
 func ParentDir(location string) string {
@@ -10,5 +11,5 @@ func ParentDir(location string) string {
 		return constants.EmptyString
 	}
 
-	return splitinternal.GetBaseDir(location)
+	return filepath.Dir(location)
 }

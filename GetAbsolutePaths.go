@@ -1,19 +1,20 @@
 package pathhelper
 
-import "gitlab.com/evatix-go/core"
-
 func GetAbsolutePaths(
-	basePath string,
 	isLongPathFix, isNormalize bool,
-	relativePaths ...string,
-) *[]string {
-	if relativePaths == nil {
-		return core.EmptyStringsPtr()
-	}
-
-	return GetAbsolutePathsOfPtr(
-		basePath,
-		isLongPathFix,
-		isNormalize,
-		&relativePaths)
+	basePath string,
+	relativePaths []string,
+) []string {
+	return GetAsyncProcessed(
+		relativePaths,
+		func(
+			index int,
+			relativePath string,
+		) (result string) {
+			return GetAbsolutePath(
+				basePath,
+				relativePath,
+				isLongPathFix,
+				isNormalize)
+		})
 }

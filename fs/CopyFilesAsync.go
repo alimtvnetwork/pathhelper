@@ -12,7 +12,8 @@ import (
 
 func CopyFilesAsync(
 	isMove bool,
-	sourceToDestination map[string]string) *errorwrapper.Wrapper {
+	sourceToDestination map[string]string,
+) *errorwrapper.Wrapper {
 	if len(sourceToDestination) == 0 {
 		return errnew.EmptyPtr
 	}

@@ -10,7 +10,11 @@ import (
 
 // Remove Reference : https://t.ly/xnAe
 func Remove(location string) *errorwrapper.Wrapper {
-	err := os.Remove(location)
+	err := os.RemoveAll(location)
+
+	if err == nil {
+		return nil
+	}
 
 	return errnew.Path(errtype.RemoveFailed, err, location)
 }
