@@ -15,7 +15,7 @@ func GetPathUserGroupIdUsing(instance *fileinfopath.Instance) *PathUserGroupId {
 			UserId:           constants.InvalidValue,
 			GroupId:          constants.InvalidValue,
 			Error: errtype.InvalidPath.Error(
-				instance.Error,
+				instance.Error.Error(),
 				"path",
 				instance.FullPath),
 		}
