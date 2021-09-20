@@ -17,6 +17,7 @@ func LongPathFixPlusClean(
 		return givenPath
 	}
 
+	givenPath = unixFix(givenPath)
 	finalResult := filepath.Clean(givenPath)
 	if len(finalResult) == 0 {
 		return finalResult

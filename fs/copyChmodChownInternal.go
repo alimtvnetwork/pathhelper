@@ -22,10 +22,6 @@ func copyChmodChownInternal(
 		return errnew.Path(errtype.ChmodApplyFailed, err, dstPath)
 	}
 
-	if osconsts.IsWindows {
-		return errnew.EmptyPtr
-	}
-
 	if osconsts.IsLinux {
 		srcInstance := fileinfopath.Instance{
 			FileInfo: sourceFileInfo,
