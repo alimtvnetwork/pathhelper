@@ -9,6 +9,7 @@ import (
 )
 
 func WriteStringLinesToFileSkipOnEmptyUsingLock(
+	isCreateParentDir bool,
 	filePath string,
 	contentLines []string,
 ) *errorwrapper.Wrapper {
@@ -21,6 +22,7 @@ func WriteStringLinesToFileSkipOnEmptyUsingLock(
 		constants.NewLineUnix)
 
 	return WriteFileLock(
+		isCreateParentDir,
 		filePath,
 		[]byte(content))
 }

@@ -8,6 +8,7 @@ import (
 )
 
 func WriteErrorJsonResult(
+	isCreateParentDir,
 	isSkipErrorOnNilOrEmpty bool,
 	errJsonResult *errjson.Result,
 	location string,
@@ -34,6 +35,7 @@ func WriteErrorJsonResult(
 	}
 
 	return WriteJsonResult(
+		isCreateParentDir,
 		isSkipErrorOnNilOrEmpty,
 		errJsonResult.Result,
 		location)

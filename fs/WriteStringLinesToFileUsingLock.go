@@ -8,11 +8,14 @@ import (
 )
 
 func WriteStringLinesToFileUsingLock(
+	isCreateParentDir bool,
 	filePath string,
 	contentLines []string,
 ) *errorwrapper.Wrapper {
 	if len(contentLines) == 0 {
-		return WriteEmptyStringLock(filePath)
+		return WriteEmptyStringLock(
+			isCreateParentDir,
+			filePath)
 	}
 
 	content := strings.Join(
@@ -20,6 +23,7 @@ func WriteStringLinesToFileUsingLock(
 		constants.NewLineUnix)
 
 	return WriteFileLock(
+		isCreateParentDir,
 		filePath,
 		[]byte(content))
 }

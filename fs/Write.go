@@ -5,8 +5,16 @@ import (
 	"gitlab.com/evatix-go/pathhelper/pathjoin"
 )
 
-func Write(location string, filename string, content []byte) *errorwrapper.Wrapper {
+func Write(
+	isCreateParentDir bool,
+	location string,
+	filename string,
+	content []byte,
+) *errorwrapper.Wrapper {
 	compileFilePath := pathjoin.JoinNormalized(location, filename)
 
-	return WriteFile(compileFilePath, content)
+	return WriteFile(
+		isCreateParentDir,
+		compileFilePath,
+		content)
 }

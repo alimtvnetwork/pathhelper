@@ -7,6 +7,7 @@ import (
 )
 
 func AppendFile(
+	isCreateParentDir bool,
 	filePath string,
 	content []byte,
 ) *errorwrapper.Wrapper {
@@ -23,6 +24,7 @@ func AppendFile(
 	}
 
 	return writeNewFileContent(
+		isCreateParentDir,
 		filePath,
 		content)
 }

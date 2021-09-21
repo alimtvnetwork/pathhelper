@@ -6,9 +6,11 @@ import (
 )
 
 func WriteEmptyStringLock(
+	isCreateParentDir bool,
 	filePath string,
 ) *errorwrapper.Wrapper {
 	return WriteFileLock(
+		isCreateParentDir,
 		filePath,
 		[]byte(constants.EmptyString))
 }

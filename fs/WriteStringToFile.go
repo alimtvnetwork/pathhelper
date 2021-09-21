@@ -5,9 +5,12 @@ import (
 )
 
 func WriteStringToFile(
+	isCreateParentDir bool,
 	filePath string,
 	content string,
 ) *errorwrapper.Wrapper {
 	return WriteFile(
-		filePath, []byte(content))
+		isCreateParentDir,
+		filePath,
+		[]byte(content))
 }

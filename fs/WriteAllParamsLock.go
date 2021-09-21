@@ -6,22 +6,24 @@ import (
 	"gitlab.com/evatix-go/errorwrapper"
 )
 
-func JsonWriteMarshalUsingLock(
+func WriteAllParamsLock(
 	isCreateParentDir,
 	isSkipOnNilObject bool,
 	isKeepExistingFileModeOnExist bool,
 	fileMod os.FileMode,
+	dirCreateMod os.FileMode,
 	filePath string,
-	marshallingObjectRef interface{},
+	contents []byte,
 ) *errorwrapper.Wrapper {
 	readWriteMutex.Lock()
 	defer readWriteMutex.Unlock()
 
-	return JsonWriteMarshal(
+	return WriteAllParams(
 		isCreateParentDir,
 		isSkipOnNilObject,
 		isKeepExistingFileModeOnExist,
 		fileMod,
+		dirCreateMod,
 		filePath,
-		marshallingObjectRef)
+		contents)
 }

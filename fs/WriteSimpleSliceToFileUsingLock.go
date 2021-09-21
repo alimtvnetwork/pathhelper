@@ -9,11 +9,13 @@ import (
 )
 
 func WriteSimpleSliceToFileUsingLock(
+	isCreateParentDir bool,
 	filePath string,
 	simpleSlice *corestr.SimpleSlice,
 ) *errorwrapper.Wrapper {
 	if simpleSlice.IsEmpty() {
 		return WriteEmptyStringLock(
+			isCreateParentDir,
 			filePath)
 	}
 
@@ -22,6 +24,7 @@ func WriteSimpleSliceToFileUsingLock(
 		constants.NewLineUnix)
 
 	return WriteFileLock(
+		isCreateParentDir,
 		filePath,
 		[]byte(content))
 }

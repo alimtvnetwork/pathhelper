@@ -28,10 +28,12 @@ func CopyFile(srcPath, dstPath string) *errorwrapper.Wrapper {
 			sourceFileInfo.Name(),
 			sourceFileInfo.Mode().String())
 
-		return errnew.Path(
+		return errnew.SourceDestinationMessages(
 			errtype.Copy,
-			cannotCopySymLinkErr,
-			srcPath)
+			srcPath,
+			dstPath,
+			cannotCopySymLinkErr.Error(),
+		)
 	}
 
 	if sourceFileInfo.IsDir() {
@@ -42,10 +44,12 @@ func CopyFile(srcPath, dstPath string) *errorwrapper.Wrapper {
 			sourceFileInfo.Name(),
 			srcPath)
 
-		return errnew.Path(
+		return errnew.SourceDestinationMessages(
 			errtype.Copy,
-			cannotCopyDir,
-			srcPath)
+			srcPath,
+			dstPath,
+			cannotCopyDir.Error(),
+		)
 	}
 
 	dstFileInfo, dstErr := os.Stat(dstPath)
@@ -53,8 +57,9 @@ func CopyFile(srcPath, dstPath string) *errorwrapper.Wrapper {
 	if isExist && !dstFileInfo.IsDir() {
 		return deletepaths.Recursive(dstPath)
 	} else if isExist && dstFileInfo.IsDir() {
-		return errnew.PathMessages(
+		return errnew.SourceDestinationMessages(
 			errtype.PathCopy,
+			srcPath,
 			dstPath,
 			"don't support copy dir on file copier. destination contains same file name dir.")
 	}

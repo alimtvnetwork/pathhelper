@@ -8,7 +8,7 @@ import (
 	"gitlab.com/evatix-go/errorwrapper/errtype"
 )
 
-func CopyChmodChown(
+func CopyChmod(
 	srcPath,
 	dstPath string,
 ) *errorwrapper.Wrapper {
@@ -19,9 +19,19 @@ func CopyChmodChown(
 			errtype.ChownUserOrGroupApplyIssue,
 			srcPath,
 			dstPath,
+			err.Error())
+	}
+
+	chmodApplyErr := os.Chmod(dstPath, srcFileInfo.Mode())
+
+	if chmodApplyErr != nil {
+		return errnew.SourceDestinationMessages(
+			errtype.ChmodApplyFailed,
+			srcPath,
+			dstPath,
 			err.Error(),
 		)
 	}
 
-	return copyChmodChownInternal(srcPath, dstPath, srcFileInfo)
+	return errnew.EmptyPtr
 }

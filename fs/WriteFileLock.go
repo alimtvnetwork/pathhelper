@@ -5,6 +5,7 @@ import (
 )
 
 func WriteFileLock(
+	isCreateParentDir bool,
 	filePath string,
 	content []byte,
 ) *errorwrapper.Wrapper {
@@ -12,6 +13,7 @@ func WriteFileLock(
 	defer readWriteMutex.Unlock()
 
 	return WriteFile(
+		isCreateParentDir,
 		filePath,
 		content)
 }

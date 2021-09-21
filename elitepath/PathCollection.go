@@ -528,6 +528,7 @@ func (it *PathCollection) SaveToFile(
 	filePath string,
 ) *errorwrapper.Wrapper {
 	return fs.WriteJsonResultUsingLock(
+		true,
 		false,
 		it.Json(),
 		filePath,

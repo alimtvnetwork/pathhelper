@@ -7,14 +7,17 @@ import (
 )
 
 func WriteStringToFileUsingLockFileMode(
+	isCreateParentDir,
+	isKeepExistingFileModeOnExist bool,
 	filePath string,
 	content string,
 	fileMode os.FileMode,
-	isKeepExistingFileModeOnExist bool,
 ) *errorwrapper.Wrapper {
 	return WriteFileUsingFileMode(
+		isCreateParentDir,
+		isKeepExistingFileModeOnExist,
 		filePath,
 		[]byte(content),
 		fileMode,
-		isKeepExistingFileModeOnExist)
+	)
 }

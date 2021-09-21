@@ -9,6 +9,7 @@ import (
 )
 
 func WriteStringLinesToFile(
+	isCreateParentDir bool,
 	filePath string,
 	contentLines []string,
 ) *errorwrapper.Wrapper {
@@ -20,5 +21,8 @@ func WriteStringLinesToFile(
 		contentLines,
 		constants.NewLineUnix)
 
-	return WriteFile(filePath, []byte(content))
+	return WriteFile(
+		isCreateParentDir,
+		filePath,
+		[]byte(content))
 }

@@ -19,7 +19,11 @@ func copyChmodChownInternal(
 	err := os.Chmod(dstPath, sourceFileInfo.Mode())
 
 	if err != nil {
-		return errnew.Path(errtype.ChmodApplyFailed, err, dstPath)
+		return errnew.SourceDestinationMessages(
+			errtype.ChmodApplyFailed,
+			srcPath,
+			dstPath,
+			err.Error())
 	}
 
 	if osconsts.IsLinux {

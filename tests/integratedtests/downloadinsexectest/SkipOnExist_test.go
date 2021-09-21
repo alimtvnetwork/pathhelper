@@ -23,8 +23,11 @@ func Test_SkipOnExist(t *testing.T) {
 	}))
 
 	defer ts.Close()
-	writeERR := fs.WriteStringToFileUsingLock(filePath, "hello,world")
-	writeERR.HandleError()
+	writeErr := fs.WriteStringToFileUsingLock(
+		true,
+		filePath,
+		"hello,world")
+	writeErr.HandleError()
 
 	download := &pathinsfmt.Download{
 		Url:           ts.URL,

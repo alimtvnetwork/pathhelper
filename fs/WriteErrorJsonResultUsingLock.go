@@ -6,6 +6,7 @@ import (
 )
 
 func WriteErrorJsonResultUsingLock(
+	isCreateParentDir,
 	isSkipErrorOnNilOrEmpty bool,
 	errJsonResult *errjson.Result,
 	location string,
@@ -14,6 +15,7 @@ func WriteErrorJsonResultUsingLock(
 	defer readWriteMutex.Unlock()
 
 	return WriteErrorJsonResult(
+		isCreateParentDir,
 		isSkipErrorOnNilOrEmpty,
 		errJsonResult,
 		location,

@@ -8,6 +8,7 @@ import (
 )
 
 func WriteJsonResult(
+	isCreateParentDir,
 	isSkipErrorOnNilOrEmpty bool,
 	jsonResult *corejson.Result,
 	location string,
@@ -38,10 +39,14 @@ func WriteJsonResult(
 	if isSkipErrorOnNilOrEmpty &&
 		jsonResult != nil &&
 		jsonResult.IsEmptyJsonBytes() {
-		return WriteFile(location, []byte{})
+		return WriteFile(
+			isCreateParentDir,
+			location,
+			[]byte{})
 	}
 
 	return WriteFile(
+		isCreateParentDir,
 		location,
 		jsonResult.Bytes)
 }

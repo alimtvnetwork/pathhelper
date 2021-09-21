@@ -6,40 +6,54 @@ import (
 	"gitlab.com/evatix-go/errorwrapper"
 	"gitlab.com/evatix-go/errorwrapper/errnew"
 	"gitlab.com/evatix-go/errorwrapper/errtype"
+	"gitlab.com/evatix-go/pathhelper/createdir"
 )
 
-func WriteFileUsingFileMode(
+func WriteAllParams(
 	isCreateParentDir,
+	isSkipOnNilObject bool,
 	isKeepExistingFileModeOnExist bool,
+	fileMod os.FileMode,
+	dirCreateMod os.FileMode,
 	filePath string,
-	content []byte,
-	mode os.FileMode,
+	contents []byte,
 ) *errorwrapper.Wrapper {
-	if content == nil {
+	if isSkipOnNilObject && contents == nil {
+		return errnew.EmptyPtr
+	}
+
+	if contents == nil {
 		return errnew.MessagesPtr(
 			errtype.NullOrEmptyReference,
-			"Cannot write empty or nil contents to the file.",
+			"Cannot write nil contents (bytes) to the file.",
 			filePath)
 	}
 
 	isExist := IsPathExists(filePath)
-
 	// file already exist
 	if isExist && isKeepExistingFileModeOnExist {
 		return writeExistingFileContent(
 			filePath,
-			content)
+			contents)
 	} else if isExist && !isKeepExistingFileModeOnExist {
 		return writeExistingFileContentUsingFileMode(
 			filePath,
-			content,
-			mode)
+			contents,
+			fileMod)
 	}
 
-	// new content
-	return writeNewFileContentUsingFileMode(
-		isCreateParentDir,
+	// new
+	createDirErr := errnew.EmptyPtr
+	if isCreateParentDir {
+		createDirErr = createdir.AllUptoParent(filePath, dirCreateMod)
+	}
+
+	if createDirErr.HasError() {
+		return createDirErr
+	}
+
+	return WriteFile(
+		false,
 		filePath,
-		content,
-		mode)
+		contents)
 }

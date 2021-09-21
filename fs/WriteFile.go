@@ -7,13 +7,14 @@ import (
 )
 
 func WriteFile(
+	isCreateParentDir bool,
 	filePath string,
 	content []byte,
 ) *errorwrapper.Wrapper {
 	if content == nil {
 		return errnew.MessagesPtr(
 			errtype.NullOrEmptyReference,
-			"Cannot write empty or nil contents to the file.",
+			"Cannot write nil contents (bytes) to the file.",
 			filePath)
 	}
 
@@ -25,6 +26,7 @@ func WriteFile(
 	}
 
 	return writeNewFileContent(
+		isCreateParentDir,
 		filePath,
 		content)
 }

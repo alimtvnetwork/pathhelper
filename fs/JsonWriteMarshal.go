@@ -10,10 +10,11 @@ import (
 )
 
 func JsonWriteMarshal(
+	isCreateParentDir,
 	isSkipOnNilObject bool,
-	filePath string,
-	fileMod os.FileMode,
 	isKeepExistingFileModeOnExist bool,
+	fileMod os.FileMode,
+	filePath string,
 	marshallingObjectRef interface{},
 ) *errorwrapper.Wrapper {
 	if marshallingObjectRef == nil && isSkipOnNilObject {
@@ -31,8 +32,10 @@ func JsonWriteMarshal(
 	}
 
 	return WriteFileUsingFileMode(
+		isCreateParentDir,
+		isKeepExistingFileModeOnExist,
 		filePath,
 		allBytes,
 		fileMod,
-		isKeepExistingFileModeOnExist)
+	)
 }

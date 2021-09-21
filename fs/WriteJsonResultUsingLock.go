@@ -6,6 +6,7 @@ import (
 )
 
 func WriteJsonResultUsingLock(
+	isCreateParentDir,
 	isSkipErrorOnNilOrEmpty bool,
 	jsonResult *corejson.Result,
 	location string,
@@ -14,6 +15,7 @@ func WriteJsonResultUsingLock(
 	defer readWriteMutex.Unlock()
 
 	return WriteJsonResult(
+		isCreateParentDir,
 		isSkipErrorOnNilOrEmpty,
 		jsonResult,
 		location)

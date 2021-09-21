@@ -6,10 +6,12 @@ import (
 )
 
 func writeNewFileContent(
+	isCreateParentDir bool,
 	filePath string,
 	content []byte,
 ) *errorwrapper.Wrapper {
 	return writeNewFileContentUsingFileMode(
+		isCreateParentDir,
 		filePath,
 		content,
 		consts.DefaultFileMode)

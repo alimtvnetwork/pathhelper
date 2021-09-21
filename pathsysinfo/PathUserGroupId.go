@@ -94,10 +94,11 @@ func (it *PathUserGroupId) ApplyChown(fullPath string) *errorwrapper.Wrapper {
 	err := os.Chown(fullPath, it.UserId, it.GroupId)
 
 	if err != nil {
-		return errnew.Path(
+		return errnew.SourceDestinationMessages(
 			errtype.ChownUserOrGroupApplyIssue,
-			err,
-			fullPath)
+			it.FileInfoWithPath.FullPath,
+			fullPath,
+			err.Error())
 	}
 
 	return errnew.EmptyPtr

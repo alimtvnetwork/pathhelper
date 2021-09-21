@@ -21,6 +21,7 @@ import (
 	"gitlab.com/evatix-go/pathhelper/checksummer"
 	"gitlab.com/evatix-go/pathhelper/copyrecursive"
 	"gitlab.com/evatix-go/pathhelper/deletepaths"
+	"gitlab.com/evatix-go/pathhelper/fileinfopath"
 	"gitlab.com/evatix-go/pathhelper/fs"
 	"gitlab.com/evatix-go/pathhelper/hashas"
 	"gitlab.com/evatix-go/pathhelper/internal/splitinternal"
@@ -33,6 +34,7 @@ import (
 	"gitlab.com/evatix-go/pathhelper/pathjoin"
 	"gitlab.com/evatix-go/pathhelper/pathrecurseinfo"
 	"gitlab.com/evatix-go/pathhelper/pathstatlinux"
+	"gitlab.com/evatix-go/pathhelper/pathsysinfo"
 	"gitlab.com/evatix-go/pathhelper/pathwrapper"
 )
 
@@ -492,7 +494,30 @@ func (it *Path) ReadLines() *errstr.Results {
 }
 
 func (it *Path) WriteLines(lines []string) *errorwrapper.Wrapper {
-	return fs.WriteStringLinesToFileUsingLock(it.CompiledPath(), lines)
+	return fs.WriteStringLinesToFileUsingLock(
+		true,
+		it.CompiledPath(),
+		lines)
+}
+
+func (it *Path) WriteJsonResult(
+	jsonResult *corejson.Result,
+) *errorwrapper.Wrapper {
+	return fs.WriteJsonResult(
+		true,
+		false,
+		jsonResult,
+		it.CompiledPath(),
+	)
+}
+
+func (it *Path) WriteJsonResultWithoutChecking(
+	jsonResult *corejson.Result,
+) *errorwrapper.Wrapper {
+	return fs.WriteJsonResultWithoutChecking(
+		jsonResult,
+		it.CompiledPath(),
+	)
 }
 
 func (it *Path) RecursivePathsAll(
@@ -597,6 +622,7 @@ func (it *Path) MoveTo(
 	toPath string,
 ) *errorwrapper.Wrapper {
 	src := it.CompiledPath()
+
 	return copyrecursive.DoOptions(src, toPath, copyrecursive.Options{
 		IsSkipOnExist:      false,
 		IsRecursive:        isRecursive,
@@ -606,6 +632,48 @@ func (it *Path) MoveTo(
 		IsNormalize:        false,
 		IsExpandVar:        false,
 	})
+}
+
+func (it *Path) CopyChmod(isSkipOnWidows bool, toPath string) *errorwrapper.Wrapper {
+	if isSkipOnWidows && osconsts.IsWindows {
+		return errnew.EmptyPtr
+	}
+
+	return fs.CopyChmod(it.CompiledPath(), toPath)
+}
+
+func (it *Path) CopyChown(isSkipOnWidows bool, toPath string) *errorwrapper.Wrapper {
+	if isSkipOnWidows && osconsts.IsWindows {
+		return errnew.EmptyPtr
+	}
+
+	return pathsysinfo.ChownCopy(it.CompiledPath(), toPath)
+}
+
+func (it *Path) CopyChmodChown(isSkipOnWidows bool, toPath string) *errorwrapper.Wrapper {
+	if isSkipOnWidows && osconsts.IsWindows {
+		return errnew.EmptyPtr
+	}
+
+	chmodErr := fs.CopyChmod(
+		it.CompiledPath(),
+		toPath)
+
+	if chmodErr.HasError() {
+		return chmodErr
+	}
+
+	return pathsysinfo.ChownCopy(
+		it.CompiledPath(),
+		toPath)
+}
+
+func (it *Path) ChownPathUserGroupId() *pathsysinfo.PathUserGroupId {
+	return pathsysinfo.GetPathUserGroupId(it.CompiledPath())
+}
+
+func (it *Path) FileInfoWithPath() *fileinfopath.Instance {
+	return fileinfopath.New(it.CompiledPath())
 }
 
 func (it *Path) ChmodCondition() *chmodins.Condition {
