@@ -1,8 +1,11 @@
 package normalize
 
 import (
+	"path/filepath"
+
 	"gitlab.com/evatix-go/core/constants"
 	"gitlab.com/evatix-go/core/coreindexes"
+	"gitlab.com/evatix-go/core/osconsts"
 )
 
 // pathUsingSeparator
@@ -20,9 +23,16 @@ func pathUsingSeparator(
 		return givenPath
 	}
 
-	finalResult := removeAndFixDoubleSeparatorToFinalSeparator(
-		pathSeparator,
-		givenPath)
+	var finalResult string
+	if pathSeparator == osconsts.PathSeparator {
+		givenPath = unixFix(givenPath)
+		finalResult = filepath.Clean(givenPath)
+	} else {
+		finalResult = removeAndFixDoubleSeparatorToFinalSeparator(
+			pathSeparator,
+			givenPath)
+	}
+
 	if len(finalResult) == 0 {
 		return finalResult
 	}

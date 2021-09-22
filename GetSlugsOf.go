@@ -1,7 +1,9 @@
 package pathhelper
 
 func GetSlugsOf(
-	slugFixer, spaceSlugFixer rune,
+	isDotValid bool,
+	slugFixer,
+	spaceSlugFixer rune,
 	paths []string,
 ) []string {
 	return GetAsyncProcessed(
@@ -11,6 +13,7 @@ func GetSlugsOf(
 			currentPath string,
 		) (result string) {
 			return GetSlug(
+				isDotValid,
 				slugFixer,
 				spaceSlugFixer,
 				currentPath,

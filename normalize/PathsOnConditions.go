@@ -10,13 +10,10 @@ func PathsOnConditions(isNormalize bool, locations []string) []string {
 		return locations
 	}
 
-	slice := make(
-		[]string,
-		length)
+	slice := make([]string, length)
 
 	for i, currentPath := range locations {
-		slice[i] = Path(
-			currentPath)
+		slice[i] = Path(currentPath)
 	}
 
 	return slice

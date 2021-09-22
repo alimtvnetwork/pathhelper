@@ -5,9 +5,11 @@ import (
 	"time"
 
 	"gitlab.com/evatix-go/core/constants"
+	"gitlab.com/evatix-go/core/corecomparator"
 	"gitlab.com/evatix-go/errorwrapper"
 	"gitlab.com/evatix-go/errorwrapper/errnew"
 	"gitlab.com/evatix-go/errorwrapper/errtype"
+	"gitlab.com/evatix-go/pathhelper/internal/pathcompare"
 	"gitlab.com/evatix-go/pathhelper/internal/splitinternal"
 )
 
@@ -123,6 +125,18 @@ func (it *Instance) Size() *int64 {
 	}
 
 	return nil
+}
+
+func (it *Instance) CompareFileInfo(right os.FileInfo) corecomparator.Compare {
+	return pathcompare.FileInfo(it.FileInfo, right)
+}
+
+func (it *Instance) CompareSize(anotherInstance *Instance) corecomparator.Compare {
+	return pathcompare.Size(it.Size(), anotherInstance.Size())
+}
+
+func (it *Instance) CompareLastModified(anotherInstance *Instance) corecomparator.Compare {
+	return pathcompare.LastModified(it.LastModifiedAt(), anotherInstance.LastModifiedAt())
 }
 
 func (it *Instance) NotFileError() *errorwrapper.Wrapper {

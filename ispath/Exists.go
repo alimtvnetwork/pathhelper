@@ -3,7 +3,7 @@ package ispath
 import "os"
 
 func Exists(location string) bool {
-	_, err := os.Stat(location)
+	fileInfo, err := os.Stat(location)
 
-	return err == nil || !os.IsNotExist(err)
+	return err == nil && fileInfo != nil || fileInfo != nil && !os.IsNotExist(err)
 }

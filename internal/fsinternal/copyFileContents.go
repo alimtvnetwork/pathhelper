@@ -40,7 +40,7 @@ func CopyFileContents(srcPath, dstPath string) (errWp *errorwrapper.Wrapper) {
 	}
 
 	if _, err := io.Copy(outFile, inFile); err != nil {
-		return  errnew.SourceDestinationMessages(
+		return errnew.SourceDestinationMessages(
 			errtype.Copy,
 			srcPath,
 			dstPath,

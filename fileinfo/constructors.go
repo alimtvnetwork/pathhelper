@@ -44,7 +44,7 @@ func New(rawPath, separator string) *Wrapper {
 	}
 
 	return &Wrapper{
-		FileInfo:     &fileInfo,
+		FileInfo:     fileInfo,
 		ErrorWrapper: errWrapper,
 		RawPath:      rawPath,
 		IsDirectory:  isDir,
@@ -112,7 +112,7 @@ func NewUsingInfo(
 	isDir := osFileInfo.IsDir()
 
 	return &Wrapper{
-		FileInfo:     &osFileInfo,
+		FileInfo:     osFileInfo,
 		ErrorWrapper: fileErrWrapper,
 		RawPath:      filePath,
 		IsDirectory:  isDir,

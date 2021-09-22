@@ -107,6 +107,9 @@ func main() {
 	fmt.Println(normalize.Path("\\\\?\\tmp\\dbapi\\backup-storage\\path-backup\\alim-key1-dbapi\\1\\dbmodel\\webserverstoremodel\\ServerWithSSL.go"))
 	fmt.Println(normalize.PathUsingSeparatorIf(true, true, true, osconsts.PathSeparator, "tmp\\dbapi\\backup-storage\\path-backup\\alim-key1-dbapi\\1\\dbmodel\\webserverstoremodel\\ServerWithSSL.go"))
 
+	fmt.Println(normalize.Path("/home/a/../../git-repos"))
+	fmt.Println(normalize.Path("\\home\\a\\../../git-repos"))
+
 	// testPathWithVerifier()
 }
 

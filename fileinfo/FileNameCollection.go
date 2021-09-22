@@ -46,7 +46,11 @@ func NewFileNamesUsingWrappers(wrappers *Wrappers) *FileNamesCollection {
 
 	names := make([]string, wrappers.Length())
 	for i, wrapper := range *wrappers.Items {
-		names[i] = (*wrapper.FileInfo).Name()
+		if wrapper.FileInfo == nil {
+			continue
+		}
+
+		names[i] = wrapper.FileInfo.Name()
 	}
 
 	return &FileNamesCollection{
@@ -128,7 +132,7 @@ func (filesNamesCollection *FileNamesCollection) Add(fileName string) *FileNames
 }
 
 func (filesNamesCollection *FileNamesCollection) AddWrapper(wrapper Wrapper) *FileNamesCollection {
-	*filesNamesCollection.names = append(*filesNamesCollection.names, (*wrapper.FileInfo).Name())
+	*filesNamesCollection.names = append(*filesNamesCollection.names, wrapper.FileInfo.Name())
 
 	return filesNamesCollection
 }

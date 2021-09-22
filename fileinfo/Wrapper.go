@@ -9,13 +9,14 @@ import (
 	"gitlab.com/evatix-go/core/issetter"
 	"gitlab.com/evatix-go/errorwrapper"
 	"gitlab.com/evatix-go/errorwrapper/errnew"
+	"gitlab.com/evatix-go/errorwrapper/errtype"
 
 	"gitlab.com/evatix-go/pathhelper/internal/splitinternal"
 	"gitlab.com/evatix-go/pathhelper/normalize"
 )
 
 type Wrapper struct {
-	FileInfo     *os.FileInfo
+	FileInfo     os.FileInfo
 	ErrorWrapper *errorwrapper.Wrapper
 	RawPath      string
 	IsDirectory  bool
@@ -27,141 +28,141 @@ type Wrapper struct {
 	parent       *Wrapper
 }
 
-func (wrapper *Wrapper) HasError() bool {
-	return wrapper.ErrorWrapper.HasError()
+func (it *Wrapper) HasError() bool {
+	return it.ErrorWrapper.HasError()
 }
 
-func (wrapper *Wrapper) IsPathExists() bool {
-	if wrapper.pathExists.IsUninitialized() {
-		isPathExists := !wrapper.HasError() && (wrapper.IsDirectory || wrapper.IsFile)
-		wrapper.pathExists = issetter.GetBool(isPathExists)
+func (it *Wrapper) IsPathExists() bool {
+	if it.pathExists.IsUninitialized() {
+		isPathExists := !it.HasError() && (it.IsDirectory || it.IsFile)
+		it.pathExists = issetter.GetBool(isPathExists)
 	}
 
-	return wrapper.pathExists.IsTrue()
+	return it.pathExists.IsTrue()
 }
 
-func (wrapper *Wrapper) BaseDir() string {
-	if wrapper.baseDir != nil {
-		return *wrapper.baseDir
+func (it *Wrapper) BaseDir() string {
+	if it.baseDir != nil {
+		return *it.baseDir
 	}
 
-	baseDir := splitinternal.GetBaseDir(wrapper.RawPath)
-	wrapper.baseDir = &baseDir
+	baseDir := splitinternal.GetBaseDir(it.RawPath)
+	it.baseDir = &baseDir
 
 	return baseDir
 }
 
-func (wrapper *Wrapper) Parent() *Wrapper {
-	if wrapper.parent != nil {
-		return wrapper.parent
+func (it *Wrapper) Parent() *Wrapper {
+	if it.parent != nil {
+		return it.parent
 	}
 
-	wrapper.parent = New(
-		wrapper.BaseDir(),
-		wrapper.Separator)
+	it.parent = New(
+		it.BaseDir(),
+		it.Separator)
 
-	return wrapper.parent
+	return it.parent
 }
 
-func (wrapper *Wrapper) GetBothExtensions() (dotExt, ext string) {
-	return splitinternal.GetBothExtension(wrapper.RawPath)
+func (it *Wrapper) GetBothExtensions() (dotExt, ext string) {
+	return splitinternal.GetBothExtension(it.RawPath)
 }
 
-func (wrapper *Wrapper) FileName() (filename string) {
-	return (*wrapper.FileInfo).Name()
+func (it *Wrapper) FileName() (filename string) {
+	return it.FileInfo.Name()
 }
 
-func (wrapper *Wrapper) FileNameWithoutExt() (filename string) {
-	return splitinternal.GetFileNameWithoutExt(wrapper.RawPath)
+func (it *Wrapper) FileNameWithoutExt() (filename string) {
+	return splitinternal.GetFileNameWithoutExt(it.RawPath)
 }
 
-func (wrapper *Wrapper) Size() int64 {
-	return (*wrapper.FileInfo).Size()
+func (it *Wrapper) Size() int64 {
+	return it.FileInfo.Size()
 }
 
-func (wrapper *Wrapper) ModifyTime() time.Time {
-	return (*wrapper.FileInfo).ModTime()
+func (it *Wrapper) ModifyTime() time.Time {
+	return it.FileInfo.ModTime()
 }
 
-func (wrapper *Wrapper) AllSplits() *[]string {
+func (it *Wrapper) AllSplits() *[]string {
 	return splitinternal.GetAllSplitsWithSep(
-		wrapper.RawPath,
-		wrapper.Separator)
+		it.RawPath,
+		it.Separator)
 }
 
-func (wrapper *Wrapper) String() string {
-	return wrapper.RawPath
+func (it *Wrapper) String() string {
+	return it.RawPath
 }
 
-func (wrapper *Wrapper) ToString(sep string) string {
+func (it *Wrapper) ToString(sep string) string {
 	return normalize.PathUsingSeparatorUsingSingleIf(
 		true,
 		sep,
-		wrapper.RawPath,
+		it.RawPath,
 	)
 }
 
-func (wrapper *Wrapper) MarshalJSON() ([]byte, error) {
-	return json.Marshal(*wrapper.JsonModel())
+func (it *Wrapper) MarshalJSON() ([]byte, error) {
+	return json.Marshal(*it.JsonModel())
 }
 
-func (wrapper *Wrapper) UnmarshalJSON(data []byte) error {
+func (it *Wrapper) UnmarshalJSON(data []byte) error {
 	var dataModel WrapperDataModel
 	err := json.Unmarshal(data, &dataModel)
 
 	if err == nil {
-		wrapper.RawPath = dataModel.RawPath
-		wrapper.IsDirectory = dataModel.IsDirectory
-		wrapper.IsFile = dataModel.IsFile
-		wrapper.IsEmptyPath = dataModel.IsEmptyPath
-		wrapper.Separator = dataModel.Separator
+		it.RawPath = dataModel.RawPath
+		it.IsDirectory = dataModel.IsDirectory
+		it.IsFile = dataModel.IsFile
+		it.IsEmptyPath = dataModel.IsEmptyPath
+		it.Separator = dataModel.Separator
 
 		fileInfo, err2 := os.Stat(dataModel.RawPath)
-		wrapper.FileInfo = &fileInfo
-		wrapper.ErrorWrapper = errnew.ErrPtr(err2)
+		it.FileInfo = fileInfo
+		it.ErrorWrapper = errnew.Path(errtype.PathInfoFailed, err2, dataModel.RawPath)
 	}
 
 	return err
 }
 
-func (wrapper *Wrapper) JsonModel() *WrapperDataModel {
+func (it *Wrapper) JsonModel() *WrapperDataModel {
 	return &WrapperDataModel{
-		RawPath:     wrapper.RawPath,
-		IsDirectory: wrapper.IsDirectory,
-		IsFile:      wrapper.IsFile,
-		IsEmptyPath: wrapper.IsEmptyPath,
-		Separator:   wrapper.Separator,
+		RawPath:     it.RawPath,
+		IsDirectory: it.IsDirectory,
+		IsFile:      it.IsFile,
+		IsEmptyPath: it.IsEmptyPath,
+		Separator:   it.Separator,
 	}
 }
 
-func (wrapper *Wrapper) JsonModelAny() interface{} {
-	return wrapper.JsonModel()
+func (it *Wrapper) JsonModelAny() interface{} {
+	return it.JsonModel()
 }
 
-func (wrapper *Wrapper) Json() *corejson.Result {
-	return corejson.NewFromAny(wrapper)
+func (it *Wrapper) Json() *corejson.Result {
+	return corejson.NewFromAny(it)
 }
 
 //goland:noinspection GoLinterLocal
-func (wrapper *Wrapper) ParseInjectUsingJson(
+func (it *Wrapper) ParseInjectUsingJson(
 	jsonResult *corejson.Result,
 ) (*Wrapper, error) {
-	err := jsonResult.Unmarshal(&wrapper)
+	err := jsonResult.Unmarshal(&it)
 
 	if err != nil {
 		return nil, err
 	}
 
-	return wrapper, nil
+	return it, nil
 }
 
 // Panic if error
 //goland:noinspection GoLinterLocal
-func (wrapper *Wrapper) ParseInjectUsingJsonMust(
+func (it *Wrapper) ParseInjectUsingJsonMust(
 	jsonResult *corejson.Result,
 ) *Wrapper {
 	newUsingJson, err :=
-		wrapper.ParseInjectUsingJson(jsonResult)
+		it.ParseInjectUsingJson(jsonResult)
 
 	if err != nil {
 		panic(err)
@@ -170,20 +171,20 @@ func (wrapper *Wrapper) ParseInjectUsingJsonMust(
 	return newUsingJson
 }
 
-func (wrapper *Wrapper) JsonParseSelfInject(
+func (it *Wrapper) JsonParseSelfInject(
 	jsonResult *corejson.Result,
 ) error {
-	_, err := wrapper.ParseInjectUsingJson(
+	_, err := it.ParseInjectUsingJson(
 		jsonResult,
 	)
 
 	return err
 }
 
-func (wrapper *Wrapper) AsJsoner() corejson.Jsoner {
-	return wrapper
+func (it *Wrapper) AsJsoner() corejson.Jsoner {
+	return it
 }
 
-func (wrapper *Wrapper) AsJsonParseSelfInjector() corejson.JsonParseSelfInjector {
-	return wrapper
+func (it *Wrapper) AsJsonParseSelfInjector() corejson.JsonParseSelfInjector {
+	return it
 }

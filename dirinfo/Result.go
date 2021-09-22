@@ -49,7 +49,7 @@ func New(fileOrDirPath string) *Result {
 	isErrorEmpty := errWrapper.IsEmpty()
 
 	fileInfoWrapper := &fileinfo.Wrapper{
-		FileInfo:     &fileInfo,
+		FileInfo:     fileInfo,
 		ErrorWrapper: errWrapper,
 		RawPath:      fileOrDirPath,
 		IsDirectory:  isErrorEmpty && fileInfo.IsDir(),

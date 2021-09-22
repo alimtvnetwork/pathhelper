@@ -1,7 +1,7 @@
 package apachelinuxpath
 
 const (
-	DefaultRoot          = "etc/apache2"
+	DefaultRoot          = "/etc/apache2"
 	RootConfigName       = "apache2.conf"
 	ConfigAvailableName  = "conf-available"
 	ConfigEnabledName    = "conf-enabled"
@@ -12,5 +12,5 @@ const (
 	ModulesAvailableName = "mods-available"
 	ModulesEnabledName   = "mods-enabled"
 	ApachePorts          = "ports.conf"
-	ApacheEnvVars        = " envvars"
+	ApacheEnvVars        = "envvars"
 )

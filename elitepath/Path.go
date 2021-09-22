@@ -7,6 +7,7 @@ import (
 	"gitlab.com/evatix-go/core/chmodhelper"
 	"gitlab.com/evatix-go/core/chmodhelper/chmodins"
 	"gitlab.com/evatix-go/core/constants"
+	"gitlab.com/evatix-go/core/corecomparator"
 	"gitlab.com/evatix-go/core/coredata/corejson"
 	"gitlab.com/evatix-go/core/coredata/corestr"
 	"gitlab.com/evatix-go/core/msgtype"
@@ -24,6 +25,7 @@ import (
 	"gitlab.com/evatix-go/pathhelper/fileinfopath"
 	"gitlab.com/evatix-go/pathhelper/fs"
 	"gitlab.com/evatix-go/pathhelper/hashas"
+	"gitlab.com/evatix-go/pathhelper/internal/pathcompare"
 	"gitlab.com/evatix-go/pathhelper/internal/splitinternal"
 	"gitlab.com/evatix-go/pathhelper/pathchmod"
 	"gitlab.com/evatix-go/pathhelper/pathext"
@@ -674,6 +676,18 @@ func (it *Path) ChownPathUserGroupId() *pathsysinfo.PathUserGroupId {
 
 func (it *Path) FileInfoWithPath() *fileinfopath.Instance {
 	return fileinfopath.New(it.CompiledPath())
+}
+
+func (it *Path) CompareFileInfo(right os.FileInfo) corecomparator.Compare {
+	return pathcompare.FileInfo(it.FileInfo(), right)
+}
+
+func (it *Path) CompareSize(anotherInstance *Path) corecomparator.Compare {
+	return pathcompare.Size(it.Size(), anotherInstance.Size())
+}
+
+func (it *Path) CompareLastModified(anotherInstance *Path) corecomparator.Compare {
+	return pathcompare.LastModified(it.LastModifiedAt(), anotherInstance.LastModifiedAt())
 }
 
 func (it *Path) ChmodCondition() *chmodins.Condition {

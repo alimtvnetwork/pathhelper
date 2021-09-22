@@ -60,6 +60,7 @@ func TestGetSlug(t *testing.T) {
 			Convey(testCaseMessage, t, func() {
 				// Act
 				actual := pathhelper.GetSlug(
+					true,
 					testCase.inputSeparator,
 					constants.UnderscoreRune,
 					testCase.inputPath)
