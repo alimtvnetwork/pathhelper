@@ -12,7 +12,7 @@ import (
 //goland:noinspection GoNilness
 func getFilterForEachFilterPath(
 	arg *recursiveFilterGetterParam,
-) *[]string {
+) []string {
 	if arg == nil {
 		errtype.NullOrEmptyReference.
 			PanicNoRefs("args")
@@ -30,7 +30,7 @@ func getFilterForEachFilterPath(
 
 	for _, s := range allDirs.Values {
 		// removing starting root, only the filters needed
-		for i2, ext := range *arg.extensions {
+		for i2, ext := range arg.extensions {
 			newFilters[i+i2] = strings.Replace(
 				s,
 				arg.rootPathPlusSeparator,
@@ -43,5 +43,5 @@ func getFilterForEachFilterPath(
 		i++
 	}
 
-	return &newFilters
+	return newFilters
 }

@@ -5,6 +5,7 @@ import (
 
 	"gitlab.com/evatix-go/core/chmodhelper"
 	"gitlab.com/evatix-go/core/chmodhelper/chmodins"
+	"gitlab.com/evatix-go/core/codestack"
 	"gitlab.com/evatix-go/errorwrapper"
 	"gitlab.com/evatix-go/errorwrapper/errnew"
 	"gitlab.com/evatix-go/errorwrapper/errtype"
@@ -42,6 +43,7 @@ func ApplyChmodOnFiles(
 	err2 := executor.ApplyOnPaths(locations)
 
 	return rwxInstruction, errorwrapper.NewRefs(
+		codestack.SkipNone,
 		errtype.ChmodApplyFailed,
 		err2,
 		ref.Value{

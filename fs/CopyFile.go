@@ -12,6 +12,10 @@ import (
 
 // CopyFile Future ref: https://stackoverflow.com/a/21067803
 func CopyFile(srcPath, dstPath string) *errorwrapper.Wrapper {
+	if srcPath == dstPath {
+		return nil
+	}
+
 	sourceFileInfo, err := os.Stat(srcPath)
 	if IsNotPathExistsUsing(sourceFileInfo, err) {
 		return errnew.Path(

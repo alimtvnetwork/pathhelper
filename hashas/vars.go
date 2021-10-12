@@ -14,6 +14,9 @@ var (
 		Sha512:    "Sha512",
 	}
 
+	DefaultFastHashMethod   = Md5
+	DefaultSecureHashMethod = Sha1
+
 	BasicEnumImpl = enumimpl.NewBasicByteUsingIndexedSlice(
 		coredynamic.TypeName(Undefined),
 		ranges[:])

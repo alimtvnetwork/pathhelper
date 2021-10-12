@@ -16,5 +16,5 @@ func FilesUsingPaths(
 	return FilesUsingPathsPtr(
 		isNormalize,
 		separator,
-		&exploringPaths)
+		exploringPaths)
 }

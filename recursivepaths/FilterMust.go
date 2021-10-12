@@ -4,11 +4,11 @@ import (
 	"gitlab.com/evatix-go/pathhelper/pathfuncs"
 )
 
-func FilterMust(
-	filter pathfuncs.Filter,
+func SimpleFilterMust(
+	filter pathfuncs.SimpleFilter,
 	rootPath string,
 ) []string {
-	results := Filter(filter, rootPath)
+	results := SimpleFilter(filter, rootPath)
 	results.ErrorWrapper.HandleError()
 
 	return results.ValueNonPtr()

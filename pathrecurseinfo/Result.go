@@ -1,19 +1,16 @@
 package pathrecurseinfo
 
 import (
-	"os"
 	"strings"
 
 	"gitlab.com/evatix-go/core/chmodhelper"
 	"gitlab.com/evatix-go/core/constants"
-	"gitlab.com/evatix-go/core/coredata/stringslice"
-	"gitlab.com/evatix-go/core/msgtype"
-	"gitlab.com/evatix-go/core/osconsts"
+	"gitlab.com/evatix-go/core/coredata/corestr"
 	"gitlab.com/evatix-go/errorwrapper"
 	"gitlab.com/evatix-go/errorwrapper/errdata/errstr"
 	"gitlab.com/evatix-go/errorwrapper/errnew"
 	"gitlab.com/evatix-go/errorwrapper/errtype"
-	"gitlab.com/evatix-go/pathhelper/internal/splitinternal"
+	"gitlab.com/evatix-go/errorwrapper/errwrappers"
 	"gitlab.com/evatix-go/pathhelper/pathfuncs"
 )
 
@@ -85,63 +82,50 @@ func (it *Result) Strings() []string {
 	return it.StringsResults().ValueNonPtr()
 }
 
-func (it *Result) FilterStringsResults(filter pathfuncs.Filter) *errstr.Results {
-	if it.HasIssuesOrEmpty() {
-		return it.StringsResults()
+func (it *Result) FilterFullPaths(
+	isContinueOnError bool,
+	errCollection *errwrappers.Collection,
+	filter pathfuncs.Filter,
+) *corestr.SimpleSlice {
+	if it == nil || it.PathsResult == nil || it.PathsResult.ExpandingPaths.IsEmpty() {
+		return corestr.EmptySimpleSlice()
 	}
 
-	sep := osconsts.PathSeparator
-	slice := stringslice.MakeDefault(it.Length())
-	var errSlice []string
-
-	for _, fullPath := range it.PathsResult.ExpandingPaths.Items {
-		// TODO : Fix error swallow, probably no need to fix,
-		//        as error already checked and fix at first
-		fileInfo, _ := os.Stat(fullPath)
-		hasFileInfo := fileInfo != nil
-
-		arg := &pathfuncs.FilterArg{
-			RootPath:    it.Root,
-			FileName:    splitinternal.GetFileNameWithExt(fullPath),
-			FullPath:    fullPath,
-			Separator:   sep,
-			IsFile:      hasFileInfo && !fileInfo.IsDir(),
-			IsDirectory: hasFileInfo && fileInfo.IsDir(),
-			FileInfo:    fileInfo,
-		}
-
-		filterResult := filter(arg)
-
-		if filterResult.ErrorWrapper.HasError() {
-			errSlice = append(
-				errSlice,
-				filterResult.ErrorWrapper.FullString())
-		}
-
-		if filterResult.IsKeep {
-			slice = append(slice, fullPath)
-		}
-
-		if filterResult.IsBreak {
-			break
-		}
+	hasErr := it.ErrorWrapper.HasError()
+	if hasErr {
+		errCollection.AddWrapperPtr(it.ErrorWrapper)
 	}
 
-	err := msgtype.SliceToError(errSlice)
-
-	if err != nil {
-		return errstr.EmptyResultsWithError(
-			errnew.Path(
-				errtype.PathExpand,
-				err,
-				it.Root))
+	if !isContinueOnError && hasErr {
+		return corestr.EmptySimpleSlice()
 	}
 
-	return errstr.EmptyErrorResults(
-		slice...)
+	return pathfuncs.FilterFullPaths(
+		false,
+		errCollection,
+		filter,
+		it.Root,
+		it.PathsResult.ExpandingPaths.Items...)
 }
 
-func (it *Result) FilterResults(filter pathfuncs.Filter) *Result {
+func (it *Result) SimpleFilterFullPathsAsync(
+	filter pathfuncs.SimpleFilter,
+) *errstr.Results {
+	if it.HasIssuesOrEmpty() {
+		return it.EmptyErrorResults()
+	}
+
+	return pathfuncs.SimpleFilterFullPathsAsync(
+		false,
+		filter,
+		it.PathsResult.ExpandingPaths.Items...)
+}
+
+func (it *Result) FilterResults(
+	isContinueOnError bool,
+	errCollection *errwrappers.Collection,
+	filter pathfuncs.Filter,
+) *Result {
 	if it.HasIssuesOrEmpty() {
 		return InvalidResult(
 			it.Root,
@@ -149,20 +133,32 @@ func (it *Result) FilterResults(filter pathfuncs.Filter) *Result {
 			it.PathStat)
 	}
 
-	results := it.FilterStringsResults(filter)
+	stateTracker := errCollection.StateTracker()
+	results := it.FilterFullPaths(
+		isContinueOnError,
+		errCollection,
+		filter)
+
+	errWp := errnew.EmptyPtr
+
+	if stateTracker.IsFailed() {
+		errWp = errnew.MessagesPtr(
+			errtype.AlreadyDefined,
+			"errors are already collected in the error collection.")
+	}
 
 	return &Result{
 		Root:            it.Root,
-		PathStat:        chmodhelper.GetPathExistStat(it.Root),
+		PathStat:        it.PathStat,
 		IsInvalidResult: it.IsInvalidResult,
 		IsRelative:      it.IsRelative,
 		PathsResult: &PathsResult{
-			ExpandingPaths: results.SimpleSlice(),
+			ExpandingPaths: results,
 			IsExist:        it.PathsResult.IsExist,
 			IsFile:         it.PathsResult.IsFile,
 			IsDir:          it.PathsResult.IsDir,
 		},
-		ErrorWrapper: results.ErrorWrapper,
+		ErrorWrapper: errWp,
 	}
 }
 
@@ -182,7 +178,21 @@ func (it *Result) StringsResults() *errstr.Results {
 		it.PathsResult.ExpandingPaths.Items...)
 }
 
-func (it *Result) Clone() *Result {
+func (it *Result) EmptyErrorResults() *errstr.Results {
+	if it == nil {
+		return errstr.EmptyResultsWithError(
+			errnew.NilOrEmpty)
+	}
+
+	if it.ErrorWrapper.HasError() || it.IsEmpty() {
+		return errstr.EmptyResultsWithError(
+			it.ErrorWrapper)
+	}
+
+	return errstr.EmptyResults()
+}
+
+func (it *Result) Clone(isDeepClone bool) *Result {
 	if it == nil {
 		return nil
 	}
@@ -192,7 +202,18 @@ func (it *Result) Clone() *Result {
 		PathStat:        chmodhelper.GetPathExistStat(it.Root),
 		IsInvalidResult: it.IsInvalidResult,
 		IsRelative:      it.IsRelative,
-		PathsResult:     it.PathsResult.Clone(),
+		PathsResult:     it.PathsResult.Clone(isDeepClone),
 		ErrorWrapper:    it.ErrorWrapper,
 	}
+}
+
+func (it *Result) Dispose() {
+	if it == nil {
+		return
+	}
+
+	it.Root = constants.EmptyString
+	it.PathStat = nil
+	it.ErrorWrapper.Dispose()
+	it.PathsResult.Dispose()
 }

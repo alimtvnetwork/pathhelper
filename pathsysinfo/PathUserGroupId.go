@@ -5,6 +5,8 @@ import (
 	"strconv"
 
 	"gitlab.com/evatix-go/core/constants"
+	"gitlab.com/evatix-go/core/errcore"
+	"gitlab.com/evatix-go/core/iserror"
 	"gitlab.com/evatix-go/errorwrapper"
 	"gitlab.com/evatix-go/errorwrapper/errnew"
 	"gitlab.com/evatix-go/errorwrapper/errtype"
@@ -84,6 +86,65 @@ func (it *PathUserGroupId) ErrorWrapper() *errorwrapper.Wrapper {
 	}
 
 	return errnew.EmptyPtr
+}
+
+func (it *PathUserGroupId) UserGroupId() *UserGroupId {
+	if it == nil {
+		return nil
+	}
+
+	return &UserGroupId{
+		UserId:  it.UserId,
+		GroupId: it.GroupId,
+		Error:   errcore.ToString(it.Error),
+	}
+}
+
+func (it *PathUserGroupId) IsEqualDefault(
+	right *PathUserGroupId,
+) bool {
+	return it.IsEqual(
+		true,
+		false,
+		false,
+		right)
+}
+
+func (it *PathUserGroupId) IsEqual(
+	isQuickVerifyOnPathEqual,
+	isPathMustMatchIfDir,
+	isVerifyContent bool,
+	right *PathUserGroupId,
+) bool {
+	if it == nil && right == nil {
+		return true
+	}
+
+	if it == nil || right == nil {
+		return false
+	}
+
+	if it == right {
+		return true
+	}
+
+	if it.UserId != right.UserId {
+		return false
+	}
+
+	if it.GroupId != right.GroupId {
+		return false
+	}
+
+	if iserror.NotEqual(it.Error, right.Error) {
+		return false
+	}
+
+	return it.FileInfoWithPath.IsEqual(
+		isQuickVerifyOnPathEqual,
+		isPathMustMatchIfDir,
+		isVerifyContent,
+		right.FileInfoWithPath)
 }
 
 func (it *PathUserGroupId) ApplyChown(fullPath string) *errorwrapper.Wrapper {

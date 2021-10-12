@@ -7,7 +7,8 @@ import (
 
 // FilesIncludingSelf includes given path
 func FilesIncludingSelf(
-	isNormalize, isExpandEnv bool,
+	isNormalize,
+	isExpandEnv bool,
 	rootPath string,
 ) *errstr.Results {
 	instruction := pathrecurseinfo.Instruction{

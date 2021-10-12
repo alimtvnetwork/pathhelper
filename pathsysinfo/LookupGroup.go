@@ -3,6 +3,7 @@ package pathsysinfo
 import (
 	"os/user"
 
+	"gitlab.com/evatix-go/core/codestack"
 	"gitlab.com/evatix-go/errorwrapper"
 	"gitlab.com/evatix-go/errorwrapper/errnew"
 	"gitlab.com/evatix-go/errorwrapper/errtype"
@@ -13,6 +14,7 @@ func LookupGroup(groupName string) (*user.Group, *errorwrapper.Wrapper) {
 
 	if errLookupGroup != nil {
 		return nil, errorwrapper.NewRef(
+			codestack.SkipNone,
 			errtype.SearchFailed,
 			errLookupGroup,
 			"GroupName",

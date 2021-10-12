@@ -60,7 +60,7 @@ func getRecursiveForEachPath(
 	}
 
 	collection := corestr.NewCollectionUsingStrings(
-		files.ValueMust(),
+		files.Values,
 		false)
 
 	results := getFilteredFilesByExtensions(

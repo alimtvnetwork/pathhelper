@@ -16,11 +16,18 @@ func AllRecurse(
 ) *errorwrapper.Wrapper {
 	isIgnoredAction := fsinternal.IsPathExists(path)
 
-	if !isIgnoredAction {
-		err := os.MkdirAll(path, fileMode)
-
-		return errorwrapper.NewFilePtr(errtype.Directory, err, path)
+	if isIgnoredAction {
+		return nil
 	}
 
-	return errnew.EmptyPtr
+	err := os.MkdirAll(path, fileMode)
+
+	if err == nil {
+		return nil
+	}
+
+	return errnew.Path(
+		errtype.Directory,
+		err,
+		path)
 }

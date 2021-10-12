@@ -31,7 +31,7 @@ func Get(location string) *Info {
 			errorWrapper)
 	}
 
-	lines := *pathStat.CompiledTrimmedOutputLines()
+	lines := pathStat.CompiledTrimmedOutputLines()
 
 	return ProcessLinesToInfo(
 		lines,

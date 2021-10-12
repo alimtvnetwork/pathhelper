@@ -4,11 +4,13 @@ import (
 	"os"
 	"strings"
 
+	"gitlab.com/evatix-go/core/codestack"
 	"gitlab.com/evatix-go/core/constants"
 	"gitlab.com/evatix-go/core/coreindexes"
 	"gitlab.com/evatix-go/core/coreutils/stringutil"
 	"gitlab.com/evatix-go/core/extensionsconst"
 	"gitlab.com/evatix-go/errorwrapper"
+	"gitlab.com/evatix-go/errorwrapper/errtype"
 
 	"gitlab.com/evatix-go/pathhelper/internal/splitinternal"
 )
@@ -37,133 +39,137 @@ func NewPtr(path string) *Wrapper {
 	}
 }
 
-func (receiver *Wrapper) IsPathEquals(path string, ignoreCase bool) bool {
+func (it *Wrapper) IsPathEquals(path string, ignoreCase bool) bool {
 	if ignoreCase {
-		return strings.EqualFold(receiver.fullPath, path)
+		return strings.EqualFold(it.fullPath, path)
 	}
 
-	return receiver.fullPath == path
+	return it.fullPath == path
 }
 
-func (receiver *Wrapper) IsPathContains(path string) bool {
-	return strings.Contains(receiver.fullPath, path)
+func (it *Wrapper) IsPathContains(path string) bool {
+	return strings.Contains(it.fullPath, path)
 }
 
-func (receiver *Wrapper) ExtDotIndex() int {
-	if receiver.dotIndex != nil {
-		return *receiver.dotIndex
+func (it *Wrapper) ExtDotIndex() int {
+	if it.dotIndex != nil {
+		return *it.dotIndex
 	}
 
 	invalid := constants.InvalidNotFoundCase
-	p := receiver.fullPath
+	p := it.fullPath
 	if p == "" {
-		receiver.dotIndex = &invalid
+		it.dotIndex = &invalid
 
-		return *receiver.dotIndex
+		return *it.dotIndex
 	}
 
 	// doesn't look good on line break
 	for i := len(p) - 1; i >= 0 && !(p[i] == constants.BackwardChar || p[i] == constants.ForwardChar); i-- {
 		if p[i] == constants.DotChar {
-			receiver.dotIndex = &i
+			it.dotIndex = &i
 
 			return i
 		}
 	}
 
-	receiver.dotIndex = &invalid
+	it.dotIndex = &invalid
 
-	return *receiver.dotIndex
+	return *it.dotIndex
 }
 
-func (receiver *Wrapper) BaseDir() string {
-	if receiver.baseDir != nil {
-		return *receiver.baseDir
+func (it *Wrapper) BaseDir() string {
+	if it.baseDir != nil {
+		return *it.baseDir
 	}
 
-	receiver.initializeProperties()
+	it.initializeProperties()
 
-	return *receiver.baseDir
+	return *it.baseDir
 }
 
-func (receiver *Wrapper) FileNameWithExtension() string {
-	if receiver.fileNameWithExtension != nil {
-		return *receiver.fileNameWithExtension
+func (it *Wrapper) FileNameWithExtension() string {
+	if it.fileNameWithExtension != nil {
+		return *it.fileNameWithExtension
 	}
 
-	receiver.initializeProperties()
+	it.initializeProperties()
 
-	return *receiver.fileNameWithExtension
+	return *it.fileNameWithExtension
 }
 
-func (receiver *Wrapper) FileNameWithoutExtension() string {
-	if receiver.fileNameWithoutExtension != nil {
-		return *receiver.fileNameWithoutExtension
+func (it *Wrapper) FileNameWithoutExtension() string {
+	if it.fileNameWithoutExtension != nil {
+		return *it.fileNameWithoutExtension
 	}
 
-	receiver.initializeProperties()
+	it.initializeProperties()
 
-	return *receiver.fileNameWithoutExtension
+	return *it.fileNameWithoutExtension
 }
 
-func (receiver *Wrapper) initializeProperties() {
-	if receiver.baseDir != nil {
+func (it *Wrapper) initializeProperties() {
+	if it.baseDir != nil {
 		return
 	}
 
 	baseDir, fileNameWithExtension := splitinternal.GetWithoutSlash(
-		receiver.fullPath)
+		it.fullPath)
 	fileNameWithoutExt := fileNameWithExtension
 
-	if receiver.HasExtension() {
+	if it.HasExtension() {
 		fileNameWithoutExt = strings.Replace(
 			fileNameWithExtension,
-			*receiver.DotExtension(),
+			*it.DotExtension(),
 			"",
 			1)
 	}
 
-	receiver.fileNameWithExtension = &fileNameWithExtension
-	receiver.baseDir = &baseDir
-	receiver.fileNameWithoutExtension = &fileNameWithoutExt
+	it.fileNameWithExtension = &fileNameWithExtension
+	it.baseDir = &baseDir
+	it.fileNameWithoutExtension = &fileNameWithoutExt
 }
 
 // FilteringExt is ext and one char more from left.
 // Panics if char is not there
-func (receiver *Wrapper) FilteringExt() string {
-	if receiver.filteringExt != nil {
-		return *receiver.filteringExt
+func (it *Wrapper) FilteringExt() string {
+	if it.filteringExt != nil {
+		return *it.filteringExt
 	}
 
-	filteringExt := receiver.GetMoreThanExt(1)
-	receiver.filteringExt = &filteringExt
+	filteringExt := it.GetMoreThanExt(1)
+	it.filteringExt = &filteringExt
 
-	return *receiver.filteringExt
+	return *it.filteringExt
 }
 
-func (receiver *Wrapper) FileInfoWrapper() *os.FileInfo {
-	if receiver.fileInfo != nil ||
-		receiver.fileInfoError != nil &&
-			receiver.fileInfoError.HasError() {
-		return receiver.fileInfo
+func (it *Wrapper) FileInfoWrapper() *os.FileInfo {
+	if it.fileInfo != nil ||
+		it.fileInfoError != nil &&
+			it.fileInfoError.HasError() {
+		return it.fileInfo
 	}
 
 	fileInfo, err :=
-		os.Stat(receiver.fullPath)
+		os.Stat(it.fullPath)
 
 	if err != nil {
-		receiver.fileInfoError =
-			errorwrapper.NewErrorPtr(err)
+		it.fileInfoError =
+			errorwrapper.NewPath(
+				codestack.SkipNone,
+				errtype.FileInvalidOrMissing,
+				err,
+				it.fullPath)
 	} else {
-		receiver.fileInfo = &fileInfo
+		it.fileInfo = &fileInfo
 	}
 
-	return receiver.fileInfo
+	return it.fileInfo
 }
 
-func (receiver *Wrapper) IsFile() bool {
-	fileInfo := receiver.FileInfoWrapper()
-	err := receiver.fileInfoError
+func (it *Wrapper) IsFile() bool {
+	fileInfo := it.FileInfoWrapper()
+	err := it.fileInfoError
 
 	if err != nil && err.HasError() {
 		return false
@@ -173,9 +179,9 @@ func (receiver *Wrapper) IsFile() bool {
 		!(*fileInfo).IsDir()
 }
 
-func (receiver *Wrapper) IsDir() bool {
-	fileInfo := receiver.FileInfoWrapper()
-	err := receiver.fileInfoError
+func (it *Wrapper) IsDir() bool {
+	fileInfo := it.FileInfoWrapper()
+	err := it.fileInfoError
 
 	if err != nil && err.HasError() {
 		return false
@@ -185,8 +191,8 @@ func (receiver *Wrapper) IsDir() bool {
 		(*fileInfo).IsDir()
 }
 
-func (receiver *Wrapper) GetMoreThanExt(moreIndex int) string {
-	dotIndex := receiver.ExtDotIndex()
+func (it *Wrapper) GetMoreThanExt(moreIndex int) string {
+	dotIndex := it.ExtDotIndex()
 
 	if dotIndex == constants.InvalidValue {
 		return ""
@@ -194,71 +200,71 @@ func (receiver *Wrapper) GetMoreThanExt(moreIndex int) string {
 
 	newIndex := dotIndex - moreIndex
 
-	return receiver.fullPath[newIndex:]
+	return it.fullPath[newIndex:]
 }
 
 // .mp4 reference: https://stackoverflow.com/a/64122557
-func (receiver *Wrapper) DotExtension() *string {
-	if receiver.dotExtension == nil {
-		dotExt := receiver.GetMoreThanExt(
+func (it *Wrapper) DotExtension() *string {
+	if it.dotExtension == nil {
+		dotExt := it.GetMoreThanExt(
 			constants.Zero)
-		receiver.dotExtension = &dotExt
+		it.dotExtension = &dotExt
 	}
 
-	return receiver.dotExtension
+	return it.dotExtension
 }
 
-func (receiver *Wrapper) HasExtension() bool {
-	return receiver.ExtDotIndex() > -1
+func (it *Wrapper) HasExtension() bool {
+	return it.ExtDotIndex() > -1
 }
 
 // .mp4 reference: https://stackoverflow.com/a/64122557
-func (receiver *Wrapper) Extension() *string {
-	if receiver.extension != nil {
-		return receiver.extension
+func (it *Wrapper) Extension() *string {
+	if it.extension != nil {
+		return it.extension
 	}
 
-	dotExt := *receiver.DotExtension()
+	dotExt := *it.DotExtension()
 
 	if len(dotExt) > 0 && dotExt[0] == constants.Dot[0] {
 		ext := dotExt[1:]
-		receiver.extension = &ext
+		it.extension = &ext
 	} else {
-		receiver.extension = &dotExt
+		it.extension = &dotExt
 	}
 
-	return receiver.extension
+	return it.extension
 }
 
-func (receiver *Wrapper) IsExtension(extension string) bool {
-	return *receiver.Extension() == extension
+func (it *Wrapper) IsExtension(extension string) bool {
+	return *it.Extension() == extension
 }
 
-func (receiver *Wrapper) IsExtOrDotExt(extOrDotExt string) bool {
-	return *receiver.Extension() == extOrDotExt ||
-		*receiver.DotExtension() == extOrDotExt
+func (it *Wrapper) IsExtOrDotExt(extOrDotExt string) bool {
+	return *it.Extension() == extOrDotExt ||
+		*it.DotExtension() == extOrDotExt
 }
 
-func (receiver *Wrapper) IsDotExtension(dotExtension string) bool {
-	return *receiver.DotExtension() == dotExtension
+func (it *Wrapper) IsDotExtension(dotExtension string) bool {
+	return *it.DotExtension() == dotExtension
 }
 
-func (receiver *Wrapper) IsAnyOfExtension(extensions ...string) bool {
+func (it *Wrapper) IsAnyOfExtension(extensions ...string) bool {
 	if extensions == nil {
 		return false
 	}
 
-	return receiver.IsAnyOfExtensionPtr(&extensions)
+	return it.IsAnyOfExtensionPtr(&extensions)
 }
 
-func (receiver *Wrapper) IsAnyOfExtensionPtr(
+func (it *Wrapper) IsAnyOfExtensionPtr(
 	extensions *[]string,
 ) bool {
 	if extensions == nil || len(*extensions) == 0 {
 		return false
 	}
 
-	currentExt := *receiver.Extension()
+	currentExt := *it.Extension()
 	for _, ext := range *extensions {
 		if currentExt == ext {
 			return true
@@ -268,24 +274,24 @@ func (receiver *Wrapper) IsAnyOfExtensionPtr(
 	return false
 }
 
-func (receiver *Wrapper) IsAnyOfDotExtension(
+func (it *Wrapper) IsAnyOfDotExtension(
 	dotExtensions ...string,
 ) bool {
 	if dotExtensions == nil {
 		return false
 	}
 
-	return receiver.IsAnyOfDotExtensionPtr(&dotExtensions)
+	return it.IsAnyOfDotExtensionPtr(&dotExtensions)
 }
 
-func (receiver *Wrapper) IsAnyOfDotExtensionPtr(
+func (it *Wrapper) IsAnyOfDotExtensionPtr(
 	dotExtensions *[]string,
 ) bool {
 	if dotExtensions == nil || len(*dotExtensions) == 0 {
 		return false
 	}
 
-	currentExt := *receiver.DotExtension()
+	currentExt := *it.DotExtension()
 	for _, ext := range *dotExtensions {
 		if currentExt == ext {
 			return true
@@ -295,7 +301,7 @@ func (receiver *Wrapper) IsAnyOfDotExtensionPtr(
 	return false
 }
 
-func (receiver *Wrapper) IsExtensionFilterMatch(
+func (it *Wrapper) IsExtensionFilterMatch(
 	extensionFilter string,
 ) bool {
 	if extensionFilter == extensionsconst.AllFiles {
@@ -307,7 +313,7 @@ func (receiver *Wrapper) IsExtensionFilterMatch(
 		return false
 	}
 
-	currentDotExt := *receiver.DotExtension()
+	currentDotExt := *it.DotExtension()
 
 	if length == 2 {
 		// *.
@@ -349,12 +355,12 @@ func (receiver *Wrapper) IsExtensionFilterMatch(
 
 	// {don't care}what.ever, ends with extension
 	return stringutil.IsEndsWith(
-		receiver.fullPath,
+		it.fullPath,
 		extensionFilter,
 		true)
 }
 
-func (receiver *Wrapper) IsExtensionFiltersMatch(
+func (it *Wrapper) IsExtensionFiltersMatch(
 	extensionsFilter *[]string,
 	extensionsLength int,
 ) bool {
@@ -363,7 +369,7 @@ func (receiver *Wrapper) IsExtensionFiltersMatch(
 	}
 
 	for _, extFilter := range *extensionsFilter {
-		if receiver.IsExtensionFilterMatch(extFilter) {
+		if it.IsExtensionFilterMatch(extFilter) {
 			return true
 		}
 	}
@@ -371,13 +377,13 @@ func (receiver *Wrapper) IsExtensionFiltersMatch(
 	return false
 }
 
-func (receiver *Wrapper) IsNameWithExtensionMatches(
+func (it *Wrapper) IsNameWithExtensionMatches(
 	fullPath string,
 ) bool {
 	_, fileName := splitinternal.Get(fullPath)
 
 	return stringutil.IsEndsWith(
-		receiver.fullPath,
+		it.fullPath,
 		fileName,
 		true)
 }

@@ -1,17 +1,14 @@
 package fileinfo
 
 import (
-	"encoding/json"
-
 	"gitlab.com/evatix-go/core/coredata/corejson"
 	"gitlab.com/evatix-go/errorwrapper"
-	"gitlab.com/evatix-go/errorwrapper/errnew"
 )
 
 type Wrappers struct {
 	RootPath            string
 	Separator           string
-	Items               *[]*Wrapper
+	Items               []*Wrapper
 	directories         *Wrappers
 	files               *Wrappers
 	ErrorWrapper        *errorwrapper.Wrapper
@@ -20,25 +17,25 @@ type Wrappers struct {
 	fileNamesCollection *FileNamesCollection
 }
 
-func (wrappers *Wrappers) HasAny() bool {
-	return !wrappers.IsEmpty()
+func (it *Wrappers) HasAny() bool {
+	return !it.IsEmpty()
 }
 
-func (wrappers *Wrappers) RootFiles() *Wrappers {
-	if wrappers.files != nil {
-		return wrappers.files
+func (it *Wrappers) RootFiles() *Wrappers {
+	if it.files != nil {
+		return it.files
 	}
 
-	if wrappers.IsEmpty() {
-		wrappers.files = EmptyWrappers()
+	if it.IsEmpty() {
+		it.files = EmptyWrappers()
 	}
 
 	files := make(
 		[]*Wrapper,
 		0,
-		wrappers.Length())
+		it.Length())
 
-	for _, wrapper := range *wrappers.Items {
+	for _, wrapper := range it.Items {
 		if !wrapper.IsFile {
 			continue
 		}
@@ -47,35 +44,30 @@ func (wrappers *Wrappers) RootFiles() *Wrappers {
 	}
 
 	filesWrapper := &Wrappers{
-		Items:               &files,
-		directories:         nil,
-		files:               nil,
-		ErrorWrapper:        errnew.EmptyPtr,
-		pathsCollection:     nil,
-		fileNamesCollection: nil,
+		Items: files,
 	}
 
 	filesWrapper.files = filesWrapper
-	wrappers.files = filesWrapper
+	it.files = filesWrapper
 
-	return wrappers.files
+	return it.files
 }
 
-func (wrappers *Wrappers) RootDirs() *Wrappers {
-	if wrappers.directories != nil {
-		return wrappers.directories
+func (it *Wrappers) RootDirs() *Wrappers {
+	if it.directories != nil {
+		return it.directories
 	}
 
-	if wrappers.IsEmpty() {
-		wrappers.directories = EmptyWrappers()
+	if it.IsEmpty() {
+		it.directories = EmptyWrappers()
 	}
 
 	dirs := make(
 		[]*Wrapper,
 		0,
-		wrappers.Length())
+		it.Length())
 
-	for _, wrapper := range *wrappers.Items {
+	for _, wrapper := range it.Items {
 		if !wrapper.IsDirectory {
 			continue
 		}
@@ -84,123 +76,116 @@ func (wrappers *Wrappers) RootDirs() *Wrappers {
 	}
 
 	dirWrappers := &Wrappers{
-		Items:               &dirs,
-		directories:         nil,
-		files:               nil,
-		ErrorWrapper:        errnew.EmptyPtr,
-		pathsCollection:     nil,
-		fileNamesCollection: nil,
+		Items: dirs,
 	}
 
 	dirWrappers.directories = dirWrappers
-	wrappers.directories = dirWrappers
+	it.directories = dirWrappers
 
-	return wrappers.directories
+	return it.directories
 }
 
-func (wrappers *Wrappers) PathsCollection() *PathsCollection {
-	if wrappers.pathsCollection != nil {
-		return wrappers.pathsCollection
+func (it *Wrappers) PathsCollection() *PathsCollection {
+	if it.pathsCollection != nil {
+		return it.pathsCollection
 	}
 
-	wrappers.pathsCollection = NewPathsUsingWrappers(
-		wrappers.RootPath,
-		wrappers.Separator,
-		wrappers)
+	it.pathsCollection = NewPathsUsingWrappers(
+		it.RootPath,
+		it.Separator,
+		it)
 
-	return wrappers.pathsCollection
+	return it.pathsCollection
 }
 
-func (wrappers *Wrappers) FileNamesCollection() *FileNamesCollection {
-	if wrappers.fileNamesCollection != nil {
-		return wrappers.fileNamesCollection
+func (it *Wrappers) FileNamesCollection() *FileNamesCollection {
+	if it.fileNamesCollection != nil {
+		return it.fileNamesCollection
 	}
 
-	wrappers.fileNamesCollection = NewFileNamesUsingWrappers(wrappers)
+	it.fileNamesCollection = NewFileNamesUsingWrappers(it)
 
-	return wrappers.fileNamesCollection
+	return it.fileNamesCollection
 }
 
-func (wrappers *Wrappers) IsEmpty() bool {
-	return wrappers.ErrorWrapper.HasError() ||
-		wrappers.Items == nil ||
-		len(*wrappers.Items) == 0
+func (it *Wrappers) IsEmpty() bool {
+	return it == nil ||
+		it.ErrorWrapper.HasError() ||
+		len(it.Items) == 0
 }
 
-func (wrappers *Wrappers) Length() int {
-	if wrappers.Items == nil || *wrappers.Items == nil {
+func (it *Wrappers) Length() int {
+	if it == nil {
 		return 0
 	}
 
-	return len(*wrappers.Items)
+	return len(it.Items)
 }
 
-func (wrappers *Wrappers) IsNameContains(
+func (it *Wrappers) IsNameContains(
 	name string,
 	isCaseSensitive bool,
 ) bool {
-	return wrappers.
+	return it.
 		FileNamesCollection().
 		IsContains(
 			name,
 			isCaseSensitive)
 }
 
-func (wrappers *Wrappers) JsonModel() *Wrappers {
-	return wrappers
+func (it Wrappers) Json() corejson.Result {
+	return corejson.NewFromAny(it)
 }
 
-func (wrappers *Wrappers) JsonModelAny() interface{} {
-	return wrappers.JsonModel()
+func (it Wrappers) JsonPtr() *corejson.Result {
+	return corejson.NewFromAnyPtr(it)
 }
 
-func (wrappers *Wrappers) AsJsoner() corejson.Jsoner {
-	return wrappers
+func (it *Wrappers) JsonModel() *Wrappers {
+	return it
 }
 
-func (wrappers *Wrappers) AsJsonParseSelfInjector() corejson.JsonParseSelfInjector {
-	return wrappers
+func (it *Wrappers) JsonModelAny() interface{} {
+	return it.JsonModel()
 }
 
-func (wrappers *Wrappers) JsonParseSelfInject(
+func (it *Wrappers) AsJsoner() corejson.Jsoner {
+	return it
+}
+
+func (it *Wrappers) AsJsonParseSelfInjector() corejson.JsonParseSelfInjector {
+	return it
+}
+
+func (it *Wrappers) JsonParseSelfInject(
 	jsonResult *corejson.Result,
 ) error {
-	_, err := wrappers.ParseInjectUsingJson(
+	_, err := it.ParseInjectUsingJson(
 		jsonResult,
 	)
 
 	return err
 }
 
-func (wrappers *Wrappers) Json() *corejson.Result {
-	if wrappers.IsEmpty() {
-		return corejson.EmptyWithoutErrorPtr()
-	}
-
-	jsonBytes, err := json.Marshal(wrappers.JsonModel())
-
-	return corejson.NewPtr(jsonBytes, err)
-}
-
-func (wrappers *Wrappers) ParseInjectUsingJson(
+func (it *Wrappers) ParseInjectUsingJson(
 	jsonResult *corejson.Result,
 ) (*Wrappers, error) {
 	err := jsonResult.Unmarshal(
-		&wrappers)
+		&it)
 
 	if err != nil {
 		return nil, err
 	}
 
-	return wrappers, nil
+	return it, nil
 }
 
 // ParseInjectUsingJsonMust Panic if error
-func (wrappers *Wrappers) ParseInjectUsingJsonMust(
+func (it *Wrappers) ParseInjectUsingJsonMust(
 	jsonResult *corejson.Result,
 ) *Wrappers {
 	newUsingJson, err :=
-		wrappers.ParseInjectUsingJson(jsonResult)
+		it.ParseInjectUsingJson(jsonResult)
 
 	if err != nil {
 		panic(err)

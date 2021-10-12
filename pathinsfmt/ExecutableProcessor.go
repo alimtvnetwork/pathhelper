@@ -48,7 +48,7 @@ func (e *ExecutableProcessor) GetExecuteOutputByExecuting(
 
 		writeErr := fsinternal.WriteFile(
 			normalizePath,
-			*output.ConsoleResult.OutputBytes())
+			output.ConsoleResult.OutputBytes())
 
 		errWrapperCollection.AddWrapperPtr(writeErr)
 	}
@@ -92,4 +92,13 @@ func (e *ExecutableProcessor) CreateCmdOnce() *errcmd.CmdOnce {
 	}
 
 	return cmdOnce
+}
+
+func (e *ExecutableProcessor) Dispose() {
+	if e == nil {
+		return
+	}
+
+	e.Args = nil
+	e.lazyCmdOnce.Dispose()
 }

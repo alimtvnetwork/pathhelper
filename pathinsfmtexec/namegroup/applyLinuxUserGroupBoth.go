@@ -1,6 +1,7 @@
 package namegroup
 
 import (
+	"gitlab.com/evatix-go/core/codestack"
 	"gitlab.com/evatix-go/errorwrapper"
 	"gitlab.com/evatix-go/errorwrapper/errnew"
 	"gitlab.com/evatix-go/pathhelper/internal/cmdprefix"
@@ -21,13 +22,13 @@ func applyLinuxUserGroupBoth(
 	if userNameGroupName.IsGroupNameEmpty() {
 		return deferrwrappers.
 			CannotApplyChmodWithSingleParameter.
-			ConcatNewMessage("Group name empty or not defined.")
+			ConcatNewMessage(codestack.SkipNone, "Group name empty or not defined.")
 	}
 
 	if userNameGroupName.IsUserNameEmpty() {
 		return deferrwrappers.
 			CannotApplyChmodWithSingleParameter.
-			ConcatNewMessage("User name empty or not defined.")
+			ConcatNewMessage(codestack.SkipNone, "User name empty or not defined.")
 	}
 
 	pathsLength := len(paths)

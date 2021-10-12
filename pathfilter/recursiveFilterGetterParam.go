@@ -6,6 +6,6 @@ type recursiveFilterGetterParam struct {
 	rootPathPlusSeparator   string
 	extensionsLength        int
 	additionalFiltersLength int
-	additionalFilters       *[]string
-	extensions              *[]string
+	additionalFilters       []string
+	extensions              []string
 }

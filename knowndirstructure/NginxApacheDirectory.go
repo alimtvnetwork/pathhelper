@@ -3,6 +3,7 @@ package knowndirstructure
 import (
 	"os"
 
+	"gitlab.com/evatix-go/core/coredata/corejson"
 	"gitlab.com/evatix-go/core/filemode"
 	"gitlab.com/evatix-go/core/osconsts"
 	"gitlab.com/evatix-go/errorwrapper"
@@ -29,177 +30,197 @@ type NginxApacheDirectory struct {
 	ApacheEnvVars    string `json:"ApacheEnvVars,omitempty"` // root + envvars
 }
 
-func (receiver *NginxApacheDirectory) IsRootExist() bool {
-	return fsinternal.IsPathExists(receiver.Root)
+func (it *NginxApacheDirectory) IsRootExist() bool {
+	return fsinternal.IsPathExists(it.Root)
 }
 
-func (receiver *NginxApacheDirectory) IsRootConfigFile() bool {
-	return fsinternal.IsPathExists(receiver.RootConfigFile)
+func (it *NginxApacheDirectory) IsRootConfigFile() bool {
+	return fsinternal.IsPathExists(it.RootConfigFile)
 }
 
-func (receiver *NginxApacheDirectory) IsConfigAvailable() bool {
-	return fsinternal.IsPathExists(receiver.ConfigAvailable)
+func (it *NginxApacheDirectory) IsConfigAvailable() bool {
+	return fsinternal.IsPathExists(it.ConfigAvailable)
 }
 
-func (receiver *NginxApacheDirectory) IsConfigEnabled() bool {
-	return fsinternal.IsPathExists(receiver.ConfigEnabled)
+func (it *NginxApacheDirectory) IsConfigEnabled() bool {
+	return fsinternal.IsPathExists(it.ConfigEnabled)
 }
 
-func (receiver *NginxApacheDirectory) IsSitesBackup() bool {
-	return fsinternal.IsPathExists(receiver.SitesBackup)
+func (it *NginxApacheDirectory) IsSitesBackup() bool {
+	return fsinternal.IsPathExists(it.SitesBackup)
 }
 
-func (receiver *NginxApacheDirectory) IsSitesAvailable() bool {
-	return fsinternal.IsPathExists(receiver.SitesAvailable)
+func (it *NginxApacheDirectory) IsSitesAvailable() bool {
+	return fsinternal.IsPathExists(it.SitesAvailable)
 }
 
-func (receiver *NginxApacheDirectory) IsSitesEnabled() bool {
-	return fsinternal.IsPathExists(receiver.SitesEnabled)
+func (it *NginxApacheDirectory) IsSitesEnabled() bool {
+	return fsinternal.IsPathExists(it.SitesEnabled)
 }
 
-func (receiver *NginxApacheDirectory) IsExtraConfig() bool {
-	return fsinternal.IsPathExists(receiver.ExtraConfig)
+func (it *NginxApacheDirectory) IsExtraConfig() bool {
+	return fsinternal.IsPathExists(it.ExtraConfig)
 }
 
-func (receiver *NginxApacheDirectory) IsModulesAvailable() bool {
-	return fsinternal.IsPathExists(receiver.ModulesAvailable)
+func (it *NginxApacheDirectory) IsModulesAvailable() bool {
+	return fsinternal.IsPathExists(it.ModulesAvailable)
 }
 
-func (receiver *NginxApacheDirectory) IsModulesEnabled() bool {
-	return fsinternal.IsPathExists(receiver.ModulesEnabled)
+func (it *NginxApacheDirectory) IsModulesEnabled() bool {
+	return fsinternal.IsPathExists(it.ModulesEnabled)
 }
 
-func (receiver *NginxApacheDirectory) MkDirRoot(mode os.FileMode) *errorwrapper.Wrapper {
-	return createdirinternal.AllRecurse(receiver.Root, mode)
+func (it *NginxApacheDirectory) MkDirRoot(mode os.FileMode) *errorwrapper.Wrapper {
+	return createdirinternal.AllRecurse(it.Root, mode)
 }
 
-func (receiver *NginxApacheDirectory) MkDirConfigAvailable(mode os.FileMode) *errorwrapper.Wrapper {
-	return createdirinternal.AllRecurse(receiver.ConfigAvailable, mode)
+func (it *NginxApacheDirectory) MkDirConfigAvailable(mode os.FileMode) *errorwrapper.Wrapper {
+	return createdirinternal.AllRecurse(it.ConfigAvailable, mode)
 }
 
-func (receiver *NginxApacheDirectory) MkDirConfigEnabled(mode os.FileMode) *errorwrapper.Wrapper {
-	return createdirinternal.AllRecurse(receiver.ConfigEnabled, mode)
+func (it *NginxApacheDirectory) MkDirConfigEnabled(mode os.FileMode) *errorwrapper.Wrapper {
+	return createdirinternal.AllRecurse(it.ConfigEnabled, mode)
 }
 
-func (receiver *NginxApacheDirectory) MkDirSitesBackup(mode os.FileMode) *errorwrapper.Wrapper {
-	return createdirinternal.AllRecurse(receiver.SitesBackup, mode)
+func (it *NginxApacheDirectory) MkDirSitesBackup(mode os.FileMode) *errorwrapper.Wrapper {
+	return createdirinternal.AllRecurse(it.SitesBackup, mode)
 }
 
-func (receiver *NginxApacheDirectory) MkDirSitesAvailable(mode os.FileMode) *errorwrapper.Wrapper {
-	return createdirinternal.AllRecurse(receiver.SitesAvailable, mode)
+func (it *NginxApacheDirectory) MkDirSitesAvailable(mode os.FileMode) *errorwrapper.Wrapper {
+	return createdirinternal.AllRecurse(it.SitesAvailable, mode)
 }
 
-func (receiver *NginxApacheDirectory) MkDirSitesEnabled(mode os.FileMode) *errorwrapper.Wrapper {
-	return createdirinternal.AllRecurse(receiver.SitesEnabled, mode)
+func (it *NginxApacheDirectory) MkDirSitesEnabled(mode os.FileMode) *errorwrapper.Wrapper {
+	return createdirinternal.AllRecurse(it.SitesEnabled, mode)
 }
 
-func (receiver *NginxApacheDirectory) MkDirExtraConfig(mode os.FileMode) *errorwrapper.Wrapper {
-	return createdirinternal.AllRecurse(receiver.ExtraConfig, mode)
+func (it *NginxApacheDirectory) MkDirExtraConfig(mode os.FileMode) *errorwrapper.Wrapper {
+	return createdirinternal.AllRecurse(it.ExtraConfig, mode)
 }
 
-func (receiver *NginxApacheDirectory) MkDirModulesAvailable(mode os.FileMode) *errorwrapper.Wrapper {
-	return createdirinternal.AllRecurse(receiver.ModulesAvailable, mode)
+func (it *NginxApacheDirectory) MkDirModulesAvailable(mode os.FileMode) *errorwrapper.Wrapper {
+	return createdirinternal.AllRecurse(it.ModulesAvailable, mode)
 }
 
-func (receiver *NginxApacheDirectory) MkDirModulesEnabled(mode os.FileMode) *errorwrapper.Wrapper {
-	return createdirinternal.AllRecurse(receiver.ModulesEnabled, mode)
+func (it *NginxApacheDirectory) MkDirModulesEnabled(mode os.FileMode) *errorwrapper.Wrapper {
+	return createdirinternal.AllRecurse(it.ModulesEnabled, mode)
 }
 
-func (receiver *NginxApacheDirectory) MkDirAll(mode os.FileMode) *errwrappers.Collection {
+func (it *NginxApacheDirectory) MkDirAll(mode os.FileMode) *errwrappers.Collection {
 	errCollection := errwrappers.Empty()
 
-	errCollection.AddWrapperPtr(receiver.MkDirRoot(mode))
-	errCollection.AddWrapperPtr(receiver.MkDirConfigAvailable(mode))
-	errCollection.AddWrapperPtr(receiver.MkDirConfigEnabled(mode))
-	errCollection.AddWrapperPtr(receiver.MkDirSitesBackup(mode))
-	errCollection.AddWrapperPtr(receiver.MkDirSitesAvailable(mode))
-	errCollection.AddWrapperPtr(receiver.MkDirSitesEnabled(mode))
-	errCollection.AddWrapperPtr(receiver.MkDirExtraConfig(mode))
-	errCollection.AddWrapperPtr(receiver.MkDirModulesAvailable(mode))
-	errCollection.AddWrapperPtr(receiver.MkDirModulesEnabled(mode))
+	errCollection.AddWrapperPtr(it.MkDirRoot(mode))
+	errCollection.AddWrapperPtr(it.MkDirConfigAvailable(mode))
+	errCollection.AddWrapperPtr(it.MkDirConfigEnabled(mode))
+	errCollection.AddWrapperPtr(it.MkDirSitesBackup(mode))
+	errCollection.AddWrapperPtr(it.MkDirSitesAvailable(mode))
+	errCollection.AddWrapperPtr(it.MkDirSitesEnabled(mode))
+	errCollection.AddWrapperPtr(it.MkDirExtraConfig(mode))
+	errCollection.AddWrapperPtr(it.MkDirModulesAvailable(mode))
+	errCollection.AddWrapperPtr(it.MkDirModulesEnabled(mode))
 
 	return errCollection
 }
 
-func (receiver *NginxApacheDirectory) MkDirAllDefault() *errwrappers.Collection {
-	return receiver.MkDirAll(filemode.X644)
+func (it *NginxApacheDirectory) MkDirAllDefault() *errwrappers.Collection {
+	return it.MkDirAll(filemode.X644)
 }
 
-func (receiver *NginxApacheDirectory) CombinedSitesAvailable(
+func (it NginxApacheDirectory) Json() corejson.Result {
+	return corejson.NewFromAny(it)
+}
+
+func (it NginxApacheDirectory) JsonPtr() *corejson.Result {
+	return corejson.NewFromAnyPtr(it)
+}
+
+func (it NginxApacheDirectory) JsonString() string {
+	return corejson.NewFromAnyPtr(it).JsonString()
+}
+
+func (it NginxApacheDirectory) JsonModelAny() interface{} {
+	return it
+}
+
+func (it NginxApacheDirectory) AsJsoner() corejson.Jsoner {
+	return it
+}
+
+func (it *NginxApacheDirectory) CombinedSitesAvailable(
 	combinedPaths ...string,
 ) (
 	first string,
 	allCombinedPaths []string,
 ) {
 	return normalizeinternal.PathsCombine(
-		receiver.SitesAvailable,
+		it.SitesAvailable,
 		combinedPaths)
 }
 
-func (receiver *NginxApacheDirectory) CombinedSitesEnabled(
+func (it *NginxApacheDirectory) CombinedSitesEnabled(
 	combinedPaths ...string,
 ) (
 	first string,
 	allCombinedPaths []string,
 ) {
 	return normalizeinternal.PathsCombine(
-		receiver.SitesEnabled,
+		it.SitesEnabled,
 		combinedPaths)
 }
 
-func (receiver *NginxApacheDirectory) CombinedRoot(
+func (it *NginxApacheDirectory) CombinedRoot(
 	combinedPaths ...string,
 ) (
 	first string,
 	allCombinedPaths []string,
 ) {
 	return normalizeinternal.PathsCombine(
-		receiver.Root,
+		it.Root,
 		combinedPaths)
 }
 
-func (receiver *NginxApacheDirectory) AllFilesAtSitesBackup() *errstr.Results {
+func (it *NginxApacheDirectory) AllFilesAtSitesBackup() *errstr.Results {
 	return pathgetterinternal.GetAllFiles(
 		true,
 		osconsts.PathSeparator,
-		receiver.SitesBackup)
+		it.SitesBackup)
 }
 
-func (receiver *NginxApacheDirectory) AllFilesAtSitesAvailable() *errstr.Results {
+func (it *NginxApacheDirectory) AllFilesAtSitesAvailable() *errstr.Results {
 	return pathgetterinternal.GetAllFiles(
 		true,
 		osconsts.PathSeparator,
-		receiver.SitesAvailable)
+		it.SitesAvailable)
 }
 
-func (receiver *NginxApacheDirectory) AllFilesAtSitesEnabled() *errstr.Results {
+func (it *NginxApacheDirectory) AllFilesAtSitesEnabled() *errstr.Results {
 	return pathgetterinternal.GetAllFiles(
 		true,
 		osconsts.PathSeparator,
-		receiver.Root)
+		it.Root)
 }
 
-func (receiver *NginxApacheDirectory) AllPathsAtRoot() *errstr.Results {
+func (it *NginxApacheDirectory) AllPathsAtRoot() *errstr.Results {
 	return pathgetterinternal.GetAllPaths(
 		true,
 		osconsts.PathSeparator,
-		receiver.Root)
+		it.Root)
 }
 
-func (receiver *NginxApacheDirectory) AllFilesAtRoot() *errstr.Results {
+func (it *NginxApacheDirectory) AllFilesAtRoot() *errstr.Results {
 	return pathgetterinternal.GetAllFiles(
 		true,
 		osconsts.PathSeparator,
-		receiver.Root)
+		it.Root)
 }
 
-func (receiver *NginxApacheDirectory) IsAllExist() bool {
-	return receiver.IsRootExist() &&
-		receiver.IsRootConfigFile() &&
-		receiver.IsConfigAvailable() &&
-		receiver.IsConfigEnabled() &&
-		receiver.IsSitesAvailable() &&
-		receiver.IsSitesEnabled() &&
-		receiver.IsExtraConfig() &&
-		receiver.IsModulesAvailable()
+func (it *NginxApacheDirectory) IsAllExist() bool {
+	return it.IsRootExist() &&
+		it.IsRootConfigFile() &&
+		it.IsConfigAvailable() &&
+		it.IsConfigEnabled() &&
+		it.IsSitesAvailable() &&
+		it.IsSitesEnabled() &&
+		it.IsExtraConfig() &&
+		it.IsModulesAvailable()
 }

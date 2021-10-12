@@ -2,8 +2,12 @@ package splitinternal
 
 import "gitlab.com/evatix-go/core/constants"
 
-// GetFileNameWithExt reference example : https://play.golang.org/p/oT6eWNZAeEi
-func GetFileNameWithExt(currentPath string) (fileName string) {
+// GetName
+//
+// Can be dir name, file name with ext
+//
+// reference example : https://play.golang.org/p/oT6eWNZAeEi
+func GetName(currentPath string) (fileName string) {
 	i := LastSlash(
 		currentPath)
 

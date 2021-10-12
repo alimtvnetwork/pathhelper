@@ -4,19 +4,27 @@ import (
 	"os"
 	"time"
 
+	"gitlab.com/evatix-go/core/chmodhelper"
 	"gitlab.com/evatix-go/core/constants"
 	"gitlab.com/evatix-go/core/corecomparator"
+	"gitlab.com/evatix-go/core/coredata/corejson"
+	"gitlab.com/evatix-go/core/coredata/corestr"
+	"gitlab.com/evatix-go/core/errcore"
+	"gitlab.com/evatix-go/core/iserror"
 	"gitlab.com/evatix-go/errorwrapper"
 	"gitlab.com/evatix-go/errorwrapper/errnew"
 	"gitlab.com/evatix-go/errorwrapper/errtype"
-	"gitlab.com/evatix-go/pathhelper/internal/pathcompare"
+	"gitlab.com/evatix-go/pathhelper/internal/consts"
+	"gitlab.com/evatix-go/pathhelper/internal/ispathinternal"
+	"gitlab.com/evatix-go/pathhelper/internal/pathcompareinternal"
 	"gitlab.com/evatix-go/pathhelper/internal/splitinternal"
 )
 
 type Instance struct {
-	FileInfo os.FileInfo
-	FullPath string
-	Error    error
+	FileInfo         os.FileInfo
+	FullPath         string
+	Error            error
+	compiledToString corestr.SimpleStringOnce
 }
 
 func New(location string) *Instance {
@@ -26,6 +34,17 @@ func New(location string) *Instance {
 		FileInfo: fileInfo,
 		FullPath: location,
 		Error:    err,
+	}
+}
+
+func NewUsingStat(
+	fullPath string,
+	pathExistStat *chmodhelper.PathExistStat,
+) *Instance {
+	return &Instance{
+		FileInfo: pathExistStat.FileInfo,
+		FullPath: fullPath,
+		Error:    pathExistStat.Error,
 	}
 }
 
@@ -57,6 +76,9 @@ func (it *Instance) IsExist() bool {
 	return it != nil && it.FileInfo != nil && (it.Error == nil || !os.IsNotExist(it.Error))
 }
 
+// IsInvalidPath
+//
+// it == nil || it.FileInfo == nil || it.Error != nil
 func (it *Instance) IsInvalidPath() bool {
 	return it == nil || it.FileInfo == nil || it.Error != nil
 }
@@ -127,16 +149,60 @@ func (it *Instance) Size() *int64 {
 	return nil
 }
 
-func (it *Instance) CompareFileInfo(right os.FileInfo) corecomparator.Compare {
-	return pathcompare.FileInfo(it.FileInfo, right)
+func (it *Instance) IsEqualDefault(right *Instance) bool {
+	return it.IsEqual(
+		true,
+		false,
+		false,
+		right)
+}
+
+func (it *Instance) IsEqual(
+	isQuickVerifyOnPathEqual,
+	isPathMustMatchIfDir,
+	isVerifyContent bool,
+	right *Instance,
+) bool {
+	if it == nil && right == nil {
+		return true
+	}
+
+	if it == nil || right == nil {
+		return false
+	}
+
+	if it == right {
+		return true
+	}
+
+	if it.FullPath == right.FullPath {
+		return true
+	}
+
+	if iserror.NotEqual(it.Error, right.Error) {
+		return false
+	}
+
+	return ispathinternal.FileInfoDetailedEqual(
+		isQuickVerifyOnPathEqual,
+		isPathMustMatchIfDir,
+		isVerifyContent,
+		it.FullPath,
+		right.FullPath,
+		it.FileInfo,
+		right.FileInfo)
+}
+
+func (it *Instance) CompareFileInfoLastModifiedDate(right os.FileInfo) corecomparator.Compare {
+	return pathcompareinternal.FileInfoLastModified(it.FileInfo, right)
 }
 
 func (it *Instance) CompareSize(anotherInstance *Instance) corecomparator.Compare {
-	return pathcompare.Size(it.Size(), anotherInstance.Size())
+	return pathcompareinternal.SizePtr(it.Size(), anotherInstance.Size())
 }
 
 func (it *Instance) CompareLastModified(anotherInstance *Instance) corecomparator.Compare {
-	return pathcompare.LastModified(it.LastModifiedAt(), anotherInstance.LastModifiedAt())
+	return pathcompareinternal.LastModifiedPtr(it.LastModifiedAt(), anotherInstance.LastModifiedAt())
 }
 
 func (it *Instance) NotFileError() *errorwrapper.Wrapper {
@@ -159,6 +225,65 @@ func (it *Instance) NotDirError() *errorwrapper.Wrapper {
 		errtype.Directory,
 		it.FullPath,
 		"Cannot read invalid path or a file. (required directory)")
+}
+
+func (it *Instance) String() string {
+	if it == nil {
+		return constants.EmptyString
+	}
+
+	if it.compiledToString.IsInitialized() {
+		return it.compiledToString.String()
+	}
+
+	nameValues := []errcore.NameVal{
+		{
+			Name:  "FullPath",
+			Value: it.FullPath,
+		},
+	}
+
+	nameValues = errcore.ConditionalNameValAppend(
+		it.FileInfo != nil,
+		nameValues,
+		errcore.NameVal{
+			Name:  "FileInfo",
+			Value: FileInfoString(it.FileInfo),
+		})
+
+	nameValues = errcore.ConditionalNameValAppend(
+		it.Error != nil,
+		nameValues,
+		errcore.NameVal{
+			Name:  "Error",
+			Value: it.Error,
+		})
+
+	toString := errcore.VarNameValuesJoiner(
+		consts.FileInfoEachLineJoiner,
+		nameValues...)
+
+	return it.compiledToString.GetPlusSetOnUninitialized(toString)
+}
+
+func (it Instance) Json() corejson.Result {
+	return corejson.NewFromAny(it)
+}
+
+func (it Instance) JsonPtr() *corejson.Result {
+	return corejson.NewFromAnyPtr(it)
+}
+
+func (it Instance) JsonString() string {
+	return corejson.NewFromAnyPtr(it).JsonString()
+}
+
+func (it Instance) JsonModelAny() interface{} {
+	return it
+}
+
+func (it Instance) AsJsoner() corejson.Jsoner {
+	return it
 }
 
 func (it *Instance) ErrorWrapper(errType errtype.Variation) *errorwrapper.Wrapper {

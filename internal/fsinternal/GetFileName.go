@@ -3,5 +3,5 @@ package fsinternal
 import "gitlab.com/evatix-go/pathhelper/internal/splitinternal"
 
 func GetFileName(location string) string {
-	return splitinternal.GetFileNameWithExt(location)
+	return splitinternal.GetName(location)
 }

@@ -66,7 +66,7 @@ func NewPathsUsingWrappers(
 		[]*SimplePathWrapper,
 		wrappers.Length())
 
-	for i, wrapper := range *wrappers.Items {
+	for i, wrapper := range wrappers.Items {
 		paths[i] = &SimplePathWrapper{
 			Path:        wrapper.RawPath,
 			IsDirectory: wrapper.IsDirectory,
@@ -123,21 +123,21 @@ func NewPathsUsingPaths(
 	return wrappers
 }
 
-func (pathsCollection *PathsCollection) Directories() *[]string {
-	if pathsCollection.directories != nil {
-		return pathsCollection.directories
+func (it *PathsCollection) Directories() *[]string {
+	if it.directories != nil {
+		return it.directories
 	}
 
-	if pathsCollection.IsEmpty() {
-		pathsCollection.directories =
+	if it.IsEmpty() {
+		it.directories =
 			core.EmptyStringsPtr()
 
-		return pathsCollection.directories
+		return it.directories
 	}
 
-	directories := make([]string, 0, pathsCollection.Length())
+	directories := make([]string, 0, it.Length())
 
-	for _, pathWrapper := range *pathsCollection.pathWrappers {
+	for _, pathWrapper := range *it.pathWrappers {
 		if !pathWrapper.IsDirectory {
 			continue
 		}
@@ -145,25 +145,25 @@ func (pathsCollection *PathsCollection) Directories() *[]string {
 		directories = append(directories, pathWrapper.Path)
 	}
 
-	pathsCollection.directories = &directories
+	it.directories = &directories
 
-	return pathsCollection.directories
+	return it.directories
 }
 
-func (pathsCollection *PathsCollection) Files() *[]string {
-	if pathsCollection.files != nil {
-		return pathsCollection.files
+func (it *PathsCollection) Files() *[]string {
+	if it.files != nil {
+		return it.files
 	}
 
-	if pathsCollection.IsEmpty() {
-		pathsCollection.files = core.EmptyStringsPtr()
+	if it.IsEmpty() {
+		it.files = core.EmptyStringsPtr()
 
-		return pathsCollection.files
+		return it.files
 	}
 
-	files := make([]string, 0, pathsCollection.Length())
+	files := make([]string, 0, it.Length())
 
-	for _, pathWrapper := range *pathsCollection.pathWrappers {
+	for _, pathWrapper := range *it.pathWrappers {
 		if pathWrapper.IsDirectory {
 			continue
 		}
@@ -171,92 +171,92 @@ func (pathsCollection *PathsCollection) Files() *[]string {
 		files = append(files, pathWrapper.Path)
 	}
 
-	pathsCollection.files = &files
+	it.files = &files
 
-	return pathsCollection.files
+	return it.files
 }
 
-func (pathsCollection *PathsCollection) IsEmpty() bool {
-	return pathsCollection.pathWrappers == nil ||
-		pathsCollection.ErrorWrapper.HasError() ||
-		len(*pathsCollection.pathWrappers) == 0
+func (it *PathsCollection) IsEmpty() bool {
+	return it.pathWrappers == nil ||
+		it.ErrorWrapper.HasError() ||
+		len(*it.pathWrappers) == 0
 }
 
-func (pathsCollection *PathsCollection) Length() int {
-	if pathsCollection.pathWrappers == nil || *pathsCollection.pathWrappers == nil {
+func (it *PathsCollection) Length() int {
+	if it.pathWrappers == nil || *it.pathWrappers == nil {
 		return 0
 	}
 
-	return len(*pathsCollection.pathWrappers)
+	return len(*it.pathWrappers)
 }
 
-func (pathsCollection *PathsCollection) IsParentWrappersEmpty() bool {
-	return pathsCollection.parentWrappers == nil ||
-		pathsCollection.parentWrappers.IsEmpty()
+func (it *PathsCollection) IsParentWrappersEmpty() bool {
+	return it.parentWrappers == nil ||
+		it.parentWrappers.IsEmpty()
 }
 
-func (pathsCollection *PathsCollection) HasParentWrappers() bool {
-	return pathsCollection.parentWrappers != nil
+func (it *PathsCollection) HasParentWrappers() bool {
+	return it.parentWrappers != nil
 }
 
-func (pathsCollection *PathsCollection) ParentWrappers() *Wrappers {
-	return pathsCollection.parentWrappers
+func (it *PathsCollection) ParentWrappers() *Wrappers {
+	return it.parentWrappers
 }
 
-func (pathsCollection *PathsCollection) Add(
+func (it *PathsCollection) Add(
 	wrapper *SimplePathWrapper,
 ) *PathsCollection {
-	*pathsCollection.pathWrappers = append(
-		*pathsCollection.pathWrappers,
+	*it.pathWrappers = append(
+		*it.pathWrappers,
 		wrapper)
 
-	return pathsCollection
+	return it
 }
 
-func (pathsCollection *PathsCollection) AddPtr(
+func (it *PathsCollection) AddPtr(
 	wrapper *SimplePathWrapper,
 ) *PathsCollection {
-	*pathsCollection.pathWrappers = append(
-		*pathsCollection.pathWrappers,
+	*it.pathWrappers = append(
+		*it.pathWrappers,
 		wrapper)
 
-	return pathsCollection
+	return it
 }
 
-func (pathsCollection *PathsCollection) AddWrapper(
+func (it *PathsCollection) AddWrapper(
 	pathWrapper *SimplePathWrapper,
 ) *PathsCollection {
-	*pathsCollection.pathWrappers = append(
-		*pathsCollection.pathWrappers,
+	*it.pathWrappers = append(
+		*it.pathWrappers,
 		pathWrapper)
 
-	return pathsCollection
+	return it
 }
 
-func (pathsCollection *PathsCollection) Strings() *[]string {
+func (it *PathsCollection) Strings() *[]string {
 	list := make(
 		[]string,
-		pathsCollection.Length())
+		it.Length())
 
-	for i, wrapper := range *pathsCollection.pathWrappers {
+	for i, wrapper := range *it.pathWrappers {
 		list[i] = wrapper.String()
 	}
 
 	return &list
 }
 
-func (pathsCollection *PathsCollection) String() string {
+func (it *PathsCollection) String() string {
 	list := make(
 		[]string,
 		constants.ArbitraryCapacity4)
 	compiledPaths := strings.Join(
-		*pathsCollection.Strings(),
+		*it.Strings(),
 		constants.NewLineUnix)
 
-	list[coreindexes.I0] = "Root Location :" + pathsCollection.rootPath
-	list[coreindexes.I1] = "Separator :" + pathsCollection.separator
-	if pathsCollection.ErrorWrapper.HasError() {
-		list[coreindexes.I2] = "Error :" + pathsCollection.ErrorWrapper.
+	list[coreindexes.I0] = "Root Location :" + it.rootPath
+	list[coreindexes.I1] = "Separator :" + it.separator
+	if it.ErrorWrapper.HasError() {
+		list[coreindexes.I2] = "Error :" + it.ErrorWrapper.
 			String()
 	}
 
@@ -267,67 +267,70 @@ func (pathsCollection *PathsCollection) String() string {
 		constants.NewLineUnix)
 }
 
-func (pathsCollection *PathsCollection) MarshalJSON() ([]byte, error) {
-	return json.Marshal(*pathsCollection.JsonModel())
+func (it *PathsCollection) MarshalJSON() ([]byte, error) {
+	return json.Marshal(*it.JsonModel())
 }
 
-func (pathsCollection *PathsCollection) UnmarshalJSON(data []byte) error {
+func (it *PathsCollection) UnmarshalJSON(data []byte) error {
 	var dataModel PathsCollectionDataModel
 	err := json.Unmarshal(data, &dataModel)
 
 	if err == nil {
-		pathsCollection.rootPath = dataModel.RootPath
-		pathsCollection.pathWrappers = dataModel.PathWrappers
-		pathsCollection.separator = dataModel.Separator
-		pathsCollection.ErrorWrapper = dataModel.ErrorWrapper
-		pathsCollection.parentWrappers = dataModel.ParentWrappers
+		it.rootPath = dataModel.RootPath
+		it.pathWrappers = dataModel.PathWrappers
+		it.separator = dataModel.Separator
+		it.ErrorWrapper = dataModel.ErrorWrapper
+		it.parentWrappers = dataModel.ParentWrappers
 	}
 
 	return err
 }
 
-func (pathsCollection *PathsCollection) JsonModel() *PathsCollectionDataModel {
+func (it *PathsCollection) JsonModel() *PathsCollectionDataModel {
 	return &PathsCollectionDataModel{
-		RootPath:       pathsCollection.rootPath,
-		PathWrappers:   pathsCollection.pathWrappers,
-		Separator:      pathsCollection.separator,
-		ErrorWrapper:   pathsCollection.ErrorWrapper,
-		ParentWrappers: pathsCollection.parentWrappers,
+		RootPath:       it.rootPath,
+		PathWrappers:   it.pathWrappers,
+		Separator:      it.separator,
+		ErrorWrapper:   it.ErrorWrapper,
+		ParentWrappers: it.parentWrappers,
 	}
 }
 
-func (pathsCollection *PathsCollection) JsonModelAny() interface{} {
-	return pathsCollection.JsonModel()
+func (it *PathsCollection) JsonModelAny() interface{} {
+	return it.JsonModel()
 }
 
-func (pathsCollection *PathsCollection) Json() *corejson.Result {
-	return corejson.NewFromAny(pathsCollection)
+func (it PathsCollection) Json() corejson.Result {
+	return corejson.NewFromAny(it)
 }
 
-//goland:noinspection GoLinterLocal
-func (pathsCollection *PathsCollection) ParseInjectUsingJson(
+func (it PathsCollection) JsonPtr() *corejson.Result {
+	return corejson.NewFromAnyPtr(it)
+}
+
+func (it *PathsCollection) ParseInjectUsingJson(
 	jsonResult *corejson.Result,
 ) (*PathsCollection, error) {
 	if jsonResult == nil || jsonResult.IsEmptyJsonBytes() {
 		return nil, defaulterr.UnMarshallingFailedDueToNilOrEmpty
 	}
 
-	err := json.Unmarshal(jsonResult.Bytes, &pathsCollection)
+	err := json.Unmarshal(jsonResult.Bytes, &it)
 
 	if err != nil {
 		return nil, err
 	}
 
-	return pathsCollection, nil
+	return it, nil
 }
 
 // Panic if error
 //goland:noinspection GoLinterLocal
-func (pathsCollection *PathsCollection) ParseInjectUsingJsonMust(
+func (it *PathsCollection) ParseInjectUsingJsonMust(
 	jsonResult *corejson.Result,
 ) *PathsCollection {
 	newUsingJson, err :=
-		pathsCollection.ParseInjectUsingJson(jsonResult)
+		it.ParseInjectUsingJson(jsonResult)
 
 	if err != nil {
 		panic(err)
@@ -336,20 +339,20 @@ func (pathsCollection *PathsCollection) ParseInjectUsingJsonMust(
 	return newUsingJson
 }
 
-func (pathsCollection *PathsCollection) JsonParseSelfInject(
+func (it *PathsCollection) JsonParseSelfInject(
 	jsonResult *corejson.Result,
 ) error {
-	_, err := pathsCollection.ParseInjectUsingJson(
+	_, err := it.ParseInjectUsingJson(
 		jsonResult,
 	)
 
 	return err
 }
 
-func (pathsCollection *PathsCollection) AsJsoner() corejson.Jsoner {
-	return pathsCollection
+func (it *PathsCollection) AsJsoner() corejson.Jsoner {
+	return it
 }
 
-func (pathsCollection *PathsCollection) AsJsonParseSelfInjector() corejson.JsonParseSelfInjector {
-	return pathsCollection
+func (it *PathsCollection) AsJsonParseSelfInjector() corejson.JsonParseSelfInjector {
+	return it
 }

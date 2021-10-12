@@ -5,7 +5,7 @@ type (
 	// linuxCurrentEnvPathRaw - linux current environment path string, read from /etc/environment file.
 	//  - Format PATH="path1:path2:path3"
 	linuxEnvPathCrudFunc func(
-		crudEnvPaths *[]string,
+		crudEnvPaths []string,
 		linuxCurrentEnvPathRaw string,
 	) string
 )

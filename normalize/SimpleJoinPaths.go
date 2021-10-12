@@ -12,6 +12,6 @@ func SimpleJoinPaths(locations ...string) string {
 	}
 
 	return stringslice.NonEmptyJoin(
-		&locations,
+		locations,
 		osconsts.PathSeparator)
 }

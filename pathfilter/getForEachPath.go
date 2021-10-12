@@ -60,7 +60,7 @@ func getFilesForEachPath(
 	}
 
 	collection := corestr.NewCollectionUsingStrings(
-		files.ValueMust(),
+		files.Values,
 		false)
 
 	results := getFilteredFilesByExtensions(

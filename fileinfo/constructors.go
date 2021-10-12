@@ -4,9 +4,6 @@ import (
 	"io/ioutil"
 	"os"
 
-	"gitlab.com/evatix-go/core/constants"
-	"gitlab.com/evatix-go/core/msgtype"
-	"gitlab.com/evatix-go/errorwrapper"
 	"gitlab.com/evatix-go/errorwrapper/errnew"
 	"gitlab.com/evatix-go/errorwrapper/errtype"
 
@@ -18,13 +15,9 @@ func New(rawPath, separator string) *Wrapper {
 	isEmptyPath := ispath.Empty(rawPath)
 
 	if isEmptyPath {
-		emptyFileError := errorwrapper.NewFilePathPtr(
-			msgtype.InvalidEmptyPathErrorMessage.String(),
-			constants.EmptyString)
-
 		return &Wrapper{
 			FileInfo:     nil,
-			ErrorWrapper: emptyFileError,
+			ErrorWrapper: errnew.EmptyFilePath,
 			RawPath:      rawPath,
 			IsDirectory:  false,
 			IsFile:       false,
@@ -37,7 +30,7 @@ func New(rawPath, separator string) *Wrapper {
 	errWrapper := errnew.EmptyPtr
 
 	if err != nil {
-		errWrapper = errorwrapper.NewFilePtr(
+		errWrapper = errnew.Path(
 			errtype.PathRelatedIssue,
 			err,
 			rawPath)
@@ -61,13 +54,9 @@ func NewError(
 	isFilePathEmpty := ispath.Empty(filePath)
 
 	if err != nil {
-		errWrapper := errorwrapper.NewFilePathPtr(
-			err.Error(),
-			filePath)
-
 		return &Wrapper{
 			FileInfo:     nil,
-			ErrorWrapper: errWrapper,
+			ErrorWrapper: errnew.EmptyFilePath,
 			RawPath:      filePath,
 			IsDirectory:  false,
 			IsFile:       false,
@@ -76,12 +65,12 @@ func NewError(
 		}
 	}
 
-	fileErrWrapper := errorwrapper.NewFilePathPtr(
-		errtype.FileOrDirectoryRelatedExecution.String(),
+	fileErrWrapper := errnew.Path(
+		errtype.PathMissingOrInvalid,
+		err,
 		filePath)
 
 	return &Wrapper{
-		FileInfo:     nil,
 		ErrorWrapper: fileErrWrapper,
 		RawPath:      filePath,
 		IsDirectory:  false,
@@ -105,15 +94,16 @@ func NewUsingInfo(
 			err)
 	}
 
-	fileErrWrapper := errorwrapper.NewFilePathPtr(
-		errtype.FileOrDirectoryRelatedExecution.String(),
+	fileErr := errnew.Path(
+		errtype.PathMissingOrInvalid,
+		err,
 		filePath)
 
 	isDir := osFileInfo.IsDir()
 
 	return &Wrapper{
 		FileInfo:     osFileInfo,
-		ErrorWrapper: fileErrWrapper,
+		ErrorWrapper: fileErr,
 		RawPath:      filePath,
 		IsDirectory:  isDir,
 		IsFile:       !isDir,
@@ -126,14 +116,8 @@ func NewWrappersPtrUsingCapacity(rootPath string, capacity int) *Wrappers {
 	collection := make([]*Wrapper, 0, capacity)
 
 	return &Wrappers{
-		RootPath:            rootPath,
-		Items:               &collection,
-		directories:         nil,
-		files:               nil,
-		recursiveDirs:       nil,
-		ErrorWrapper:        errnew.EmptyPtr,
-		pathsCollection:     nil,
-		fileNamesCollection: nil,
+		RootPath: rootPath,
+		Items:    collection,
 	}
 }
 
@@ -148,14 +132,9 @@ func NewWrappersPtr(
 	fileInfos, err := ioutil.ReadDir(filePath)
 
 	if err != nil {
-		errW := errorwrapper.NewFilePath(
-			err.Error(),
-			filePath)
-
 		return &Wrappers{
 			RootPath:     filePath,
-			Items:        nil,
-			ErrorWrapper: &errW,
+			ErrorWrapper: errnew.EmptyFilePath,
 			Separator:    separator,
 		}
 	}
@@ -185,9 +164,8 @@ func NewWrappersPtr(
 	}
 
 	return &Wrappers{
-		RootPath:     filePath,
-		Items:        &collection,
-		ErrorWrapper: errnew.EmptyPtr,
-		Separator:    separator,
+		RootPath:  filePath,
+		Items:     collection,
+		Separator: separator,
 	}
 }

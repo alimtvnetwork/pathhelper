@@ -11,6 +11,10 @@ import (
 )
 
 func CopyFileContents(srcPath, dstPath string) (errWp *errorwrapper.Wrapper) {
+	if srcPath == dstPath {
+		return nil
+	}
+
 	inFile, errOpen := os.Open(srcPath)
 
 	defer errdefer.CloseFile(

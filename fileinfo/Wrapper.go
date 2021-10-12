@@ -139,8 +139,12 @@ func (it *Wrapper) JsonModelAny() interface{} {
 	return it.JsonModel()
 }
 
-func (it *Wrapper) Json() *corejson.Result {
+func (it Wrapper) Json() corejson.Result {
 	return corejson.NewFromAny(it)
+}
+
+func (it Wrapper) JsonPtr() *corejson.Result {
+	return corejson.NewFromAnyPtr(it)
 }
 
 //goland:noinspection GoLinterLocal

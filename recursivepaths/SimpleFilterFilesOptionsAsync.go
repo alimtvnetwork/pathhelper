@@ -6,23 +6,24 @@ import (
 	"gitlab.com/evatix-go/pathhelper/pathrecurseinfo"
 )
 
-func FilterOptions(
+func SimpleFilterFilesOptionsAsync(
+	isRecursive,
 	isNormalize, isExpandEnv bool,
-	filter pathfuncs.Filter,
+	filter pathfuncs.SimpleFilter,
 	rootPath string,
 ) *errstr.Results {
 	instruction := pathrecurseinfo.Instruction{
 		Root:                   rootPath,
-		IsIncludeFilesOnly:     false,
 		IsRelativePath:         false,
+		IsIncludeFilesOnly:     true,
 		IsIncludeDirsOnly:      false,
-		IsIncludeAll:           true,
-		IsRecursive:            true,
+		IsIncludeAll:           false,
+		IsRecursive:            isRecursive,
 		IsExpandEnvironmentVar: isExpandEnv,
 		IsNormalize:            isNormalize,
 	}
 
 	result := instruction.Result()
 
-	return result.FilterStringsResults(filter)
+	return result.SimpleFilterFullPathsAsync(filter)
 }

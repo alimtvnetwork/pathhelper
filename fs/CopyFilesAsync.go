@@ -4,7 +4,7 @@ import (
 	"sync"
 
 	"gitlab.com/evatix-go/core/constants"
-	"gitlab.com/evatix-go/core/msgtype"
+	"gitlab.com/evatix-go/core/errcore"
 	"gitlab.com/evatix-go/errorwrapper"
 	"gitlab.com/evatix-go/errorwrapper/errnew"
 	"gitlab.com/evatix-go/errorwrapper/errtype"
@@ -55,10 +55,10 @@ func CopyFilesAsync(
 
 	wg.Wait()
 
-	err := msgtype.SliceToError(sliceErr)
+	err := errcore.SliceToError(sliceErr)
 
 	if err == nil {
-		return errnew.EmptyPtr
+		return nil
 	}
 
 	return errnew.Path(
