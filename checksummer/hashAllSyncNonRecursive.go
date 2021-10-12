@@ -5,7 +5,7 @@ import (
 	"path/filepath"
 
 	"gitlab.com/evatix-go/core/constants"
-	"gitlab.com/evatix-go/core/msgtype"
+	"gitlab.com/evatix-go/core/errcore"
 
 	"gitlab.com/evatix-go/pathhelper/hashas"
 )
@@ -46,5 +46,5 @@ func hashAllSyncNonRecursive(
 		filesHashes[path] = errResult.Values
 	}
 
-	return filesHashes, msgtype.SliceToError(hashErrors)
+	return filesHashes, errcore.SliceToError(hashErrors)
 }

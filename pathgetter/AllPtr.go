@@ -11,7 +11,7 @@ import (
 func AllPtr(
 	separator string,
 	isNormalize bool,
-	exploringPaths *[]string,
+	exploringPaths []string,
 ) *errstr.Results {
 	length := corestr.LengthOfStrings(exploringPaths)
 
@@ -23,13 +23,13 @@ func AllPtr(
 		return AllOfSinglePath(
 			isNormalize,
 			separator,
-			(*exploringPaths)[0])
+			exploringPaths[0])
 	}
 
 	linkedCollection := corestr.NewLinkedCollections()
 	wg := &sync.WaitGroup{}
 
-	for _, expPath := range *exploringPaths {
+	for _, expPath := range exploringPaths {
 		wg.Add(1)
 		allPaths := AllOfSinglePath(
 			isNormalize,

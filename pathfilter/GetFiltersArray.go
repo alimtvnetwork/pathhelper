@@ -1,21 +1,22 @@
 package pathfilter
 
 import (
-	"gitlab.com/evatix-go/core/constants"
 	"gitlab.com/evatix-go/core/coredata/corestr"
 	"gitlab.com/evatix-go/core/osconsts"
 
 	"gitlab.com/evatix-go/pathhelper/normalize"
 )
 
+// GetFiltersArray
+//
 // rootPath should not ends with separator
 func GetFiltersArray(
 	rootPath string,
-	additionalFilters *[]string,
-	extensions *[]string,
+	additionalFilters []string,
+	extensions []string,
 	isRecursive bool,
 	isNormalizePath bool,
-) *[]string {
+) []string {
 	separator := osconsts.PathSeparator
 	rootPath2 := normalize.PathUsingSeparatorIf(
 		isNormalizePath,
@@ -31,12 +32,6 @@ func GetFiltersArray(
 	extensionsLength :=
 		corestr.LengthOfStrings(extensions)
 
-	newExtensionsPtr := extensions
-
-	if extensionsLength == 0 {
-		newExtensionsPtr = &(constants.EmptyStrings)
-	}
-
 	arg := &recursiveFilterGetterParam{
 		separator:               separator,
 		rootPath:                rootPath2,
@@ -45,7 +40,7 @@ func GetFiltersArray(
 		extensionsLength:        extensionsLength,
 		additionalFiltersLength: additionalFilterLength,
 		additionalFilters:       additionalFilters,
-		extensions:              newExtensionsPtr,
+		extensions:              extensions,
 	}
 
 	if additionalFilterLength == 0 && isRecursive {

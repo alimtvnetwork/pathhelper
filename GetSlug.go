@@ -19,10 +19,12 @@ func GetSlug(
 	}
 
 	runes := []rune(path)
+	hasChanges := false
 	for i, eachChar := range runes {
 		if constants.AsciiSpace[eachChar] == constants.One {
 			// space
 			runes[i] = spaceFixingSlug
+			hasChanges = true
 
 			continue
 		} else if isAlphabetChar(eachChar) || isNumber(eachChar) {
@@ -36,6 +38,12 @@ func GetSlug(
 		}
 
 		runes[i] = fixingSlugRune
+		hasChanges = true
+	}
+
+	if !hasChanges {
+		// all good
+		return path
 	}
 
 	finalSlug := RuneRepeatFixToSingle(

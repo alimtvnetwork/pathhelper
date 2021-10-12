@@ -8,7 +8,7 @@ import (
 	"gitlab.com/evatix-go/core/chmodhelper"
 	"gitlab.com/evatix-go/core/constants"
 	"gitlab.com/evatix-go/core/coredata/corestr"
-	"gitlab.com/evatix-go/core/msgtype"
+	"gitlab.com/evatix-go/core/errcore"
 	"gitlab.com/evatix-go/errorwrapper/errnew"
 	"gitlab.com/evatix-go/errorwrapper/errtype"
 	"gitlab.com/evatix-go/pathhelper/expandpath"
@@ -70,7 +70,7 @@ func GetInstructionResult(instruction *Instruction) *Result {
 			IsInvalidResult: false,
 			PathsResult: &PathsResult{
 				ExpandingPaths: corestr.NewSimpleSliceUsing(
-					false, []string{normalizedRoot}),
+					false, normalizedRoot),
 				IsExist: true,
 				IsFile:  true,
 				IsDir:   false,
@@ -179,14 +179,14 @@ func GetInstructionResult(instruction *Instruction) *Result {
 		sliceErr = append(sliceErr, finalErr.Error())
 	}
 
-	compiledErr := msgtype.SliceToError(sliceErr)
+	compiledErr := errcore.SliceToError(sliceErr)
 
 	return &Result{
 		Root:            normalizedRoot,
 		PathStat:        pathStat,
 		IsInvalidResult: compiledErr != nil,
 		PathsResult: &PathsResult{
-			ExpandingPaths: corestr.NewSimpleSliceUsing(false, paths),
+			ExpandingPaths: corestr.NewSimpleSliceUsing(false, paths...),
 			IsExist:        true,
 			IsFile:         false,
 			IsDir:          true,

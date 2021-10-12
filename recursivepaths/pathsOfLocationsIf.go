@@ -3,7 +3,7 @@ package recursivepaths
 import (
 	"gitlab.com/evatix-go/core/coredata/stringslice"
 	"gitlab.com/evatix-go/core/defaultcapacity"
-	"gitlab.com/evatix-go/core/msgtype"
+	"gitlab.com/evatix-go/core/errcore"
 	"gitlab.com/evatix-go/errorwrapper/errdata/errstr"
 	"gitlab.com/evatix-go/errorwrapper/errnew"
 	"gitlab.com/evatix-go/errorwrapper/errtype"
@@ -39,7 +39,7 @@ func pathsOfLocationsIf(
 			results.ValueNonPtr()...)
 
 		if isExitImmediate && results.HasError() {
-			err := msgtype.SliceToError(sliceErr)
+			err := errcore.SliceToError(sliceErr)
 			return &errstr.Results{
 				Values: slice,
 				ErrorWrapper: errnew.Path(
@@ -50,7 +50,7 @@ func pathsOfLocationsIf(
 		}
 	}
 
-	err := msgtype.SliceToError(sliceErr)
+	err := errcore.SliceToError(sliceErr)
 	if err != nil {
 		return errstr.EmptyResultsWithError(
 			errnew.Path(

@@ -12,7 +12,7 @@ import (
 func FilesUsingPathsPtr(
 	isNormalize bool,
 	separator string,
-	exploringPaths *[]string,
+	exploringPaths []string,
 ) *errstr.Results {
 	length := corestr.LengthOfStrings(exploringPaths)
 
@@ -22,7 +22,7 @@ func FilesUsingPathsPtr(
 
 	if length == 1 {
 		exploringPath :=
-			(*exploringPaths)[coreindexes.First]
+			exploringPaths[coreindexes.First]
 
 		return Files(
 			isNormalize,
@@ -37,7 +37,7 @@ func FilesUsingPathsPtr(
 	wg.Add(length)
 	errWrappers := errwrappers.NewCap2()
 
-	for _, eachExploringPath := range *exploringPaths {
+	for _, eachExploringPath := range exploringPaths {
 		allPaths := Files(
 			isNormalize,
 			separator,

@@ -1,4 +1,4 @@
-package pathcompare
+package pathcompareinternal
 
 import (
 	"os"
@@ -6,7 +6,7 @@ import (
 	"gitlab.com/evatix-go/core/corecomparator"
 )
 
-func FileInfo(
+func FileInfoLastModified(
 	left, right os.FileInfo,
 ) corecomparator.Compare {
 	if left == nil && right == nil {
@@ -20,5 +20,5 @@ func FileInfo(
 	leftMod := left.ModTime()
 	rightMod := right.ModTime()
 
-	return LastModified(&leftMod, &rightMod)
+	return LastModifiedPtr(&leftMod, &rightMod)
 }

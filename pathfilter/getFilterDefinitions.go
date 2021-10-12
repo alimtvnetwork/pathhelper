@@ -8,13 +8,13 @@ import (
 
 func getFilterDefinitions(
 	arg *recursiveFilterGetterParam,
-) *[]string {
+) []string {
 	linkedCollection :=
 		corestr.NewLinkedCollections()
 	wg := &sync.WaitGroup{}
 	wg.Add(arg.additionalFiltersLength)
 
-	for _, filterPath := range *arg.additionalFilters {
+	for _, filterPath := range arg.additionalFilters {
 		rootPathPlusFilterPath :=
 			arg.rootPathPlusSeparator +
 				filterPath
@@ -26,11 +26,11 @@ func getFilterDefinitions(
 
 		linkedCollection.AddStringsPtrAsync(
 			wg,
-			newFilters,
+			&newFilters,
 			false)
 	}
 
 	wg.Wait()
 
-	return linkedCollection.ListPtr()
+	return *linkedCollection.ListPtr()
 }

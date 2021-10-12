@@ -10,7 +10,22 @@ func OfFilesList(
 	hashMethod hashas.Variant,
 	files ...string,
 ) *errstr.Result {
-	jsonResult := corejson.NewFromAny(files)
+	jsonResult := corejson.NewFromAnyPtr(files)
+
+	return hashMethod.
+		HexOfJsonResult(jsonResult)
+}
+
+func OfFilesListIf(
+	isGenerate bool,
+	hashMethod hashas.Variant,
+	files ...string,
+) *errstr.Result {
+	if !isGenerate {
+		return errstr.Empty()
+	}
+
+	jsonResult := corejson.NewFromAnyPtr(files)
 
 	return hashMethod.
 		HexOfJsonResult(jsonResult)

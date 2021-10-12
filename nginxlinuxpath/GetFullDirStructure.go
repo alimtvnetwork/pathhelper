@@ -1,6 +1,8 @@
 package nginxlinuxpath
 
-import "gitlab.com/evatix-go/pathhelper/knowndirstructure"
+import (
+	"gitlab.com/evatix-go/pathhelper/knowndirstructure"
+)
 
 func GetFullDirStructure(
 	isNormalize bool,

@@ -19,11 +19,11 @@ func All(
 		return AllOfSinglePath(
 			isNormalize,
 			separator,
-			(exploringPaths)[0])
+			exploringPaths[0])
 	}
 
 	return AllPtr(
 		separator,
 		isNormalize,
-		&exploringPaths)
+		exploringPaths)
 }

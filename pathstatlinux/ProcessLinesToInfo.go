@@ -37,7 +37,7 @@ func ProcessLinesToInfo(
 		user.HasValidId &&
 		group.HasValidId
 
-	isDir, fileInfo := ispathinternal.IsDirectoryPlusFileInfo(
+	isDir, fileInfo := ispathinternal.DirectoryPlusFileInfo(
 		filePath)
 
 	isFileExist := isDir || fileInfo != nil || ispathinternal.Exists(

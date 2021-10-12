@@ -3,6 +3,7 @@ package hexchecksum
 import (
 	"strconv"
 
+	"gitlab.com/evatix-go/core/coredata/corejson"
 	"gitlab.com/evatix-go/errorwrapper"
 	"gitlab.com/evatix-go/errorwrapper/errdata/errstr"
 	"gitlab.com/evatix-go/pathhelper/hashas"
@@ -16,7 +17,7 @@ type FilesResult struct {
 	ErrorWrapper             *errorwrapper.Wrapper
 }
 
-func (it *FilesResult) CompileToSingle() *errstr.Result {
+func (it *FilesResult) HexChecksumOfResult() *errstr.Result {
 	if it == nil {
 		return nil
 	}
@@ -49,6 +50,18 @@ func (it *FilesResult) HasAnyChecksum() bool {
 
 func (it *FilesResult) HasFilesListChecksum() bool {
 	return it != nil && it.HexFilesListChecksum != ""
+}
+
+func (it FilesResult) Json() corejson.Result {
+	return corejson.NewFromAny(it)
+}
+
+func (it FilesResult) JsonPtr() *corejson.Result {
+	return corejson.NewFromAnyPtr(it)
+}
+
+func (it FilesResult) JsonString() string {
+	return corejson.NewFromAny(it).JsonString()
 }
 
 func (it *FilesResult) HasContentsChecksum() bool {

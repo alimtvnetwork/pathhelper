@@ -16,151 +16,155 @@ type Wrappers struct {
 	separator   string
 	isFinalized bool
 	sync.Mutex
-	items *[]*unipath.Wrapper
+	items []*unipath.Wrapper
 }
 
-func (receiver *Wrappers) IsFinalized() bool {
-	return receiver.isFinalized
+func (it *Wrappers) IsFinalized() bool {
+	return it.isFinalized
 }
 
-func (receiver *Wrappers) Lock() {
-	receiver.Lock()
+func (it *Wrappers) Lock() {
+	it.Lock()
 }
 
-func (receiver *Wrappers) Unlock() {
-	receiver.Unlock()
+func (it *Wrappers) Unlock() {
+	it.Unlock()
 }
 
-func (receiver *Wrappers) AddPathAs(
+func (it *Wrappers) AddPathAs(
 	givenPath string,
 ) *Wrappers {
 	wrapper := unipath.NewUsingPath(
 		givenPath,
-		receiver.separator)
+		it.separator)
 
-	*receiver.items = append(
-		*receiver.items,
+	it.items = append(
+		it.items,
 		wrapper)
 
-	return receiver
+	return it
 }
 
-func (receiver *Wrappers) AddPathsLock(
+func (it *Wrappers) AddPathsLock(
 	givenPaths ...string,
 ) *Wrappers {
-	receiver.Lock()
-	defer receiver.Unlock()
+	it.Lock()
+	defer it.Unlock()
 
 	if givenPaths == nil {
-		return receiver
+		return it
 	}
 
-	return receiver.
+	return it.
 		AddPathsPtr(&givenPaths)
 }
 
-func (receiver *Wrappers) AddPaths(
+func (it *Wrappers) AddPaths(
 	givenPaths ...string,
 ) *Wrappers {
 	if givenPaths == nil {
-		return receiver
+		return it
 	}
 
-	return receiver.
+	return it.
 		AddPathsPtr(&givenPaths)
 }
 
-func (receiver *Wrappers) AddPathsPtr(
+func (it *Wrappers) AddPathsPtr(
 	givenPaths *[]string,
 ) *Wrappers {
 	if givenPaths == nil {
-		return receiver
+		return it
 	}
 
 	for _, currentPath := range *givenPaths {
 		wrapper := unipath.NewUsingPath(
 			currentPath,
-			receiver.separator)
+			it.separator)
 
-		*receiver.items = append(
-			*receiver.items,
+		it.items = append(
+			it.items,
 			wrapper,
 		)
 	}
 
-	return receiver
+	return it
 }
 
-func (receiver *Wrappers) AddWrapper(
+func (it *Wrappers) AddWrapper(
 	wrapper *unipath.Wrapper,
 ) *Wrappers {
 	if wrapper == nil {
-		return receiver
+		return it
 	}
 
-	*receiver.items = append(
-		*receiver.items,
+	it.items = append(
+		it.items,
 		wrapper)
 
-	return receiver
+	return it
 }
 
-func (receiver *Wrappers) AddWrapperLock(
+func (it *Wrappers) AddWrapperLock(
 	wrapper *unipath.Wrapper,
 ) *Wrappers {
-	receiver.Lock()
-	defer receiver.Unlock()
+	it.Lock()
+	defer it.Unlock()
 
 	if wrapper == nil {
-		return receiver
+		return it
 	}
 
-	*receiver.items = append(
-		*receiver.items,
+	it.items = append(
+		it.items,
 		wrapper)
 
-	return receiver
+	return it
 }
 
-func (receiver *Wrappers) Length() int {
-	return len(*receiver.items)
+func (it *Wrappers) Length() int {
+	if it == nil {
+		return 0
+	}
+
+	return len(it.items)
 }
 
-func (receiver *Wrappers) HasItems() bool {
-	return receiver.Length() > 0
+func (it *Wrappers) HasItems() bool {
+	return it.Length() > 0
 }
 
-func (receiver *Wrappers) IsEmpty() bool {
-	return receiver.Length() == 0
+func (it *Wrappers) IsEmpty() bool {
+	return it.Length() == 0
 }
 
-func (receiver *Wrappers) IsEqual(wrappers *Wrappers) bool {
-	if wrappers == nil && receiver == nil {
+func (it *Wrappers) IsEqual(wrappers *Wrappers) bool {
+	if wrappers == nil && it == nil {
 		return true
 	}
 
-	if wrappers == nil || receiver == nil {
+	if wrappers == nil || it == nil {
 		return false
 	}
 
-	if wrappers == receiver {
+	if wrappers == it {
 		return true
 	}
 
-	if wrappers.isFinalized != receiver.isFinalized {
+	if wrappers.isFinalized != it.isFinalized {
 		return false
 	}
 
-	if wrappers.Length() != receiver.Length() {
+	if wrappers.Length() != it.Length() {
 		return false
 	}
 
-	if receiver.items == wrappers.items {
+	if &it.items == &wrappers.items {
 		return true
 	}
 
-	for index, receiverWrapper := range *receiver.items {
-		anotherWrapper := (*wrappers.items)[index]
+	for index, receiverWrapper := range it.items {
+		anotherWrapper := wrappers.items[index]
 
 		if anotherWrapper == nil && receiverWrapper == nil {
 			continue
@@ -178,27 +182,27 @@ func (receiver *Wrappers) IsEqual(wrappers *Wrappers) bool {
 	return true
 }
 
-func (receiver *Wrappers) FinalizeAll() {
-	if receiver.isFinalized {
+func (it *Wrappers) FinalizeAll() {
+	if it.isFinalized {
 		return
 	}
 
 	// set finalize error
-	for _, wrapper := range *receiver.items {
+	for _, wrapper := range it.items {
 		wrapper.Finalize()
 	}
 
-	receiver.isFinalized = true
+	it.isFinalized = true
 }
 
-func (receiver *Wrappers) GetFinalizePaths() *errstr.ResultsWithErrorCollection {
-	if !receiver.IsFinalized() {
+func (it *Wrappers) GetFinalizePaths() *errstr.ResultsWithErrorCollection {
+	if !it.IsFinalized() {
 		return errstr.NewResultsWithErrorCollectionUsingTypeMessagePtr(
 			errtype.Unexpected,
 			nonFinalizePathsCannotBeRetrievedMessage)
 	}
 
-	length := receiver.Length()
+	length := it.Length()
 	list := make(
 		[]string,
 		length,
@@ -206,7 +210,7 @@ func (receiver *Wrappers) GetFinalizePaths() *errstr.ResultsWithErrorCollection 
 
 	errCollection := errwrappers.Empty()
 
-	for i, wrapper := range *receiver.items {
+	for i, wrapper := range it.items {
 		finalizedResult := wrapper.GetFinalizePath()
 		errCollection.AddWrapperPtr(finalizedResult.ErrorWrapper)
 		list[i] = finalizedResult.Value
@@ -218,30 +222,30 @@ func (receiver *Wrappers) GetFinalizePaths() *errstr.ResultsWithErrorCollection 
 	}
 }
 
-func (receiver *Wrappers) Items() *[]*unipath.Wrapper {
-	return receiver.items
+func (it *Wrappers) Items() []*unipath.Wrapper {
+	return it.items
 }
 
-func (receiver *Wrappers) ListPtr() *[]*unipath.Wrapper {
-	list := make([]*unipath.Wrapper, receiver.Length())
+func (it *Wrappers) ListPtr() []*unipath.Wrapper {
+	list := make([]*unipath.Wrapper, it.Length())
 
 	i := 0
-	for _, wrapper := range *receiver.items {
+	for _, wrapper := range it.items {
 		list[i] = wrapper
 		i++
 	}
 
-	return &list
+	return list
 }
 
-func (receiver *Wrappers) ToStringsPtr(
+func (it *Wrappers) ToStringsPtr(
 	separator string,
 	isNormalize bool,
 ) *[]string {
-	list := make([]string, receiver.Length())
+	list := make([]string, it.Length())
 
 	i := 0
-	for _, wrapper := range *receiver.items {
+	for _, wrapper := range it.items {
 		list[i] = wrapper.ToString(
 			separator,
 			isNormalize)
@@ -251,37 +255,37 @@ func (receiver *Wrappers) ToStringsPtr(
 	return &list
 }
 
-func (receiver *Wrappers) StringsPtr() *[]string {
-	list := make([]string, receiver.Length())
+func (it *Wrappers) Strings() []string {
+	list := make([]string, it.Length())
 
 	i := constants.Zero
-	for _, wrapper := range *receiver.items {
+	for _, wrapper := range it.items {
 		list[i] = wrapper.String()
 
 		i++
 	}
 
-	return &list
+	return list
 }
 
-func (receiver *Wrappers) StringsCollectionPtr() *corestr.Collection {
+func (it *Wrappers) StringsCollectionPtr() *corestr.Collection {
 	return corestr.NewCollectionUsingStrings(
-		receiver.StringsPtr(),
+		it.Strings(),
 		false,
 	)
 }
 
-func (receiver *Wrappers) GetAt(
+func (it *Wrappers) GetAt(
 	index int,
 ) *unipath.Wrapper {
-	return (*receiver.items)[index]
+	return it.items[index]
 }
 
-func (receiver *Wrappers) GetSafeAt(
+func (it *Wrappers) GetSafeAt(
 	index int,
 ) *unipath.Wrapper {
-	if index > constants.InvalidNotFoundCase && index <= receiver.Length()-1 {
-		return (*receiver.items)[index]
+	if index > constants.InvalidNotFoundCase && index <= it.Length()-1 {
+		return it.items[index]
 	}
 
 	return nil

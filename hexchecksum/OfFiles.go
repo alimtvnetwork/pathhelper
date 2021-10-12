@@ -3,9 +3,13 @@ package hexchecksum
 import "gitlab.com/evatix-go/core/constants"
 
 func OfFiles(request *FilesRequest) *FilesResult {
-	hexOfListing := OfFilesList(
+	request.SortFileNamesIf(request.IsSortFileNames)
+
+	hexOfListing := OfFilesListIf(
+		request.IsGenerateFileListChecksum,
 		request.Method,
 		request.Files...)
+
 	filesCount := len(request.Files)
 
 	if hexOfListing.HasError() || !request.IsGenerateContentsChecksum || filesCount == 0 {
@@ -19,6 +23,8 @@ func OfFiles(request *FilesRequest) *FilesResult {
 	}
 
 	hexContentsChecksum := OfFilesContentsAsync(
+		request.IsSortFilesChecksum,
+		false,
 		request.Method,
 		request.Files...)
 

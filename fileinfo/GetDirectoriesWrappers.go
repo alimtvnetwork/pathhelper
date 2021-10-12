@@ -1,18 +1,14 @@
 package fileinfo
 
-import (
-	"gitlab.com/evatix-go/errorwrapper/errnew"
-)
-
-func GetDirectoriesWrappers(rootPath string, wrapperIn *[]*Wrapper) *Wrappers {
-	if wrapperIn == nil || *wrapperIn == nil {
+func GetDirectoriesWrappers(rootPath string, wrapperIn []*Wrapper) *Wrappers {
+	if len(wrapperIn) == 0 {
 		return EmptyWrappers()
 	}
 
-	length := len(*wrapperIn)
+	length := len(wrapperIn)
 	dirs := make([]*Wrapper, 0, length)
 
-	for _, wrapper := range *wrapperIn {
+	for _, wrapper := range wrapperIn {
 		if !wrapper.IsDirectory {
 			continue
 		}
@@ -21,14 +17,9 @@ func GetDirectoriesWrappers(rootPath string, wrapperIn *[]*Wrapper) *Wrappers {
 	}
 
 	dirWrappers := &Wrappers{
-		RootPath:            rootPath,
-		Items:               &dirs,
-		directories:         nil,
-		files:               EmptyWrappers(),
-		recursiveDirs:       nil,
-		ErrorWrapper:        errnew.EmptyPtr,
-		pathsCollection:     nil,
-		fileNamesCollection: nil,
+		RootPath: rootPath,
+		Items:    dirs,
+		files:    EmptyWrappers(),
 	}
 
 	dirWrappers.directories = dirWrappers

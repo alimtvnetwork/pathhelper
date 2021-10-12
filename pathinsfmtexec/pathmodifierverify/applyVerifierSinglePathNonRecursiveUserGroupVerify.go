@@ -1,7 +1,7 @@
 package pathmodifierverify
 
 import (
-	"gitlab.com/evatix-go/core/msgtype"
+	"gitlab.com/evatix-go/core/errcore"
 	"gitlab.com/evatix-go/errorwrapper/errtype"
 	"gitlab.com/evatix-go/errorwrapper/errwrappers"
 	"gitlab.com/evatix-go/pathhelper/pathinsfmt"
@@ -34,7 +34,7 @@ func applyVerifierSinglePathNonRecursiveUserGroupVerify(
 		errCollection.AddPathIssueMessages(
 			errtype.Unexpected,
 			location,
-			msgtype.ExpectingSimpleNoType(
+			errcore.ExpectingSimpleNoType(
 				"Username expectation doesn't meet",
 				verifier.UserNameSimple(),
 				verifyUsername))
@@ -45,7 +45,7 @@ func applyVerifierSinglePathNonRecursiveUserGroupVerify(
 		errCollection.AddPathIssueMessages(
 			errtype.Unexpected,
 			location,
-			msgtype.ExpectingSimpleNoType(
+			errcore.ExpectingSimpleNoType(
 				"Group expectation doesn't meet",
 				verifier.GroupName,
 				verifyGroupName))

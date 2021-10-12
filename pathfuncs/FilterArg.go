@@ -7,8 +7,9 @@ import (
 )
 
 type FilterArg struct {
-	RootPath, FileName, FullPath, Separator string
-	IsFile, IsDirectory                     bool
+	RootPath, FileName, FullPath string
+	IsFile, IsDirectory          bool
+	InputError                   error
 	os.FileInfo
 }
 

@@ -6,17 +6,10 @@ import (
 	"crypto/sha256"
 	"crypto/sha512"
 	"hash"
-	"io"
-	"os"
-	"strconv"
-	"sync"
 
-	"gitlab.com/evatix-go/core/chmodhelper"
 	"gitlab.com/evatix-go/core/constants"
-	"gitlab.com/evatix-go/core/coredata/coredynamic"
 	"gitlab.com/evatix-go/core/coredata/corejson"
 	"gitlab.com/evatix-go/core/coreinterface"
-	"gitlab.com/evatix-go/core/msgtype"
 	"gitlab.com/evatix-go/errorwrapper"
 	"gitlab.com/evatix-go/errorwrapper/errdata/errbyte"
 	"gitlab.com/evatix-go/errorwrapper/errdata/errstr"
@@ -42,13 +35,13 @@ func (it Variant) NewHash() (hash.Hash, *errorwrapper.Wrapper) {
 			it.Name()+"(HashMethod/Variant) is expected to be not defined. Thus nil hasher.",
 		)
 	case Md5:
-		return md5.New(), errnew.EmptyPtr
+		return md5.New(), nil
 	case Sha1:
-		return sha1.New(), errnew.EmptyPtr
+		return sha1.New(), nil
 	case Sha256:
-		return sha256.New(), errnew.EmptyPtr
+		return sha256.New(), nil
 	case Sha512:
-		return sha512.New(), errnew.EmptyPtr
+		return sha512.New(), nil
 	default:
 		return nil, errnew.MessagesPtr(
 			errtype.InvalidOption,
@@ -58,217 +51,134 @@ func (it Variant) NewHash() (hash.Hash, *errorwrapper.Wrapper) {
 	}
 }
 
-func (it *Variant) HexSumOf(
-	inputBytes []byte,
-) *errstr.Result {
-	outputBytesResults := it.SumOf(inputBytes)
-	toString := outputBytesResults.NonEmptyString(convertBytesResultsToEncodedHexString)
-
-	return &errstr.Result{
-		Value:        toString,
-		ErrorWrapper: outputBytesResults.ErrorWrapper,
+func (it Variant) NewHashError() (hash.Hash, error) {
+	switch it {
+	case Undefined:
+		return nil, errtype.UnexpectedDefinition.ReferencesCsvError(
+			"(HashMethod/Variant) is expected to be not defined. Thus nil hasher.",
+			it.Name(),
+		)
+	case Md5:
+		return md5.New(), nil
+	case Sha1:
+		return sha1.New(), nil
+	case Sha256:
+		return sha256.New(), nil
+	case Sha512:
+		return sha512.New(), nil
+	default:
+		return nil, errtype.InvalidOption.ReferencesCsvError(
+			BasicEnumImpl.RangesInvalidMessage(),
+			it.Name(),
+		)
 	}
 }
 
-func (it *Variant) HexSumOfFile(
+func (it Variant) HexSumOf(
+	inputBytes []byte,
+) *errstr.Result {
+	return HexChecksumOfRawBytes(it, inputBytes)
+}
+
+func (it Variant) HexSumOfFile(
 	fileName string,
 ) *errstr.Result {
-	byteResults := it.SumOfFile(fileName)
-	if byteResults.HasError() {
-		return &errstr.Result{
-			ErrorWrapper: byteResults.ErrorWrapper,
-		}
-	}
-
-	toString := byteResults.NonEmptyString(
-		convertBytesResultsToEncodedHexString)
-
-	return errstr.EmptyErrorResult(toString)
+	return HexChecksumOfFilePath(it, fileName)
 }
 
-func (it *Variant) SumOfFile(
+func (it Variant) HexSumOfFileNoError(
+	fullPath string,
+) string {
+	return HexChecksumOfFilePathNoError(
+		false,
+		it,
+		fullPath)
+}
+
+func (it Variant) HexSumOfFileNoErrorIf(
+	isSkipGenerate bool,
+	fullPath string,
+) string {
+	if isSkipGenerate {
+		return constants.EmptyString
+	}
+
+	return HexChecksumOfFilePathNoError(
+		false,
+		it,
+		fullPath)
+}
+
+func (it Variant) HexSumOfFileIf(
+	isSkipGenerate bool,
+	fullPath string,
+) *errstr.Result {
+	if isSkipGenerate {
+		return errstr.Empty()
+	}
+
+	return HexChecksumOfFilePath(
+		it,
+		fullPath)
+}
+
+func (it Variant) SumOfFile(
 	filePath string,
 ) *errbyte.Results {
-	if filePath == constants.EmptyString {
-		return errbyte.EmptyResultsWithError(
-			errnew.MessagesPtr(
-				errtype.EmptyString,
-				"File name is empty"))
-	}
-
-	isExist, fileInfo := chmodhelper.IsPathExistsPlusFileInfo(filePath)
-
-	if !isExist || fileInfo == nil || fileInfo.IsDir() {
-		return errbyte.EmptyResultsWithError(
-			errnew.PathMessages(
-				errtype.InvalidPath,
-				filePath,
-				"File path either invalid or has permission issue or a folder for hash-checksum."))
-	}
-
-	hashWriter, errWp := it.NewHash()
-
-	if errWp.HasError() {
-		return errbyte.EmptyResultsWithError(errWp)
-	}
-
-	file, errOpen := os.Open(filePath)
-	if errOpen != nil {
-		return errbyte.EmptyResultsWithError(
-			errnew.Path(
-				errtype.FileRead,
-				errOpen,
-				"Error opening file : "+filePath,
-			))
-	}
-
-	defer file.Close()
-
-	_, errCopy := io.Copy(hashWriter, file)
-	if errCopy != nil {
-		return errbyte.EmptyResultsWithError(
-			errnew.Path(
-				errtype.Copy,
-				errOpen,
-				"Error copying to  file : "+filePath,
-			))
-	}
-
-	hashedBytes := hashWriter.Sum(nil)
-
-	return errbyte.EmptyErrorResults(hashedBytes...)
+	return SumOfFile(it, filePath)
 }
 
-func (it *Variant) SumOf(
+func (it Variant) SumOf(
 	inputBytes []byte,
 ) *errbyte.Results {
-	if inputBytes == nil {
-		return errbyte.EmptyResultsWithError(
-			errnew.MessagesPtr(
-				errtype.EmptyPointerOrNullPointer,
-				"Cannot perform SumOf on Nil Pointer!"))
-	}
-
-	hashWriter, errWp := it.NewHash()
-
-	if errWp.HasError() {
-		return errbyte.EmptyResultsWithError(
-			errWp)
-	}
-
-	_, err := hashWriter.Write(inputBytes)
-	if err != nil {
-		return errbyte.EmptyResultsWithError(
-			errnew.ErrorWithMessagesPtr(
-				errtype.Hash,
-				err,
-				"writing hash hashWriter.Write(inputBytes)",
-			))
-	}
-
-	hashedBytes := hashWriter.Sum(nil)
-
-	return errbyte.EmptyErrorResults(hashedBytes...)
+	return BytesChecksum(it, inputBytes)
 }
 
-func (it *Variant) SumOfErrorBytes(
+func (it Variant) SumOfErrorBytes(
 	errBytes *errbyte.Results,
 ) *errbyte.Results {
-	if errBytes == nil || errBytes.Values == nil {
-		return errbyte.EmptyResultsWithError(
-			errnew.MessagesPtr(
-				errtype.EmptyPointerOrNullPointer,
-				"Cannot perform SumOfErrorBytes on Nil Pointer!"))
-	}
-
-	if errBytes.HasError() {
-		return errBytes
-	}
-
-	return it.SumOf(errBytes.Values)
+	return ErrorWrapperWithBytesChecksum(it, errBytes)
 }
 
 func (it *Variant) HexSumOfAny(
 	item interface{},
 ) *errstr.Result {
-	jsonResult := corejson.NewFromAny(item)
+	jsonResult := corejson.NewFromAnyPtr(item)
 
 	return it.HexOfJsonResult(jsonResult)
 }
 
-func (it Variant) HexSumOfAnysSingle(
-	items ...interface{},
+func (it *Variant) HexSumOfAnyIf(
+	isGenerate bool,
+	item interface{},
 ) *errstr.Result {
-	results := it.HexSumOfAnys(items...)
+	if isGenerate {
+		jsonResult := corejson.NewFromAnyPtr(item)
 
-	if results.HasError() {
-		return errstr.ErrorWrapper(results.ErrorWrapper)
+		return it.HexOfJsonResult(jsonResult)
 	}
 
-	return it.HexSumOfAny(results.Values)
+	return errstr.Empty()
 }
 
-func (it Variant) HexSumOfAnys(
+func (it Variant) HexSumOfAnyItemsToCombinedSingleString(
+	isSkipOnNil bool,
+	items ...interface{},
+) *errstr.Result {
+	return HexChecksumOfAnyItemsToCombinedSingleString(
+		isSkipOnNil,
+		it,
+		items...)
+}
+
+func (it Variant) HexSumOfAnyItems(
+	isSkipOnNil bool,
 	items ...interface{},
 ) *errstr.Results {
-	if len(items) == 0 {
-		return errstr.EmptyResults()
-	}
-
-	locker := sync.Mutex{}
-	wg := &sync.WaitGroup{}
-	var sliceErr []string
-	checkSumSlice := make([]string,
-		len(items))
-
-	hexChecksum := func(index int, source interface{}) bool {
-		defer wg.Done()
-		hexFileChecksumResult := it.HexSumOfAny(source)
-		checkSumSlice[index] = hexFileChecksumResult.Value
-
-		if hexFileChecksumResult.IsSuccess() {
-			return true
-		}
-
-		// failed
-		locker.Lock()
-		defer locker.Unlock()
-
-		message := "Failed Index : " +
-			strconv.Itoa(index) +
-			constants.Comma +
-			coredynamic.TypeName(source) +
-			constants.Comma +
-			hexFileChecksumResult.
-				ErrorWrapper.
-				String()
-
-		sliceErr = append(
-			sliceErr,
-			message)
-
-		return false
-	}
-
-	for i, item := range items {
-		wg.Add(constants.One)
-		go hexChecksum(i, item)
-	}
-
-	wg.Wait()
-
-	err := msgtype.SliceToError(
-		sliceErr)
-
-	if err == nil {
-		// success
-		return errstr.EmptyErrorResults(
-			checkSumSlice...)
-	}
-
-	return errstr.ResultsError(
-		errtype.CheckSumCorrupted,
-		err)
+	return HexChecksumOfAnyItems(
+		isSkipOnNil,
+		it,
+		items...)
 }
 
 func (it *Variant) SumOfJsonResult(

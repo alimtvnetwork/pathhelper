@@ -17,7 +17,7 @@ import (
 //  - linuxEnvAddOrUpdateAction
 func linuxCrudEnvPath(
 	performingFunc linuxEnvPathCrudFunc,
-	envPaths *[]string,
+	envPaths []string,
 	isApplyEnvironmentSource bool,
 ) *errorwrapper.Wrapper {
 	if corestr.LengthOfStrings(envPaths) == 0 {

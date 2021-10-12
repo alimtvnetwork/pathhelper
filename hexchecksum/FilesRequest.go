@@ -1,9 +1,46 @@
 package hexchecksum
 
-import "gitlab.com/evatix-go/pathhelper/hashas"
+import (
+	"sort"
+
+	"gitlab.com/evatix-go/core/issetter"
+	"gitlab.com/evatix-go/pathhelper/hashas"
+)
 
 type FilesRequest struct {
-	Method                     hashas.Variant
+	Method          hashas.Variant
+	IsSortFileNames bool
+	// if true, then sorts checksums
+	// before generate final single
+	// checksum ( not needed )
+	IsSortFilesChecksum        bool
 	IsGenerateContentsChecksum bool
+	IsGenerateFileListChecksum bool
 	Files                      []string
+	isSorted                   issetter.Value
+}
+
+func (it *FilesRequest) SortFileNames() {
+	if it == nil || it.isSorted.IsInitBoolean() || len(it.Files) == 0 {
+		return
+	}
+
+	sort.Strings(it.Files)
+	it.isSorted = issetter.True
+}
+
+func (it *FilesRequest) SortFileNamesIf(isSort bool) {
+	if it == nil || !isSort {
+		return
+	}
+
+	it.SortFileNames()
+}
+
+func (it *FilesRequest) SortFileNamesBasedOnCondition() {
+	if it == nil || !it.IsSortFileNames {
+		return
+	}
+
+	it.SortFileNames()
 }

@@ -64,7 +64,7 @@ func Test_GenericPathsCollection(t *testing.T) {
 	actual := strings.Join(allPaths, "|")
 
 	// Assert
-	Convey("Testing Generic Paths Collection FlatPaths Method", t, func(c C) {
+	Convey("Testing Generic Paths MappedInfoItems FlatPaths Method", t, func(c C) {
 		So(actual, ShouldEqual, expectation)
 	})
 }
@@ -91,7 +91,7 @@ func Test_GenericPathsCollectionWhereOthersAreNil(t *testing.T) {
 	actual := strings.Join(allPaths, "|")
 
 	// Assert
-	Convey("Testing Generic Paths Collection FlatPaths Method while others are empty", t, func(c C) {
+	Convey("Testing Generic Paths MappedInfoItems FlatPaths Method while others are empty", t, func(c C) {
 		So(actual, ShouldEqual, expectation)
 	})
 }

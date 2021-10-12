@@ -9,7 +9,7 @@ import (
 type FileNamesCollection struct {
 	RootPath string
 	// TODO fix this to file paths
-	names          *[]string
+	names          []string
 	Error          *errorwrapper.Wrapper
 	parentWrappers *Wrappers
 }
@@ -19,7 +19,7 @@ func NewFileNames(rootPath string, capacity int) *FileNamesCollection {
 
 	return &FileNamesCollection{
 		RootPath:       rootPath,
-		names:          &paths,
+		names:          paths,
 		Error:          errnew.EmptyPtr,
 		parentWrappers: nil,
 	}
@@ -45,7 +45,7 @@ func NewFileNamesUsingWrappers(wrappers *Wrappers) *FileNamesCollection {
 	}
 
 	names := make([]string, wrappers.Length())
-	for i, wrapper := range *wrappers.Items {
+	for i, wrapper := range wrappers.Items {
 		if wrapper.FileInfo == nil {
 			continue
 		}
@@ -55,7 +55,7 @@ func NewFileNamesUsingWrappers(wrappers *Wrappers) *FileNamesCollection {
 
 	return &FileNamesCollection{
 		RootPath:       wrappers.RootPath,
-		names:          &names,
+		names:          names,
 		Error:          wrappers.ErrorWrapper,
 		parentWrappers: wrappers,
 	}
@@ -73,70 +73,76 @@ func NewFileNamesUsing(
 	return NewFileNamesUsingWrappers(wrappers)
 }
 
-func (filesNamesCollection *FileNamesCollection) IsEmpty() bool {
-	return filesNamesCollection.names == nil ||
-		filesNamesCollection.Error.HasError() ||
-		len(*filesNamesCollection.names) == 0
+func (it *FileNamesCollection) IsEmpty() bool {
+	return it == nil ||
+		it.names == nil ||
+		len(it.names) == 0
 }
 
-func (filesNamesCollection *FileNamesCollection) IsContains(
+func (it *FileNamesCollection) HasIssuesOrEmpty() bool {
+	return it.IsEmpty() || it.Error.HasError()
+}
+
+func (it *FileNamesCollection) IsContains(
 	fileName string,
 	isCaseSensitive bool,
 ) bool {
 	return stringutil.IsContainsPtrSimple(
-		filesNamesCollection.names,
+		&it.names,
 		fileName,
 		0,
 		isCaseSensitive)
 }
 
-func (filesNamesCollection *FileNamesCollection) Length() int {
-	if filesNamesCollection.names == nil || *filesNamesCollection.names == nil {
+func (it *FileNamesCollection) Length() int {
+	if it == nil || it.names == nil {
 		return 0
 	}
 
-	return len(*filesNamesCollection.names)
+	return len(it.names)
 }
 
+// GetFilePaths
+//
 // Root level files paths, no nested paths.
-func (filesNamesCollection *FileNamesCollection) GetFilePaths(
+func (it *FileNamesCollection) GetFilePaths(
 	separator string,
-) *[]string {
-	filePaths := make([]string, 0, filesNamesCollection.Length())
+) []string {
+	filePaths := make([]string, 0, it.Length())
 
-	for _, name := range *filesNamesCollection.names {
-		newPath := filesNamesCollection.RootPath + separator + name
+	for _, name := range it.names {
+		newPath := it.RootPath + separator + name
 		filePaths = append(filePaths, newPath)
 	}
 
-	return &filePaths
+	return filePaths
 }
 
-func (filesNamesCollection *FileNamesCollection) IsParentWrappersEmpty() bool {
-	return filesNamesCollection.parentWrappers == nil ||
-		filesNamesCollection.parentWrappers.IsEmpty()
+func (it *FileNamesCollection) IsParentWrappersEmpty() bool {
+	return it.parentWrappers == nil ||
+		it.parentWrappers.IsEmpty()
 }
 
-func (filesNamesCollection *FileNamesCollection) HasParentWrappers() bool {
-	return filesNamesCollection.parentWrappers != nil
+func (it *FileNamesCollection) HasParentWrappers() bool {
+	return it.parentWrappers != nil
 }
 
-func (filesNamesCollection *FileNamesCollection) ParentWrappers() *Wrappers {
-	return filesNamesCollection.parentWrappers
+func (it *FileNamesCollection) ParentWrappers() *Wrappers {
+	return it.parentWrappers
 }
 
-func (filesNamesCollection *FileNamesCollection) Add(fileName string) *FileNamesCollection {
-	*filesNamesCollection.names = append(*filesNamesCollection.names, fileName)
+func (it *FileNamesCollection) Add(fileName string) *FileNamesCollection {
+	it.names = append(it.names, fileName)
 
-	return filesNamesCollection
+	return it
 }
 
-func (filesNamesCollection *FileNamesCollection) AddWrapper(wrapper Wrapper) *FileNamesCollection {
-	*filesNamesCollection.names = append(*filesNamesCollection.names, wrapper.FileInfo.Name())
+func (it *FileNamesCollection) AddWrapper(wrapper Wrapper) *FileNamesCollection {
+	it.names = append(it.names, wrapper.FileInfo.Name())
 
-	return filesNamesCollection
+	return it
 }
 
-func (filesNamesCollection *FileNamesCollection) OnlyNamesCollection() *[]string {
-	return filesNamesCollection.names
+func (it *FileNamesCollection) OnlyNamesCollection() []string {
+	return it.names
 }

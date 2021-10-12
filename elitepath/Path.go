@@ -10,7 +10,7 @@ import (
 	"gitlab.com/evatix-go/core/corecomparator"
 	"gitlab.com/evatix-go/core/coredata/corejson"
 	"gitlab.com/evatix-go/core/coredata/corestr"
-	"gitlab.com/evatix-go/core/msgtype"
+	"gitlab.com/evatix-go/core/errcore"
 	"gitlab.com/evatix-go/core/osconsts"
 	"gitlab.com/evatix-go/errorwrapper"
 	"gitlab.com/evatix-go/errorwrapper/errdata/errbyte"
@@ -25,7 +25,7 @@ import (
 	"gitlab.com/evatix-go/pathhelper/fileinfopath"
 	"gitlab.com/evatix-go/pathhelper/fs"
 	"gitlab.com/evatix-go/pathhelper/hashas"
-	"gitlab.com/evatix-go/pathhelper/internal/pathcompare"
+	"gitlab.com/evatix-go/pathhelper/internal/pathcompareinternal"
 	"gitlab.com/evatix-go/pathhelper/internal/splitinternal"
 	"gitlab.com/evatix-go/pathhelper/pathchmod"
 	"gitlab.com/evatix-go/pathhelper/pathext"
@@ -215,7 +215,7 @@ func (it *Path) CheckSummer(
 			false,
 			src,
 			hashMethod,
-			msgtype.InvalidEmptyPathErrorMessage.ErrorNoRefs(src))
+			errcore.InvalidEmptyPathErrorMessage.ErrorNoRefs(src))
 	}
 
 	return checksummer.New(
@@ -302,7 +302,7 @@ func (it *Path) PathExtWrapper() *pathext.Wrapper {
 }
 
 func (it *Path) FileNameWithExt() string {
-	return splitinternal.GetFileNameWithExt(
+	return splitinternal.GetName(
 		it.CompiledPath())
 }
 
@@ -679,15 +679,15 @@ func (it *Path) FileInfoWithPath() *fileinfopath.Instance {
 }
 
 func (it *Path) CompareFileInfo(right os.FileInfo) corecomparator.Compare {
-	return pathcompare.FileInfo(it.FileInfo(), right)
+	return pathcompareinternal.FileInfoLastModified(it.FileInfo(), right)
 }
 
 func (it *Path) CompareSize(anotherInstance *Path) corecomparator.Compare {
-	return pathcompare.Size(it.Size(), anotherInstance.Size())
+	return pathcompareinternal.SizePtr(it.Size(), anotherInstance.Size())
 }
 
 func (it *Path) CompareLastModified(anotherInstance *Path) corecomparator.Compare {
-	return pathcompare.LastModified(it.LastModifiedAt(), anotherInstance.LastModifiedAt())
+	return pathcompareinternal.LastModifiedPtr(it.LastModifiedAt(), anotherInstance.LastModifiedAt())
 }
 
 func (it *Path) ChmodCondition() *chmodins.Condition {

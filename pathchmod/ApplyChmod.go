@@ -5,6 +5,7 @@ import (
 
 	"gitlab.com/evatix-go/core/chmodhelper"
 	"gitlab.com/evatix-go/errorwrapper"
+	"gitlab.com/evatix-go/errorwrapper/errnew"
 	"gitlab.com/evatix-go/errorwrapper/errtype"
 )
 
@@ -19,7 +20,7 @@ func ApplyChmod(
 	if isRecursive {
 		err := changingChmodRwxWrapper.LinuxApplyRecursive(isSkipOnInvalid, location)
 
-		return &changingChmodRwxWrapper, errorwrapper.NewFilePtr(
+		return &changingChmodRwxWrapper, errnew.Path(
 			errtype.ChmodApplyFailed,
 			err,
 			location)
@@ -27,7 +28,7 @@ func ApplyChmod(
 
 	err := changingChmodRwxWrapper.ApplyChmod(isSkipOnInvalid, location)
 
-	return &changingChmodRwxWrapper, errorwrapper.NewFilePtr(
+	return &changingChmodRwxWrapper, errnew.Path(
 		errtype.ChmodApplyFailed,
 		err,
 		location)

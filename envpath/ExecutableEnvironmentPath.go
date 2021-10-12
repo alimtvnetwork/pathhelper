@@ -20,34 +20,34 @@ type ExecutableEnvironmentPath struct {
 
 // GetCachedFileNamesCollection returns all pathsCollection paths on that env directory once,
 // caches it and returns that in later function calls
-func (eep *ExecutableEnvironmentPath) GetCachedFileNamesCollection() *fileinfo.FileNamesCollection {
+func (it *ExecutableEnvironmentPath) GetCachedFileNamesCollection() *fileinfo.FileNamesCollection {
 	// checking if fileInfos already generated
-	if eep.pathsCollections != nil {
-		return eep.pathsCollections
+	if it.pathsCollections != nil {
+		return it.pathsCollections
 	}
 
-	eep.pathsCollections = eep.GetFileNamesCollection()
+	it.pathsCollections = it.GetFileNamesCollection()
 
-	return eep.pathsCollections
+	return it.pathsCollections
 }
 
-func (eep *ExecutableEnvironmentPath) Length() int {
-	return eep.GetCachedFileNamesCollection().Length()
+func (it *ExecutableEnvironmentPath) Length() int {
+	return it.GetCachedFileNamesCollection().Length()
 }
 
-func (eep *ExecutableEnvironmentPath) GetFileNamesCollection() *fileinfo.FileNamesCollection {
+func (it *ExecutableEnvironmentPath) GetFileNamesCollection() *fileinfo.FileNamesCollection {
 	return fileinfo.NewFileNamesUsing(
-		eep.Expanded,
+		it.Expanded,
 		osconsts.PathSeparator,
 		true)
 }
 
 // GetDirectories returns all directories path on that env directory,
 // no nested or resursive paths
-func (eep *ExecutableEnvironmentPath) GetDirectories() []*string {
+func (it *ExecutableEnvironmentPath) GetDirectories() []*string {
 	var directories []*string
 
-	arrayFromPath := strings.Split(eep.Expanded, constants.PathSeparator)
+	arrayFromPath := strings.Split(it.Expanded, constants.PathSeparator)
 
 	for _, arrayItem := range arrayFromPath {
 		directories = append(directories, &arrayItem)
@@ -57,12 +57,12 @@ func (eep *ExecutableEnvironmentPath) GetDirectories() []*string {
 }
 
 // GetFilePathsContains returns all pathsCollection paths on which contains the given string. If no path is found, returns empty array.
-func (eep *ExecutableEnvironmentPath) GetFilePathsContains(
+func (it *ExecutableEnvironmentPath) GetFilePathsContains(
 	separator,
 	contains string,
 ) *[]string {
-	var filePathThatContains = make([]string, 0, eep.Length())
-	filesPaths := *eep.GetCachedFileNamesCollection().GetFilePaths(separator)
+	var filePathThatContains = make([]string, 0, it.Length())
+	filesPaths := it.GetCachedFileNamesCollection().GetFilePaths(separator)
 
 	for _, eachPath := range filesPaths {
 		if strings.Contains(eachPath, contains) {

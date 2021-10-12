@@ -16,7 +16,7 @@ func New(
 
 	return &Wrappers{
 		separator: sep,
-		items:     &list,
+		items:     list,
 	}
 }
 
@@ -30,7 +30,7 @@ func NewUsingPath(
 
 	wrappers := &Wrappers{
 		separator: sep,
-		items:     &list,
+		items:     list,
 	}
 
 	return wrappers.
@@ -47,7 +47,7 @@ func NewUsingCap(
 
 	return &Wrappers{
 		separator: sep,
-		items:     &list,
+		items:     list,
 	}
 }
 

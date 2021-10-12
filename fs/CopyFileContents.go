@@ -9,9 +9,14 @@ func CopyFileContents(
 	srcPath,
 	dstPath string,
 ) (errWp *errorwrapper.Wrapper) {
+	if srcPath == dstPath {
+		return nil
+	}
+
 	createDirErr := CreateParentDirWithChmodChown(
 		srcPath,
 		dstPath)
+
 	if createDirErr.HasError() {
 		return createDirErr
 	}

@@ -12,8 +12,14 @@ func CreateDirectoryAll(
 	location string,
 	mode os.FileMode,
 ) *errorwrapper.Wrapper {
+	err := os.MkdirAll(location, mode)
+
+	if err == nil {
+		return nil
+	}
+
 	return errnew.Path(
 		errtype.CreateDirectoryFailed,
-		os.MkdirAll(location, mode),
+		err,
 		location)
 }

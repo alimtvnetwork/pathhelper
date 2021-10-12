@@ -5,13 +5,15 @@ import (
 	"gitlab.com/evatix-go/pathhelper/pathfuncs"
 )
 
-func Filter(
-	filter pathfuncs.Filter,
+// SimpleFilterNonRecursiveDirs normalize, expand false
+func SimpleFilterNonRecursiveDirs(
+	simpleFilter pathfuncs.SimpleFilter,
 	rootPath string,
 ) *errstr.Results {
-	return FilterOptions(
+	return SimpleFilterDirsOptions(
 		false,
 		false,
-		filter,
+		false,
+		simpleFilter,
 		rootPath)
 }

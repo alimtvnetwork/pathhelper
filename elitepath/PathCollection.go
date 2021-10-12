@@ -530,7 +530,7 @@ func (it *PathCollection) SaveToFile(
 	return fs.WriteJsonResultUsingLock(
 		true,
 		false,
-		it.Json(),
+		it.JsonPtr(),
 		filePath,
 	)
 }
@@ -572,14 +572,12 @@ func (it *PathCollection) UnmarshalJSON(
 	return err
 }
 
-func (it *PathCollection) Json() *corejson.Result {
-	if it.IsEmpty() {
-		return corejson.EmptyWithoutErrorPtr()
-	}
+func (it PathCollection) Json() corejson.Result {
+	return corejson.NewFromAny(it)
+}
 
-	jsonBytes, err := json.Marshal(it)
-
-	return corejson.NewPtr(jsonBytes, err)
+func (it PathCollection) JsonPtr() *corejson.Result {
+	return corejson.NewFromAnyPtr(it)
 }
 
 func (it *PathCollection) ParseInjectUsingJson(

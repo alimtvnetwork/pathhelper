@@ -4,11 +4,11 @@ import (
 	"os"
 
 	"gitlab.com/evatix-go/core/corecomparator"
-	"gitlab.com/evatix-go/pathhelper/internal/pathcompare"
+	"gitlab.com/evatix-go/pathhelper/internal/pathcompareinternal"
 )
 
 func FileInfoCompare(
 	left, right os.FileInfo,
 ) corecomparator.Compare {
-	return pathcompare.FileInfo(left, right)
+	return pathcompareinternal.FileInfoLastModified(left, right)
 }

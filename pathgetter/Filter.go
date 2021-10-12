@@ -43,7 +43,6 @@ func Filter(
 			RootPath:    rootPath,
 			FileName:    name,
 			FullPath:    combinedPath,
-			Separator:   separator,
 			IsFile:      !isDir,
 			IsDirectory: isDir,
 			FileInfo:    fileInfo,
@@ -58,7 +57,7 @@ func Filter(
 			result.ErrorWrapper.HandleError()
 		}
 
-		if result.IsKeep {
+		if result.IsTake {
 			results = append(results, result)
 		}
 

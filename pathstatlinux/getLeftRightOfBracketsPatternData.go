@@ -7,7 +7,7 @@ import (
 	"gitlab.com/evatix-go/core/coredata/corestr"
 	"gitlab.com/evatix-go/core/coredata/stringslice"
 	"gitlab.com/evatix-go/core/coreindexes"
-	"gitlab.com/evatix-go/core/msgtype"
+	"gitlab.com/evatix-go/core/errcore"
 	"gitlab.com/evatix-go/pathhelper/internal/strremove"
 )
 
@@ -40,6 +40,6 @@ func getLeftRightOfBracketsPatternData(parentThesisWrappedSlashLeftRight string)
 		Left:    strings.TrimSpace(first),
 		Right:   strings.TrimSpace(last),
 		IsValid: false,
-		Message: msgtype.Expecting("Expected length", 2, length),
+		Message: errcore.Expecting("Expected length", 2, length),
 	}
 }

@@ -1,8 +1,10 @@
 package ispathinternal
 
-import "os"
+import (
+	"os"
+)
 
-func IsDirectoryPlusFileInfo(location string) (isSuccess bool, fileInfo os.FileInfo) {
+func DirectoryPlusFileInfo(location string) (isSuccess bool, fileInfo os.FileInfo) {
 	fileInfo, err := os.Stat(location)
 
 	if os.IsNotExist(err) {

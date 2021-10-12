@@ -5,7 +5,7 @@ import (
 
 	"gitlab.com/evatix-go/core/constants"
 	"gitlab.com/evatix-go/core/coredata/corestr"
-	"gitlab.com/evatix-go/core/msgtype"
+	"gitlab.com/evatix-go/core/errcore"
 	"gitlab.com/evatix-go/errorwrapper"
 	"gitlab.com/evatix-go/errorwrapper/errdata/errstr"
 	"gitlab.com/evatix-go/errorwrapper/errnew"
@@ -455,7 +455,7 @@ func (it *Wrapper) ToStringUptoLastMinus(
 	isNormalize bool,
 ) string {
 	if uptoLastIndexMinus < 0 {
-		msgtype.
+		errcore.
 			CannotBeNegativeMessage.
 			HandleUsingPanic(
 				"uptoLastIndexMinus cannot be negative.",

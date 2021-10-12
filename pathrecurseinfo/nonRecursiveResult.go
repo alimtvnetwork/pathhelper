@@ -109,7 +109,7 @@ func nonRecursiveResult(
 		PathStat:        stat,
 		IsInvalidResult: !stat.IsExist,
 		PathsResult: &PathsResult{
-			ExpandingPaths: corestr.NewSimpleSliceUsing(false, paths),
+			ExpandingPaths: corestr.NewSimpleSliceUsing(false, paths...),
 			IsExist:        true,
 			IsFile:         false,
 			IsDir:          true,

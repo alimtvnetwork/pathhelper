@@ -4,6 +4,7 @@ import (
 	"os/user"
 	"strconv"
 
+	"gitlab.com/evatix-go/core/codestack"
 	"gitlab.com/evatix-go/core/constants"
 	"gitlab.com/evatix-go/errorwrapper"
 	"gitlab.com/evatix-go/errorwrapper/errnew"
@@ -15,6 +16,7 @@ func GetGroupId(groupObj *user.Group) (int, *errorwrapper.Wrapper) {
 
 	if errGidConvert != nil {
 		return constants.InvalidValue, errorwrapper.NewRef(
+			codestack.SkipNone,
 			errtype.SearchFailed,
 			errGidConvert,
 			"GroupNameId",

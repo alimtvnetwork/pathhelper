@@ -34,8 +34,12 @@ func (it *Instruction) SliceResult() *corestr.SimpleSlice {
 	rs := it.Result()
 
 	if rs.IsInvalidResult || rs.IsEmpty() {
+		rs.Dispose()
+
 		return corestr.EmptySimpleSlice()
 	}
+
+	rs.ErrorWrapper.Dispose()
 
 	return rs.
 		PathsResult.

@@ -28,7 +28,7 @@ func (it *OsFile) BothExtension() (dotExt, ext string) {
 }
 
 func (it *OsFile) FileName() string {
-	return splitinternal.GetFileNameWithExt(it.Location)
+	return splitinternal.GetName(it.Location)
 }
 
 func (it *OsFile) ChmodWithError() *pathchmod.ChmodWithError {

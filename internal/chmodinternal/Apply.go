@@ -5,7 +5,7 @@ import (
 
 	"gitlab.com/evatix-go/core/chmodhelper"
 	"gitlab.com/evatix-go/core/coredata/corestr"
-	"gitlab.com/evatix-go/core/msgtype"
+	"gitlab.com/evatix-go/core/errcore"
 	"gitlab.com/evatix-go/core/osconsts"
 	"gitlab.com/evatix-go/errorwrapper"
 	"gitlab.com/evatix-go/errorwrapper/errnew"
@@ -42,7 +42,7 @@ func Apply(
 		}
 	}
 
-	toErr := msgtype.SliceToError(sliceErr.Items)
+	toErr := errcore.SliceToError(sliceErr.Items)
 
 	return errnew.Path(
 		errtype.ChmodApplyFailed,

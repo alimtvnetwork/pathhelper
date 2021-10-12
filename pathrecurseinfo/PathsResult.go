@@ -101,18 +101,18 @@ func (it *PathsResult) JoinWithRoot(
 
 	return corestr.NewSimpleSliceUsing(
 		false,
-		newSlice)
+		newSlice...)
 }
 
-func (it *PathsResult) Clone() *PathsResult {
+func (it *PathsResult) Clone(isDeepClone bool) *PathsResult {
 	if it == nil {
 		return nil
 	}
 
 	return &PathsResult{
 		ExpandingPaths: corestr.NewSimpleSliceUsing(
-			true,
-			it.ExpandingPaths.Items),
+			isDeepClone,
+			it.ExpandingPaths.Items...),
 		IsExist: it.IsExist,
 		IsFile:  it.IsFile,
 		IsDir:   it.IsDir,
@@ -120,6 +120,7 @@ func (it *PathsResult) Clone() *PathsResult {
 }
 
 func (it *PathsResult) ConcatNew(
+	isDeepClone,
 	isClone bool,
 	other *PathsResult,
 ) *PathsResult {
@@ -128,7 +129,7 @@ func (it *PathsResult) ConcatNew(
 	}
 
 	if other == nil && isClone {
-		return it.Clone()
+		return it.Clone(isDeepClone)
 	}
 
 	slice := it.ExpandingPaths.ConcatNewSimpleSlices(
@@ -140,4 +141,13 @@ func (it *PathsResult) ConcatNew(
 		IsFile:         it.IsFile && other.IsFile,
 		IsDir:          it.IsDir && other.IsDir,
 	}
+}
+
+func (it *PathsResult) Dispose() {
+	if it == nil {
+		return
+	}
+
+	it.ExpandingPaths.Dispose()
+	it.ExpandingPaths = nil
 }
