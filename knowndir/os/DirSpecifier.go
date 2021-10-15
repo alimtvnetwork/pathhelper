@@ -7,7 +7,7 @@ type DirSpecifier interface {
 	Arch64() string
 	Arch32Ptr() *string
 	Arch64Ptr() *string
-	Generated() *string
+	Generated() string
 	String() string
 	GetDir(architecture osarchs.Architecture) string
 }

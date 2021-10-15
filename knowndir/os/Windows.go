@@ -10,44 +10,44 @@ type Windows struct {
 	generated *string
 }
 
-func (receiver *Windows) Arch32() string {
-	return receiver.X32
+func (it *Windows) Arch32() string {
+	return it.X32
 }
 
-func (receiver *Windows) Arch64() string {
-	return receiver.X64
+func (it *Windows) Arch64() string {
+	return it.X64
 }
 
-func (receiver *Windows) Arch32Ptr() *string {
-	return &receiver.X32
+func (it *Windows) Arch32Ptr() *string {
+	return &it.X32
 }
 
-func (receiver *Windows) Arch64Ptr() *string {
-	return &receiver.X64
+func (it *Windows) Arch64Ptr() *string {
+	return &it.X64
 }
 
-func (receiver *Windows) GetDir(architecture osarchs.Architecture) string {
+func (it *Windows) GetDir(architecture osarchs.Architecture) string {
 	if architecture.IsX32() {
-		return receiver.Arch32()
+		return it.Arch32()
 	}
 
-	return receiver.Arch64()
+	return it.Arch64()
 }
 
-func (receiver *Windows) Generated() *string {
-	if receiver.generated != nil {
-		return receiver.generated
+func (it *Windows) Generated() string {
+	if it.generated != nil {
+		return *it.generated
 	}
 
 	if osconsts.IsX64Architecture {
-		receiver.generated = receiver.Arch64Ptr()
+		it.generated = it.Arch64Ptr()
 	} else {
-		receiver.generated = receiver.Arch32Ptr()
+		it.generated = it.Arch32Ptr()
 	}
 
-	return receiver.generated
+	return *it.generated
 }
 
-func (receiver *Windows) String() string {
-	return *receiver.Generated()
+func (it Windows) String() string {
+	return it.Generated()
 }

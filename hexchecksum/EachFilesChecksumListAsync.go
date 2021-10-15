@@ -16,6 +16,7 @@ import (
 // Returns each files checksum as slice of errstr.Results
 //
 // each index represents file Index => checksum index same.
+// It continues on error
 func EachFilesChecksumListAsync(
 	hashMethod hashas.Variant,
 	fullFilePaths ...string,
@@ -81,5 +82,5 @@ func EachFilesChecksumListAsync(
 		err)
 
 	// has error
-	return errstr.EmptyResultsWithError(errWp)
+	return errstr.NewResults(errWp, checkSumSlice...)
 }

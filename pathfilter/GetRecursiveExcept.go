@@ -42,7 +42,7 @@ func GetRecursiveExcept(
 		}
 
 		selectedFilesHashset = corestr.NewHashsetUsingStrings(
-			selectedFilesResults.ValueMust())
+			selectedFilesResults.SafeValuesPtr())
 	}()
 
 	go func() {
@@ -60,7 +60,7 @@ func GetRecursiveExcept(
 		}
 
 		exceptFilesHashset = corestr.NewHashsetUsingStrings(
-			exceptFilesResults.ValueMust())
+			exceptFilesResults.SafeValuesPtr())
 	}()
 
 	wg.Wait()

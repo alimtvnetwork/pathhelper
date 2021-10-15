@@ -13,7 +13,7 @@ func GetAbsolutePath(
 	isLongPathFix, isNormalize bool,
 ) string {
 	if ispath.Empty(basePath) || ispath.Empty(relativePath) {
-		panic(errcore.InvalidEmptyPathErrorMessage)
+		panic(errcore.InvalidEmptyPathType)
 	}
 
 	return GetCombinedPath(

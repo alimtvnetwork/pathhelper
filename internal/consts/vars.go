@@ -6,7 +6,7 @@ import (
 
 var (
 	SlugForbiddenArray = [256]rune{
-		constants.ExclaimanationChar: constants.One,
+		constants.ExclamationChar:    constants.One,
 		'`':                          constants.One,
 		'@':                          constants.One,
 		'#':                          constants.One,

@@ -26,7 +26,7 @@ func OfFilesContentsAsync(
 		return errstr.ErrorWrapper(eachFilesChecksum.ErrorWrapper)
 	}
 
-	checkSumValuesSlice := eachFilesChecksum.ValueNonPtr()
+	checkSumValuesSlice := eachFilesChecksum.SafeValues()
 	sortIf(isSortChecksums, checkSumValuesSlice)
 
 	// success

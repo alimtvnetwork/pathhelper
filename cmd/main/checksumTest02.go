@@ -8,7 +8,7 @@ import (
 )
 
 func checksumTest02() {
-	rs := hexchecksum.OfFiles(&hexchecksum.FilesRequest{
+	rs := hexchecksum.OfFilesRequest(&hexchecksum.FilesRequest{
 		Method:                     hashas.DefaultFastHashMethod,
 		IsGenerateContentsChecksum: true,
 		IsGenerateFileListChecksum: true,

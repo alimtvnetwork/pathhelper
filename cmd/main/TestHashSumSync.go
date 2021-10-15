@@ -12,9 +12,6 @@ func TestHashSumSync() {
 	start := time.Now()
 	c := checksummer.NewSync(true, "D:\\vm", hashas.Md5)
 	elapsed := time.Since(start)
-	if v {
-		prettyPrint(c.GetMap())
-	}
-
+	prettyPrint(c.GetMap())
 	fmt.Printf("Elapsed Sync: %s\n", elapsed)
 }

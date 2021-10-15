@@ -25,10 +25,10 @@ func InvalidGroupInfo(errorWrapper *errorwrapper.Wrapper) *GroupInfo {
 	}
 }
 
-func (receiver *GroupInfo) String() string {
+func (it GroupInfo) String() string {
 	return fmt.Sprintf(printFormat,
-		receiver.Name,
-		receiver.Id,
-		receiver.IsValidGroup,
-		receiver.HasValidId)
+		it.Name,
+		it.Id,
+		it.IsValidGroup,
+		it.HasValidId)
 }

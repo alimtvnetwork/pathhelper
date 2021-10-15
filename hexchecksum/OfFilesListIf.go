@@ -6,10 +6,15 @@ import (
 	"gitlab.com/evatix-go/pathhelper/hashas"
 )
 
-func OfFilesList(
+func OfFilesListIf(
+	isGenerate bool,
 	hashMethod hashas.Variant,
 	files ...string,
 ) *errstr.Result {
+	if !isGenerate {
+		return errstr.Empty()
+	}
+
 	jsonResult := corejson.NewFromAnyPtr(files)
 
 	return hashMethod.

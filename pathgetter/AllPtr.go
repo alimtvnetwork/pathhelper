@@ -45,7 +45,7 @@ func AllPtr(
 
 		linkedCollection.AddStringsPtrAsync(
 			wg,
-			allPaths.ValueMust(),
+			allPaths.SafeValuesPtr(),
 			false)
 	}
 

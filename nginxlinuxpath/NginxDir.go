@@ -162,7 +162,7 @@ func (it *NginxDir) CopyCurrentUserRootConfigToTempRel(tempRelativePath string) 
 	finalPath := normalizeinternal.JoinFixIf(
 		true,
 		pathsconst.TempDir,
-		tempRelativePath + osconsts.PathSeparator + it.CurrentUserRootConfigName())
+		tempRelativePath+osconsts.PathSeparator+it.CurrentUserRootConfigName())
 
 	return errstr.New(finalPath, it.CopyCurrentUserRootConfigTo(finalPath))
 }
@@ -328,7 +328,7 @@ func (it *NginxDir) AllUsersNames() *errstr.Results {
 
 	fileNames := make([]string, results.Length())
 
-	for i, filePath := range results.ValueNonPtr() {
+	for i, filePath := range results.SafeValues() {
 		fileInfo, err := os.Stat(filePath)
 
 		if err != nil {
@@ -372,6 +372,16 @@ func (it NginxDir) JsonModelAny() interface{} {
 	return it
 }
 
-func (it NginxDir) AsJsoner() corejson.Jsoner {
+func (it *NginxDir) JsonParseSelfInject(jsonResult *corejson.Result) error {
+	err := jsonResult.Unmarshal(it)
+
+	return err
+}
+
+func (it *NginxDir) AsJsonContractsBinder() corejson.JsonContractsBinder {
+	return it
+}
+
+func (it *NginxDir) AsJsoner() corejson.Jsoner {
 	return it
 }

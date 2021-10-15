@@ -8,8 +8,9 @@ import (
 )
 
 type FilesRequest struct {
-	Method          hashas.Variant
-	IsSortFileNames bool
+	Method            hashas.Variant
+	IsContinueOnError bool
+	IsSortFileNames   bool
 	// if true, then sorts checksums
 	// before generate final single
 	// checksum ( not needed )
@@ -27,6 +28,10 @@ func (it *FilesRequest) SortFileNames() {
 
 	sort.Strings(it.Files)
 	it.isSorted = issetter.True
+}
+
+func (it *FilesRequest) IsExitOnError() bool {
+	return it == nil || !it.IsContinueOnError
 }
 
 func (it *FilesRequest) SortFileNamesIf(isSort bool) {

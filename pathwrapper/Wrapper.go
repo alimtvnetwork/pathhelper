@@ -21,8 +21,8 @@ func (it *Wrapper) Value() string {
 	return string(*it)
 }
 
-func (it *Wrapper) String() string {
-	return string(*it)
+func (it Wrapper) String() string {
+	return string(it)
 }
 
 func (it *Wrapper) GetFileInfo() (

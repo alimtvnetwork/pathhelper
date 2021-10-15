@@ -4,6 +4,7 @@ import (
 	"gitlab.com/evatix-go/core/coredata/corejson"
 	"gitlab.com/evatix-go/core/coredata/corestr"
 	"gitlab.com/evatix-go/errorwrapper"
+	"gitlab.com/evatix-go/pathhelper/hashas"
 )
 
 type DetailedResult struct {
@@ -48,15 +49,18 @@ func EmptyDetailedResult() *DetailedResult {
 	}
 }
 
-func EmptyDetailedResultWithErr(errWp *errorwrapper.Wrapper) *DetailedResult {
+func EmptyDetailedResultWithErr(
+	hashMethod hashas.Variant,
+	errWp *errorwrapper.Wrapper,
+) *DetailedResult {
 	return &DetailedResult{
 		FilesResult: FilesResult{
 			HexFilesListChecksum:     "",
 			HexFilesContentsChecksum: "",
 			FilesCount:               0,
-			Method:                   0,
+			Method:                   hashMethod,
 			ErrorWrapper:             errWp,
 		},
-		Hashmap: nil,
+		Hashmap: corestr.EmptyHashmap(),
 	}
 }

@@ -79,7 +79,7 @@ func (it *Result) Length() int {
 }
 
 func (it *Result) Strings() []string {
-	return it.StringsResults().ValueNonPtr()
+	return it.StringsResults().SafeValues()
 }
 
 func (it *Result) FilterFullPaths(
@@ -165,7 +165,7 @@ func (it *Result) FilterResults(
 func (it *Result) StringsResults() *errstr.Results {
 	if it == nil {
 		return errstr.EmptyResultsWithError(
-			errnew.NilOrEmpty)
+			errnew.NullSimple(it))
 	}
 
 	if it.ErrorWrapper.HasError() || it.IsEmpty() {
@@ -181,7 +181,7 @@ func (it *Result) StringsResults() *errstr.Results {
 func (it *Result) EmptyErrorResults() *errstr.Results {
 	if it == nil {
 		return errstr.EmptyResultsWithError(
-			errnew.NilOrEmpty)
+			errnew.NullSimple(it))
 	}
 
 	if it.ErrorWrapper.HasError() || it.IsEmpty() {

@@ -127,8 +127,8 @@ func (it *LocationInfo) PathSimpleStat() *pathchmod.SimpleStat {
 	return pathchmod.GetSimpleStat(it.RawLocation)
 }
 
-func (it *LocationInfo) String() string {
+func (it LocationInfo) String() string {
 	return fmt.Sprintf(
 		constants.SprintFullPropertyNameValueFormat,
-		*it)
+		it)
 }

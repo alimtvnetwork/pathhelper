@@ -6,6 +6,7 @@ import (
 	"strings"
 	"sync"
 
+	"gitlab.com/evatix-go/core/chmodhelper"
 	"gitlab.com/evatix-go/core/constants"
 	"gitlab.com/evatix-go/core/coredata/corejson"
 	"gitlab.com/evatix-go/core/coredata/corestr"
@@ -18,8 +19,11 @@ import (
 	"gitlab.com/evatix-go/pathhelper/internal/consts"
 )
 
+// MappedInfoItems
+//
+// Key path
 type MappedInfoItems struct {
-	Items map[string]*Info `json:"MapItems,omitempty"`
+	Items map[string]*Info `json:"MapItems,omitempty"` // Key path
 }
 
 func NewMappedInfoItems(capacity int) *MappedInfoItems {
@@ -98,6 +102,10 @@ func (it *MappedInfoItems) Adds(
 	}
 
 	for _, stateInfo := range infoItems {
+		if stateInfo == nil {
+			continue
+		}
+
 		it.Items[stateInfo.FullPath] = stateInfo
 	}
 
@@ -390,6 +398,74 @@ func (it *MappedInfoItems) AllChecksumsSorted() []string {
 	return slice
 }
 
+func (it *MappedInfoItems) KeyValueStringMapUsingFmtFunc(
+	fmtFunc MapKeyValFmtFunc,
+) map[string]string {
+	if it.IsEmpty() {
+		return map[string]string{}
+	}
+
+	itemsMap := make(map[string]string, it.Length())
+
+	for _, item := range it.Items {
+		k, v := fmtFunc(item)
+
+		itemsMap[k] = v
+	}
+
+	return itemsMap
+}
+
+func (it *MappedInfoItems) PathStatSlice(isTakeOnlyValid bool) []*chmodhelper.PathExistStat {
+	if it.IsEmpty() {
+		return []*chmodhelper.PathExistStat{}
+	}
+
+	slice := make(
+		[]*chmodhelper.PathExistStat,
+		0,
+		it.Length())
+
+	if isTakeOnlyValid {
+		for _, item := range it.Items {
+			stat := item.Stat()
+
+			if stat.IsInvalid() {
+				continue
+			}
+
+			slice = append(slice, stat)
+		}
+
+		return slice
+	}
+
+	for _, item := range it.Items {
+		stat := item.Stat()
+		slice = append(slice, stat)
+	}
+
+	return slice
+}
+
+func (it *MappedInfoItems) KeyStringValueInfoMapUsingFmtFunc(
+	fmtFunc MapKeyValInfoFmtFunc,
+) map[string]*Info {
+	if it.IsEmpty() {
+		return map[string]*Info{}
+	}
+
+	itemsMap := make(map[string]*Info, it.Length())
+
+	for _, item := range it.Items {
+		k := fmtFunc(item)
+
+		itemsMap[k] = item
+	}
+
+	return itemsMap
+}
+
 // AllFilePathToHexChecksumMap
 //
 // Key = filePath,
@@ -489,7 +565,7 @@ func (it *MappedInfoItems) CompiledChecksumString(isSortChecksum bool) string {
 		DefaultHashMethod,
 		it.AllChecksums()...)
 
-	result.ErrorWrapper.Dispose()
+	go result.ErrorWrapper.Dispose()
 
 	return result.Value
 }
@@ -577,7 +653,7 @@ func (it *MappedInfoItems) GetSinglePageCollection(
 	skipItems := eachPageSize * (pageIndex - 1)
 	if skipItems < 0 {
 		errcore.
-			CannotBeNegativeIndex.
+			CannotBeNegativeIndexType.
 			HandleUsingPanic(
 				"pageIndex cannot be negative or zero.",
 				pageIndex)
@@ -953,7 +1029,7 @@ func (it *MappedInfoItems) JsonString() string {
 	return it.Json().JsonString()
 }
 
-func (it *MappedInfoItems) String() string {
+func (it MappedInfoItems) String() string {
 	if it.IsEmpty() {
 		return constants.EmptyString
 	}
@@ -1001,6 +1077,10 @@ func (it *MappedInfoItems) ParseInjectUsingJsonMust(
 	}
 
 	return hashSet
+}
+
+func (it *MappedInfoItems) AsJsonContractsBinder() corejson.JsonContractsBinder {
+	return it
 }
 
 func (it *MappedInfoItems) AsJsoner() corejson.Jsoner {

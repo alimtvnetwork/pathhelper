@@ -4,5 +4,5 @@ func FilesMust(rootPath string) []string {
 	allResults := Files(rootPath)
 	allResults.ErrorWrapper.HandleError()
 
-	return allResults.ValueNonPtr()
+	return allResults.SafeValues()
 }

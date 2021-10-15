@@ -51,7 +51,7 @@ func (it *PathUserGroupId) IsInvalidUserOrGroupId() bool {
 
 func (it *PathUserGroupId) InvalidError() *errorwrapper.Wrapper {
 	if it == nil {
-		return errnew.NilOrEmpty
+		return errnew.NullSimple(it)
 	}
 
 	if it.HasError() {

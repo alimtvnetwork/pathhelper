@@ -90,7 +90,7 @@ func (it *Wrapper) AllSplits() *[]string {
 		it.Separator)
 }
 
-func (it *Wrapper) String() string {
+func (it Wrapper) String() string {
 	return it.RawPath
 }
 
@@ -183,6 +183,10 @@ func (it *Wrapper) JsonParseSelfInject(
 	)
 
 	return err
+}
+
+func (it *Wrapper) AsJsonContractsBinder() corejson.JsonContractsBinder {
+	return it
 }
 
 func (it *Wrapper) AsJsoner() corejson.Jsoner {

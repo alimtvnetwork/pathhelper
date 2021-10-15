@@ -124,7 +124,7 @@ func (it *Joiner) OsSeparatorJoinExpand(
 // String normalize + expand and long path fix true
 //
 // Usages osconsts.PathSeparator as separator
-func (it *Joiner) String() string {
+func (it Joiner) String() string {
 	return it.OsSeparatorJoin(
 		true,
 		true)

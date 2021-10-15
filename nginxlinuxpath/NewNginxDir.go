@@ -1,7 +1,7 @@
 package nginxlinuxpath
 
 import (
-	"gitlab.com/evatix-go/core/coreasync"
+	"gitlab.com/evatix-go/asynchelper/syncparallel"
 	"gitlab.com/evatix-go/core/extensionsconst"
 	"gitlab.com/evatix-go/pathhelper/internal/normalizeinternal"
 	"gitlab.com/evatix-go/pathhelper/knowndirstructure"
@@ -21,7 +21,7 @@ func NewNginxDir(
 		Users,
 	)
 
-	coreasync.Waited.ParallelVoidTasks(
+	syncparallel.Tasks(
 		func() {
 			nginxRoot = GetFullDirStructure(
 				isNormalize,

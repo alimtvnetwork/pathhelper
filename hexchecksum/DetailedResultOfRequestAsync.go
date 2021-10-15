@@ -1,8 +1,7 @@
 package hexchecksum
 
 import (
-	"sync"
-
+	"gitlab.com/evatix-go/asynchelper/syncparallel"
 	"gitlab.com/evatix-go/core/coredata/corestr"
 	"gitlab.com/evatix-go/core/coredata/stringslice"
 	"gitlab.com/evatix-go/errorwrapper/errdata/errstr"
@@ -27,55 +26,49 @@ func DetailedResultOfRequestAsync(
 		request.Method,
 		request.Files...)
 
-	if eachFilesChecksumSliceResult.HasError() {
+	if request.IsExitOnError() && eachFilesChecksumSliceResult.HasError() {
 		return EmptyDetailedResultWithErr(
+			request.Method,
 			eachFilesChecksumSliceResult.ErrorWrapper)
 	}
 
 	var wholeChecksum, hexOfListing *errstr.Result
-
-	wg := sync.WaitGroup{}
-	wg.Add(2)
 	eachChecksumValues := eachFilesChecksumSliceResult.
-		ValueNonPtr()
+		SafeValues()
 	isGenerateChecksum := request.IsGenerateContentsChecksum &&
 		len(eachChecksumValues) == filesCount
+	var mappedFileToHexChecksum *corestr.Hashmap
 
-	go func() {
-		checksumsRequest := stringslice.CloneIf(
-			isSortChecksum,
-			0,
-			eachChecksumValues)
+	syncparallel.Tasks(
+		func() {
+			checksumsRequest := stringslice.CloneIf(
+				isSortChecksum,
+				0,
+				eachChecksumValues)
 
-		wholeChecksum = OfChecksums(
-			isGenerateChecksum,
-			request.IsSortFilesChecksum,
-			request.Method,
-			checksumsRequest...)
+			wholeChecksum = OfChecksums(
+				isGenerateChecksum,
+				request.IsSortFilesChecksum,
+				request.Method,
+				checksumsRequest...)
+		},
+		func() {
+			hexOfListing = OfFilesListIf(
+				request.IsGenerateFileListChecksum,
+				request.Method,
+				request.Files...)
+		},
+		func() {
+			mappedFileToHexChecksum = corestr.NewHashmap(len(eachChecksumValues))
 
-		wg.Done()
-	}()
-
-	go func() {
-		hexOfListing = OfFilesListIf(
-			request.IsGenerateFileListChecksum,
-			request.Method,
-			request.Files...)
-
-		wg.Done()
-	}()
-
-	mappedFileToHexChecksum := corestr.NewHashmap(len(eachChecksumValues))
-
-	if isGenerateChecksum {
-		for i, fullFilePath := range request.Files {
-			mappedFileToHexChecksum.AddOrUpdate(
-				fullFilePath,
-				eachChecksumValues[i])
-		}
-	}
-
-	wg.Wait()
+			if isGenerateChecksum && len(eachChecksumValues) > 0 {
+				for i, fullFilePath := range request.Files {
+					mappedFileToHexChecksum.AddOrUpdate(
+						fullFilePath,
+						eachChecksumValues[i])
+				}
+			}
+		})
 
 	mergedErr := errnew.Merge(
 		hexOfListing.ErrorWrapper,
@@ -83,6 +76,7 @@ func DetailedResultOfRequestAsync(
 
 	if mergedErr.HasError() {
 		return EmptyDetailedResultWithErr(
+			request.Method,
 			mergedErr)
 	}
 

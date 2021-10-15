@@ -38,6 +38,7 @@ import (
 	"gitlab.com/evatix-go/pathhelper/pathstatlinux"
 	"gitlab.com/evatix-go/pathhelper/pathsysinfo"
 	"gitlab.com/evatix-go/pathhelper/pathwrapper"
+	"gitlab.com/evatix-go/pathhelper/recursivepaths"
 )
 
 type Path struct {
@@ -215,7 +216,7 @@ func (it *Path) CheckSummer(
 			false,
 			src,
 			hashMethod,
-			errcore.InvalidEmptyPathErrorMessage.ErrorNoRefs(src))
+			errcore.InvalidEmptyPathType.ErrorNoRefs(src))
 	}
 
 	return checksummer.New(
@@ -369,7 +370,7 @@ func (it *Path) AllPathsSimpleStat() (*pathchmod.SimpleStats, *errorwrapper.Wrap
 	}
 
 	return pathchmod.NewSimpleStatsUsingItems(
-			allPaths.ValueNonPtr()...),
+			allPaths.SafeValues()...),
 		errnew.EmptyPtr
 }
 
@@ -389,7 +390,7 @@ func (it *Path) AllFilesSimpleStat() (*pathchmod.SimpleStats, *errorwrapper.Wrap
 	}
 
 	return pathchmod.NewSimpleStatsUsingItems(
-			files.ValueNonPtr()...),
+			files.SafeValues()...),
 		errnew.EmptyPtr
 }
 
@@ -402,7 +403,7 @@ func (it *Path) AllDirsSimpleStat() (*pathchmod.SimpleStats, *errorwrapper.Wrapp
 	}
 
 	return pathchmod.NewSimpleStatsUsingItems(
-			paths.ValueNonPtr()...),
+			paths.SafeValues()...),
 		errnew.EmptyPtr
 }
 
@@ -466,7 +467,7 @@ func (it *Path) ReadFileBytesMust() []byte {
 	rs := it.ReadFileBytes()
 	rs.ErrorWrapper.HandleError()
 
-	return rs.ValueNonPtr()
+	return rs.SafeValues()
 }
 
 func (it *Path) ReadFileBytes() *errbyte.Results {
@@ -488,7 +489,7 @@ func (it *Path) ReadLinesMust() []string {
 	rs := it.ReadLines()
 	rs.ErrorWrapper.HandleError()
 
-	return rs.ValueNonPtr()
+	return rs.SafeValues()
 }
 
 func (it *Path) ReadLines() *errstr.Results {
@@ -553,7 +554,6 @@ func (it *Path) RecursivePathsAll(
 
 func (it *Path) RecursiveFilePaths(
 	isRelativePath bool,
-
 	excludeRootNames ...string,
 ) *corestr.SimpleSlice {
 	src := it.CompiledPath()
@@ -598,6 +598,12 @@ func (it *Path) RecursiveDirPaths(
 		Result().
 		PathsResult.
 		ExpandingPaths
+}
+
+func (it *Path) DirFilesPaths(isRecursive bool) *errstr.Results {
+	return recursivepaths.FilesPlusDirsByName(
+		isRecursive,
+		it.CompiledPath())
 }
 
 func (it *Path) CopyTo(
@@ -711,6 +717,10 @@ func (it *Path) ApplyFileMode(mode os.FileMode) *errorwrapper.Wrapper {
 	return errnew.NewPtr(
 		errtype.ChmodApplyFailed,
 		err)
+}
+
+func (it Path) String() string {
+	return it.CompiledPath()
 }
 
 func (it *Path) ReadFileUnmarshal(

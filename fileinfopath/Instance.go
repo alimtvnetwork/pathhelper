@@ -282,7 +282,17 @@ func (it Instance) JsonModelAny() interface{} {
 	return it
 }
 
-func (it Instance) AsJsoner() corejson.Jsoner {
+func (it *Instance) JsonParseSelfInject(jsonResult *corejson.Result) error {
+	err := jsonResult.Unmarshal(it)
+
+	return err
+}
+
+func (it *Instance) AsJsonContractsBinder() corejson.JsonContractsBinder {
+	return it
+}
+
+func (it *Instance) AsJsoner() corejson.Jsoner {
 	return it
 }
 

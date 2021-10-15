@@ -15,7 +15,7 @@ func getCombinedPathUsingConfigInternal(
 	paths []string,
 ) string {
 	if ispathinternal.EmptyArray(paths) {
-		panic(errcore.InvalidEmptyPathErrorMessage)
+		panic(errcore.InvalidEmptyPathType)
 	}
 
 	pathConfig = pathhelpercore.NewDefaultPathConfigOrExisting(pathConfig)

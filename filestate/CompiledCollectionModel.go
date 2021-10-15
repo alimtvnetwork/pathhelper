@@ -40,7 +40,17 @@ func (it CompiledCollectionModel) JsonModelAny() interface{} {
 	return it
 }
 
-func (it CompiledCollectionModel) AsJsoner() corejson.Jsoner {
+func (it *CompiledCollectionModel) JsonParseSelfInject(jsonResult *corejson.Result) error {
+	err := jsonResult.Unmarshal(it)
+
+	return err
+}
+
+func (it *CompiledCollectionModel) AsJsonContractsBinder() corejson.JsonContractsBinder {
+	return it
+}
+
+func (it *CompiledCollectionModel) AsJsoner() corejson.Jsoner {
 	return it
 }
 

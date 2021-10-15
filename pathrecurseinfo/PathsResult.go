@@ -1,7 +1,7 @@
 package pathrecurseinfo
 
 import (
-	"gitlab.com/evatix-go/core/corecompare"
+	"gitlab.com/evatix-go/core/corecmp"
 	"gitlab.com/evatix-go/core/coredata/corestr"
 	"gitlab.com/evatix-go/pathhelper/normalize"
 	"gitlab.com/evatix-go/pathhelper/pathjoin"
@@ -47,7 +47,7 @@ func (it *PathsResult) IsEqualOnlyItems(another *PathsResult) bool {
 		return false
 	}
 
-	return corecompare.StringsEqual(
+	return corecmp.StringsEqual(
 		it.ExpandingPaths.Items,
 		another.ExpandingPaths.Items)
 }

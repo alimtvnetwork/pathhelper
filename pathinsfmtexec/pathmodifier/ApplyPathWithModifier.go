@@ -34,5 +34,5 @@ func ApplyPathWithModifier(
 		false,
 		errCollection,
 		pathWithModifier.Modifier,
-		recursiveFiles.ValueNonPtr())
+		recursiveFiles.SafeValues())
 }

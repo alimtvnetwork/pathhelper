@@ -245,7 +245,7 @@ func (it *PathsCollection) Strings() *[]string {
 	return &list
 }
 
-func (it *PathsCollection) String() string {
+func (it PathsCollection) String() string {
 	list := make(
 		[]string,
 		constants.ArbitraryCapacity4)
@@ -347,6 +347,10 @@ func (it *PathsCollection) JsonParseSelfInject(
 	)
 
 	return err
+}
+
+func (it *PathsCollection) AsJsonContractsBinder() corejson.JsonContractsBinder {
+	return it
 }
 
 func (it *PathsCollection) AsJsoner() corejson.Jsoner {

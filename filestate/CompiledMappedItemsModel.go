@@ -59,7 +59,17 @@ func (it CompiledMappedItemsModel) JsonModelAny() interface{} {
 	return it
 }
 
-func (it CompiledMappedItemsModel) AsJsoner() corejson.Jsoner {
+func (it *CompiledMappedItemsModel) JsonParseSelfInject(jsonResult *corejson.Result) error {
+	err := jsonResult.Unmarshal(it)
+
+	return err
+}
+
+func (it *CompiledMappedItemsModel) AsJsonContractsBinder() corejson.JsonContractsBinder {
+	return it
+}
+
+func (it *CompiledMappedItemsModel) AsJsoner() corejson.Jsoner {
 	return it
 }
 

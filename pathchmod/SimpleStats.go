@@ -122,7 +122,7 @@ func (it *SimpleStats) HasIndex(index int) bool {
 	return it.LastIndex() <= index
 }
 
-func (it *SimpleStats) String() string {
+func (it SimpleStats) String() string {
 	return stringutil.AnyToStringNameField(it.Items)
 }
 
