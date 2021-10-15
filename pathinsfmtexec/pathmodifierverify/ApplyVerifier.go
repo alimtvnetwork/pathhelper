@@ -36,7 +36,7 @@ func ApplyVerifier(
 	existingPathsFileInfoMap := normalize.GetFilterPathsInfoMap(
 		false,
 		isSkipCheckingOnInvalid,
-		locationsWithError.ValueNonPtr())
+		locationsWithError.SafeValues())
 
 	applyVerifierInternal(
 		isContinueOnError,

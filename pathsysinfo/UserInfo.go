@@ -25,10 +25,10 @@ func InvalidUserInfo(errorWrapper *errorwrapper.Wrapper) *UserInfo {
 	}
 }
 
-func (receiver *UserInfo) String() string {
+func (it *UserInfo) String() string {
 	return fmt.Sprintf(printFormat,
-		receiver.Name,
-		receiver.Id,
-		receiver.IsValidUser,
-		receiver.HasValidId)
+		it.Name,
+		it.Id,
+		it.IsValidUser,
+		it.HasValidId)
 }

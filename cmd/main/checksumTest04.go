@@ -3,8 +3,8 @@ package main
 import (
 	"fmt"
 
+	"gitlab.com/evatix-go/asynchelper/syncparallel"
 	"gitlab.com/evatix-go/core/constants"
-	"gitlab.com/evatix-go/core/coreasync"
 	"gitlab.com/evatix-go/core/errcore"
 	"gitlab.com/evatix-go/errorwrapper/errwrappers"
 	"gitlab.com/evatix-go/pathhelper/filestate"
@@ -13,7 +13,7 @@ import (
 )
 
 func checksumTest04() {
-	files := pkgRootFiles()
+	files := append(pkgRootFiles(), "/something ewrong")
 	var detailedResult *hexchecksum.DetailedResult
 	var fileStateMappedInfoItems *filestate.MappedInfoItems
 	errCollection := errwrappers.Empty()
@@ -21,8 +21,9 @@ func checksumTest04() {
 
 	requestSample := hexchecksum.FilesRequest{
 		Method:                     hashMethod,
+		IsContinueOnError:          true,
 		IsSortFileNames:            false,
-		IsSortFilesChecksum:        false,
+		IsSortFilesChecksum:        true,
 		IsGenerateContentsChecksum: true,
 		IsGenerateFileListChecksum: true,
 		Files:                      files,
@@ -31,9 +32,11 @@ func checksumTest04() {
 	// requestSample.SortFileNames()
 	// fmt.Println(strings.Join(requestSample.Files, constants.NewLineUnix))
 
-	coreasync.Waited.ParallelVoidTasks(
+	syncparallel.Tasks(
 		func() {
 			detailedResult = hexchecksum.DetailedResultOfRequestAsync(&requestSample)
+
+			detailedResult.ErrorWrapper.LogWithTraces()
 		},
 		func() {
 			fileStateMappedInfoItems, errCollection = filestate.NewMappedInfoItemsUsingFilePaths(
@@ -50,7 +53,7 @@ func checksumTest04() {
 
 		if info.HexContentChecksum != checkSum {
 			err := errcore.ExpectingSimpleNoType(
-				info.FullPath+constants.SpaceHypheAngelBracketSpace+"doesn't match checksum",
+				info.FullPath+constants.SpaceHyphenAngelBracketSpace+"doesn't match checksum",
 				checkSum,
 				info.HexContentChecksum+"-current-"+info.ReadCurrentHexChecksumString())
 
@@ -59,4 +62,8 @@ func checksumTest04() {
 			fmt.Println(keyFilePath, "- has same checksum!")
 		}
 	}
+
+	stateMapCheckSum := fileStateMappedInfoItems.CompiledChecksumString(requestSample.IsSortFilesChecksum)
+	fmt.Println("detailedResult.HexFilesContentsChecksum == stateMapCheckSum :", detailedResult.HexFilesContentsChecksum == stateMapCheckSum)
+	// fmt.Println(detailedResult.JsonPtr().PrettyJsonString())
 }

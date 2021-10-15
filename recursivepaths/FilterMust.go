@@ -11,5 +11,5 @@ func SimpleFilterMust(
 	results := SimpleFilter(filter, rootPath)
 	results.ErrorWrapper.HandleError()
 
-	return results.ValueNonPtr()
+	return results.SafeValues()
 }

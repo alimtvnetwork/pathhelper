@@ -149,6 +149,10 @@ func (it *Wrappers) JsonModelAny() interface{} {
 	return it.JsonModel()
 }
 
+func (it *Wrappers) AsJsonContractsBinder() corejson.JsonContractsBinder {
+	return it
+}
+
 func (it *Wrappers) AsJsoner() corejson.Jsoner {
 	return it
 }

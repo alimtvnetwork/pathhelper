@@ -20,5 +20,5 @@ func SimpleFilterFullPathsUsingErrorCollectionAsync(
 		errCollection.AddWrapperPtr(results.ErrorWrapper)
 	}
 
-	return results.ValueNonPtr()
+	return results.SafeValues()
 }

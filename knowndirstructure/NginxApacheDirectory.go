@@ -142,7 +142,17 @@ func (it NginxApacheDirectory) JsonModelAny() interface{} {
 	return it
 }
 
-func (it NginxApacheDirectory) AsJsoner() corejson.Jsoner {
+func (it *NginxApacheDirectory) JsonParseSelfInject(jsonResult *corejson.Result) error {
+	err := jsonResult.Unmarshal(it)
+
+	return err
+}
+
+func (it *NginxApacheDirectory) AsJsonContractsBinder() corejson.JsonContractsBinder {
+	return it
+}
+
+func (it *NginxApacheDirectory) AsJsoner() corejson.Jsoner {
 	return it
 }
 

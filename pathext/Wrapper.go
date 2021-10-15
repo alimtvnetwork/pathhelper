@@ -321,7 +321,7 @@ func (it *Wrapper) IsExtensionFilterMatch(
 		secondChar := extensionFilter[coreindexes.Second]
 
 		// a file name ends with dot.
-		isFileEndsWithDot := firstChar == constants.AstrekChar &&
+		isFileEndsWithDot := firstChar == constants.AsteriskChar &&
 			secondChar == constants.DotChar &&
 			currentDotExt == constants.Dot
 
@@ -338,7 +338,7 @@ func (it *Wrapper) IsExtensionFilterMatch(
 	secondChar := extensionFilter[coreindexes.Second]
 
 	// *.ext
-	if firstChar == constants.AstrekChar &&
+	if firstChar == constants.AsteriskChar &&
 		secondChar == constants.DotChar {
 		dotExt := extensionFilter[coreindexes.Second:]
 

@@ -4,8 +4,6 @@ import (
 	"fmt"
 )
 
-const v = false
-
 func main() {
 	fmt.Println("Hello World")
 
@@ -82,8 +80,8 @@ func main() {
 	// checksumTest03()
 	// fileInfoWithPathTest01()
 	// fileInfoWithPathTest02()
-	// checksumTest04()
-	nginxPathTest01()
+	checksumTest04()
+	// nginxPathTest01()
 
 	// testPathWithVerifier()
 }

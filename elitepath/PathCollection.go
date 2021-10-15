@@ -543,7 +543,7 @@ func (it *PathCollection) ReadFromFile(
 		it)
 }
 
-func (it *PathCollection) String() string {
+func (it PathCollection) String() string {
 	return strings.Join(it.Strings(), constants.NewLineUnix)
 }
 
@@ -608,6 +608,10 @@ func (it *PathCollection) ParseInjectUsingJsonMust(
 	}
 
 	return parsedResult
+}
+
+func (it *PathCollection) AsJsonContractsBinder() corejson.JsonContractsBinder {
+	return it
 }
 
 func (it *PathCollection) AsJsoner() corejson.Jsoner {

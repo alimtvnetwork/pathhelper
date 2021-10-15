@@ -36,7 +36,7 @@ func pathsOfLocationsIf(
 
 		slice = append(
 			slice,
-			results.ValueNonPtr()...)
+			results.SafeValues()...)
 
 		if isExitImmediate && results.HasError() {
 			err := errcore.SliceToError(sliceErr)

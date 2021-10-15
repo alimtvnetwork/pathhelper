@@ -3,7 +3,7 @@ package main
 import (
 	"fmt"
 
-	"gitlab.com/evatix-go/core/coreasync"
+	"gitlab.com/evatix-go/asynchelper/syncparallel"
 	"gitlab.com/evatix-go/pathhelper/hashas"
 	"gitlab.com/evatix-go/pathhelper/hexchecksum"
 )
@@ -24,7 +24,7 @@ func checksumTest03() {
 	// requestSample.SortFileNames()
 	// fmt.Println(strings.Join(requestSample.Files, constants.NewLineUnix))
 
-	coreasync.Waited.ParallelVoidTasks(
+	syncparallel.Tasks(
 		func() {
 			detailedResult = hexchecksum.DetailedResultOfRequestAsync(&requestSample)
 
@@ -32,7 +32,7 @@ func checksumTest03() {
 			detailedResult.FilesResult.ErrorWrapper = nil
 		},
 		func() {
-			filesResult = hexchecksum.OfFiles(&requestSample)
+			filesResult = hexchecksum.OfFilesRequest(&requestSample)
 			// filesResult.ErrorWrapper = nil
 		},
 	)

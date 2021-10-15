@@ -109,7 +109,7 @@ func (it *SimpleStatMap) HasIndex(index int) bool {
 	return it.LastIndex() <= index
 }
 
-func (it *SimpleStatMap) String() string {
+func (it SimpleStatMap) String() string {
 	return stringutil.AnyToStringNameField(it.Items)
 }
 

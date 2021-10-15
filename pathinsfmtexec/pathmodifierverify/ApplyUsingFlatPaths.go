@@ -33,7 +33,7 @@ func ApplyUsingFlatPaths(
 	existingPathsFileInfoMap := normalize.GetFilterPathsInfoMap(
 		false,
 		verifiers.IsSkipCheckingOnInvalid,
-		locationsWithError.ValueNonPtr())
+		locationsWithError.SafeValues())
 
 	// exit immediately
 	if !isContinueOnError {

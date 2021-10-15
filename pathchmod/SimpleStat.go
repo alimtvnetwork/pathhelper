@@ -105,7 +105,7 @@ func (it *SimpleStat) ReadBytesMust() []byte {
 	rs := it.ReadBytes()
 	rs.ErrorWrapper.HandleError()
 
-	return rs.ValueNonPtr()
+	return rs.SafeValues()
 }
 
 // FileName

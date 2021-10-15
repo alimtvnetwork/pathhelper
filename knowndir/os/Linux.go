@@ -10,44 +10,44 @@ type Linux struct {
 	generated *string
 }
 
-func (receiver *Linux) Arch32() string {
-	return receiver.X32
+func (it *Linux) Arch32() string {
+	return it.X32
 }
 
-func (receiver *Linux) Arch64() string {
-	return receiver.X64
+func (it *Linux) Arch64() string {
+	return it.X64
 }
 
-func (receiver *Linux) Arch32Ptr() *string {
-	return &receiver.X32
+func (it *Linux) Arch32Ptr() *string {
+	return &it.X32
 }
 
-func (receiver *Linux) Arch64Ptr() *string {
-	return &receiver.X64
+func (it *Linux) Arch64Ptr() *string {
+	return &it.X64
 }
 
-func (receiver *Linux) GetDir(architecture osarchs.Architecture) string {
+func (it *Linux) GetDir(architecture osarchs.Architecture) string {
 	if architecture.IsX32() {
-		return receiver.Arch32()
+		return it.Arch32()
 	}
 
-	return receiver.Arch64()
+	return it.Arch64()
 }
 
-func (receiver *Linux) Generated() *string {
-	if receiver.generated != nil {
-		return receiver.generated
+func (it *Linux) Generated() string {
+	if it.generated != nil {
+		return *it.generated
 	}
 
 	if osconsts.IsX64Architecture {
-		receiver.generated = receiver.Arch64Ptr()
+		it.generated = it.Arch64Ptr()
 	} else {
-		receiver.generated = receiver.Arch32Ptr()
+		it.generated = it.Arch32Ptr()
 	}
 
-	return receiver.generated
+	return *it.generated
 }
 
-func (receiver *Linux) String() string {
-	return *receiver.Generated()
+func (it Linux) String() string {
+	return it.Generated()
 }

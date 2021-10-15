@@ -1,11 +1,12 @@
 package pathcompare
 
 import (
+	"gitlab.com/evatix-go/core/corecmp"
 	"gitlab.com/evatix-go/core/corecomparator"
 )
 
 func Size(
 	left, right int64,
 ) corecomparator.Compare {
-	return corecomparator.Integer64(left, right)
+	return corecmp.Integer64(left, right)
 }

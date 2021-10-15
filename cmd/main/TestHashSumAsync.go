@@ -12,9 +12,6 @@ func TestHashSumAsync() {
 	start := time.Now()
 	c := checksummer.NewAsync(true, "D:\\vm", hashas.Md5)
 	elapsed := time.Since(start)
-	if v {
-		prettyPrint(c.GetMap())
-	}
-
+	prettyPrint(c.GetMap())
 	fmt.Printf("Elapsed Async: %s\n", elapsed)
 }

@@ -3,11 +3,12 @@ package pathcompare
 import (
 	"time"
 
+	"gitlab.com/evatix-go/core/corecmp"
 	"gitlab.com/evatix-go/core/corecomparator"
 )
 
 func LastModified(
 	left, right time.Time,
 ) corecomparator.Compare {
-	return corecomparator.Time(left, right)
+	return corecmp.Time(left, right)
 }

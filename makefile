@@ -7,7 +7,9 @@ ConfigDirectoryForWindows = configs
 all: create-windows-bin win-copy-config build run
 run-l: run-linux
 runl: run-linux
+run-u: run-unix
 run-linux: create-bin copy-config build linux-run
+run-unix: create-bin copy-config-mac build linux-run
 run-ps: create-windows-bin win-copy-config build run-direct
 
 run-main:
@@ -24,6 +26,9 @@ ps-create-bin:
 
 copy-config:
 	cp -rfRT "$(ConfigDirectory)" "$(BinariesDirectory)/"
+
+copy-config-mac:
+	cp -rf "$(ConfigDirectory)" "$(BinariesDirectory)/"
 
 ps-copy-config:
 	COPY-ITEM "$(ConfigDirectory)/*.*" "./bin/" -Force

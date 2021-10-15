@@ -456,7 +456,7 @@ func (it *Wrapper) ToStringUptoLastMinus(
 ) string {
 	if uptoLastIndexMinus < 0 {
 		errcore.
-			CannotBeNegativeMessage.
+			CannotBeNegativeType.
 			HandleUsingPanic(
 				"uptoLastIndexMinus cannot be negative.",
 				uptoLastIndexMinus)
@@ -491,7 +491,7 @@ func (it *Wrapper) ToString(
 	return generatedPathNext
 }
 
-func (it *Wrapper) String() string {
+func (it Wrapper) String() string {
 	if it.IsFinalized() {
 		return it.finalPath
 	}

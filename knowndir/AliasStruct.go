@@ -101,7 +101,7 @@ func (a *AliasStruct) GetCurrentDir() (
 		return constants.EmptyString, err
 	}
 
-	return *specifier.Generated(), err
+	return specifier.Generated(), err
 }
 
 func (a *AliasStruct) GetDir(

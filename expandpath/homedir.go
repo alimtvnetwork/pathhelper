@@ -75,7 +75,7 @@ func Home(path string) (string, *errorwrapper.Wrapper) {
 		return path, errorwrapper.StaticEmptyPtr
 	}
 
-	if path[0] != constants.TeldaChar {
+	if path[0] != constants.TildeChar {
 		return path, errorwrapper.StaticEmptyPtr
 	}
 

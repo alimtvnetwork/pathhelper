@@ -7,6 +7,7 @@ import (
 	"strings"
 	"sync"
 
+	"gitlab.com/evatix-go/core/chmodhelper"
 	"gitlab.com/evatix-go/core/constants"
 	"gitlab.com/evatix-go/core/coredata/corejson"
 	"gitlab.com/evatix-go/core/coredata/corestr"
@@ -59,16 +60,11 @@ func NewInfoCollectionUsingFilePathsAsync(
 
 	slice := make([]*Info, len(filePaths))
 	errCollection := errwrappers.Empty()
-	isErrorFound := false
 	locker := sync.Mutex{}
 	wg := sync.WaitGroup{}
 
 	adderFunc := func(index int, filePath string) {
 		defer wg.Done()
-
-		if isErrorFound {
-			return
-		}
 
 		info, errWp := NewInfo(
 			hashMethod,
@@ -78,8 +74,6 @@ func NewInfoCollectionUsingFilePathsAsync(
 		slice[index] = info
 
 		if errWp.HasError() {
-			isErrorFound = true
-
 			locker.Lock()
 
 			errCollection.AddWrapperPtr(errWp)
@@ -91,14 +85,9 @@ func NewInfoCollectionUsingFilePathsAsync(
 		}
 	}
 
+	wg.Add(len(filePaths))
 	for i, filePath := range filePaths {
-		wg.Add(constants.One)
 		go adderFunc(i, filePath)
-
-		if isErrorFound {
-			return &InfoCollection{Items: slice},
-				errCollection
-		}
 	}
 
 	wg.Wait()
@@ -321,6 +310,38 @@ func (it *InfoCollection) InfoUsingChecksums(checksums ...string) *InfoCollectio
 	return &InfoCollection{Items: slice}
 }
 
+func (it *InfoCollection) PathStatSlice(isTakeOnlyValid bool) []*chmodhelper.PathExistStat {
+	if it.IsEmpty() {
+		return []*chmodhelper.PathExistStat{}
+	}
+
+	slice := make(
+		[]*chmodhelper.PathExistStat,
+		0,
+		it.Length())
+
+	if isTakeOnlyValid {
+		for _, item := range it.Items {
+			stat := item.Stat()
+
+			if stat.IsInvalid() {
+				continue
+			}
+
+			slice = append(slice, stat)
+		}
+
+		return slice
+	}
+
+	for _, item := range it.Items {
+		stat := item.Stat()
+		slice = append(slice, stat)
+	}
+
+	return slice
+}
+
 func (it *InfoCollection) GetAllUsingChecksumCollection(
 	findingHexChecksums ...string,
 ) *InfoCollection {
@@ -393,6 +414,44 @@ func (it *InfoCollection) AllFilePathsSorted() []string {
 	sort.Strings(slice)
 
 	return slice
+}
+
+func (it *InfoCollection) KeyValueStringMapUsingFmtFunc(
+	fmtFunc MapKeyValFmtFunc,
+) map[string]string {
+	if it.IsEmpty() {
+		return map[string]string{}
+	}
+
+	itemsMap := make(
+		map[string]string,
+		it.Length())
+
+	for _, item := range it.Items {
+		k, v := fmtFunc(item)
+
+		itemsMap[k] = v
+	}
+
+	return itemsMap
+}
+
+func (it *InfoCollection) KeyStringValueInfoMapUsingFmtFunc(
+	fmtFunc MapKeyValInfoFmtFunc,
+) map[string]*Info {
+	if it.IsEmpty() {
+		return map[string]*Info{}
+	}
+
+	itemsMap := make(map[string]*Info, it.Length())
+
+	for _, item := range it.Items {
+		k := fmtFunc(item)
+
+		itemsMap[k] = item
+	}
+
+	return itemsMap
 }
 
 // AllFilePathToHexChecksumMap
@@ -662,7 +721,7 @@ func (it *InfoCollection) GetSinglePageCollection(
 	skipItems := eachPageSize * (pageIndex - 1)
 	if skipItems < 0 {
 		errcore.
-			CannotBeNegativeIndex.
+			CannotBeNegativeIndexType.
 			HandleUsingPanic(
 				"pageIndex cannot be negative or zero.",
 				pageIndex)
@@ -1099,7 +1158,7 @@ func (it *InfoCollection) JsonString() string {
 	return it.Json().JsonString()
 }
 
-func (it *InfoCollection) String() string {
+func (it InfoCollection) String() string {
 	if it.IsEmpty() {
 		return constants.EmptyString
 	}
@@ -1163,6 +1222,10 @@ func (it *InfoCollection) ParseInjectUsingJsonMust(
 	}
 
 	return hashSet
+}
+
+func (it *InfoCollection) AsJsonContractsBinder() corejson.JsonContractsBinder {
+	return it
 }
 
 func (it *InfoCollection) AsJsoner() corejson.Jsoner {

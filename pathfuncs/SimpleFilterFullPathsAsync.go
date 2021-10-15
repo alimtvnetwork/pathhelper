@@ -61,7 +61,7 @@ func SimpleFilterFullPathsAsync(
 				errSlice = append(
 					errSlice,
 					fmt.Sprintf(
-						constants.MessageReferenceWrap,
+						constants.MessageWrapMessageFormat,
 						errString,
 						fullPath))
 			}

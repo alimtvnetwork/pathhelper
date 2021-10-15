@@ -42,7 +42,7 @@ func GetExcept(
 		}
 
 		selectedFilesHashset = corestr.NewHashsetUsingStrings(
-			selectedFilesResults.ValueMust())
+			selectedFilesResults.SafeValuesPtr())
 	}()
 
 	go func() {
@@ -60,7 +60,7 @@ func GetExcept(
 		}
 
 		exceptFilesHashset = corestr.NewHashsetUsingStrings(
-			exceptFilesResults.ValueMust())
+			exceptFilesResults.SafeValuesPtr())
 	}()
 
 	wg.Wait()

@@ -7,40 +7,40 @@ type SimplePathWrapper struct {
 	IsDirectory bool
 }
 
-func (simplePathWrapper *SimplePathWrapper) IsEquals(anotherWrapper SimplePathWrapper) bool {
-	return simplePathWrapper.IsDirectory == anotherWrapper.IsDirectory &&
-		simplePathWrapper.Path == anotherWrapper.Path
+func (it *SimplePathWrapper) IsEquals(anotherWrapper SimplePathWrapper) bool {
+	return it.IsDirectory == anotherWrapper.IsDirectory &&
+		it.Path == anotherWrapper.Path
 }
 
-func (simplePathWrapper *SimplePathWrapper) IsEqualsPtr(anotherWrapper *SimplePathWrapper) bool {
+func (it *SimplePathWrapper) IsEqualsPtr(anotherWrapper *SimplePathWrapper) bool {
 	if anotherWrapper == nil {
 		return false
 	}
 
-	if simplePathWrapper == anotherWrapper {
+	if it == anotherWrapper {
 		return true
 	}
 
-	return simplePathWrapper.IsDirectory == anotherWrapper.IsDirectory &&
-		simplePathWrapper.Path == anotherWrapper.Path
+	return it.IsDirectory == anotherWrapper.IsDirectory &&
+		it.Path == anotherWrapper.Path
 }
 
-func (simplePathWrapper *SimplePathWrapper) String() string {
-	return simplePathWrapper.Path
+func (it SimplePathWrapper) String() string {
+	return it.Path
 }
 
-func (simplePathWrapper *SimplePathWrapper) BaseDir() string {
-	return splitinternal.GetBaseDir(simplePathWrapper.Path)
+func (it *SimplePathWrapper) BaseDir() string {
+	return splitinternal.GetBaseDir(it.Path)
 }
 
-func (simplePathWrapper *SimplePathWrapper) GetFileNamePlusExt() (filename, ext string) {
-	return splitinternal.GetFilenamePlusExt(simplePathWrapper.Path)
+func (it *SimplePathWrapper) GetFileNamePlusExt() (filename, ext string) {
+	return splitinternal.GetFilenamePlusExt(it.Path)
 }
 
-func (simplePathWrapper *SimplePathWrapper) GetBothExtension() (dotExt, ext string) {
-	return splitinternal.GetBothExtension(simplePathWrapper.Path)
+func (it *SimplePathWrapper) GetBothExtension() (dotExt, ext string) {
+	return splitinternal.GetBothExtension(it.Path)
 }
 
-func (simplePathWrapper *SimplePathWrapper) GetFileNameOnly() (fileNameWithoutExt string) {
-	return splitinternal.GetFileNameWithoutExt(simplePathWrapper.Path)
+func (it *SimplePathWrapper) GetFileNameOnly() (fileNameWithoutExt string) {
+	return splitinternal.GetFileNameWithoutExt(it.Path)
 }

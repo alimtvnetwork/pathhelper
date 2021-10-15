@@ -71,7 +71,7 @@ func GetRecursive(
 
 		linkedCollections.AddStringsPtrAsync(
 			wg,
-			results.ValueMust(),
+			results.SafeValuesPtr(),
 			false)
 	}
 

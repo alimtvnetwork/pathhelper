@@ -34,6 +34,6 @@ func Test_Download(t *testing.T) {
 	convey.Convey("Download Content Should Resemble Temp Content", t, func() {
 		errBytesResults := fs.ReadFile(filePath)
 		convey.So(errBytesResults.HasError(), convey.ShouldBeFalse)
-		convey.So(errBytesResults.ValueNonPtr(), convey.ShouldResemble, buff)
+		convey.So(errBytesResults.SafeValues(), convey.ShouldResemble, buff)
 	})
 }

@@ -208,6 +208,44 @@ func (it *InstanceCollection) AddsIf(
 	return it.Adds(infoItems...)
 }
 
+func (it *InstanceCollection) KeyValueStringMapUsingFmtFunc(
+	fmtFunc MapKeyValueStringFmtFunc,
+) map[string]string {
+	if it.IsEmpty() {
+		return map[string]string{}
+	}
+
+	itemsMap := make(map[string]string, it.Length())
+
+	for _, item := range it.Items {
+		k, v := fmtFunc(item)
+
+		itemsMap[k] = v
+	}
+
+	return itemsMap
+}
+
+func (it *InstanceCollection) KeyStringMapUsingFmtFunc(
+	fmtFunc MapKeyStringValueInstanceFmtFunc,
+) map[string]*Instance {
+	if it.IsEmpty() {
+		return map[string]*Instance{}
+	}
+
+	itemsMap := make(
+		map[string]*Instance,
+		it.Length())
+
+	for _, item := range it.Items {
+		k := fmtFunc(item)
+
+		itemsMap[k] = item
+	}
+
+	return itemsMap
+}
+
 // AllFilePathToInstanceMap
 //
 // Key = filePath,
@@ -419,7 +457,7 @@ func (it *InstanceCollection) GetSinglePageCollection(
 	skipItems := eachPageSize * (pageIndex - 1)
 	if skipItems < 0 {
 		errcore.
-			CannotBeNegativeIndex.
+			CannotBeNegativeIndexType.
 			HandleUsingPanic(
 				"pageIndex cannot be negative or zero.",
 				pageIndex)
@@ -811,7 +849,7 @@ func (it *InstanceCollection) JsonString() string {
 	return it.Json().JsonString()
 }
 
-func (it *InstanceCollection) String() string {
+func (it InstanceCollection) String() string {
 	if it.IsEmpty() {
 		return constants.EmptyString
 	}
@@ -875,6 +913,10 @@ func (it *InstanceCollection) ParseInjectUsingJsonMust(
 	}
 
 	return hashSet
+}
+
+func (it *InstanceCollection) AsJsonContractsBinder() corejson.JsonContractsBinder {
+	return it
 }
 
 func (it *InstanceCollection) AsJsoner() corejson.Jsoner {
