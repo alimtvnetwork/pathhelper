@@ -185,7 +185,9 @@ func (it *Path) DeletePath(isSkipOnNonExist bool) *errorwrapper.Wrapper {
 func (it *Path) Move(toPath string) *errorwrapper.Wrapper {
 	err := os.Rename(it.CompiledPath(), toPath)
 
-	return errnew.Path(errtype.PathMove, err, toPath)
+	return errnew.
+		Path.
+		Error(errtype.PathMove, err, toPath)
 }
 
 func (it *Path) SimpleStat() *pathchmod.SimpleStat {
@@ -359,7 +361,7 @@ func (it *Path) AllPathsSimpleStat() (*pathchmod.SimpleStats, *errorwrapper.Wrap
 		return pathchmod.
 				NewSimpleStats(1).
 				Add(it.CompiledPath()),
-			errnew.EmptyPtr
+			nil
 	}
 
 	allPaths := it.AllPaths()
@@ -371,7 +373,7 @@ func (it *Path) AllPathsSimpleStat() (*pathchmod.SimpleStats, *errorwrapper.Wrap
 
 	return pathchmod.NewSimpleStatsUsingItems(
 			allPaths.SafeValues()...),
-		errnew.EmptyPtr
+		nil
 }
 
 func (it *Path) AllFilesSimpleStat() (*pathchmod.SimpleStats, *errorwrapper.Wrapper) {
@@ -379,7 +381,7 @@ func (it *Path) AllFilesSimpleStat() (*pathchmod.SimpleStats, *errorwrapper.Wrap
 		return pathchmod.
 				NewSimpleStats(1).
 				Add(it.CompiledPath()),
-			errnew.EmptyPtr
+			nil
 	}
 
 	files := it.Files()
@@ -391,7 +393,7 @@ func (it *Path) AllFilesSimpleStat() (*pathchmod.SimpleStats, *errorwrapper.Wrap
 
 	return pathchmod.NewSimpleStatsUsingItems(
 			files.SafeValues()...),
-		errnew.EmptyPtr
+		nil
 }
 
 func (it *Path) AllDirsSimpleStat() (*pathchmod.SimpleStats, *errorwrapper.Wrapper) {
@@ -404,13 +406,13 @@ func (it *Path) AllDirsSimpleStat() (*pathchmod.SimpleStats, *errorwrapper.Wrapp
 
 	return pathchmod.NewSimpleStatsUsingItems(
 			paths.SafeValues()...),
-		errnew.EmptyPtr
+		nil
 }
 
 // Files it doesn't return recursive files but just immediate nested files
 func (it *Path) Files() *errstr.Results {
 	if it.IsFile() {
-		return errstr.EmptyErrorResults(it.CompiledPath())
+		return errstr.New.Results.SpreadValuesOnly(it.CompiledPath())
 	}
 
 	pathWrapper := it.PathWrapper()
@@ -443,24 +445,28 @@ func (it *Path) LocationInfo() *pathhelper.LocationInfo {
 
 func (it *Path) NotDirError() *errorwrapper.Wrapper {
 	if it.IsDir() {
-		return errnew.EmptyPtr
+		return nil
 	}
 
-	return errnew.PathMessages(
-		errtype.InvalidDir,
-		it.CompiledPath(),
-		"not a valid directory")
+	return errnew.
+		Path.
+		Messages(
+			errtype.InvalidDir,
+			it.CompiledPath(),
+			"not a valid directory")
 }
 
 func (it *Path) NotFileError() *errorwrapper.Wrapper {
 	if it.IsFile() {
-		return errnew.EmptyPtr
+		return nil
 	}
 
-	return errnew.PathMessages(
-		errtype.FileInvalid,
-		it.CompiledPath(),
-		"not a valid file")
+	return errnew.
+		Path.
+		Messages(
+			errtype.FileInvalid,
+			it.CompiledPath(),
+			"not a valid file")
 }
 
 func (it *Path) ReadFileBytesMust() []byte {
@@ -529,7 +535,7 @@ func (it *Path) RecursivePathsAll(
 	excludeRootNames ...string,
 ) *corestr.SimpleSlice {
 	if !it.IsPathExist() {
-		return corestr.EmptySimpleSlice()
+		return corestr.Empty.SimpleSlice()
 	}
 
 	src := it.CompiledPath()
@@ -644,7 +650,7 @@ func (it *Path) MoveTo(
 
 func (it *Path) CopyChmod(isSkipOnWidows bool, toPath string) *errorwrapper.Wrapper {
 	if isSkipOnWidows && osconsts.IsWindows {
-		return errnew.EmptyPtr
+		return nil
 	}
 
 	return fs.CopyChmod(it.CompiledPath(), toPath)
@@ -652,7 +658,7 @@ func (it *Path) CopyChmod(isSkipOnWidows bool, toPath string) *errorwrapper.Wrap
 
 func (it *Path) CopyChown(isSkipOnWidows bool, toPath string) *errorwrapper.Wrapper {
 	if isSkipOnWidows && osconsts.IsWindows {
-		return errnew.EmptyPtr
+		return nil
 	}
 
 	return pathsysinfo.ChownCopy(it.CompiledPath(), toPath)
@@ -660,7 +666,7 @@ func (it *Path) CopyChown(isSkipOnWidows bool, toPath string) *errorwrapper.Wrap
 
 func (it *Path) CopyChmodChown(isSkipOnWidows bool, toPath string) *errorwrapper.Wrapper {
 	if isSkipOnWidows && osconsts.IsWindows {
-		return errnew.EmptyPtr
+		return nil
 	}
 
 	chmodErr := fs.CopyChmod(
@@ -714,7 +720,7 @@ func (it *Path) ApplyFileMode(mode os.FileMode) *errorwrapper.Wrapper {
 		condition,
 		it.Path)
 
-	return errnew.NewPtr(
+	return errnew.Type.Error(
 		errtype.ChmodApplyFailed,
 		err)
 }
@@ -745,7 +751,7 @@ func (it *Path) ApplyRwxInstruction(
 	rwx *chmodins.RwxInstruction,
 ) *errorwrapper.Wrapper {
 	if it.IsEmptyPath() || rwx == nil {
-		return errnew.EmptyPtr
+		return nil
 	}
 
 	return pathchmod.ApplyChmodRwxOwnerGroupOther(
@@ -793,7 +799,7 @@ func (it *Path) ApplyChown(
 	chown *pathinsfmt.Chown,
 ) *errorwrapper.Wrapper {
 	if it.IsEmptyPath() || chown == nil {
-		return errnew.EmptyPtr
+		return nil
 	}
 
 	return namegroup.Apply(

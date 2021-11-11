@@ -14,7 +14,7 @@ func IsSymLink(path string) *errbool.Result {
 	if err != nil {
 		return &errbool.Result{
 			Value: false,
-			ErrorWrapper: errnew.MessagesPtr(
+			ErrorWrapper: errnew.Messages.Many(
 				errtype.SymbolicLink,
 				path,
 				err.Error()),
@@ -25,6 +25,6 @@ func IsSymLink(path string) *errbool.Result {
 
 	return &errbool.Result{
 		Value:        isSuccess,
-		ErrorWrapper: errnew.EmptyPtr,
+		ErrorWrapper: nil,
 	}
 }

@@ -1,7 +1,6 @@
 package envpath
 
 import (
-	"gitlab.com/evatix-go/core/coredata/corestr"
 	"gitlab.com/evatix-go/core/osconsts"
 	"gitlab.com/evatix-go/errorwrapper"
 	"gitlab.com/evatix-go/errorwrapper/errnew"
@@ -20,12 +19,12 @@ func linuxCrudEnvPath(
 	envPaths []string,
 	isApplyEnvironmentSource bool,
 ) *errorwrapper.Wrapper {
-	if corestr.LengthOfStrings(envPaths) == 0 {
-		return errnew.EmptyPtr
+	if len(envPaths) == 0 {
+		return nil
 	}
 
 	if !osconsts.IsUnixGroup || !osconsts.IsLinux {
-		return errnew.MessagesPtr(
+		return errnew.Messages.Many(
 			errtype.NotSupportOperatingSystem,
 			"linuxCrudEnvPath",
 			messages.CannotAddUpdateRemoveEnvPath)
@@ -59,5 +58,5 @@ func linuxCrudEnvPath(
 		return LinuxApplySourceEnvironment()
 	}
 
-	return errnew.EmptyPtr
+	return nil
 }

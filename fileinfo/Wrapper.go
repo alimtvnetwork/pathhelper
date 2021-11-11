@@ -119,7 +119,9 @@ func (it *Wrapper) UnmarshalJSON(data []byte) error {
 
 		fileInfo, err2 := os.Stat(dataModel.RawPath)
 		it.FileInfo = fileInfo
-		it.ErrorWrapper = errnew.Path(errtype.PathInfoFailed, err2, dataModel.RawPath)
+		it.ErrorWrapper = errnew.
+			Path.
+			Error(errtype.PathInfoFailed, err2, dataModel.RawPath)
 	}
 
 	return err

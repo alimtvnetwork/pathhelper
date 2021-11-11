@@ -52,7 +52,7 @@ func (it *PathsCreatorCollection) FlatPaths() []string {
 		return []string{}
 	}
 
-	collection := corestr.NewLinkedCollections()
+	collection := corestr.Empty.LinkedCollections()
 
 	wg3 := &sync.WaitGroup{}
 

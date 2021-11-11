@@ -15,14 +15,14 @@ func ApplyChmodRwxInstructions(
 	if instructions == nil ||
 		instructions.RwxInstructions == nil ||
 		len(paths) == 0 {
-		return errnew.EmptyPtr
+		return nil
 	}
 
 	executors, err := chmodhelper.ParseRwxInstructionsToExecutors(
 		instructions.RwxInstructions)
 
 	if err != nil {
-		return errnew.NewPtr(
+		return errnew.Type.Error(
 			errtype.ParsingFailed,
 			err)
 	}
@@ -31,10 +31,10 @@ func ApplyChmodRwxInstructions(
 		&paths)
 
 	if err2 != nil {
-		return errnew.NewPtr(
+		return errnew.Type.Error(
 			errtype.ChmodApplyFailed,
 			err2)
 	}
 
-	return errnew.EmptyPtr
+	return nil
 }

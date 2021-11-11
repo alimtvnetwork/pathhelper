@@ -88,7 +88,7 @@ func (it *Result) FilterFullPaths(
 	filter pathfuncs.Filter,
 ) *corestr.SimpleSlice {
 	if it == nil || it.PathsResult == nil || it.PathsResult.ExpandingPaths.IsEmpty() {
-		return corestr.EmptySimpleSlice()
+		return corestr.Empty.SimpleSlice()
 	}
 
 	hasErr := it.ErrorWrapper.HasError()
@@ -97,7 +97,7 @@ func (it *Result) FilterFullPaths(
 	}
 
 	if !isContinueOnError && hasErr {
-		return corestr.EmptySimpleSlice()
+		return corestr.Empty.SimpleSlice()
 	}
 
 	return pathfuncs.FilterFullPaths(
@@ -139,10 +139,10 @@ func (it *Result) FilterResults(
 		errCollection,
 		filter)
 
-	errWp := errnew.EmptyPtr
+	var errWp *errorwrapper.Wrapper
 
 	if stateTracker.IsFailed() {
-		errWp = errnew.MessagesPtr(
+		errWp = errnew.Messages.Many(
 			errtype.AlreadyDefined,
 			"errors are already collected in the error collection.")
 	}
@@ -164,32 +164,32 @@ func (it *Result) FilterResults(
 
 func (it *Result) StringsResults() *errstr.Results {
 	if it == nil {
-		return errstr.EmptyResultsWithError(
-			errnew.NullSimple(it))
+		return errstr.New.Results.ErrorWrapper(
+			errnew.Null.Simple(it))
 	}
 
 	if it.ErrorWrapper.HasError() || it.IsEmpty() {
-		return errstr.EmptyResultsWithError(
+		return errstr.New.Results.ErrorWrapper(
 			it.ErrorWrapper)
 	}
 
-	return errstr.NewResults(
+	return errstr.New.Results.Create(
 		it.ErrorWrapper,
-		it.PathsResult.ExpandingPaths.Items...)
+		it.PathsResult.ExpandingPaths.Items)
 }
 
 func (it *Result) EmptyErrorResults() *errstr.Results {
 	if it == nil {
-		return errstr.EmptyResultsWithError(
-			errnew.NullSimple(it))
+		return errstr.New.Results.ErrorWrapper(
+			errnew.Null.Simple(it))
 	}
 
 	if it.ErrorWrapper.HasError() || it.IsEmpty() {
-		return errstr.EmptyResultsWithError(
+		return errstr.New.Results.ErrorWrapper(
 			it.ErrorWrapper)
 	}
 
-	return errstr.EmptyResults()
+	return errstr.Empty.Results()
 }
 
 func (it *Result) Clone(isDeepClone bool) *Result {

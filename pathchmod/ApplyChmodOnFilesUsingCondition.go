@@ -5,7 +5,6 @@ import (
 
 	"gitlab.com/evatix-go/core/chmodhelper/chmodins"
 	"gitlab.com/evatix-go/errorwrapper"
-	"gitlab.com/evatix-go/errorwrapper/errnew"
 )
 
 func ApplyChmodOnFilesUsingCondition(
@@ -14,7 +13,7 @@ func ApplyChmodOnFilesUsingCondition(
 	locations ...string,
 ) (*chmodins.RwxInstruction, *errorwrapper.Wrapper) {
 	if len(locations) == 0 || condition == nil {
-		return &chmodins.RwxInstruction{}, errnew.EmptyPtr
+		return &chmodins.RwxInstruction{}, nil
 	}
 
 	return ApplyChmodOnFiles(

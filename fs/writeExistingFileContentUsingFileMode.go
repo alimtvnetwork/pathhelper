@@ -20,13 +20,15 @@ func writeExistingFileContentUsingFileMode(
 		mode)
 
 	if writeErr != nil {
-		return errnew.PathMessages(
-			errtype.FileWrite,
-			filePath,
-			"fs.WriteFile",
-			"Failed write file contents.",
-			writeErr.Error())
+		return errnew.
+			Path.
+			Messages(
+				errtype.FileWrite,
+				filePath,
+				"fs.WriteFile",
+				"Failed write file contents.",
+				writeErr.Error())
 	}
 
-	return errnew.EmptyPtr
+	return nil
 }

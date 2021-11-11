@@ -6,6 +6,7 @@ import (
 	"gitlab.com/evatix-go/core/constants"
 	"gitlab.com/evatix-go/errorwrapper"
 	"gitlab.com/evatix-go/errorwrapper/errnew"
+	"gitlab.com/evatix-go/errorwrapper/errtype"
 
 	"gitlab.com/evatix-go/pathhelper/pathsconst"
 )
@@ -17,7 +18,8 @@ func CopyToTempDir(root string) (string, *errorwrapper.Wrapper) {
 		constants.EmptyString,
 		pathsconst.TestDirPatternName)
 	if err != nil {
-		return constants.EmptyString, errnew.ErrPtr(err)
+		return constants.EmptyString, errnew.Path.Error(
+			errtype.Copy, err, root)
 	}
 
 	errW := NewCopier(root, tmpRoot, Options{

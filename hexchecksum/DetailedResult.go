@@ -61,6 +61,6 @@ func EmptyDetailedResultWithErr(
 			Method:                   hashMethod,
 			ErrorWrapper:             errWp,
 		},
-		Hashmap: corestr.EmptyHashmap(),
+		Hashmap: corestr.Empty.Hashmap(),
 	}
 }

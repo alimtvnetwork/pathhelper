@@ -2,7 +2,6 @@ package pathchmod
 
 import (
 	"gitlab.com/evatix-go/core/chmodhelper"
-	"gitlab.com/evatix-go/core/codestack"
 	"gitlab.com/evatix-go/errorwrapper"
 	"gitlab.com/evatix-go/errorwrapper/errnew"
 	"gitlab.com/evatix-go/errorwrapper/errtype"
@@ -19,12 +18,11 @@ func GetLocationsRwxWrappers(
 		isContinueOnError, locations...)
 
 	if err != nil {
-		return *resultMap, errorwrapper.NewRef1(
-			codestack.SkipNone,
+		return *resultMap, errnew.Error.Type(
 			errtype.ExistingChmodReadFailed,
-			"Ref",
-			err.Error())
+			err,
+		)
 	}
 
-	return *resultMap, errnew.EmptyPtr
+	return *resultMap, nil
 }

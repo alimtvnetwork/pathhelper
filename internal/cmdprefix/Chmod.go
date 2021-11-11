@@ -6,7 +6,7 @@ import (
 
 // Chmod Format :
 //  - Recursive : chmod -R 777 /dir
-//  - Non Recursive : chmod 777 /dir
+//  - Non-Recursive : chmod 777 /dir
 func Chmod(isRecursive bool, wrapper *chmodhelper.RwxWrapper) string {
 	octalModeValueString := wrapper.ToFileModeString()
 

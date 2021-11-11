@@ -9,7 +9,7 @@ import (
 func getFilteredFilesByNameMatching(
 	collection *corestr.Collection,
 	eachPathExtWrapper *pathext.Wrapper,
-) *[]string {
+) []string {
 	resultsBySpecificNameFilter := collection.Filter(
 		func(str string, index int) (
 			result string,

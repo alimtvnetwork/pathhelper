@@ -3,7 +3,6 @@ package namegroup
 import (
 	"gitlab.com/evatix-go/core/coreutils/stringutil"
 	"gitlab.com/evatix-go/errorwrapper"
-	"gitlab.com/evatix-go/errorwrapper/errnew"
 	"gitlab.com/evatix-go/pathhelper/internal/cmdprefix"
 	"gitlab.com/evatix-go/pathhelper/pathinsfmt"
 )
@@ -15,17 +14,17 @@ func ApplyLinuxOnlyGroup(
 	paths ...string,
 ) *errorwrapper.Wrapper {
 	if baseGroupName == nil {
-		return errnew.EmptyPtr
+		return nil
 	}
 
 	if stringutil.IsEmptyOrWhitespace(baseGroupName.GroupName) {
-		return errnew.EmptyPtr
+		return nil
 	}
 
 	pathsLength := len(paths)
 
 	if pathsLength == 0 {
-		return errnew.EmptyPtr
+		return nil
 	}
 
 	groupName := baseGroupName.GroupName

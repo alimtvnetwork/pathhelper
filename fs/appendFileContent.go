@@ -10,10 +10,12 @@ import (
 func appendFileContent(filePath string, content []byte) (finalErrorWrapper *errorwrapper.Wrapper) {
 	chmod, err := chmodhelper.GetExistingChmod(filePath)
 	if err != nil {
-		return errnew.PathMessages(
-			errtype.ExistingChmodReadFailed,
-			filePath,
-			err.Error())
+		return errnew.
+			Path.
+			Messages(
+				errtype.ExistingChmodReadFailed,
+				filePath,
+				err.Error())
 	}
 
 	osFile := GetOsFile(
@@ -31,13 +33,15 @@ func appendFileContent(filePath string, content []byte) (finalErrorWrapper *erro
 	_, appendingErr := osFile.OsFile.Write(content)
 
 	if appendingErr != nil {
-		return errnew.PathMessages(
-			errtype.FileAppend,
-			filePath,
-			"fs.appendFileContent",
-			"Failed append file contents.",
-			appendingErr.Error())
+		return errnew.
+			Path.
+			Messages(
+				errtype.FileAppend,
+				filePath,
+				"fs.appendFileContent",
+				"Failed append file contents.",
+				appendingErr.Error())
 	}
 
-	return errnew.EmptyPtr
+	return nil
 }

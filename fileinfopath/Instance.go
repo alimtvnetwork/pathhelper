@@ -9,8 +9,8 @@ import (
 	"gitlab.com/evatix-go/core/corecomparator"
 	"gitlab.com/evatix-go/core/coredata/corejson"
 	"gitlab.com/evatix-go/core/coredata/corestr"
-	"gitlab.com/evatix-go/core/errcore"
 	"gitlab.com/evatix-go/core/iserror"
+	"gitlab.com/evatix-go/core/namevalue"
 	"gitlab.com/evatix-go/errorwrapper"
 	"gitlab.com/evatix-go/errorwrapper/errnew"
 	"gitlab.com/evatix-go/errorwrapper/errtype"
@@ -207,24 +207,28 @@ func (it *Instance) CompareLastModified(anotherInstance *Instance) corecomparato
 
 func (it *Instance) NotFileError() *errorwrapper.Wrapper {
 	if it.IsFile() {
-		return errnew.EmptyPtr
+		return nil
 	}
 
-	return errnew.PathMessages(
-		errtype.File,
-		it.FullPath,
-		"Cannot read invalid path or a directory. (required file)")
+	return errnew.
+		Path.
+		Messages(
+			errtype.File,
+			it.FullPath,
+			"Cannot read invalid path or a directory. (required file)")
 }
 
 func (it *Instance) NotDirError() *errorwrapper.Wrapper {
 	if it.IsDir() {
-		return errnew.EmptyPtr
+		return nil
 	}
 
-	return errnew.PathMessages(
-		errtype.Directory,
-		it.FullPath,
-		"Cannot read invalid path or a file. (required directory)")
+	return errnew.
+		Path.
+		Messages(
+			errtype.Directory,
+			it.FullPath,
+			"Cannot read invalid path or a file. (required directory)")
 }
 
 func (it *Instance) String() string {
@@ -236,32 +240,31 @@ func (it *Instance) String() string {
 		return it.compiledToString.String()
 	}
 
-	nameValues := []errcore.NameVal{
-		{
+	nameValues := namevalue.NewNewNameValuesCollectionUsing(
+		false,
+		namevalue.Instance{
 			Name:  "FullPath",
 			Value: it.FullPath,
 		},
-	}
+	)
 
-	nameValues = errcore.ConditionalNameValAppend(
+	nameValues.AddsIf(
 		it.FileInfo != nil,
-		nameValues,
-		errcore.NameVal{
+		namevalue.Instance{
 			Name:  "FileInfo",
 			Value: FileInfoString(it.FileInfo),
 		})
 
-	nameValues = errcore.ConditionalNameValAppend(
+	nameValues.AddsIf(
 		it.Error != nil,
-		nameValues,
-		errcore.NameVal{
+		namevalue.Instance{
 			Name:  "Error",
 			Value: it.Error,
 		})
 
-	toString := errcore.VarNameValuesJoiner(
+	toString := nameValues.JoinJsonStrings(
 		consts.FileInfoEachLineJoiner,
-		nameValues...)
+	)
 
 	return it.compiledToString.GetPlusSetOnUninitialized(toString)
 }
@@ -298,8 +301,10 @@ func (it *Instance) AsJsoner() corejson.Jsoner {
 
 func (it *Instance) ErrorWrapper(errType errtype.Variation) *errorwrapper.Wrapper {
 	if it.HasError() {
-		return errnew.Path(errType, it.Error, it.FullPath)
+		return errnew.
+			Path.
+			Error(errType, it.Error, it.FullPath)
 	}
 
-	return errnew.EmptyPtr
+	return nil
 }

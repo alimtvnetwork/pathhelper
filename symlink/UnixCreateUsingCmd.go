@@ -1,6 +1,7 @@
 package symlink
 
 import (
+	"gitlab.com/evatix-go/core/codestack"
 	"gitlab.com/evatix-go/core/constants"
 	"gitlab.com/evatix-go/core/osconsts"
 	"gitlab.com/evatix-go/errorwrapper/errcmd"
@@ -13,7 +14,10 @@ import (
 // destination need to have read and write permission for the user.
 func UnixCreateUsingCmd(sourcePath, destinationPath string) *errbool.Result {
 	if osconsts.IsWindows {
-		return errbool.ErrorWrapper(errnew.NotSupportInWindows)
+		return errbool.New.Result.ErrorWrapper(
+			errnew.
+				NotSupportInWindows.
+				CloneNewStackSkipPtr(codestack.Skip1))
 	}
 
 	symLink := errcmd.ArgsJoin(
@@ -22,10 +26,10 @@ func UnixCreateUsingCmd(sourcePath, destinationPath string) *errbool.Result {
 		sourcePath,
 		destinationPath)
 
-	cmdOnceResult := errcmd.BashScripts(symLink).CompiledResult()
+	cmdOnceResult := errcmd.New.BashScript.LinesResult(symLink)
 
-	return &errbool.Result{
-		Value:        cmdOnceResult.IsEmptyError(),
-		ErrorWrapper: cmdOnceResult.ErrorWrapper(),
-	}
+	return errbool.New.Result.Create(
+		cmdOnceResult.IsEmptyError(),
+		cmdOnceResult.ErrorWrapper(),
+	)
 }

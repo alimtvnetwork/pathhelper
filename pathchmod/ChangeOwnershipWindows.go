@@ -18,11 +18,13 @@ func ChangeOwnershipWindows(location, user, group string) *errorwrapper.Wrapper 
 	err := os.Chown(location, uid, gid)
 
 	if err != nil {
-		return errnew.Path(
-			errtype.ChownUserOrGroupApplyIssue,
-			err,
-			location)
+		return errnew.
+			Path.
+			Error(
+				errtype.ChownUserOrGroupApplyIssue,
+				err,
+				location)
 	}
 
-	return errnew.EmptyPtr
+	return nil
 }

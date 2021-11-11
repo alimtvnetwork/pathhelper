@@ -11,5 +11,7 @@ import (
 func Single(location string) *errorwrapper.Wrapper {
 	err := os.Remove(location)
 
-	return errnew.Path(errtype.DeletePathFailed, err, location)
+	return errnew.
+		Path.
+		Error(errtype.DeletePathFailed, err, location)
 }

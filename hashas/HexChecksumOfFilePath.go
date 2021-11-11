@@ -13,5 +13,5 @@ func HexChecksumOfFilePath(method Variant, fullFilePath string) *errstr.Result {
 	toString := byteResults.NonEmptyString(
 		convertBytesResultsToEncodedHexString)
 
-	return errstr.EmptyErrorResult(toString)
+	return errstr.New.Result.ValueOnly(toString)
 }

@@ -28,7 +28,7 @@ func (it *Instruction) Result() *Result {
 
 func (it *Instruction) SliceResult() *corestr.SimpleSlice {
 	if it.Root == "" {
-		return corestr.EmptySimpleSlice()
+		return corestr.Empty.SimpleSlice()
 	}
 
 	rs := it.Result()
@@ -36,7 +36,7 @@ func (it *Instruction) SliceResult() *corestr.SimpleSlice {
 	if rs.IsInvalidResult || rs.IsEmpty() {
 		rs.Dispose()
 
-		return corestr.EmptySimpleSlice()
+		return corestr.Empty.SimpleSlice()
 	}
 
 	rs.ErrorWrapper.Dispose()
@@ -80,7 +80,7 @@ func (it *Instruction) ExcludingNamesHashset() *corestr.Hashset {
 	}
 
 	slicePtr := stringslice.SlicePtr(it.ExcludingRootNames)
-	it.excludingNamesHashset = corestr.NewHashsetUsingStrings(
+	it.excludingNamesHashset = corestr.New.Hashset.StringsPtr(
 		slicePtr)
 
 	return it.excludingNamesHashset
@@ -92,7 +92,7 @@ func (it *Instruction) ExcludingPathsHashset() *corestr.Hashset {
 	}
 
 	slicePtr := stringslice.SlicePtr(it.ExcludingPaths)
-	it.excludingPathsHashset = corestr.NewHashsetUsingStrings(
+	it.excludingPathsHashset = corestr.New.Hashset.StringsPtr(
 		slicePtr)
 
 	return it.excludingPathsHashset

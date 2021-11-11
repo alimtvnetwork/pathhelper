@@ -12,7 +12,7 @@ func ReadFileNonWhitespaceLinesUsingLock(filePath string) *errstr.Results {
 	errString := ReadFileStringUsingLock(filePath)
 
 	if errString.Value == "" {
-		return errstr.EmptyResultsWithError(
+		return errstr.New.Results.ErrorWrapper(
 			errString.ErrorWrapper)
 	}
 

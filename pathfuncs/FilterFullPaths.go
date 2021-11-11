@@ -19,7 +19,7 @@ func FilterFullPaths(
 	length := len(fullPaths)
 
 	if filter == nil || length == 0 {
-		return corestr.EmptySimpleSlice()
+		return corestr.Empty.SimpleSlice()
 	}
 
 	foundItems := stringslice.MakeDefault(length)
@@ -55,5 +55,5 @@ func FilterFullPaths(
 		}
 	}
 
-	return corestr.NewSimpleSliceUsing(false, foundItems...)
+	return corestr.New.SimpleSlice.Strings(foundItems)
 }

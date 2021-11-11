@@ -5,7 +5,6 @@ import (
 
 	"gitlab.com/evatix-go/core/constants"
 	"gitlab.com/evatix-go/errorwrapper"
-	"gitlab.com/evatix-go/errorwrapper/errnew"
 	"gitlab.com/evatix-go/pathhelper/internal/fsinternal"
 )
 
@@ -16,7 +15,7 @@ func CreateManyUsingFileMode(
 	files []string,
 ) ([]*os.File, *errorwrapper.Wrapper) {
 	if len(files) == 0 {
-		return []*os.File{}, errnew.EmptyPtr
+		return []*os.File{}, nil
 	}
 
 	if isLock {
@@ -48,7 +47,7 @@ func CreateManyUsingFileMode(
 			slice = append(slice, file)
 		}
 
-		return slice, errnew.EmptyPtr
+		return slice, nil
 	}
 
 	// no checking create
@@ -66,5 +65,5 @@ func CreateManyUsingFileMode(
 		slice = append(slice, file)
 	}
 
-	return slice, errnew.EmptyPtr
+	return slice, nil
 }

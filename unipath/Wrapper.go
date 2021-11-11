@@ -39,7 +39,7 @@ func New(sep string) *Wrapper {
 		finalPath:      "",
 		separator:      sep,
 		finalizedError: nil,
-		collection:     corestr.NewCollection(defaultCapacity),
+		collection:     corestr.New.Collection.Cap(defaultCapacity),
 	}
 }
 
@@ -49,7 +49,7 @@ func NewUsingPath(curPath, sep string) *Wrapper {
 		finalPath:      "",
 		separator:      sep,
 		finalizedError: nil,
-		collection:     corestr.NewCollection(constants.ArbitraryCapacity1),
+		collection:     corestr.New.Collection.Cap(constants.ArbitraryCapacity1),
 	}
 
 	return wrapper.Add(curPath)
@@ -61,7 +61,7 @@ func NewCap(cap int, sep string) *Wrapper {
 		finalPath:      "",
 		separator:      sep,
 		finalizedError: nil,
-		collection:     corestr.NewCollection(cap),
+		collection:     corestr.New.Collection.Cap(cap),
 	}
 }
 
@@ -71,7 +71,7 @@ func NewCapStartingPath(cap int, sep, startingPath string) *Wrapper {
 		finalPath:      "",
 		separator:      sep,
 		finalizedError: nil,
-		collection:     corestr.NewCollection(cap),
+		collection:     corestr.New.Collection.Cap(cap),
 	}
 
 	return wrapper.Add(startingPath)
@@ -241,7 +241,7 @@ func (it *Wrapper) Finalize() *errstr.Result {
 		finalPath,
 	)
 
-	return errstr.EmptyErrorResult(
+	return errstr.New.Result.ValueOnly(
 		it.finalPath)
 }
 
@@ -256,7 +256,7 @@ func (it *Wrapper) GetFinalizePath() *errstr.Result {
 
 	return &errstr.Result{
 		Value:        it.finalPath,
-		ErrorWrapper: errnew.EmptyPtr,
+		ErrorWrapper: nil,
 	}
 }
 
@@ -345,10 +345,10 @@ func (it *Wrapper) GetBaseDirFileInfo() (os.FileInfo, *errorwrapper.Wrapper) {
 
 	if err != nil {
 		return curFileInfo,
-			errnew.NewPtr(errtype.FileInfo, err)
+			errnew.Type.Error(errtype.FileInfo, err)
 	}
 
-	return curFileInfo, errnew.EmptyPtr
+	return curFileInfo, nil
 }
 
 func (it *Wrapper) IsBaseDirExists() bool {
@@ -382,10 +382,10 @@ func (it *Wrapper) GetFileInfo() (os.FileInfo, *errorwrapper.Wrapper) {
 	curFileInfo, err := os.Stat(filePath)
 
 	if err != nil {
-		return curFileInfo, errnew.NewPtr(errtype.FileInfo, err)
+		return curFileInfo, errnew.Type.Error(errtype.FileInfo, err)
 	}
 
-	return curFileInfo, errnew.EmptyPtr
+	return curFileInfo, nil
 }
 
 func (it *Wrapper) GetFileInfoWrapper() *fileinfo.Wrapper {
@@ -433,7 +433,7 @@ func (it *Wrapper) getFinalizedError() *errorwrapper.Wrapper {
 		return it.finalizedError
 	}
 
-	return errnew.EmptyPtr
+	return nil
 }
 
 func (it *Wrapper) ToWrapperUpto(

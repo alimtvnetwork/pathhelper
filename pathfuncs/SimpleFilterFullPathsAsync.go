@@ -21,7 +21,7 @@ func SimpleFilterFullPathsAsync(
 	length := len(fullPaths)
 
 	if filter == nil || length == 0 {
-		return errstr.EmptyResults()
+		return errstr.Empty.Results()
 	}
 
 	if length <= consts.NonAsyncSafeRange {
@@ -99,17 +99,17 @@ func SimpleFilterFullPathsAsync(
 		errSlice)
 
 	if err != nil {
-		errWp := errnew.NewPtr(
+		errWp := errnew.Type.Error(
 			errtype.PathIssue,
 			err,
 		)
 
-		return errstr.NewResults(
+		return errstr.New.Results.Create(
 			errWp,
-			finalItems...)
+			finalItems)
 	}
 
 	firstFoundItems = nil
 
-	return errstr.EmptyErrorResults(finalItems...)
+	return errstr.New.Results.Strings(finalItems)
 }

@@ -98,7 +98,9 @@ func (it *BasePathsCreator) DeleteAllPaths() *errorwrapper.Wrapper {
 	location := it.RootDir
 	err := os.RemoveAll(location)
 
-	return errnew.Path(errtype.DeletePathFailed, err, location)
+	return errnew.
+		Path.
+		Error(errtype.DeletePathFailed, err, location)
 }
 
 func (it *BasePathsCreator) PathsChmodMap() *errstr.Hashmap {
@@ -108,7 +110,7 @@ func (it *BasePathsCreator) PathsChmodMap() *errstr.Hashmap {
 
 	return &errstr.Hashmap{
 		Hashmap: hashmap,
-		ErrorWrapper: errnew.NewPtr(
+		ErrorWrapper: errnew.Type.Error(
 			errtype.ExistingChmodReadFailed,
 			err),
 	}
@@ -227,7 +229,7 @@ func (it *BasePathsCreator) createFiles(
 	files []string,
 ) ([]*os.File, *errorwrapper.Wrapper) {
 	if len(files) == 0 {
-		return []*os.File{}, errnew.EmptyPtr
+		return []*os.File{}, nil
 	}
 
 	return createpath.CreateManySameDirWithFileMode(

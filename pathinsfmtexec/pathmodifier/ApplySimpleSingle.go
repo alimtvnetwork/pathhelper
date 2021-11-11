@@ -2,7 +2,6 @@ package pathmodifier
 
 import (
 	"gitlab.com/evatix-go/errorwrapper"
-	"gitlab.com/evatix-go/errorwrapper/errnew"
 	"gitlab.com/evatix-go/errorwrapper/errwrappers"
 	"gitlab.com/evatix-go/pathhelper/pathinsfmt"
 )
@@ -27,5 +26,5 @@ func ApplySimpleSingle(
 		return errCollection.GetAsErrorWrapperPtr()
 	}
 
-	return errnew.EmptyPtr
+	return nil
 }

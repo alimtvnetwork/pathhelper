@@ -20,10 +20,12 @@ func NewInfo(
 	stat := chmodhelper.GetPathExistStat(finalPath)
 
 	if stat.HasError() {
-		return InvalidInfo(hashMethod, finalPath), errnew.Path(
-			errtype.PathMissingOrInvalid,
-			stat.MeaningFullError(),
-			finalPath)
+		return InvalidInfo(hashMethod, finalPath), errnew.
+			Path.
+			Error(
+				errtype.PathMissingOrInvalid,
+				stat.MeaningFullError(),
+				finalPath)
 	}
 
 	isInvalidFile := !stat.IsFile()

@@ -234,7 +234,7 @@ func (it *InfoCollection) HasChecksum(hexChecksum string) bool {
 }
 
 func (it *InfoCollection) HasAnyChecksum(hexChecksums ...string) bool {
-	findingChecksumsHashset := corestr.NewHashsetUsingStrings(
+	findingChecksumsHashset := corestr.New.Hashset.StringsPtr(
 		&hexChecksums)
 
 	return it.HasFilterFuncAsync(func(index int, info *Info) (isSuccess bool) {
@@ -349,7 +349,7 @@ func (it *InfoCollection) GetAllUsingChecksumCollection(
 		return EmptyInfoCollection()
 	}
 
-	findingChecksumHashset := corestr.NewHashsetUsingStrings(
+	findingChecksumHashset := corestr.New.Hashset.StringsPtr(
 		&findingHexChecksums)
 
 	return it.FilterInfoCollection(func(info *Info) (isTake, isBreak bool) {
@@ -358,7 +358,7 @@ func (it *InfoCollection) GetAllUsingChecksumCollection(
 }
 
 func (it *InfoCollection) HasAnyFilePath(filePath ...string) bool {
-	findingItemsHashset := corestr.NewHashsetUsingStrings(
+	findingItemsHashset := corestr.New.Hashset.StringsPtr(
 		&filePath)
 
 	return it.HasFilterFuncAsync(func(index int, info *Info) (isSuccess bool) {
@@ -532,7 +532,7 @@ func (it *InfoCollection) AllHexChecksumToFilePathMap() map[string]string {
 
 func (it *InfoCollection) CompiledChecksum(isSortChecksum bool) *errstr.Result {
 	if it.IsEmpty() {
-		return errstr.Empty()
+		return errstr.Empty.Result()
 	}
 
 	return hexchecksum.OfChecksums(

@@ -33,20 +33,24 @@ func CreateSingleUsingFileMode(
 		filePath)
 
 	if err != nil {
-		return file, errnew.Path(
-			errtype.CreatePathFailed,
-			err,
-			filePath)
+		return file, errnew.
+			Path.
+			Error(
+				errtype.CreatePathFailed,
+				err,
+				filePath)
 	}
 
 	chmodErr := os.Chmod(filePath, mode)
 
 	if chmodErr != nil {
-		return file, errnew.Path(
-			errtype.ChmodApplyFailed,
-			err,
-			filePath)
+		return file, errnew.
+			Path.
+			Error(
+				errtype.ChmodApplyFailed,
+				err,
+				filePath)
 	}
 
-	return file, errnew.EmptyPtr
+	return file, nil
 }

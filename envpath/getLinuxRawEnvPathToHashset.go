@@ -25,7 +25,7 @@ func getLinuxRawEnvPathToHashset(existingEnvPathsWithPathEqualColonSeparator str
 
 	// finalEnvPaths := sliceinternal.MergeSlices(&splits2, envPaths)
 	// compiledToSinge := strings.Join(finalEnvPaths, unixEnvPathSplitter)
-	hashset := corestr.NewHashsetUsingStrings(
+	hashset := corestr.New.Hashset.StringsPtr(
 		&splits2)
 
 	return hashset

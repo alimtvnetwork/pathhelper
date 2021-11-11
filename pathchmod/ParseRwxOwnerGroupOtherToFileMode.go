@@ -19,10 +19,10 @@ func ParseRwxOwnerGroupOtherToFileMode(
 	}
 
 	if rwxWrapper == nil {
-		return 0, errnew.MessagesPtr(
+		return 0, errnew.Messages.Many(
 			errtype.ChmodInvalid,
 			"Cannot process wildcard rwx to convert to fixed file mode")
 	}
 
-	return rwxWrapper.ToFileMode(), errnew.EmptyPtr
+	return rwxWrapper.ToFileMode(), nil
 }

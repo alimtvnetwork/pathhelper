@@ -16,11 +16,13 @@ func ChangeOwnershipWindowsUsingIds(
 	err := os.Chown(location, userId, groupId)
 
 	if err != nil {
-		return errnew.Path(
-			errtype.ChownUserOrGroupApplyIssue,
-			err,
-			location)
+		return errnew.
+			Path.
+			Error(
+				errtype.ChownUserOrGroupApplyIssue,
+				err,
+				location)
 	}
 
-	return errnew.EmptyPtr
+	return nil
 }

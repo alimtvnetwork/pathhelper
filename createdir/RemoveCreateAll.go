@@ -23,7 +23,7 @@ func RemoveCreateAll(
 	}
 
 	if isSkipOnExist && fsinternal.IsPathExists(location) {
-		return errnew.EmptyPtr
+		return nil
 	}
 
 	var removeErr error
@@ -32,18 +32,22 @@ func RemoveCreateAll(
 	}
 
 	if removeErr != nil {
-		return errnew.Path(
-			errtype.RemoveFailed,
-			removeErr,
-			location)
+		return errnew.
+			Path.
+			Error(
+				errtype.RemoveFailed,
+				removeErr,
+				location)
 	}
 
 	if isApplyCreate {
-		return errnew.Path(
-			errtype.CreateDirectoryFailed,
-			os.MkdirAll(location, mode),
-			location)
+		return errnew.
+			Path.
+			Error(
+				errtype.CreateDirectoryFailed,
+				os.MkdirAll(location, mode),
+				location)
 	}
 
-	return errnew.EmptyPtr
+	return nil
 }

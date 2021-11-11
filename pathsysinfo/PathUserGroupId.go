@@ -51,7 +51,7 @@ func (it *PathUserGroupId) IsInvalidUserOrGroupId() bool {
 
 func (it *PathUserGroupId) InvalidError() *errorwrapper.Wrapper {
 	if it == nil {
-		return errnew.NullSimple(it)
+		return errnew.Null.Simple(it)
 	}
 
 	if it.HasError() {
@@ -59,7 +59,7 @@ func (it *PathUserGroupId) InvalidError() *errorwrapper.Wrapper {
 	}
 
 	if it.IsInvalidUserOrGroupId() {
-		return errnew.MessagesPtr(
+		return errnew.Messages.Many(
 			errtype.ChownUserOrGroupApplyIssue,
 			"either user or group id is invalid for path : ",
 			it.FileInfoWithPath.FullPath,
@@ -70,12 +70,12 @@ func (it *PathUserGroupId) InvalidError() *errorwrapper.Wrapper {
 		)
 	}
 
-	return errnew.EmptyPtr
+	return nil
 }
 
 func (it *PathUserGroupId) ErrorWrapper() *errorwrapper.Wrapper {
 	if it.HasError() {
-		return errnew.MessagesPtr(
+		return errnew.Messages.Many(
 			errtype.ChownUserOrGroupApplyIssue,
 			it.Error.Error(),
 			"UserId",
@@ -85,7 +85,7 @@ func (it *PathUserGroupId) ErrorWrapper() *errorwrapper.Wrapper {
 		)
 	}
 
-	return errnew.EmptyPtr
+	return nil
 }
 
 func (it *PathUserGroupId) UserGroupId() *UserGroupId {
@@ -155,14 +155,15 @@ func (it *PathUserGroupId) ApplyChown(fullPath string) *errorwrapper.Wrapper {
 	err := os.Chown(fullPath, it.UserId, it.GroupId)
 
 	if err != nil {
-		return errnew.SourceDestinationMessages(
+		return errnew.SrcDst.Error(
 			errtype.ChownUserOrGroupApplyIssue,
+			err,
 			it.FileInfoWithPath.FullPath,
 			fullPath,
-			err.Error())
+		)
 	}
 
-	return errnew.EmptyPtr
+	return nil
 }
 
 func (it *PathUserGroupId) ApplyUserId(fullPath string) *errorwrapper.Wrapper {
@@ -182,13 +183,15 @@ func (it *PathUserGroupId) ApplyUserId(fullPath string) *errorwrapper.Wrapper {
 		applyPathUserInfo.GroupId)
 
 	if err != nil {
-		return errnew.Path(
-			errtype.ChownUserOrGroupApplyIssue,
-			err,
-			fullPath)
+		return errnew.
+			Path.
+			Error(
+				errtype.ChownUserOrGroupApplyIssue,
+				err,
+				fullPath)
 	}
 
-	return errnew.EmptyPtr
+	return nil
 }
 
 func (it *PathUserGroupId) ApplyGroupId(fullPath string) *errorwrapper.Wrapper {
@@ -208,11 +211,13 @@ func (it *PathUserGroupId) ApplyGroupId(fullPath string) *errorwrapper.Wrapper {
 		it.GroupId)
 
 	if err != nil {
-		return errnew.Path(
-			errtype.ChownUserOrGroupApplyIssue,
-			err,
-			fullPath)
+		return errnew.
+			Path.
+			Error(
+				errtype.ChownUserOrGroupApplyIssue,
+				err,
+				fullPath)
 	}
 
-	return errnew.EmptyPtr
+	return nil
 }

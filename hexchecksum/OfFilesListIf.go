@@ -12,7 +12,7 @@ func OfFilesListIf(
 	files ...string,
 ) *errstr.Result {
 	if !isGenerate {
-		return errstr.Empty()
+		return errstr.Empty.Result()
 	}
 
 	jsonResult := corejson.NewFromAnyPtr(files)

@@ -15,7 +15,7 @@ func DoOptions(
 	dst string,
 	options Options,
 ) *errorwrapper.Wrapper {
-	deleteErr := errnew.EmptyPtr
+	var deleteErr *errorwrapper.Wrapper
 
 	if options.IsClearDestination {
 		deleteErr = deletepaths.RecursiveOnExist(
@@ -23,7 +23,7 @@ func DoOptions(
 	}
 
 	if deleteErr.HasError() {
-		return errnew.UsingWrapperAdditionalRefs(deleteErr,
+		return errnew.Ref.ManyUsingWrapper(deleteErr,
 			ref.Value{
 				Variable: "src",
 				Value:    src,
@@ -35,7 +35,7 @@ func DoOptions(
 	}
 
 	if isExists(dst) && options.IsSkipOnExist {
-		return errnew.EmptyPtr
+		return nil
 	}
 
 	isExist, fileInfo := chmodhelper.IsPathExistsPlusFileInfo(src)
@@ -45,19 +45,21 @@ func DoOptions(
 	}
 
 	if !isExist {
-		return errnew.PathMessages(
-			errtype.PathMissingOrInvalid,
-			src,
-			"Source path is missing or access issues.",
-			"Cannot copy to destination: ",
-			dst)
+		return errnew.
+			Path.
+			Messages(
+				errtype.PathMissingOrInvalid,
+				src,
+				"Source path is missing or access issues.",
+				"Cannot copy to destination: ",
+				dst)
 	}
 
 	err := DoSimple(
 		src,
 		dst)
 
-	return errnew.NewRef2(
+	return errnew.Ref.TwoWithError(
 		errtype.Copy,
 		err,
 		"src",

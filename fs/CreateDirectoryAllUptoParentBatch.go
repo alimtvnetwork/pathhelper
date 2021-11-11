@@ -2,7 +2,6 @@ package fs
 
 import (
 	"gitlab.com/evatix-go/errorwrapper"
-	"gitlab.com/evatix-go/errorwrapper/errnew"
 )
 
 func CreateDirectoryAllUptoParentMany(paths ...string) *errorwrapper.Wrapper {
@@ -15,5 +14,5 @@ func CreateDirectoryAllUptoParentMany(paths ...string) *errorwrapper.Wrapper {
 		}
 	}
 
-	return errnew.EmptyPtr
+	return nil
 }

@@ -2,13 +2,12 @@ package envvars
 
 import (
 	"gitlab.com/evatix-go/errorwrapper"
-	"gitlab.com/evatix-go/errorwrapper/errnew"
 	"gitlab.com/evatix-go/pathhelper/pathinsfmt"
 )
 
 func Apply(environmentVariables *pathinsfmt.BaseEnvironmentVariables) *errorwrapper.Wrapper {
 	if environmentVariables == nil || environmentVariables.IsEmptyEnvVars() {
-		return errnew.EmptyPtr
+		return nil
 	}
 
 	for i := range environmentVariables.EnvVars {
@@ -18,5 +17,5 @@ func Apply(environmentVariables *pathinsfmt.BaseEnvironmentVariables) *errorwrap
 		}
 	}
 
-	return errnew.EmptyPtr
+	return nil
 }

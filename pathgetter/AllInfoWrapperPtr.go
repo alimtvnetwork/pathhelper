@@ -1,8 +1,6 @@
 package pathgetter
 
 import (
-	"gitlab.com/evatix-go/core/coredata/corestr"
-
 	"gitlab.com/evatix-go/pathhelper/fileinfo"
 )
 
@@ -11,7 +9,7 @@ func AllInfoWrapperPtr(
 	isNormalize bool,
 	exploringPaths []string,
 ) []*fileinfo.Wrappers {
-	length := corestr.LengthOfStrings(exploringPaths)
+	length := len(exploringPaths)
 	wrappersOfWrappers := make([]*fileinfo.Wrappers, length)
 
 	if length == 0 {

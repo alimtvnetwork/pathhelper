@@ -3,7 +3,6 @@ package fs
 import (
 	"gitlab.com/evatix-go/core/constants"
 	"gitlab.com/evatix-go/errorwrapper/errdata/errstr"
-	"gitlab.com/evatix-go/errorwrapper/errnew"
 )
 
 func ReadStringOnExistUsingLock(filePath string) *errstr.Result {
@@ -13,6 +12,6 @@ func ReadStringOnExistUsingLock(filePath string) *errstr.Result {
 
 	return &errstr.Result{
 		Value:        constants.EmptyString,
-		ErrorWrapper: errnew.EmptyPtr,
+		ErrorWrapper: nil,
 	}
 }

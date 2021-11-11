@@ -12,9 +12,9 @@ func FullRwxToRwxWrapper(rwxFull string) (*chmodhelper.RwxWrapper, *errorwrapper
 	varWrapper, err := chmodhelper.NewRwxVariableWrapper(rwxFull)
 
 	if err != nil {
-		return nil, errnew.RefsWithMessage(
+		return nil, errnew.Ref.ErrorWithRefs(
 			errtype.ChmodInvalid,
-			err.Error(),
+			err,
 			ref.Value{
 				Variable: "rwx",
 				Value:    rwxFull,
@@ -22,7 +22,7 @@ func FullRwxToRwxWrapper(rwxFull string) (*chmodhelper.RwxWrapper, *errorwrapper
 	}
 
 	if varWrapper == nil || !varWrapper.IsFixedType() {
-		return nil, errnew.RefsWithMessage(
+		return nil, errnew.Ref.MsgWithOne(
 			errtype.ChmodInvalid,
 			"Rwx must be be fixed without wildcard to receive file mode.",
 			ref.Value{
@@ -32,5 +32,5 @@ func FullRwxToRwxWrapper(rwxFull string) (*chmodhelper.RwxWrapper, *errorwrapper
 	}
 
 	return varWrapper.
-		ToCompileFixedPtr(), errnew.EmptyPtr
+		ToCompileFixedPtr(), nil
 }

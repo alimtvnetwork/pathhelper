@@ -86,21 +86,22 @@ func (dynamicPaths *DynamicPaths) FlatPaths() []string {
 	}
 
 	collectionOfCollection :=
-		corestr.NewLinkedCollections()
+		corestr.Empty.LinkedCollections()
 
 	mutex := sync.Mutex{}
 	wg := sync.WaitGroup{}
 	wg.Add(length)
 
 	var asyncAdd = func(diffPath AllDiffPaths) {
-		collection := diffPath.FlatPaths()
+		filePaths := diffPath.FlatPaths()
 
 		mutex.Lock()
 		defer mutex.Unlock()
 
 		collectionOfCollection.AddStringsPtr(
-			&collection,
-			false)
+			false,
+			&filePaths,
+		)
 
 		wg.Done()
 	}

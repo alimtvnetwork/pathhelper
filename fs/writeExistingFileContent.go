@@ -15,10 +15,12 @@ func writeExistingFileContent(
 ) *errorwrapper.Wrapper {
 	chmod, err := chmodhelper.GetExistingChmod(filePath)
 	if err != nil {
-		return errnew.Path(
-			errtype.File,
-			err,
-			filePath)
+		return errnew.
+			Path.
+			Error(
+				errtype.File,
+				err,
+				filePath)
 	}
 
 	writeErr := ioutil.WriteFile(
@@ -27,13 +29,15 @@ func writeExistingFileContent(
 		chmod)
 
 	if writeErr != nil {
-		return errnew.PathMessages(
-			errtype.FileWrite,
-			filePath,
-			"fs.writeExistingFileContent",
-			"Failed write file contents.",
-			writeErr.Error())
+		return errnew.
+			Path.
+			Messages(
+				errtype.FileWrite,
+				filePath,
+				"fs.writeExistingFileContent",
+				"Failed write file contents.",
+				writeErr.Error())
 	}
 
-	return errnew.EmptyPtr
+	return nil
 }

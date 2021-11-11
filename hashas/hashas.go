@@ -30,7 +30,7 @@ const (
 func (it Variant) NewHash() (hash.Hash, *errorwrapper.Wrapper) {
 	switch it {
 	case Undefined:
-		return nil, errnew.MessagesPtr(
+		return nil, errnew.Messages.Many(
 			errtype.UnexpectedDefinition,
 			it.Name()+"(HashMethod/Variant) is expected to be not defined. Thus nil hasher.",
 		)
@@ -43,7 +43,7 @@ func (it Variant) NewHash() (hash.Hash, *errorwrapper.Wrapper) {
 	case Sha512:
 		return sha512.New(), nil
 	default:
-		return nil, errnew.MessagesPtr(
+		return nil, errnew.Messages.Many(
 			errtype.InvalidOption,
 			it.Name()+" invalid option.",
 			BasicEnumImpl.RangesInvalidMessage(),
@@ -114,7 +114,7 @@ func (it Variant) HexSumOfFileIf(
 	fullPath string,
 ) *errstr.Result {
 	if isSkipGenerate {
-		return errstr.Empty()
+		return errstr.Empty.Result()
 	}
 
 	return HexChecksumOfFilePath(
@@ -158,7 +158,7 @@ func (it *Variant) HexSumOfAnyIf(
 		return it.HexOfJsonResult(jsonResult)
 	}
 
-	return errstr.Empty()
+	return errstr.Empty.Result()
 }
 
 func (it Variant) HexSumOfAnyItemsToCombinedSingleString(
@@ -185,22 +185,22 @@ func (it *Variant) SumOfJsonResult(
 	result *corejson.Result,
 ) *errbyte.Results {
 	if result == nil || result.Bytes == nil {
-		return errbyte.EmptyResultsWithError(
-			errnew.MessagesPtr(
+		return errbyte.New.Results.ErrorWrapper(
+			errnew.Messages.Many(
 				errtype.EmptyPointerOrNullPointer,
 				"cannot hash nil json result or nil bytes values!",
 			))
 	}
 
 	if result.HasError() {
-		return errbyte.EmptyResultsWithError(
-			errnew.MessagesPtr(
+		return errbyte.New.Results.ErrorWrapper(
+			errnew.Messages.Many(
 				errtype.JsonSyntaxIssue,
 				"cannot hash on error json results!",
 				result.MeaningfulError().Error()))
 	}
 
-	return it.SumOf(result.ValueMust())
+	return it.SumOf(result.Bytes)
 }
 
 func (it *Variant) HexOfJsonResult(
@@ -209,13 +209,13 @@ func (it *Variant) HexOfJsonResult(
 	bytesResult := it.SumOfJsonResult(result)
 
 	if bytesResult.HasError() {
-		return errstr.ErrorWrapper(bytesResult.ErrorWrapper)
+		return errstr.New.Result.ErrorWrapper(bytesResult.ErrorWrapper)
 	}
 
 	toString := bytesResult.NonEmptyString(
 		convertBytesResultsToEncodedHexString)
 
-	return errstr.EmptyErrorResult(toString)
+	return errstr.New.Result.ValueOnly(toString)
 }
 
 func (it Variant) IsUndefined() bool {

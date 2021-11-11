@@ -6,9 +6,9 @@ import (
 )
 
 var (
-	InvalidSystemUser                   = errnew.MessagesPtr(errtype.NotFound, "System user not found or id has issues.")
-	InvalidSystemGroup                  = errnew.MessagesPtr(errtype.NotFound, "System group not found or id has issues.")
-	CannotApplyChmodWithSingleParameter = errnew.MessagesPtr(
+	InvalidSystemUser                   = errnew.Messages.Many(errtype.NotFound, "System user not found or id has issues.")
+	InvalidSystemGroup                  = errnew.Messages.Many(errtype.NotFound, "System group not found or id has issues.")
+	CannotApplyChmodWithSingleParameter = errnew.Messages.Many(
 		errtype.SysGroupInvalid,
 		"Cannot process chmod using single user or group. "+
 			"Both (user + group) needs to be present. "+

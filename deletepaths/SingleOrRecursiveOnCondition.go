@@ -11,7 +11,7 @@ func SingleOrRecursiveOnCondition(
 	location string,
 ) *errorwrapper.Wrapper {
 	if !condition.IsRemove {
-		return errnew.EmptyPtr
+		return nil
 	}
 
 	if condition.IsRecursive && condition.IsExistBeforeClear {
@@ -26,9 +26,10 @@ func SingleOrRecursiveOnCondition(
 		return Single(location)
 	}
 
-	return errnew.Ref1Msg(
+	return errnew.Ref.Messages(
 		errtype.InvalidOption,
-		"None of the condition satisfied for path remove using condition!",
 		"condition",
-		condition)
+		condition,
+		"None of the condition satisfied for path remove using condition!",
+	)
 }

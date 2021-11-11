@@ -15,23 +15,24 @@ func CopyChmod(
 	srcFileInfo, err := os.Stat(srcPath)
 
 	if IsNotPathExistsUsing(srcFileInfo, err) {
-		return errnew.SourceDestinationMessages(
+		return errnew.SrcDst.Error(
 			errtype.ChownUserOrGroupApplyIssue,
+			err,
 			srcPath,
 			dstPath,
-			err.Error())
+		)
 	}
 
 	chmodApplyErr := os.Chmod(dstPath, srcFileInfo.Mode())
 
 	if chmodApplyErr != nil {
-		return errnew.SourceDestinationMessages(
+		return errnew.SrcDst.Error(
 			errtype.ChmodApplyFailed,
+			err,
 			srcPath,
 			dstPath,
-			err.Error(),
 		)
 	}
 
-	return errnew.EmptyPtr
+	return nil
 }

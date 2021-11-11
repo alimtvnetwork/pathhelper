@@ -11,7 +11,7 @@ func OfFilesContents(
 	filesPaths ...string,
 ) *errstr.Result {
 	if len(filesPaths) == 0 {
-		return errstr.Empty()
+		return errstr.Empty.Result()
 	}
 
 	sortIf(isSortFilePaths, filesPaths)
@@ -25,7 +25,7 @@ func OfFilesContents(
 		if hexFileChecksumResult.IsSuccess() {
 			checkSumSlice[i] = hexFileChecksumResult.Value
 		} else if hexFileChecksumResult.HasError() {
-			return errstr.ErrorWrapper(
+			return errstr.New.Result.ErrorWrapper(
 				hexFileChecksumResult.ErrorWrapper)
 		}
 	}

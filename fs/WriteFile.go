@@ -12,7 +12,7 @@ func WriteFile(
 	content []byte,
 ) *errorwrapper.Wrapper {
 	if content == nil {
-		return errnew.MessagesPtr(
+		return errnew.Messages.Many(
 			errtype.NullOrEmptyReference,
 			"Cannot write nil contents (bytes) to the file.",
 			filePath)

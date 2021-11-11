@@ -10,7 +10,7 @@ func FilesUsingPaths(
 	exploringPaths ...string,
 ) *errstr.Results {
 	if exploringPaths == nil {
-		return errstr.EmptyResults()
+		return errstr.Empty.Results()
 	}
 
 	return FilesUsingPathsPtr(

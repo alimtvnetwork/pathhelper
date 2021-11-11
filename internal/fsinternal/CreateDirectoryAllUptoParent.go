@@ -4,7 +4,6 @@ import (
 	"os"
 
 	"gitlab.com/evatix-go/errorwrapper"
-	"gitlab.com/evatix-go/errorwrapper/errnew"
 )
 
 func CreateDirectoryAllUptoParent(
@@ -14,7 +13,7 @@ func CreateDirectoryAllUptoParent(
 	parentDir := ParentDir(location)
 
 	if IsDirectory(parentDir) {
-		return errnew.EmptyPtr
+		return nil
 	}
 
 	return CreateDirectoryAll(parentDir, fileMode)

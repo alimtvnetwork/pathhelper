@@ -5,7 +5,6 @@ import (
 
 	"gitlab.com/evatix-go/core/coredata/corestr"
 	"gitlab.com/evatix-go/errorwrapper/errdata/errstr"
-	"gitlab.com/evatix-go/errorwrapper/errnew"
 )
 
 func AllPtr(
@@ -13,10 +12,10 @@ func AllPtr(
 	isNormalize bool,
 	exploringPaths []string,
 ) *errstr.Results {
-	length := corestr.LengthOfStrings(exploringPaths)
+	length := len(exploringPaths)
 
 	if length == 0 {
-		return errstr.EmptyResults()
+		return errstr.Empty.Results()
 	}
 
 	if length == 1 {
@@ -26,7 +25,7 @@ func AllPtr(
 			exploringPaths[0])
 	}
 
-	linkedCollection := corestr.NewLinkedCollections()
+	linkedCollection := corestr.Empty.LinkedCollections()
 	wg := &sync.WaitGroup{}
 
 	for _, expPath := range exploringPaths {
@@ -45,14 +44,15 @@ func AllPtr(
 
 		linkedCollection.AddStringsPtrAsync(
 			wg,
+			false,
 			allPaths.SafeValuesPtr(),
-			false)
+		)
 	}
 
 	wg.Wait()
 
 	return &errstr.Results{
 		Values:       *linkedCollection.ListPtr(),
-		ErrorWrapper: errnew.EmptyPtr,
+		ErrorWrapper: nil,
 	}
 }

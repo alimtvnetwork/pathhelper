@@ -12,7 +12,7 @@ func AppendFile(
 	content []byte,
 ) *errorwrapper.Wrapper {
 	if content == nil {
-		return errnew.MessagesPtr(
+		return errnew.Messages.Many(
 			errtype.NullOrEmptyReference,
 			"Cannot write empty or nil contents to the file.",
 			filePath)

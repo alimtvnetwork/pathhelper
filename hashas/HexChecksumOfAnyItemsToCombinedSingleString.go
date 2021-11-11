@@ -13,7 +13,7 @@ func HexChecksumOfAnyItemsToCombinedSingleString(
 		items...)
 
 	if results.HasError() {
-		return errstr.ErrorWrapper(results.ErrorWrapper)
+		return errstr.New.Result.ErrorWrapper(results.ErrorWrapper)
 	}
 
 	return method.HexSumOfAny(results.Values)

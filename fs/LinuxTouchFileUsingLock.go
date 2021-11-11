@@ -10,7 +10,8 @@ func LinuxTouchFileUsingLock(fullPath string) *errorwrapper.Wrapper {
 	readWriteMutex.Lock()
 	defer readWriteMutex.Unlock()
 
-	return errcmd.BashArgsErrorWrapper(
+	return errcmd.
+		New.BashScript.ArgsErr(
 		cmdprefix.Touch,
 		fullPath,
 	)

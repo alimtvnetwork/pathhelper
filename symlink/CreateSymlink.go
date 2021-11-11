@@ -12,7 +12,7 @@ func Create(path, linkName string) *errorwrapper.Wrapper {
 	err := os.Symlink(path, linkName)
 
 	if err != nil {
-		return errnew.NewRef2(
+		return errnew.Ref.TwoWithError(
 			errtype.SymbolicLink,
 			err,
 			"Source Symbolic Link",
@@ -21,5 +21,5 @@ func Create(path, linkName string) *errorwrapper.Wrapper {
 			linkName)
 	}
 
-	return errnew.EmptyPtr
+	return nil
 }

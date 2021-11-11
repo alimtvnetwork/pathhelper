@@ -2,7 +2,6 @@ package fs
 
 import (
 	"gitlab.com/evatix-go/errorwrapper"
-	"gitlab.com/evatix-go/errorwrapper/errnew"
 )
 
 func JsonReadUnmarshalOnExist(
@@ -10,7 +9,7 @@ func JsonReadUnmarshalOnExist(
 	unmarshallObjectRef interface{},
 ) *errorwrapper.Wrapper {
 	if !IsPathExistsUsingLock(filePath) {
-		return errnew.EmptyPtr
+		return nil
 	}
 
 	return JsonReadUnmarshal(filePath, unmarshallObjectRef)

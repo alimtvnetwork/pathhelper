@@ -45,10 +45,12 @@ func DirFileCreate(
 		return &OsFile{
 			Location: fullPath,
 			OsFile:   file,
-			ErrorWrapper: errnew.Path(
-				errtype.CreatePathFailed,
-				err,
-				relativeFilePath),
+			ErrorWrapper: errnew.
+				Path.
+				Error(
+					errtype.CreatePathFailed,
+					err,
+					relativeFilePath),
 			DeferClosingFunc: deferClosingFunc,
 		}
 	}
@@ -58,10 +60,12 @@ func DirFileCreate(
 		return &OsFile{
 			Location: fullPath,
 			OsFile:   file,
-			ErrorWrapper: errnew.Path(
-				errtype.ChmodApplyFailed,
-				chmodErr,
-				relativeFilePath),
+			ErrorWrapper: errnew.
+				Path.
+				Error(
+					errtype.ChmodApplyFailed,
+					chmodErr,
+					relativeFilePath),
 			DeferClosingFunc: deferClosingFunc,
 		}
 	}
@@ -69,7 +73,7 @@ func DirFileCreate(
 	return &OsFile{
 		Location:         fullPath,
 		OsFile:           file,
-		ErrorWrapper:     errnew.EmptyPtr,
+		ErrorWrapper:     nil,
 		DeferClosingFunc: deferClosingFunc,
 	}
 }

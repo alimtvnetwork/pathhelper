@@ -19,5 +19,7 @@ func ApplyLinuxRecursiveChmodOnPathUsingFileMode(
 	chmodErr := fileMode.
 		LinuxApplyRecursive(false, rootDir)
 
-	return errnew.Path(errtype.ChmodApplyFailed, chmodErr, rootDir)
+	return errnew.
+		Path.
+		Error(errtype.ChmodApplyFailed, chmodErr, rootDir)
 }

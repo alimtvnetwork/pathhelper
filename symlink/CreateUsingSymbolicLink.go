@@ -15,21 +15,23 @@ import (
 
 func CreateUsingSymbolicLink(symLink *pathinsfmt.SymbolicLink) *errorwrapper.Wrapper {
 	if symLink == nil {
-		return errnew.EmptyPtr
+		return nil
 	}
 
 	isFileExist := fsinternal.IsPathExists(symLink.Src)
 	isFileMissing := !isFileExist
 
 	if symLink.IsSkipOnSrcMissing && isFileMissing {
-		return errnew.EmptyPtr
+		return nil
 	}
 
 	if !symLink.IsSkipOnSrcMissing && isFileMissing {
-		return errnew.PathMessages(
-			errtype.PathNotFound,
-			symLink.Src,
-			"Cannot apply or create symbolic link when path is missing. Please select IsSkipOnSrcMissing to ignore.")
+		return errnew.
+			Path.
+			Messages(
+				errtype.PathNotFound,
+				symLink.Src,
+				"Cannot apply or create symbolic link when path is missing. Please select IsSkipOnSrcMissing to ignore.")
 	}
 
 	if symLink.IsClearBefore {
@@ -41,7 +43,7 @@ func CreateUsingSymbolicLink(symLink *pathinsfmt.SymbolicLink) *errorwrapper.Wra
 	}
 
 	if symLink.IsSkipOnExist && isFileExist {
-		return errnew.EmptyPtr
+		return nil
 	}
 
 	if symLink.IsMkDirAll {
@@ -66,7 +68,7 @@ func CreateUsingSymbolicLink(symLink *pathinsfmt.SymbolicLink) *errorwrapper.Wra
 		dst)
 
 	if err != nil {
-		return errnew.NewRefs(
+		return errnew.Ref.ManyWithError(
 			errtype.SymbolicLink,
 			err,
 			ref.Value{
@@ -83,5 +85,5 @@ func CreateUsingSymbolicLink(symLink *pathinsfmt.SymbolicLink) *errorwrapper.Wra
 			})
 	}
 
-	return errnew.EmptyPtr
+	return nil
 }

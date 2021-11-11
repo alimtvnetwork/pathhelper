@@ -14,7 +14,7 @@ func ReadJsonParseSelfInjector(
 	errJsonResult := ReadErrorJsonResult(filePath)
 
 	if errJsonResult == nil || jsonParseSelfInjector == nil {
-		return errnew.MessagesPtr(
+		return errnew.Messages.Many(
 			errtype.Unmarshalling,
 			"Cannot unmarhsal nil result or to nil pointer",
 			"Failed to unmarshal jsonParseSelfInjector",
@@ -28,17 +28,21 @@ func ReadJsonParseSelfInjector(
 	}
 
 	if errJsonResult.Error != nil {
-		return errnew.Path(
-			errtype.Unmarshalling,
-			errJsonResult.Error,
-			filePath)
+		return errnew.
+			Path.
+			Error(
+				errtype.Unmarshalling,
+				errJsonResult.Error,
+				filePath)
 	}
 
 	err := jsonParseSelfInjector.JsonParseSelfInject(
 		errJsonResult.Result)
 
-	return errnew.Path(
-		errtype.Unmarshalling,
-		err,
-		filePath)
+	return errnew.
+		Path.
+		Error(
+			errtype.Unmarshalling,
+			err,
+			filePath)
 }

@@ -7,5 +7,5 @@ func ReadLinesOnExistUsingLock(filePath string) *errstr.Results {
 		return ReadFileLinesUsingLock(filePath)
 	}
 
-	return errstr.EmptyResults()
+	return errstr.Empty.Results()
 }

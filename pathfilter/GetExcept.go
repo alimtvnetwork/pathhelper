@@ -41,7 +41,7 @@ func GetExcept(
 			return
 		}
 
-		selectedFilesHashset = corestr.NewHashsetUsingStrings(
+		selectedFilesHashset = corestr.New.Hashset.StringsPtr(
 			selectedFilesResults.SafeValuesPtr())
 	}()
 
@@ -59,7 +59,7 @@ func GetExcept(
 			return
 		}
 
-		exceptFilesHashset = corestr.NewHashsetUsingStrings(
+		exceptFilesHashset = corestr.New.Hashset.StringsPtr(
 			exceptFilesResults.SafeValuesPtr())
 	}()
 

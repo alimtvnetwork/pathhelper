@@ -11,8 +11,10 @@ import (
 func Rename(srcPath, dstPath string) *errorwrapper.Wrapper {
 	err := os.Rename(srcPath, dstPath)
 
-	return errnew.Path(
-		errtype.RenamePathFailed,
-		err,
-		srcPath)
+	return errnew.
+		Path.
+		Error(
+			errtype.RenamePathFailed,
+			err,
+			srcPath)
 }

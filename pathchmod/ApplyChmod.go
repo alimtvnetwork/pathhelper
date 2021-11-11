@@ -20,16 +20,20 @@ func ApplyChmod(
 	if isRecursive {
 		err := changingChmodRwxWrapper.LinuxApplyRecursive(isSkipOnInvalid, location)
 
-		return &changingChmodRwxWrapper, errnew.Path(
-			errtype.ChmodApplyFailed,
-			err,
-			location)
+		return &changingChmodRwxWrapper, errnew.
+			Path.
+			Error(
+				errtype.ChmodApplyFailed,
+				err,
+				location)
 	}
 
 	err := changingChmodRwxWrapper.ApplyChmod(isSkipOnInvalid, location)
 
-	return &changingChmodRwxWrapper, errnew.Path(
-		errtype.ChmodApplyFailed,
-		err,
-		location)
+	return &changingChmodRwxWrapper, errnew.
+		Path.
+		Error(
+			errtype.ChmodApplyFailed,
+			err,
+			location)
 }

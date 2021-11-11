@@ -2,7 +2,6 @@ package pathchmod
 
 import (
 	"gitlab.com/evatix-go/errorwrapper"
-	"gitlab.com/evatix-go/errorwrapper/errnew"
 	"gitlab.com/evatix-go/pathhelper/pathsysinfo"
 )
 
@@ -25,5 +24,5 @@ func GetUserGroupId(userName string, groupName string) (
 
 	return userInfo.Id,
 		groupInfo.Id,
-		errnew.EmptyPtr
+		nil
 }

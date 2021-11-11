@@ -12,7 +12,7 @@ func All(
 	length := len(exploringPaths)
 
 	if length == 0 {
-		return errstr.EmptyResults()
+		return errstr.Empty.Results()
 	}
 
 	if length == 1 {

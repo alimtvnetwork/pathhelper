@@ -13,10 +13,10 @@ func FilesExtensionFilter(
 	filteringDotExtensions ...string,
 ) *errstr.Results {
 	if len(filteringDotExtensions) == 0 {
-		return errstr.EmptyResults()
+		return errstr.Empty.Results()
 	}
 
-	extensionsHashset := corestr.NewHashsetUsingStrings(
+	extensionsHashset := corestr.New.Hashset.StringsPtr(
 		&filteringDotExtensions)
 
 	simpleFilterFunc := func(fullPath string) (isTake bool, err error) {

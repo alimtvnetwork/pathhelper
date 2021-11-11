@@ -2,7 +2,6 @@ package deletepaths
 
 import (
 	"gitlab.com/evatix-go/errorwrapper"
-	"gitlab.com/evatix-go/errorwrapper/errnew"
 )
 
 func AllRecursiveOnExistIf(
@@ -10,7 +9,7 @@ func AllRecursiveOnExistIf(
 	locations []string,
 ) *errorwrapper.Wrapper {
 	if len(locations) == 0 {
-		return errnew.EmptyPtr
+		return nil
 	}
 
 	if isRemoveOnExistOnly {

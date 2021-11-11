@@ -18,7 +18,7 @@ func moveUsingLinuxMV(opts Options, src, dst string) *errorwrapper.Wrapper {
 	args = append(args, src)
 	args = append(args, dst)
 
-	return errcmd.NewCmdOnce(
+	return errcmd.New.Create(
 		false,
 		false,
 		mvCommand, args...,

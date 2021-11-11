@@ -15,6 +15,6 @@ func ReturnAsIs(
 		isExpandEnv,
 		rootPath)
 
-	return errstr.EmptyErrorResults(
+	return errstr.New.Results.SpreadValuesOnly(
 		fixedPath)
 }

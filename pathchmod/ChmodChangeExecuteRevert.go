@@ -41,8 +41,10 @@ func ChmodChangeExecuteRevert(
 		isSkipOnInvalid,
 		location)
 
-	return errnew.Path(
-		errtype.ChmodApplyFailed,
-		err,
-		location)
+	return errnew.
+		Path.
+		Error(
+			errtype.ChmodApplyFailed,
+			err,
+			location)
 }

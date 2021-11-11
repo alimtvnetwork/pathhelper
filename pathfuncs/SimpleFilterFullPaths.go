@@ -16,7 +16,7 @@ func SimpleFilterFullPaths(
 	length := len(fullPaths)
 
 	if filter == nil || length == 0 {
-		return errstr.EmptyResults()
+		return errstr.Empty.Results()
 	}
 
 	foundItems := stringslice.MakeDefault(length)
@@ -47,16 +47,18 @@ func SimpleFilterFullPaths(
 	err := errcore.SliceToError(errSlice)
 
 	if err != nil {
-		errWp := errnew.Path(
-			errtype.PathIssue,
-			err,
-			"")
+		errWp := errnew.
+			Path.
+			Error(
+				errtype.PathIssue,
+				err,
+				"")
 
-		return errstr.NewResults(
+		return errstr.New.Results.Create(
 			errWp,
-			foundItems...)
+			foundItems)
 	}
 
-	return errstr.EmptyErrorResults(
-		foundItems...)
+	return errstr.New.Results.Strings(
+		foundItems)
 }

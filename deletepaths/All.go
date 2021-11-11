@@ -2,12 +2,11 @@ package deletepaths
 
 import (
 	"gitlab.com/evatix-go/errorwrapper"
-	"gitlab.com/evatix-go/errorwrapper/errnew"
 )
 
 func All(locations []string) *errorwrapper.Wrapper {
 	if len(locations) == 0 {
-		return errnew.EmptyPtr
+		return nil
 	}
 
 	for _, location := range locations {
@@ -18,12 +17,12 @@ func All(locations []string) *errorwrapper.Wrapper {
 		}
 	}
 
-	return errnew.EmptyPtr
+	return nil
 }
 
 func AllOnExist(locations []string) *errorwrapper.Wrapper {
 	if len(locations) == 0 {
-		return errnew.EmptyPtr
+		return nil
 	}
 
 	for _, location := range locations {
@@ -34,5 +33,5 @@ func AllOnExist(locations []string) *errorwrapper.Wrapper {
 		}
 	}
 
-	return errnew.EmptyPtr
+	return nil
 }

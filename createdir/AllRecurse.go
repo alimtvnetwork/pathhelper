@@ -3,6 +3,7 @@ package createdir
 import (
 	"os"
 
+	"gitlab.com/evatix-go/errorwrapper"
 	"gitlab.com/evatix-go/errorwrapper/errnew"
 	"gitlab.com/evatix-go/errorwrapper/errtype"
 
@@ -15,11 +16,13 @@ import (
 func AllRecurse(path string, fileMode os.FileMode) *dirinfo.Result {
 	fileInfoWrapper := pathhelper.GetFileInfoWrapper(path)
 	isIgnoredAction := fileInfoWrapper.IsPathExists() || fileInfoWrapper.IsEmptyPath
-	errorWrapper := errnew.EmptyPtr
+	var errorWrapper *errorwrapper.Wrapper
 
 	if !isIgnoredAction {
 		err := os.MkdirAll(path, fileMode)
-		errorWrapper = errnew.Path(errtype.Directory, err, path)
+		errorWrapper = errnew.
+			Path.
+			Error(errtype.Directory, err, path)
 	}
 
 	if fileInfoWrapper.IsEmptyPath {

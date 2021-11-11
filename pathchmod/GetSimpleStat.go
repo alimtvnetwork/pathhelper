@@ -13,10 +13,12 @@ func GetSimpleStat(
 		location)
 
 	if err != nil {
-		pathErr := errnew.Path(
-			errtype.InvalidPath,
-			err,
-			location)
+		pathErr := errnew.
+			Path.
+			Error(
+				errtype.InvalidPath,
+				err,
+				location)
 
 		return &SimpleStat{
 			Location:        location,
@@ -46,6 +48,6 @@ func GetSimpleStat(
 		IsExist:         isExist,
 		IsDir:           isExist && info != nil && info.IsDir(),
 		IsFile:          isExist && info != nil && !info.IsDir(),
-		ErrorWrapper:    errnew.EmptyPtr,
+		ErrorWrapper:    nil,
 	}
 }

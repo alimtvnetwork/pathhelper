@@ -18,10 +18,12 @@ func CopyFile(srcPath, dstPath string) *errorwrapper.Wrapper {
 
 	sourceFileInfo, err := os.Stat(srcPath)
 	if IsNotPathExistsUsing(sourceFileInfo, err) {
-		return errnew.Path(
-			errtype.PathStatFailed,
-			err,
-			srcPath)
+		return errnew.
+			Path.
+			Error(
+				errtype.PathStatFailed,
+				err,
+				srcPath)
 	}
 
 	if !sourceFileInfo.Mode().IsRegular() {
@@ -32,27 +34,27 @@ func CopyFile(srcPath, dstPath string) *errorwrapper.Wrapper {
 			sourceFileInfo.Name(),
 			sourceFileInfo.Mode().String())
 
-		return errnew.SourceDestinationMessages(
+		return errnew.SrcDst.Error(
 			errtype.Copy,
+			cannotCopySymLinkErr,
 			srcPath,
 			dstPath,
-			cannotCopySymLinkErr.Error(),
 		)
 	}
 
 	if sourceFileInfo.IsDir() {
 		// cannot copy non-regular files (e.g., directories,
 		// symlinks, devices, etc.)
-		cannotCopyDir := fmt.Errorf(
+		cannotCopyDirErr := fmt.Errorf(
 			"CopyFile: don't support dir copy %s (%q)",
 			sourceFileInfo.Name(),
 			srcPath)
 
-		return errnew.SourceDestinationMessages(
+		return errnew.SrcDst.Error(
 			errtype.Copy,
+			cannotCopyDirErr,
 			srcPath,
 			dstPath,
-			cannotCopyDir.Error(),
 		)
 	}
 
@@ -61,7 +63,7 @@ func CopyFile(srcPath, dstPath string) *errorwrapper.Wrapper {
 	if isExist && !dstFileInfo.IsDir() {
 		return deletepaths.Recursive(dstPath)
 	} else if isExist && dstFileInfo.IsDir() {
-		return errnew.SourceDestinationMessages(
+		return errnew.SrcDst.Messages(
 			errtype.PathCopy,
 			srcPath,
 			dstPath,

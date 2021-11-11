@@ -82,19 +82,21 @@ func (it *SimpleStat) ReadStringMust() string {
 
 func (it *SimpleStat) notFileError() *errorwrapper.Wrapper {
 	if !it.IsExist || it.IsDir {
-		return errnew.PathMessages(
-			errtype.File,
-			it.Location,
-			"Cannot read invalid path or a directory.")
+		return errnew.
+			Path.
+			Messages(
+				errtype.File,
+				it.Location,
+				"Cannot read invalid path or a directory.")
 	}
 
-	return errnew.EmptyPtr
+	return nil
 }
 
 func (it *SimpleStat) ReadBytes() *errbyte.Results {
 	errWp := it.notFileError()
 	if errWp.HasError() {
-		return errbyte.EmptyResultsWithError(
+		return errbyte.New.Results.ErrorWrapper(
 			errWp)
 	}
 
@@ -149,14 +151,14 @@ func (it *SimpleStat) FileNameExt() string {
 func (it *SimpleStat) CheckSum(hashType hashas.Variant) *errbyte.Results {
 	errWp := it.notFileError()
 	if errWp.HasError() {
-		return errbyte.EmptyResultsWithError(
+		return errbyte.New.Results.ErrorWrapper(
 			errWp)
 	}
 
 	allBytes := it.ReadBytes()
 
 	if allBytes.HasError() {
-		return errbyte.EmptyResultsWithError(
+		return errbyte.New.Results.ErrorWrapper(
 			allBytes.ErrorWrapper)
 	}
 

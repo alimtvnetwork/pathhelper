@@ -233,7 +233,7 @@ func (it *MappedInfoItems) HasChecksum(hexChecksum string) bool {
 }
 
 func (it *MappedInfoItems) HasAnyChecksum(hexChecksums ...string) bool {
-	findingChecksumsHashset := corestr.NewHashsetUsingStrings(
+	findingChecksumsHashset := corestr.New.Hashset.StringsPtr(
 		&hexChecksums)
 
 	return it.HasFilterFuncAsync(func(key string, info *Info) (isSuccess bool) {
@@ -544,7 +544,7 @@ func (it *MappedInfoItems) AllHexChecksumToFilePathMap() map[string]string {
 
 func (it *MappedInfoItems) CompiledChecksum(isSortChecksum bool) *errstr.Result {
 	if it.IsEmpty() {
-		return errstr.Empty()
+		return errstr.Empty.Result()
 	}
 
 	return hexchecksum.OfChecksums(

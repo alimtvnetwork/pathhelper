@@ -11,7 +11,6 @@ import (
 	"gitlab.com/evatix-go/core/defaulterr"
 	"gitlab.com/evatix-go/errorwrapper"
 	"gitlab.com/evatix-go/errorwrapper/errdata/errstr"
-	"gitlab.com/evatix-go/errorwrapper/errnew"
 	"gitlab.com/evatix-go/errorwrapper/errwrappers"
 )
 
@@ -46,7 +45,7 @@ func NewPathsUsingWrappers(
 		return &PathsCollection{
 			rootPath:       rootPath,
 			pathWrappers:   &[]*SimplePathWrapper{},
-			ErrorWrapper:   errnew.EmptyPtr,
+			ErrorWrapper:   nil,
 			parentWrappers: wrappers,
 			separator:      separator,
 		}

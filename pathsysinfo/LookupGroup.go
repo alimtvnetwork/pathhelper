@@ -5,7 +5,6 @@ import (
 
 	"gitlab.com/evatix-go/core/codestack"
 	"gitlab.com/evatix-go/errorwrapper"
-	"gitlab.com/evatix-go/errorwrapper/errnew"
 	"gitlab.com/evatix-go/errorwrapper/errtype"
 )
 
@@ -21,5 +20,5 @@ func LookupGroup(groupName string) (*user.Group, *errorwrapper.Wrapper) {
 			groupName)
 	}
 
-	return groupObj, errnew.EmptyPtr
+	return groupObj, nil
 }

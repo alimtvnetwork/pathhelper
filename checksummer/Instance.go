@@ -57,10 +57,12 @@ func New(
 		root,
 		hashType)
 
-	errWp := errnew.Path(
-		errtype.PathMissingOrInvalid,
-		err,
-		root)
+	errWp := errnew.
+		Path.
+		Error(
+			errtype.PathMissingOrInvalid,
+			err,
+			root)
 
 	instance := &Instance{
 		rawHashes:   checkSumMap,
@@ -93,10 +95,12 @@ func Invalid(
 	hashType hashas.Variant,
 	err error,
 ) *Instance {
-	pathErr := errnew.Path(
-		errtype.PathMissingOrInvalid,
-		err,
-		root)
+	pathErr := errnew.
+		Path.
+		Error(
+			errtype.PathMissingOrInvalid,
+			err,
+			root)
 
 	return &Instance{
 		hashType:    hashType,
@@ -126,8 +130,8 @@ func (it *Instance) HashesHashset() *corestr.Hashset {
 
 	slice := it.StringHashes()
 	it.hashesHashset = corestr.
-		NewHashsetUsingStrings(
-			&slice.Items)
+		New.Hashset.Strings(
+		slice.Items)
 
 	return it.hashesHashset
 }
@@ -158,7 +162,7 @@ func (it *Instance) StringHashes() *corestr.SimpleSlice {
 	}
 
 	hashMap := it.StringHashesMap()
-	slice := corestr.NewSimpleSlice(it.Length())
+	slice := corestr.New.SimpleSlice.Cap(it.Length())
 
 	for _, hashString := range hashMap {
 		slice.Add(hashString)

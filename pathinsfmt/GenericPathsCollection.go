@@ -197,7 +197,7 @@ func (it *GenericPathsCollection) LazyPathsIf(isLazyPaths bool) []string {
 }
 
 func (it *GenericPathsCollection) FlatPaths() []string {
-	collections := corestr.NewLinkedCollections()
+	collections := corestr.Empty.LinkedCollections()
 	wg := &sync.WaitGroup{}
 
 	wg.Add(constants.Capacity3)

@@ -16,5 +16,7 @@ func Remove(location string) *errorwrapper.Wrapper {
 		return nil
 	}
 
-	return errnew.Path(errtype.RemoveFailed, err, location)
+	return errnew.
+		Path.
+		Error(errtype.RemoveFailed, err, location)
 }

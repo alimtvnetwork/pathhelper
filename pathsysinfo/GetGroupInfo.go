@@ -1,7 +1,5 @@
 package pathsysinfo
 
-import "gitlab.com/evatix-go/errorwrapper/errnew"
-
 func GetGroupInfo(groupName string) *GroupInfo {
 	groupObj, errWrapper := LookupGroup(groupName)
 
@@ -26,6 +24,6 @@ func GetGroupInfo(groupName string) *GroupInfo {
 		Id:           groupId,
 		IsValidGroup: true,
 		HasValidId:   true,
-		ErrorWrapper: errnew.EmptyPtr,
+		ErrorWrapper: nil,
 	}
 }

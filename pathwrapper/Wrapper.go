@@ -11,6 +11,7 @@ import (
 	"gitlab.com/evatix-go/errorwrapper/errdata/errbool"
 	"gitlab.com/evatix-go/errorwrapper/errdata/errstr"
 	"gitlab.com/evatix-go/errorwrapper/errnew"
+	"gitlab.com/evatix-go/errorwrapper/errtype"
 	"gitlab.com/evatix-go/pathhelper/internal/splitinternal"
 	"gitlab.com/evatix-go/pathhelper/pathext"
 )
@@ -31,36 +32,36 @@ func (it *Wrapper) GetFileInfo() (
 ) {
 	fileInfo, err := os.Stat(it.String())
 
-	return fileInfo, errnew.ErrPtr(err)
+	return fileInfo, errnew.Error.Type(errtype.FileInfo, err)
 }
 
 func (it *Wrapper) GetDirectory() *errstr.Result {
 	info, e := it.GetFileInfo()
 
 	if e.HasError() {
-		return errstr.ErrorWrapper(e)
+		return errstr.New.Result.ErrorWrapper(e)
 	}
 
 	currentPath := it.String()
 
 	if info.IsDir() {
-		return errstr.New(currentPath, e)
+		return errstr.New.Result.Create(currentPath, e)
 	}
 
 	// file
-	return errstr.New(path.Dir(currentPath), e)
+	return errstr.New.Result.Create(path.Dir(currentPath), e)
 }
 
 func (it *Wrapper) DirStatus() *errbool.Result {
 	info, e := it.GetFileInfo()
 
 	if e.HasError() {
-		return errbool.ErrorWrapper(e)
+		return errbool.New.Result.ErrorWrapper(e)
 	}
 
-	return errbool.New(
+	return errbool.New.Result.Bool(
 		info.IsDir(),
-		e)
+	)
 }
 
 func (it *Wrapper) GetBaseDir() string {
@@ -141,7 +142,7 @@ func (it *Wrapper) GetAllPathsDefault() *errstr.Results {
 func (it *Wrapper) GetAllPaths(separator string) *errstr.Results {
 	fileInfos, errW := it.GetDirFileInfos()
 	if errW.HasError() {
-		return errstr.EmptyResultsWithError(
+		return errstr.New.Results.ErrorWrapper(
 			errW)
 	}
 
@@ -154,15 +155,15 @@ func (it *Wrapper) GetAllPaths(separator string) *errstr.Results {
 		results = append(results, currentPath)
 	}
 
-	return errstr.EmptyErrorResults(
-		results...)
+	return errstr.New.Results.Strings(
+		results)
 }
 
 // GetDirectories Get all directory on that root path only, no nested or recursive visit.
 func (it *Wrapper) GetDirectories(separator string) *errstr.Results {
 	fileInfos, errW := it.GetDirFileInfos()
 	if errW.HasError() {
-		return errstr.EmptyResultsWithError(
+		return errstr.New.Results.ErrorWrapper(
 			errW)
 	}
 
@@ -177,8 +178,8 @@ func (it *Wrapper) GetDirectories(separator string) *errstr.Results {
 		}
 	}
 
-	return errstr.EmptyErrorResults(
-		results...)
+	return errstr.New.Results.Strings(
+		results)
 }
 
 func (it *Wrapper) GetAFilePathAsString(
@@ -231,8 +232,8 @@ func (it *Wrapper) GetNestedDirectories(
 		}
 	}
 
-	return errstr.EmptyErrorResults(
-		results...)
+	return errstr.New.Results.Strings(
+		results)
 }
 
 // GetFilesDefault Get all files on that root path only, no nested or recursive visit.
@@ -244,7 +245,7 @@ func (it *Wrapper) GetFilesDefault() *errstr.Results {
 func (it *Wrapper) GetFiles(separator string) *errstr.Results {
 	fileInfos, errW := it.GetDirFileInfos()
 	if errW.HasError() {
-		return errstr.EmptyResultsWithError(
+		return errstr.New.Results.ErrorWrapper(
 			errW)
 	}
 
@@ -263,8 +264,8 @@ func (it *Wrapper) GetFiles(separator string) *errstr.Results {
 		}
 	}
 
-	return errstr.EmptyErrorResults(
-		results...)
+	return errstr.New.Results.Strings(
+		results)
 }
 
 func (it *Wrapper) GetDirFileInfos() (
@@ -279,9 +280,15 @@ func (it *Wrapper) GetDirFileInfos() (
 
 	fileInfos, err := ioutil.ReadDir(directoryResult.Value)
 
-	if err != nil {
-		return nil, errnew.ErrPtr(err)
+	if err == nil {
+		return &fileInfos, nil
 	}
 
-	return &fileInfos, errnew.EmptyPtr
+	// has error
+	return nil, errnew.
+		Path.
+		Error(
+			errtype.PathExpand,
+			err,
+			directoryResult.Value)
 }

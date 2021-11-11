@@ -15,6 +15,7 @@ import (
 	"gitlab.com/evatix-go/core/osconsts"
 	"gitlab.com/evatix-go/errorwrapper"
 	"gitlab.com/evatix-go/errorwrapper/errnew"
+	"gitlab.com/evatix-go/errorwrapper/errtype"
 )
 
 const (
@@ -83,12 +84,16 @@ func Home(path string) (string, *errorwrapper.Wrapper) {
 		path[1] != constants.ForwardSlash[0] &&
 		path[1] != constants.BackSlash[0] {
 		return constants.EmptyString,
-			errnew.ErrPtr(errors.New("cannot expand user-specific homeCaps dirInternal"))
+			errnew.Message.New(
+				errtype.PathExpand,
+				"cannot expand user-specific homeCaps dirInternal")
 	}
 
 	dir, err := dirInternal()
 	if err != nil {
-		return "", errnew.ErrPtr(err)
+		return "", errnew.Error.Type(
+			errtype.PathExpand,
+			err)
 	}
 
 	return filepath.Join(dir, path[1:]),

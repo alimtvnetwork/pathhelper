@@ -39,7 +39,7 @@ func OfFilesRequest(request *FilesRequest) *FilesResult {
 		request.Method,
 		request.Files...)
 
-	mergedErr := errnew.MergeUsingStackSkip(
+	mergedErr := errnew.Merge.UsingStackSkip(
 		codestack.Skip1,
 		hexOfListing.ErrorWrapper,
 		hexContentsChecksum.ErrorWrapper)

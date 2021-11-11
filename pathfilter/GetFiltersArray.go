@@ -1,7 +1,6 @@
 package pathfilter
 
 import (
-	"gitlab.com/evatix-go/core/coredata/corestr"
 	"gitlab.com/evatix-go/core/osconsts"
 
 	"gitlab.com/evatix-go/pathhelper/normalize"
@@ -27,10 +26,10 @@ func GetFiltersArray(
 	)
 
 	additionalFilterLength :=
-		corestr.LengthOfStrings(additionalFilters)
+		len(additionalFilters)
 
 	extensionsLength :=
-		corestr.LengthOfStrings(extensions)
+		len(extensions)
 
 	arg := &recursiveFilterGetterParam{
 		separator:               separator,

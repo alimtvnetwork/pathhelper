@@ -36,10 +36,12 @@ func GetInstructionResult(instruction *Instruction) *Result {
 		normalizedRoot)
 
 	if pathStat.HasError() {
-		errW := errnew.Path(
-			errtype.MissingPathsOrInvalidPaths,
-			pathStat.Error,
-			normalizedRoot)
+		errW := errnew.
+			Path.
+			Error(
+				errtype.MissingPathsOrInvalidPaths,
+				pathStat.Error,
+				normalizedRoot)
 
 		return InvalidResult(
 			normalizedRoot,
@@ -49,9 +51,11 @@ func GetInstructionResult(instruction *Instruction) *Result {
 
 	if !pathStat.IsExist {
 		// not exist
-		errW := errnew.PathMessages(
-			errtype.MissingPathsOrInvalidPaths,
-			normalizedRoot)
+		errW := errnew.
+			Path.
+			Messages(
+				errtype.MissingPathsOrInvalidPaths,
+				normalizedRoot)
 
 		return InvalidResult(
 			normalizedRoot,
@@ -69,14 +73,14 @@ func GetInstructionResult(instruction *Instruction) *Result {
 			PathStat:        pathStat,
 			IsInvalidResult: false,
 			PathsResult: &PathsResult{
-				ExpandingPaths: corestr.NewSimpleSliceUsing(
-					false, normalizedRoot),
+				ExpandingPaths: corestr.New.SimpleSlice.SpreadStrings(
+					normalizedRoot),
 				IsExist: true,
 				IsFile:  true,
 				IsDir:   false,
 			},
 			IsRelative:   instruction.IsRelativePath,
-			ErrorWrapper: errnew.EmptyPtr,
+			ErrorWrapper: nil,
 		}
 	}
 
@@ -186,15 +190,17 @@ func GetInstructionResult(instruction *Instruction) *Result {
 		PathStat:        pathStat,
 		IsInvalidResult: compiledErr != nil,
 		PathsResult: &PathsResult{
-			ExpandingPaths: corestr.NewSimpleSliceUsing(false, paths...),
+			ExpandingPaths: corestr.New.SimpleSlice.Strings(paths),
 			IsExist:        true,
 			IsFile:         false,
 			IsDir:          true,
 		},
 		IsRelative: instruction.IsRelativePath,
-		ErrorWrapper: errnew.Path(
-			errtype.PathExpand,
-			compiledErr,
-			normalizedRoot),
+		ErrorWrapper: errnew.
+			Path.
+			Error(
+				errtype.PathExpand,
+				compiledErr,
+				normalizedRoot),
 	}
 }

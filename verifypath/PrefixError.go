@@ -18,33 +18,32 @@ func PrefixError(
 
 	if isVerifyExistence && ispath.NotExists(currentPathFix) {
 		// error
-		return constants.EmptyString, errnew.PathMessages(
-			errtype.FileInvalidOrMissing,
-			currentPathFix,
-			"given path is not valid in the file system.",
-			"path must contain user home prefix and don't contain any relative path!",
-			"user home prefix:",
-			prefixFix,
-		)
+		return constants.EmptyString, errnew.
+			Path.
+			Messages(
+				errtype.FileInvalidOrMissing,
+				currentPathFix,
+				"given path is not valid in the file system.",
+				"path must contain user home prefix and don't contain any relative path!",
+				"user home prefix:",
+				prefixFix,
+			)
 	}
 
 	if normalize.HasPrefix(prefixFix, currentPathFix) {
 		return currentPathFix, nil
 	}
 
-	messages := errorwrapper.MessagesJoined([]string{
-		"current path homeDirPrefix missing (\"" + homeDirPrefix + "\")",
+	// homeDirPrefix doesn't match
+	return constants.EmptyString, errnew.Ref.Messages(
+		errtype.PathSyntaxIssue,
+		"Prefix",
+		prefixFix,
+		"current path homeDirPrefix missing (\""+homeDirPrefix+"\")",
 		"path needs to have user home dir!",
 		"current path:",
 		currentPathFix,
 		"homeDirPrefix",
 		prefixFix,
-	})
-
-	// homeDirPrefix doesn't match
-	return constants.EmptyString, errnew.Ref1Msg(
-		errtype.PathSyntaxIssue,
-		messages,
-		"Prefix",
-		prefixFix)
+	)
 }

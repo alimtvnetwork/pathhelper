@@ -4,7 +4,6 @@ import (
 	"os"
 	"path/filepath"
 
-	"gitlab.com/evatix-go/core/codestack"
 	"gitlab.com/evatix-go/core/coredata/corejson"
 	"gitlab.com/evatix-go/core/extensionsconst"
 	"gitlab.com/evatix-go/core/osconsts"
@@ -164,7 +163,9 @@ func (it *NginxDir) CopyCurrentUserRootConfigToTempRel(tempRelativePath string) 
 		pathsconst.TempDir,
 		tempRelativePath+osconsts.PathSeparator+it.CurrentUserRootConfigName())
 
-	return errstr.New(finalPath, it.CopyCurrentUserRootConfigTo(finalPath))
+	return errstr.New.Result.Create(
+		finalPath,
+		it.CopyCurrentUserRootConfigTo(finalPath))
 }
 
 // AbsPathOfAvailableSite
@@ -231,7 +232,7 @@ func (it *NginxDir) EnableSite(siteName string) *errorwrapper.Wrapper {
 	sourceSitePath := it.AbsPathOfAvailableSite(siteName)
 	err := os.Symlink(sourceSitePath, destinationSiteFilePath)
 
-	return errnew.SourceDestinationMessages(
+	return errnew.SrcDst.Error(
 		errtype.SymbolicLink,
 		err,
 		sourceSitePath,
@@ -239,10 +240,12 @@ func (it *NginxDir) EnableSite(siteName string) *errorwrapper.Wrapper {
 }
 
 func (it *NginxDir) RemoveAllUserSiteFiles() *errorwrapper.Wrapper {
-	return fsinternal.SafeRemove(it.UserSitesAvailableDir()).
-		ConcatNewWrapperError(
-			codestack.SkipNone,
-			fsinternal.SafeRemove(it.UserSitesEnableDir()))
+	return fsinternal.
+		SafeRemove(it.UserSitesAvailableDir()).
+		ConcatNew().
+		Wrapper(
+			fsinternal.SafeRemove(
+				it.UserSitesEnableDir()))
 }
 
 func (it *NginxDir) AllSiteFiles() ([]string, error) {
@@ -323,7 +326,7 @@ func (it *NginxDir) AllUsersNames() *errstr.Results {
 		it.AllUsersRoot)
 
 	if results.HasIssuesOrEmpty() {
-		return errstr.EmptyResultsWithError(results.ErrorWrapper)
+		return errstr.New.Results.ErrorWrapper(results.ErrorWrapper)
 	}
 
 	fileNames := make([]string, results.Length())
@@ -332,21 +335,25 @@ func (it *NginxDir) AllUsersNames() *errstr.Results {
 		fileInfo, err := os.Stat(filePath)
 
 		if err != nil {
-			return errstr.EmptyResultsWithError(
-				errnew.Path(errtype.InvalidPath, err, filePath),
+			return errstr.New.Results.ErrorWrapper(
+				errnew.
+					Path.
+					Error(errtype.InvalidPath, err, filePath),
 			)
 		}
 
 		if fileInfo == nil {
-			return errstr.EmptyResultsWithError(
-				errnew.PathMessages(errtype.InvalidPath, filePath, "fileinfo nil"),
+			return errstr.New.Results.ErrorWrapper(
+				errnew.
+					Path.
+					Messages(errtype.InvalidPath, filePath, "fileinfo nil"),
 			)
 		}
 
 		fileNames[i] = fileInfo.Name()
 	}
 
-	return errstr.EmptyErrorResults(fileNames...)
+	return errstr.New.Results.Strings(fileNames)
 }
 
 func (it *NginxDir) UsersEnabledSites() *errstr.Results {

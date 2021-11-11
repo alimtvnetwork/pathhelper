@@ -14,7 +14,7 @@ func WriteJsonResult(
 	location string,
 ) *errorwrapper.Wrapper {
 	if isSkipErrorOnNilOrEmpty && jsonResult == nil {
-		return errnew.EmptyPtr
+		return nil
 	}
 
 	isSkipBytesError := isSkipErrorOnNilOrEmpty &&
@@ -22,7 +22,7 @@ func WriteJsonResult(
 		jsonResult.Error == nil
 
 	if isSkipBytesError {
-		return errnew.EmptyPtr
+		return nil
 	}
 
 	hasExistingError := jsonResult != nil &&
@@ -30,10 +30,12 @@ func WriteJsonResult(
 
 	if hasExistingError {
 		//goland:noinspection GoNilness
-		return errnew.Path(
-			errtype.WriteFailed,
-			jsonResult.Error,
-			location)
+		return errnew.
+			Path.
+			Error(
+				errtype.WriteFailed,
+				jsonResult.Error,
+				location)
 	}
 
 	if isSkipErrorOnNilOrEmpty &&
