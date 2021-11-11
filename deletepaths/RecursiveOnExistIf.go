@@ -20,6 +20,10 @@ func RecursiveOnExistIf(isRemove bool, location string) *errorwrapper.Wrapper {
 
 	err := os.RemoveAll(location)
 
+	if err == nil {
+		return nil
+	}
+
 	return errnew.
 		Path.
 		Error(

@@ -4,11 +4,11 @@ import "gitlab.com/evatix-go/errorwrapper"
 
 func AllOnExistIf(
 	isRemoveOnExist bool,
-	locations []string,
+	locations ...string,
 ) *errorwrapper.Wrapper {
 	if isRemoveOnExist {
-		return AllOnExist(locations)
+		return AllOnExist(locations...)
 	}
 
-	return All(locations)
+	return All(locations...)
 }

@@ -20,7 +20,7 @@ func GetInstructionResult(instruction *Instruction) *Result {
 	if instruction == nil || instruction.Root == "" {
 		return InvalidResult(
 			constants.EmptyString,
-			errnew.EmptyFilePath,
+			errnew.Path.Empty(),
 			nil)
 	}
 

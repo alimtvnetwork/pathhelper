@@ -64,7 +64,7 @@ func (it *Wrapper) ExtDotIndex() int {
 		return *it.dotIndex
 	}
 
-	// doesn't look good on line break
+	// doesn't look good on-line break
 	for i := len(p) - 1; i >= 0 && !(p[i] == constants.BackwardChar || p[i] == constants.ForwardChar); i-- {
 		if p[i] == constants.DotChar {
 			it.dotIndex = &i

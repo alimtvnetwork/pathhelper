@@ -10,7 +10,7 @@ func ExistingRwxWrapperWithError(location string) *RwxWrapperWithError {
 	if location == "" {
 		return &RwxWrapperWithError{
 			RwxWrapper: nil,
-			ErrWrapper: errnew.EmptyFilePath,
+			ErrWrapper: errnew.Path.Empty(),
 		}
 	}
 

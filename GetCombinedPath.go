@@ -4,6 +4,8 @@ import (
 	"gitlab.com/evatix-go/pathhelper/pathhelpercore"
 )
 
+// GetCombinedPath
+//
 // @isIgnoreEmptyPath if true then ignore empty string (nil, "", or any empty spaces "  ")
 func GetCombinedPath(
 	separator string,

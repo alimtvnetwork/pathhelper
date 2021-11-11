@@ -10,6 +10,9 @@ import (
 
 func Single(location string) *errorwrapper.Wrapper {
 	err := os.Remove(location)
+	if err == nil {
+		return nil
+	}
 
 	return errnew.
 		Path.

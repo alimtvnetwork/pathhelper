@@ -6,6 +6,8 @@ import (
 	"gitlab.com/evatix-go/pathhelper/knowndir"
 )
 
+// FontsPath
+//
 // Returns path to Fonts directory on different platforms.
 func FontsPath() string {
 	if osconsts.IsWindows {

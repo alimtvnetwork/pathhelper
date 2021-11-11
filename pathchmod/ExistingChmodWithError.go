@@ -9,7 +9,7 @@ import (
 func ExistingChmodWithError(location string) *ChmodWithError {
 	if location == "" {
 		return &ChmodWithError{
-			ErrWrapper: errnew.EmptyFilePath,
+			ErrWrapper: errnew.Path.Empty(),
 		}
 	}
 

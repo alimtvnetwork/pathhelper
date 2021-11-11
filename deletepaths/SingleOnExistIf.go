@@ -23,6 +23,10 @@ func SingleOnExistIf(
 
 	err := os.Remove(location)
 
+	if err == nil {
+		return nil
+	}
+
 	return errnew.
 		Path.
 		Error(errtype.DeletePathFailed, err, location)

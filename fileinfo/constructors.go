@@ -18,7 +18,7 @@ func New(rawPath, separator string) *Wrapper {
 	if isEmptyPath {
 		return &Wrapper{
 			FileInfo:     nil,
-			ErrorWrapper: errnew.EmptyFilePath,
+			ErrorWrapper: errnew.Path.Empty(),
 			RawPath:      rawPath,
 			IsDirectory:  false,
 			IsFile:       false,
@@ -59,7 +59,7 @@ func NewError(
 	if err != nil {
 		return &Wrapper{
 			FileInfo:     nil,
-			ErrorWrapper: errnew.EmptyFilePath,
+			ErrorWrapper: errnew.Path.Empty(),
 			RawPath:      filePath,
 			IsDirectory:  false,
 			IsFile:       false,
@@ -141,7 +141,7 @@ func NewWrappersPtr(
 	if err != nil {
 		return &Wrappers{
 			RootPath:     filePath,
-			ErrorWrapper: errnew.EmptyFilePath,
+			ErrorWrapper: errnew.Path.Empty(),
 			Separator:    separator,
 		}
 	}

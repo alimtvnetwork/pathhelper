@@ -76,7 +76,7 @@ func (it *RemoveInstruction) applyUsingNonRecursive(
 
 	errWp := deletepaths.AllOnExistIf(
 		it.IsRemoveOnlyOnExist,
-		it.LazyPathsIf(isLazyPaths))
+		it.LazyPathsIf(isLazyPaths)...)
 
 	errorCollection.AddWrapperPtr(errWp)
 

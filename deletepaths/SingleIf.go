@@ -17,6 +17,9 @@ func SingleIf(
 	}
 
 	err := os.Remove(location)
+	if err == nil {
+		return nil
+	}
 
 	return errnew.
 		Path.

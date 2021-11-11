@@ -266,7 +266,7 @@ func (it *Path) VerifyCheckSumTreeError(
 ) *errwrappers.Collection {
 	src := it.CompiledPath()
 	if it.IsEmptyPath() {
-		return errwrappers.NewCap1().AddWrapperPtr(errnew.EmptyFilePath)
+		return errwrappers.NewCap1().AddWrapperPtr(errnew.Path.Empty())
 	}
 
 	sourceCheckSummer := checksummer.New(

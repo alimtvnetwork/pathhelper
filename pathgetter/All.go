@@ -1,13 +1,16 @@
 package pathgetter
 
 import (
+	"sync"
+
+	"gitlab.com/evatix-go/core/coredata/corestr"
 	"gitlab.com/evatix-go/errorwrapper/errdata/errstr"
 )
 
 func All(
-	isNormalize bool,
 	separator string,
-	exploringPaths ...string,
+	isNormalize bool,
+	exploringPaths []string,
 ) *errstr.Results {
 	length := len(exploringPaths)
 
@@ -22,8 +25,34 @@ func All(
 			exploringPaths[0])
 	}
 
-	return AllPtr(
-		separator,
-		isNormalize,
-		exploringPaths)
+	linkedCollection := corestr.Empty.LinkedCollections()
+	wg := &sync.WaitGroup{}
+
+	for _, expPath := range exploringPaths {
+		wg.Add(1)
+		allPaths := AllOfSinglePath(
+			isNormalize,
+			separator,
+			expPath)
+
+		if allPaths.HasError() {
+			return &errstr.Results{
+				Values:       *linkedCollection.ListPtr(),
+				ErrorWrapper: allPaths.ErrorWrapper,
+			}
+		}
+
+		linkedCollection.AddStringsPtrAsync(
+			wg,
+			false,
+			allPaths.SafeValuesPtr(),
+		)
+	}
+
+	wg.Wait()
+
+	return &errstr.Results{
+		Values:       *linkedCollection.ListPtr(),
+		ErrorWrapper: nil,
+	}
 }

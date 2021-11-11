@@ -7,6 +7,7 @@ import (
 	"gitlab.com/evatix-go/errorwrapper/errcmd"
 	"gitlab.com/evatix-go/errorwrapper/errdata/errbool"
 	"gitlab.com/evatix-go/errorwrapper/errnew"
+	"gitlab.com/evatix-go/errorwrapper/errtype"
 )
 
 // Creates symbolicLink of the source at the provided destination path for linux system. If destination doesn't exist it will panic.
@@ -16,8 +17,10 @@ func UnixCreateUsingCmd(sourcePath, destinationPath string) *errbool.Result {
 	if osconsts.IsWindows {
 		return errbool.New.Result.ErrorWrapper(
 			errnew.
-				NotSupportInWindows.
-				CloneNewStackSkipPtr(codestack.Skip1))
+				Type.
+				UsingStackSkip(
+					codestack.Skip1,
+					errtype.NotSupportInWindows))
 	}
 
 	symLink := errcmd.ArgsJoin(

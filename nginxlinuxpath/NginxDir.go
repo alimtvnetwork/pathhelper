@@ -312,6 +312,9 @@ func (it *NginxDir) UsersAvailableSites() *errstr.Results {
 		it.UserSitesAvailableDir())
 }
 
+// AllUsersDirs
+//
+// Get all dirs (full path collection) in NginxDir.AllUsersRoot
 func (it *NginxDir) AllUsersDirs() *errstr.Results {
 	return pathgetterinternal.GetAllDirectories(
 		true,
@@ -319,6 +322,9 @@ func (it *NginxDir) AllUsersDirs() *errstr.Results {
 		it.AllUsersRoot)
 }
 
+// AllUsersNames
+//
+// Only returns the usernames from dirs of NginxDir.AllUsersRoot
 func (it *NginxDir) AllUsersNames() *errstr.Results {
 	results := pathgetterinternal.GetAllDirectories(
 		true,

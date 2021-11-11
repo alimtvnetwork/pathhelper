@@ -4,7 +4,7 @@ import (
 	"gitlab.com/evatix-go/errorwrapper"
 )
 
-func All(locations []string) *errorwrapper.Wrapper {
+func All(locations ...string) *errorwrapper.Wrapper {
 	if len(locations) == 0 {
 		return nil
 	}
@@ -20,7 +20,7 @@ func All(locations []string) *errorwrapper.Wrapper {
 	return nil
 }
 
-func AllOnExist(locations []string) *errorwrapper.Wrapper {
+func AllOnExist(locations ...string) *errorwrapper.Wrapper {
 	if len(locations) == 0 {
 		return nil
 	}

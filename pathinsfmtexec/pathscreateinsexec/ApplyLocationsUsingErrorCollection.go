@@ -30,7 +30,7 @@ func ApplyLocationsUsingErrorCollection(
 
 	if isDeleteAllBeforeCreate {
 		errorCollection.AddWrapperPtr(
-			deletepaths.All(locations))
+			deletepaths.All(locations...))
 	}
 
 	// paths create

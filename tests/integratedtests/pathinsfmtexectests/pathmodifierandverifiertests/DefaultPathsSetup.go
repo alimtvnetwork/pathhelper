@@ -7,10 +7,10 @@ import (
 )
 
 func DefaultPathsSetup() {
-	deletepaths.AllOnExist([]string{
+	deletepaths.AllOnExist(
 		pathinsfmtexectestwrappers.PathOneTextFile,
 		pathinsfmtexectestwrappers.PathTwoTextFile,
-	}).HandleError()
+	).HandleError()
 
 	_, errW := createpath.CreateMany(
 		true,

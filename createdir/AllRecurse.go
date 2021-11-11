@@ -26,7 +26,7 @@ func AllRecurse(path string, fileMode os.FileMode) *dirinfo.Result {
 	}
 
 	if fileInfoWrapper.IsEmptyPath {
-		errorWrapper = errnew.EmptyFilePath
+		errorWrapper = errnew.Path.Empty()
 	}
 
 	return &dirinfo.Result{
