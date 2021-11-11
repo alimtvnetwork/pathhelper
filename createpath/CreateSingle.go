@@ -31,11 +31,13 @@ func CreateSingle(
 	file, err := os.Create(filePath)
 
 	if err != nil {
-		return file, errnew.Path(
-			errtype.CreatePathFailed,
-			err,
-			filePath)
+		return file, errnew.
+			Path.
+			Error(
+				errtype.CreatePathFailed,
+				err,
+				filePath)
 	}
 
-	return file, errnew.EmptyPtr
+	return file, nil
 }

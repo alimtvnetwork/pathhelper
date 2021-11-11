@@ -14,11 +14,13 @@ func AllOnNonExist(
 	mode os.FileMode,
 ) *errorwrapper.Wrapper {
 	if fsinternal.IsExistButDirectory(location) {
-		return errnew.EmptyPtr
+		return nil
 	}
 
-	return errnew.Path(
-		errtype.CreateDirectoryFailed,
-		os.MkdirAll(location, mode),
-		location)
+	return errnew.
+		Path.
+		Error(
+			errtype.CreateDirectoryFailed,
+			os.MkdirAll(location, mode),
+			location)
 }

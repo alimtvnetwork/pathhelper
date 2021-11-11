@@ -10,6 +10,7 @@ import (
 	"gitlab.com/evatix-go/core/coredata/corejson"
 	"gitlab.com/evatix-go/core/coredata/corestr"
 	"gitlab.com/evatix-go/core/errcore"
+	"gitlab.com/evatix-go/core/namevalue"
 	"gitlab.com/evatix-go/errorwrapper/errdata/errbyte"
 	"gitlab.com/evatix-go/errorwrapper/errdata/errstr"
 	"gitlab.com/evatix-go/errorwrapper/errnew"
@@ -105,7 +106,7 @@ func (it *Info) IsLastModifiedEqual(right *Info) bool {
 
 func (it *Info) ReadCurrentRawChecksum() *errbyte.Results {
 	if it == nil {
-		return errbyte.EmptyResultsWithError(errnew.NullSimple(it))
+		return errbyte.New.Results.ErrorWrapper(errnew.Null.Simple(it))
 	}
 
 	return it.HashMethod.SumOfFile(it.FullPath)
@@ -113,7 +114,11 @@ func (it *Info) ReadCurrentRawChecksum() *errbyte.Results {
 
 func (it *Info) ReadCurrentHexChecksum() *errstr.Result {
 	if it == nil {
-		return errstr.ErrorWrapper(errnew.NullSimple(it))
+		return errstr.
+			New.
+			Result.
+			ErrorWrapper(
+				errnew.Null.Simple(it))
 	}
 
 	return it.HashMethod.HexSumOfFile(it.FullPath)
@@ -209,8 +214,8 @@ func (it *Info) chmodString() string {
 		it.Chmod.String())
 }
 
-func (it *Info) nameValues() []errcore.NameVal {
-	slice := []errcore.NameVal{
+func (it *Info) nameValues() []namevalue.Instance {
+	slice := []namevalue.Instance{
 		{
 			Name: "FullPath",
 			Value: fmt.Sprintf(
@@ -229,19 +234,19 @@ func (it *Info) nameValues() []errcore.NameVal {
 
 	if it.IsFile {
 		slice = append(slice,
-			errcore.NameVal{
+			namevalue.Instance{
 				Name:  "IsFile",
 				Value: it.IsFile,
 			},
-			errcore.NameVal{
+			namevalue.Instance{
 				Name:  "HexChecksum",
 				Value: it.HexContentChecksum,
 			},
-			errcore.NameVal{
+			namevalue.Instance{
 				Name:  "LastModified",
 				Value: it.LastModified,
 			},
-			errcore.NameVal{
+			namevalue.Instance{
 				Name:  "Size",
 				Value: it.Size,
 			})
@@ -249,7 +254,7 @@ func (it *Info) nameValues() []errcore.NameVal {
 
 	if it.IsDir() {
 		slice = append(slice,
-			errcore.NameVal{
+			namevalue.Instance{
 				Name:  "IsDirectory",
 				Value: true,
 			},
@@ -258,7 +263,7 @@ func (it *Info) nameValues() []errcore.NameVal {
 
 	if it.UserGroupId != nil {
 		slice = append(slice,
-			errcore.NameVal{
+			namevalue.Instance{
 				Name:  "Chown/UserGroupId",
 				Value: it.UserGroupId.String(),
 			},

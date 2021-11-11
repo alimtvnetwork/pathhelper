@@ -20,13 +20,14 @@ func GetRecursive(
 ) *errstr.ResultsWithErrorCollection {
 	if filter == nil {
 		return errstr.
-			NewResultsWithErrorCollectionUsingTypePtr(
-				errtype.NullOrEmptyReference)
+			New.ResultsWithErrorCollection.ErrorType(
+			errtype.NullOrEmptyReference)
 	}
 
 	if filter.ExtensionsLength() == 0 {
 		return errstr.
-			EmptyResultsWithErrorCollectionPtr()
+			Empty.
+			ResultsWithErrorCollection()
 	}
 
 	rootPath = GetTranspiledPathForDollarVariables(
@@ -42,11 +43,13 @@ func GetRecursive(
 
 	if filterLength == 0 {
 		return errstr.
-			EmptyResultsWithErrorCollectionPtr()
+			Empty.
+			ResultsWithErrorCollection()
 	}
 
 	linkedCollections := corestr.
-		NewLinkedCollections()
+		Empty.
+		LinkedCollections()
 	wg := &sync.WaitGroup{}
 	wg.Add(filterLength)
 	errWrappers := errwrappers.New(0)
@@ -71,8 +74,9 @@ func GetRecursive(
 
 		linkedCollections.AddStringsPtrAsync(
 			wg,
+			false,
 			results.SafeValuesPtr(),
-			false)
+		)
 	}
 
 	wg.Wait()

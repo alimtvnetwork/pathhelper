@@ -73,7 +73,7 @@ func (it *PathsResult) JoinWithRoot(
 	root string,
 ) *corestr.SimpleSlice {
 	if it.ExpandingPaths.IsEmpty() {
-		return corestr.NewSimpleSlice(0)
+		return corestr.New.SimpleSlice.Cap(0)
 	}
 
 	rootFix := normalize.PathUsingSingleIf(
@@ -99,9 +99,8 @@ func (it *PathsResult) JoinWithRoot(
 		newSlice[i] = newPath
 	}
 
-	return corestr.NewSimpleSliceUsing(
-		false,
-		newSlice...)
+	return corestr.New.SimpleSlice.Strings(
+		newSlice)
 }
 
 func (it *PathsResult) Clone(isDeepClone bool) *PathsResult {
@@ -110,9 +109,9 @@ func (it *PathsResult) Clone(isDeepClone bool) *PathsResult {
 	}
 
 	return &PathsResult{
-		ExpandingPaths: corestr.NewSimpleSliceUsing(
+		ExpandingPaths: corestr.New.SimpleSlice.Direct(
 			isDeepClone,
-			it.ExpandingPaths.Items...),
+			it.ExpandingPaths.Items),
 		IsExist: it.IsExist,
 		IsFile:  it.IsFile,
 		IsDir:   it.IsDir,

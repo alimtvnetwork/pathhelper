@@ -2,7 +2,6 @@ package chowninsexec
 
 import (
 	"gitlab.com/evatix-go/errorwrapper"
-	"gitlab.com/evatix-go/errorwrapper/errnew"
 	"gitlab.com/evatix-go/pathhelper/pathinsfmt"
 	"gitlab.com/evatix-go/pathhelper/pathinsfmtexec/namegroup"
 )
@@ -13,7 +12,7 @@ func Apply(
 	flatPaths []string,
 ) *errorwrapper.Wrapper {
 	if chown == nil || len(flatPaths) == 0 {
-		return errnew.EmptyPtr
+		return nil
 	}
 
 	return namegroup.Apply(

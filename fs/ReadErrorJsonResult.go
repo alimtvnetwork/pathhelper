@@ -8,11 +8,11 @@ func ReadErrorJsonResult(filePath string) *errjson.Result {
 	errBytes := ReadFile(filePath)
 
 	if errBytes.IsFailed() {
-		return errjson.EmptyWithErrorPtrUsingErrorWrapper(
+		return errjson.New.Result.ErrorWrapper(
 			errBytes.ErrorWrapper)
 	}
 
-	return errjson.NewBytesPtr(
-		errBytes.SafeValuesPtr(),
+	return errjson.New.Result.BytesWithError(
+		errBytes.Values,
 		errBytes.ErrorWrapper)
 }

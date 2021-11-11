@@ -11,8 +11,10 @@ import (
 func Recursive(location string) *errorwrapper.Wrapper {
 	err := os.RemoveAll(location)
 
-	return errnew.Path(
-		errtype.DeletePathFailed,
-		err,
-		location+"->recursive remove failed.")
+	return errnew.
+		Path.
+		Error(
+			errtype.DeletePathFailed,
+			err,
+			location+"->recursive remove failed.")
 }

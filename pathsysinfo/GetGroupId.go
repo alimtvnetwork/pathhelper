@@ -7,7 +7,6 @@ import (
 	"gitlab.com/evatix-go/core/codestack"
 	"gitlab.com/evatix-go/core/constants"
 	"gitlab.com/evatix-go/errorwrapper"
-	"gitlab.com/evatix-go/errorwrapper/errnew"
 	"gitlab.com/evatix-go/errorwrapper/errtype"
 )
 
@@ -23,5 +22,5 @@ func GetGroupId(groupObj *user.Group) (int, *errorwrapper.Wrapper) {
 			groupObj.Gid)
 	}
 
-	return gid, errnew.EmptyPtr
+	return gid, nil
 }

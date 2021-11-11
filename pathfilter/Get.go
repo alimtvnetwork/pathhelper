@@ -27,7 +27,8 @@ func Get(
 
 	if filter.ExtensionsLength() == 0 {
 		return errstr.
-			EmptyResultsWithErrorCollectionPtr()
+			Empty.
+			ResultsWithErrorCollection()
 	}
 
 	rootPath = GetTranspiledPathForDollarVariables(
@@ -43,7 +44,8 @@ func Get(
 
 	if filterLength == 0 {
 		return errstr.
-			EmptyResultsWithErrorCollectionPtr()
+			Empty.
+			ResultsWithErrorCollection()
 	}
 
 	linkedCollections := corestr.

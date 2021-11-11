@@ -29,7 +29,7 @@ func Empty() *Result {
 func EmptyUsingInfo(fileWrapperInfo *fileinfo.Wrapper) *Result {
 	return &Result{
 		FileInfoWrapper:   fileWrapperInfo,
-		Error:             errnew.EmptyPtr,
+		Error:             nil,
 		IsValidDir:        false,
 		RawPath:           "",
 		FileModeRequested: nil,
@@ -42,10 +42,12 @@ func EmptyUsingInfo(fileWrapperInfo *fileinfo.Wrapper) *Result {
 func New(fileOrDirPath string) *Result {
 	isFilePathEmpty := fileOrDirPath == ""
 	fileInfo, err := os.Stat(fileOrDirPath)
-	errWrapper := errnew.Path(
-		errtype.CreateDirectoryFailed,
-		err,
-		fileOrDirPath)
+	errWrapper := errnew.
+		Path.
+		Error(
+			errtype.CreateDirectoryFailed,
+			err,
+			fileOrDirPath)
 	isErrorEmpty := errWrapper.IsEmpty()
 
 	fileInfoWrapper := &fileinfo.Wrapper{

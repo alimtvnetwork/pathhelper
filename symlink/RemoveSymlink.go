@@ -20,7 +20,7 @@ func RemoveSymlink(path string) *errorwrapper.Wrapper {
 	if !result.Value {
 		invalidSymLink := fmt.Sprintf(messages.InvalidSymlinkMessageFormat, path)
 
-		return errnew.MessagesPtr(errtype.SymbolicLink, invalidSymLink)
+		return errnew.Messages.Many(errtype.SymbolicLink, invalidSymLink)
 	}
 
 	err := os.Remove(path)
@@ -28,8 +28,8 @@ func RemoveSymlink(path string) *errorwrapper.Wrapper {
 	if err != nil {
 		invalidSymLink := fmt.Sprintf(messages.CannotRemoveSymLink, path)
 
-		return errnew.MessagesPtr(errtype.SymbolicLink, invalidSymLink)
+		return errnew.Messages.Many(errtype.SymbolicLink, invalidSymLink)
 	}
 
-	return errnew.EmptyPtr
+	return nil
 }

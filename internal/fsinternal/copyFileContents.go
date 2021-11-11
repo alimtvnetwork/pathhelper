@@ -23,10 +23,12 @@ func CopyFileContents(srcPath, dstPath string) (errWp *errorwrapper.Wrapper) {
 		inFile)
 
 	if errOpen != nil {
-		return errnew.Path(
-			errtype.FileRead,
-			errOpen,
-			srcPath)
+		return errnew.
+			Path.
+			Error(
+				errtype.FileRead,
+				errOpen,
+				srcPath)
 	}
 
 	outFile, errCreate := os.Create(dstPath)
@@ -37,30 +39,33 @@ func CopyFileContents(srcPath, dstPath string) (errWp *errorwrapper.Wrapper) {
 		outFile)
 
 	if errCreate != nil {
-		return errnew.Path(
-			errtype.FileRead,
-			errCreate,
-			dstPath)
+		return errnew.
+			Path.
+			Error(
+				errtype.FileRead,
+				errCreate,
+				dstPath)
 	}
 
 	if _, err := io.Copy(outFile, inFile); err != nil {
-		return errnew.SourceDestinationMessages(
+		return errnew.SrcDst.Error(
 			errtype.Copy,
+			err,
 			srcPath,
 			dstPath,
-			err.Error())
+		)
 	}
 
 	err2 := outFile.Sync()
 
 	if err2 != nil {
-		return errnew.SourceDestinationMessages(
-			errtype.Sync,
+		return errnew.SrcDst.Error(
+			errtype.Copy,
+			err2,
 			srcPath,
 			dstPath,
-			err2.Error(),
-			errtype.Copy.String())
+		)
 	}
 
-	return errnew.EmptyPtr
+	return nil
 }

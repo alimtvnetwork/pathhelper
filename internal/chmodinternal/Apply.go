@@ -26,13 +26,15 @@ func Apply(
 				isSkipOnInvalid,
 				rootDir)
 
-		return errnew.Path(
-			errtype.ChmodApplyFailed,
-			chmodErr,
-			rootDir)
+		return errnew.
+			Path.
+			Error(
+				errtype.ChmodApplyFailed,
+				chmodErr,
+				rootDir)
 	}
 
-	sliceErr := corestr.EmptySimpleSlice()
+	sliceErr := corestr.Empty.SimpleSlice()
 	// for other os apply using each file.
 	for _, filePath := range filePaths {
 		err := fileMode.ApplyChmod(isSkipOnInvalid, filePath)
@@ -44,8 +46,10 @@ func Apply(
 
 	toErr := errcore.SliceToError(sliceErr.Items)
 
-	return errnew.Path(
-		errtype.ChmodApplyFailed,
-		toErr,
-		rootDir)
+	return errnew.
+		Path.
+		Error(
+			errtype.ChmodApplyFailed,
+			toErr,
+			rootDir)
 }

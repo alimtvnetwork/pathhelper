@@ -14,8 +14,8 @@ func SystemUserId(userResult *user.User) (int, *errorwrapper.Wrapper) {
 	uid, errUidConvert := strconv.Atoi(userResult.Uid)
 
 	if errUidConvert != nil {
-		return constants.InvalidValue, errnew.NewPtr(errtype.ConversionValueToInteger, errUidConvert)
+		return constants.InvalidValue, errnew.Type.Error(errtype.ConversionValueToInteger, errUidConvert)
 	}
 
-	return uid, errnew.EmptyPtr
+	return uid, nil
 }

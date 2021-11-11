@@ -20,7 +20,7 @@ func ApplyChmodOnFiles(
 	locations ...string,
 ) (*chmodins.RwxInstruction, *errorwrapper.Wrapper) {
 	if len(locations) == 0 {
-		return &chmodins.RwxInstruction{}, errnew.EmptyPtr
+		return &chmodins.RwxInstruction{}, nil
 	}
 
 	changingChmodRwxWrapper := chmodhelper.NewUsingFileMode(changeFileMode)
@@ -37,7 +37,7 @@ func ApplyChmodOnFiles(
 	executor, err := chmodhelper.ParseRwxInstructionToExecutor(rwxInstruction)
 
 	if err != nil {
-		return rwxInstruction, errnew.NewPtr(errtype.Conversion, err)
+		return rwxInstruction, errnew.Type.Error(errtype.Conversion, err)
 	}
 
 	err2 := executor.ApplyOnPaths(locations)

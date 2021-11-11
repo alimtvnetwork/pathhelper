@@ -19,20 +19,26 @@ func ReadErrorJsonResultUnmarshal(
 	}
 
 	if errJson.Error != nil {
-		return errnew.Path(
-			errtype.Unmarshalling,
-			errJson.Error,
-			filePath)
+		return errnew.
+			Path.
+			Error(
+				errtype.Unmarshalling,
+				errJson.Error,
+				filePath)
 	}
 
 	if errJson.Bytes == nil {
-		return errnew.PathMessages(
-			errtype.Unmarshalling,
-			filePath,
-			"Read as nil or empty data cannot unmarshall properly.")
+		return errnew.
+			Path.
+			Messages(
+				errtype.Unmarshalling,
+				filePath,
+				"Read as nil or empty data cannot unmarshall properly.")
 	}
 
 	err := json.Unmarshal(errJson.Bytes, unmarshalObject)
 
-	return errnew.Path(errtype.Unmarshalling, err, filePath)
+	return errnew.
+		Path.
+		Error(errtype.Unmarshalling, err, filePath)
 }

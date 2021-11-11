@@ -5,7 +5,6 @@ import (
 
 	"gitlab.com/evatix-go/core/constants"
 	"gitlab.com/evatix-go/errorwrapper"
-	"gitlab.com/evatix-go/errorwrapper/errnew"
 )
 
 func WriteStringLinesToFile(
@@ -14,7 +13,7 @@ func WriteStringLinesToFile(
 	contentLines []string,
 ) *errorwrapper.Wrapper {
 	if len(contentLines) == 0 {
-		return errnew.EmptyPtr
+		return nil
 	}
 
 	content := strings.Join(

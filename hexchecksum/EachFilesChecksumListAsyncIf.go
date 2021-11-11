@@ -30,5 +30,5 @@ func EachFilesChecksumListAsyncIf(
 			fullFilePaths...)
 	}
 
-	return errstr.EmptyResults()
+	return errstr.Empty.Results()
 }

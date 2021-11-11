@@ -3,7 +3,6 @@ package elitepath
 import (
 	"gitlab.com/evatix-go/core/chmodhelper/chmodins"
 	"gitlab.com/evatix-go/errorwrapper"
-	"gitlab.com/evatix-go/errorwrapper/errnew"
 	"gitlab.com/evatix-go/errorwrapper/errwrappers"
 	"gitlab.com/evatix-go/pathhelper/pathfixer"
 	"gitlab.com/evatix-go/pathhelper/pathinsfmt"
@@ -130,7 +129,7 @@ func (it *WithPermission) ApplyUsingErrorCollection(
 func (it *WithPermission) ApplyChown() *errorwrapper.Wrapper {
 	if it.IsEmptyChown() ||
 		it.IsEmptyPath() {
-		return errnew.EmptyPtr
+		return nil
 	}
 
 	return it.Path.ApplyChown(it.Chown)
@@ -139,7 +138,7 @@ func (it *WithPermission) ApplyChown() *errorwrapper.Wrapper {
 func (it *WithPermission) ApplyRwx() *errorwrapper.Wrapper {
 	if it.IsEmptyRwx() ||
 		it.IsEmptyPath() {
-		return errnew.EmptyPtr
+		return nil
 	}
 
 	return it.ApplyRwxInstruction(it.RwxInstruction)

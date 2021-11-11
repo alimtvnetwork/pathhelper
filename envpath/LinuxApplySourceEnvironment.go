@@ -6,7 +6,7 @@ import (
 )
 
 func LinuxApplySourceEnvironment() *errorwrapper.Wrapper {
-	return errcmd.BashArgs("source", etcEnvPath).
+	return errcmd.New.BashScript.ArgsDefault("source", etcEnvPath).
 		CompiledResult().
 		ErrorWrapper()
 }

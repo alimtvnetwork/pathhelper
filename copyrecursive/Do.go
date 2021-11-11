@@ -15,7 +15,7 @@ func Do(
 	src,
 	dst string,
 ) *errorwrapper.Wrapper {
-	deleteErr := errnew.EmptyPtr
+	var deleteErr *errorwrapper.Wrapper
 
 	if isClearBeforeCopy {
 		deleteErr = deletepaths.RecursiveOnExist(
@@ -23,7 +23,7 @@ func Do(
 	}
 
 	if deleteErr.HasError() {
-		return errnew.UsingWrapperAdditionalRefs(deleteErr,
+		return errnew.Ref.ManyUsingWrapper(deleteErr,
 			ref.Value{
 				Variable: "src",
 				Value:    src,
@@ -40,10 +40,10 @@ func Do(
 		fileCopyErr := CopyFile(src, dst, defaultFileMode)
 
 		if fileCopyErr == nil {
-			return errnew.EmptyPtr
+			return nil
 		}
 
-		return errnew.NewRef2(
+		return errnew.Ref.TwoWithError(
 			errtype.Copy,
 			fileCopyErr,
 			"src",
@@ -53,12 +53,14 @@ func Do(
 	}
 
 	if !isExist {
-		return errnew.PathMessages(
-			errtype.PathMissingOrInvalid,
-			src,
-			"Source path is missing or access issues.",
-			"Cannot copy to destination: ",
-			dst)
+		return errnew.
+			Path.
+			Messages(
+				errtype.PathMissingOrInvalid,
+				src,
+				"Source path is missing or access issues.",
+				"Cannot copy to destination: ",
+				dst)
 	}
 
 	err := DoSimple(
@@ -66,10 +68,10 @@ func Do(
 		dst)
 
 	if err == nil {
-		return errnew.EmptyPtr
+		return nil
 	}
 
-	return errnew.NewRef2(
+	return errnew.Ref.TwoWithError(
 		errtype.Copy,
 		err,
 		"src",

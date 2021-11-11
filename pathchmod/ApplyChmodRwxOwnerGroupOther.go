@@ -3,7 +3,6 @@ package pathchmod
 import (
 	"gitlab.com/evatix-go/core/chmodhelper/chmodins"
 	"gitlab.com/evatix-go/errorwrapper"
-	"gitlab.com/evatix-go/errorwrapper/errnew"
 )
 
 func ApplyChmodRwxOwnerGroupOther(
@@ -15,7 +14,7 @@ func ApplyChmodRwxOwnerGroupOther(
 ) *errorwrapper.Wrapper {
 	if rwxOwnerGroupOther == nil ||
 		len(paths) == 0 {
-		return errnew.EmptyPtr
+		return nil
 	}
 
 	condition := &chmodins.Condition{

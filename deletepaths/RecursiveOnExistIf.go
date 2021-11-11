@@ -11,17 +11,19 @@ import (
 
 func RecursiveOnExistIf(isRemove bool, location string) *errorwrapper.Wrapper {
 	if !isRemove {
-		return errnew.EmptyPtr
+		return nil
 	}
 
 	if !fsinternal.IsPathExists(location) || len(location) == 0 {
-		return errnew.EmptyPtr
+		return nil
 	}
 
 	err := os.RemoveAll(location)
 
-	return errnew.Path(
-		errtype.DeletePathFailed,
-		err,
-		location+"->recursive remove failed.")
+	return errnew.
+		Path.
+		Error(
+			errtype.DeletePathFailed,
+			err,
+			location+"->recursive remove failed.")
 }

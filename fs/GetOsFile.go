@@ -21,10 +21,12 @@ func GetOsFile(
 		osFlag,
 		fileMode)
 
-	fileOpeningError := errnew.Path(
-		errtype.FileRead,
-		fileOpenErr,
-		filePath)
+	fileOpeningError := errnew.
+		Path.
+		Error(
+			errtype.FileRead,
+			fileOpenErr,
+			filePath)
 
 	deferClosingFunc := func() *errorwrapper.Wrapper {
 		return errdefer.CloseFile(

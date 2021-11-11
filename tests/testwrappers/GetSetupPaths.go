@@ -6,7 +6,7 @@ import (
 )
 
 func GetSetupPaths() []string {
-	linkedCollection := corestr.NewLinkedCollections()
+	linkedCollection := corestr.Empty.LinkedCollections()
 
 	for _, ins := range PathsCreateInstructionsUnix {
 		linkedCollection.AddStrings(

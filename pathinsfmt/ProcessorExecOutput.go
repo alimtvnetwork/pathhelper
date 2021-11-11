@@ -6,5 +6,4 @@ type ProcessorExecOutput struct {
 	CmdOnce             *errcmd.CmdOnce
 	ConsoleResult       *errcmd.Result
 	ExecutableProcessor *ExecutableProcessor
-	CustomMessage       *errcmd.CustomMessage
 }

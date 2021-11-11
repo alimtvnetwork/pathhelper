@@ -17,7 +17,7 @@ func HexChecksumOfAnyItems(
 	items ...interface{},
 ) *errstr.Results {
 	if len(items) == 0 {
-		return errstr.EmptyResults()
+		return errstr.Empty.Results()
 	}
 
 	locker := sync.Mutex{}
@@ -71,12 +71,12 @@ func HexChecksumOfAnyItems(
 		sliceErr)
 
 	if err == nil {
-		return errstr.EmptyErrorResults(
-			checkSumSlice...)
+		return errstr.New.Results.Strings(
+			checkSumSlice)
 	}
 
 	// Failed
-	return errstr.ResultsError(
+	return errstr.New.Results.Error(
 		errtype.CheckSumCorrupted,
 		err)
 }

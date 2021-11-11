@@ -2,7 +2,6 @@ package namegroup
 
 import (
 	"gitlab.com/evatix-go/errorwrapper"
-	"gitlab.com/evatix-go/errorwrapper/errnew"
 	"gitlab.com/evatix-go/pathhelper/pathinsfmt"
 )
 
@@ -14,11 +13,11 @@ func ApplySimple(
 	paths ...string,
 ) *errorwrapper.Wrapper {
 	if userName == "" && groupName == "" {
-		return errnew.EmptyPtr
+		return nil
 	}
 
 	if len(paths) == 0 {
-		return errnew.EmptyPtr
+		return nil
 	}
 
 	userNameGroup := pathinsfmt.UserGroupName{

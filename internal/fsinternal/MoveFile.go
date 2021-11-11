@@ -12,8 +12,10 @@ import (
 func MoveFile(srcPath, dstPath string) *errorwrapper.Wrapper {
 	err := os.Rename(srcPath, dstPath)
 
-	return errnew.Path(
-		errtype.FileOrDirectoryRelatedExecution,
-		err,
-		srcPath)
+	return errnew.
+		Path.
+		Error(
+			errtype.FileOrDirectoryRelatedExecution,
+			err,
+			srcPath)
 }

@@ -76,16 +76,16 @@ func (a *AliasStruct) GetDirSpecifier(
 ) {
 	switch osType {
 	case ostype.Windows:
-		return a.Windows, errnew.EmptyPtr
+		return a.Windows, nil
 	case ostype.Linux:
-		return a.Linux, errnew.EmptyPtr
+		return a.Linux, nil
 	case ostype.DarwinOrMacOs:
-		return a.Mac, errnew.EmptyPtr
+		return a.Mac, nil
 	default:
 		msg := "GetDirSpecifier failed because non supported os given"
 
 		return nil,
-			errnew.NotSupportedOptionPtr(
+			errnew.NotSupportedOption(
 				"ostype",
 				osType.String(),
 				msg)

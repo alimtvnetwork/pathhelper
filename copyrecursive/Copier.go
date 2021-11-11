@@ -53,7 +53,7 @@ func (it *Copier) Copy() *errorwrapper.Wrapper {
 		err := os.RemoveAll(it.dst)
 
 		if err != nil {
-			return errnew.NewRef2(
+			return errnew.Ref.TwoWithError(
 				errtype.DeleteFailed,
 				err,
 				"src",
@@ -68,7 +68,7 @@ func (it *Copier) Copy() *errorwrapper.Wrapper {
 		copyErr := it.copyFile(it.src, it.dst)
 
 		if copyErr != nil {
-			return errnew.NewRef2(
+			return errnew.Ref.TwoWithError(
 				errtype.Copy,
 				copyErr,
 				"src",
@@ -81,7 +81,7 @@ func (it *Copier) Copy() *errorwrapper.Wrapper {
 		if it.opts.IsMove {
 			errRemove := os.RemoveAll(it.src)
 
-			return errnew.NewRef2(
+			return errnew.Ref.TwoWithError(
 				errtype.RemoveFailed,
 				errRemove,
 				"src",
@@ -97,7 +97,7 @@ func (it *Copier) Copy() *errorwrapper.Wrapper {
 		it.dst)
 
 	if copyDirErr != nil {
-		return errnew.NewRef2(
+		return errnew.Ref.TwoWithError(
 			errtype.Copy,
 			copyDirErr,
 			"src",
@@ -110,7 +110,7 @@ func (it *Copier) Copy() *errorwrapper.Wrapper {
 	if it.opts.IsMove {
 		errRemove := os.RemoveAll(it.src)
 
-		return errnew.NewRef2(
+		return errnew.Ref.TwoWithError(
 			errtype.RemoveFailed,
 			errRemove,
 			"src",
@@ -119,7 +119,7 @@ func (it *Copier) Copy() *errorwrapper.Wrapper {
 			it.dst)
 	}
 
-	return errnew.EmptyPtr
+	return nil
 }
 
 // copySymLink copies a symbolic link from src to dst.

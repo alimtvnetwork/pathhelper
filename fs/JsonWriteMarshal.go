@@ -18,17 +18,19 @@ func JsonWriteMarshal(
 	marshallingObjectRef interface{},
 ) *errorwrapper.Wrapper {
 	if marshallingObjectRef == nil && isSkipOnNilObject {
-		return errnew.EmptyPtr
+		return nil
 	}
 
 	allBytes, err := json.Marshal(marshallingObjectRef)
 
 	if err != nil {
-		return errnew.PathMessages(
-			errtype.Marshalling,
-			filePath,
-			err.Error(),
-		)
+		return errnew.
+			Path.
+			Messages(
+				errtype.Marshalling,
+				filePath,
+				err.Error(),
+			)
 	}
 
 	return WriteFileUsingFileMode(

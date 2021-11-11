@@ -70,20 +70,22 @@ func (it *OsFile) AttachDeferCloseOnRequire() *errorwrapper.Wrapper {
 		return it.DeferClosingFunc()
 	}
 
-	return errnew.EmptyPtr
+	return nil
 }
 
 func (it *OsFile) ClearFileContents() *errorwrapper.Wrapper {
 	writingError := it.OsFile.Truncate(0)
 
 	if writingError != nil {
-		return errnew.Path(
-			errtype.WriteFailed,
-			writingError,
-			it.Location)
+		return errnew.
+			Path.
+			Error(
+				errtype.WriteFailed,
+				writingError,
+				it.Location)
 	}
 
-	return errnew.EmptyPtr
+	return nil
 }
 
 func (it *OsFile) WriteString(
@@ -93,13 +95,15 @@ func (it *OsFile) WriteString(
 
 	if writingError != nil {
 		return false,
-			errnew.Path(
-				errtype.WriteFailed,
-				writingError,
-				it.Location)
+			errnew.
+				Path.
+				Error(
+					errtype.WriteFailed,
+					writingError,
+					it.Location)
 	}
 
-	return writtenLen > 0, errnew.EmptyPtr
+	return writtenLen > 0, nil
 }
 
 func (it *OsFile) WriteBytes(
@@ -109,13 +113,15 @@ func (it *OsFile) WriteBytes(
 
 	if writingError != nil {
 		return false,
-			errnew.Path(
-				errtype.WriteFailed,
-				writingError,
-				it.Location)
+			errnew.
+				Path.
+				Error(
+					errtype.WriteFailed,
+					writingError,
+					it.Location)
 	}
 
-	return writtenLen > 0, errnew.EmptyPtr
+	return writtenLen > 0, nil
 }
 
 func (it *OsFile) Close() *errorwrapper.Wrapper {
@@ -129,21 +135,25 @@ func (it *OsFile) RwxWrapper() *pathchmod.RwxWrapperWithError {
 func (it *OsFile) FileInfo() (os.FileInfo, *errorwrapper.Wrapper) {
 	fileInfo, err := it.OsFile.Stat()
 
-	return fileInfo, errnew.Path(
-		errtype.PathStat,
-		err,
-		it.Location)
+	return fileInfo, errnew.
+		Path.
+		Error(
+			errtype.PathStat,
+			err,
+			it.Location)
 }
 
 func (it *OsFile) ApplyChmod(mode os.FileMode) *errorwrapper.Wrapper {
 	err := it.OsFile.Chmod(mode)
 
 	if err != nil {
-		return errnew.Path(
-			errtype.ChmodApplyFailed,
-			err,
-			it.Location)
+		return errnew.
+			Path.
+			Error(
+				errtype.ChmodApplyFailed,
+				err,
+				it.Location)
 	}
 
-	return errnew.EmptyPtr
+	return nil
 }

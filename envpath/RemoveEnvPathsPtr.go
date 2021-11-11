@@ -3,16 +3,15 @@ package envpath
 import (
 	"gitlab.com/evatix-go/core/coredata/corestr"
 	"gitlab.com/evatix-go/errorwrapper"
-	"gitlab.com/evatix-go/errorwrapper/errnew"
 )
 
 func RemoveEnvPathsPtr(removeEnvPaths *[]string) *errorwrapper.Wrapper {
 	if removeEnvPaths == nil || len(*removeEnvPaths) == 0 {
-		return errnew.EmptyPtr
+		return nil
 	}
 
 	envPaths := ReadEnvPathsPtr()
-	hashset := corestr.NewHashsetUsingStrings(
+	hashset := corestr.New.Hashset.StringsPtr(
 		envPaths)
 
 	for _, removeEnvPath := range *removeEnvPaths {

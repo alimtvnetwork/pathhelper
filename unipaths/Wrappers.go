@@ -1,6 +1,7 @@
 package unipaths
 
 import (
+	"errors"
 	"sync"
 
 	"gitlab.com/evatix-go/core/constants"
@@ -197,9 +198,9 @@ func (it *Wrappers) FinalizeAll() {
 
 func (it *Wrappers) GetFinalizePaths() *errstr.ResultsWithErrorCollection {
 	if !it.IsFinalized() {
-		return errstr.NewResultsWithErrorCollectionUsingTypeMessagePtr(
+		return errstr.New.ResultsWithErrorCollection.Error(
 			errtype.Unexpected,
-			nonFinalizePathsCannotBeRetrievedMessage)
+			errors.New(nonFinalizePathsCannotBeRetrievedMessage))
 	}
 
 	length := it.Length()
@@ -269,9 +270,8 @@ func (it *Wrappers) Strings() []string {
 }
 
 func (it *Wrappers) StringsCollectionPtr() *corestr.Collection {
-	return corestr.NewCollectionUsingStrings(
+	return corestr.New.Collection.Strings(
 		it.Strings(),
-		false,
 	)
 }
 

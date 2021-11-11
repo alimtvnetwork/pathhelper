@@ -9,8 +9,10 @@ import (
 )
 
 func All(location string, mode os.FileMode) *errorwrapper.Wrapper {
-	return errnew.Path(
-		errtype.CreateDirectoryFailed,
-		os.MkdirAll(location, mode),
-		location)
+	return errnew.
+		Path.
+		Error(
+			errtype.CreateDirectoryFailed,
+			os.MkdirAll(location, mode),
+			location)
 }

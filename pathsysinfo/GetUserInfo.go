@@ -2,7 +2,6 @@ package pathsysinfo
 
 import (
 	"gitlab.com/evatix-go/core/constants"
-	"gitlab.com/evatix-go/errorwrapper/errnew"
 )
 
 func GetUserInfo(userName string) *UserInfo {
@@ -29,6 +28,6 @@ func GetUserInfo(userName string) *UserInfo {
 		Id:           id,
 		IsValidUser:  true,
 		HasValidId:   true,
-		ErrorWrapper: errnew.EmptyPtr,
+		ErrorWrapper: nil,
 	}
 }

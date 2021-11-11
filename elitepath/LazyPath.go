@@ -71,10 +71,12 @@ func (it *LazyPath) ErrorWrapper() *errorwrapper.Wrapper {
 		return it.internalErrorWrapper
 	}
 
-	it.internalErrorWrapper = errnew.Path(
-		errtype.PathMissingOrInvalid,
-		it.Error(),
-		it.Path.CompiledPath())
+	it.internalErrorWrapper = errnew.
+		Path.
+		Error(
+			errtype.PathMissingOrInvalid,
+			it.Error(),
+			it.Path.CompiledPath())
 
 	return it.internalErrorWrapper
 }

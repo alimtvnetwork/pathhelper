@@ -5,7 +5,6 @@ import (
 
 	"gitlab.com/evatix-go/core/constants"
 	"gitlab.com/evatix-go/errorwrapper"
-	"gitlab.com/evatix-go/errorwrapper/errnew"
 	"gitlab.com/evatix-go/pathhelper/internal/chmodinternal"
 	"gitlab.com/evatix-go/pathhelper/internal/fsinternal"
 )
@@ -18,7 +17,7 @@ func CreateManySameDirWithFileMode(
 	files []string,
 ) ([]*os.File, *errorwrapper.Wrapper) {
 	if len(files) == 0 {
-		return []*os.File{}, errnew.EmptyPtr
+		return []*os.File{}, nil
 	}
 
 	if isLock {

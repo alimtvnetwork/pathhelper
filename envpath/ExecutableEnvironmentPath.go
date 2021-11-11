@@ -42,8 +42,9 @@ func (it *ExecutableEnvironmentPath) GetFileNamesCollection() *fileinfo.FileName
 		true)
 }
 
-// GetDirectories returns all directories path on that env directory,
-// no nested or resursive paths
+// GetDirectories
+//
+// returns all directories paths on that env directory,
 func (it *ExecutableEnvironmentPath) GetDirectories() []*string {
 	var directories []*string
 
@@ -56,7 +57,10 @@ func (it *ExecutableEnvironmentPath) GetDirectories() []*string {
 	return directories
 }
 
-// GetFilePathsContains returns all pathsCollection paths on which contains the given string. If no path is found, returns empty array.
+// GetFilePathsContains
+//
+// returns all pathsCollection paths on which contains the given string.
+// If no path is found, returns empty array.
 func (it *ExecutableEnvironmentPath) GetFilePathsContains(
 	separator,
 	contains string,

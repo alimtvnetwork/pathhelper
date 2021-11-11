@@ -16,8 +16,10 @@ func SafeCreateDirectoryAll(
 		return nil
 	}
 
-	return errnew.Path(
-		errtype.CreateDirectoryFailed,
-		os.MkdirAll(location, mode),
-		location)
+	return errnew.
+		Path.
+		Error(
+			errtype.CreateDirectoryFailed,
+			os.MkdirAll(location, mode),
+			location)
 }

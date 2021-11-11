@@ -16,7 +16,7 @@ func writeNewFileContentUsingFileMode(
 	content []byte,
 	mode os.FileMode,
 ) *errorwrapper.Wrapper {
-	createDirErr := errnew.EmptyPtr
+	var createDirErr *errorwrapper.Wrapper
 	if isCreateParentDir {
 		createDirErr = createdir.AllUptoParentDefault(
 			filePath)
@@ -32,13 +32,15 @@ func writeNewFileContentUsingFileMode(
 		mode)
 
 	if writeErr != nil {
-		return errnew.PathMessages(
-			errtype.FileWrite,
-			filePath,
-			"fs.WriteFile",
-			"Failed write file contents.",
-			writeErr.Error())
+		return errnew.
+			Path.
+			Messages(
+				errtype.FileWrite,
+				filePath,
+				"fs.WriteFile",
+				"Failed write file contents.",
+				writeErr.Error())
 	}
 
-	return errnew.EmptyPtr
+	return nil
 }

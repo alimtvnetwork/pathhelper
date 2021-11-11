@@ -12,7 +12,7 @@ func OfChecksums(
 	hexChecksums ...string,
 ) *errstr.Result {
 	if len(hexChecksums) == 0 || !isGenerate {
-		return errstr.Empty()
+		return errstr.Empty.Result()
 	}
 
 	sortIf(isSortChecksum, hexChecksums)

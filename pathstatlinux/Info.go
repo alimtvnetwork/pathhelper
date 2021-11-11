@@ -4,7 +4,6 @@ import (
 	"os"
 
 	"gitlab.com/evatix-go/errorwrapper"
-	"gitlab.com/evatix-go/errorwrapper/errnew"
 )
 
 type Info struct {
@@ -30,7 +29,7 @@ func InvalidInfo(location string) *Info {
 		IsDirectory:          false,
 		IsPathExist:          false,
 		IsValidParsing:       false,
-		ErrorWrapper:         errnew.EmptyPtr,
+		ErrorWrapper:         nil,
 		FileInfo:             nil,
 	}
 }

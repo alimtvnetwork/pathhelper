@@ -49,7 +49,7 @@ func (it *UserGroupId) IsInvalidUserOrGroupId() bool {
 
 func (it *UserGroupId) InvalidError(fullPath string) *errorwrapper.Wrapper {
 	if it == nil {
-		return errnew.Null(
+		return errnew.Null.WithRefs(
 			"",
 			it,
 			ref.Value{
@@ -63,7 +63,7 @@ func (it *UserGroupId) InvalidError(fullPath string) *errorwrapper.Wrapper {
 	}
 
 	if it.IsInvalidUserOrGroupId() {
-		return errnew.MessagesPtr(
+		return errnew.Messages.Many(
 			errtype.ChownUserOrGroupApplyIssue,
 			"either user or group id is invalid for path : ",
 			fullPath,
@@ -79,7 +79,7 @@ func (it *UserGroupId) InvalidError(fullPath string) *errorwrapper.Wrapper {
 
 func (it *UserGroupId) ErrorWrapper(fullPath string) *errorwrapper.Wrapper {
 	if it.HasError() {
-		return errnew.MessagesPtr(
+		return errnew.Messages.Many(
 			errtype.ChownUserOrGroupApplyIssue,
 			it.Error,
 			"UserId",
@@ -101,14 +101,16 @@ func (it *UserGroupId) ApplyChown(fullPath string) *errorwrapper.Wrapper {
 
 	err := os.Chown(fullPath, it.UserId, it.GroupId)
 
-	if err != nil {
-		return errnew.SourceDestinationMessages(
-			errtype.ChownUserOrGroupApplyIssue,
-			fullPath,
-			err.Error())
+	if err == nil {
+		return nil
 	}
 
-	return nil
+	// has error
+	return errnew.Path.Error(
+		errtype.ChownUserOrGroupApplyIssue,
+		err,
+		fullPath,
+	)
 }
 
 func (it *UserGroupId) ApplyUserId(fullPath string) *errorwrapper.Wrapper {
@@ -128,10 +130,12 @@ func (it *UserGroupId) ApplyUserId(fullPath string) *errorwrapper.Wrapper {
 		applyPathUserInfo.GroupId)
 
 	if err != nil {
-		return errnew.Path(
-			errtype.ChownUserOrGroupApplyIssue,
-			err,
-			fullPath)
+		return errnew.
+			Path.
+			Error(
+				errtype.ChownUserOrGroupApplyIssue,
+				err,
+				fullPath)
 	}
 
 	return nil
@@ -154,10 +158,12 @@ func (it *UserGroupId) ApplyGroupId(fullPath string) *errorwrapper.Wrapper {
 		it.GroupId)
 
 	if err != nil {
-		return errnew.Path(
-			errtype.ChownUserOrGroupApplyIssue,
-			err,
-			fullPath)
+		return errnew.
+			Path.
+			Error(
+				errtype.ChownUserOrGroupApplyIssue,
+				err,
+				fullPath)
 	}
 
 	return nil

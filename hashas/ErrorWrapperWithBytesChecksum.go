@@ -7,8 +7,8 @@ import (
 
 func ErrorWrapperWithBytesChecksum(method Variant, errBytes *errbyte.Results) *errbyte.Results {
 	if errBytes == nil || errBytes.Values == nil {
-		return errbyte.EmptyResultsWithError(
-			errnew.Null("", errBytes))
+		return errbyte.New.Results.ErrorWrapper(
+			errnew.Null.Simple(errBytes))
 	}
 
 	if errBytes.HasError() {

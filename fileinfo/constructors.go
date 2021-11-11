@@ -4,6 +4,7 @@ import (
 	"io/ioutil"
 	"os"
 
+	"gitlab.com/evatix-go/errorwrapper"
 	"gitlab.com/evatix-go/errorwrapper/errnew"
 	"gitlab.com/evatix-go/errorwrapper/errtype"
 
@@ -27,13 +28,15 @@ func New(rawPath, separator string) *Wrapper {
 
 	fileInfo, err := os.Stat(rawPath)
 	isDir := err == nil && fileInfo.IsDir()
-	errWrapper := errnew.EmptyPtr
+	var errWrapper *errorwrapper.Wrapper
 
 	if err != nil {
-		errWrapper = errnew.Path(
-			errtype.PathRelatedIssue,
-			err,
-			rawPath)
+		errWrapper = errnew.
+			Path.
+			Error(
+				errtype.PathRelatedIssue,
+				err,
+				rawPath)
 	}
 
 	return &Wrapper{
@@ -65,10 +68,12 @@ func NewError(
 		}
 	}
 
-	fileErrWrapper := errnew.Path(
-		errtype.PathMissingOrInvalid,
-		err,
-		filePath)
+	fileErrWrapper := errnew.
+		Path.
+		Error(
+			errtype.PathMissingOrInvalid,
+			err,
+			filePath)
 
 	return &Wrapper{
 		ErrorWrapper: fileErrWrapper,
@@ -94,10 +99,12 @@ func NewUsingInfo(
 			err)
 	}
 
-	fileErr := errnew.Path(
-		errtype.PathMissingOrInvalid,
-		err,
-		filePath)
+	fileErr := errnew.
+		Path.
+		Error(
+			errtype.PathMissingOrInvalid,
+			err,
+			filePath)
 
 	isDir := osFileInfo.IsDir()
 

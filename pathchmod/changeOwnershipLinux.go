@@ -9,7 +9,7 @@ import (
 func changeOwnershipLinux(path, user, group string) *errorwrapper.Wrapper {
 	chownUserGroupArg := user + constants.Colon + group
 
-	return errcmd.ShellArgsErrorWrapper(
+	return errcmd.New.ShellScript.ArgsErr(
 		constants.ChmodCommand,
 		chownUserGroupArg,
 		path,

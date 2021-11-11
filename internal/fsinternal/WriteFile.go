@@ -12,7 +12,7 @@ import (
 
 func WriteFile(filePath string, content []byte) *errorwrapper.Wrapper {
 	if content == nil {
-		return errnew.MessagesPtr(
+		return errnew.Messages.Many(
 			errtype.NullOrEmptyReference,
 			"Cannot write empty or nil contents to the file.",
 			filePath)
@@ -21,7 +21,7 @@ func WriteFile(filePath string, content []byte) *errorwrapper.Wrapper {
 	if IsPathExists(filePath) {
 		chmod, err := chmodhelper.GetExistingChmod(filePath)
 		if err != nil {
-			return errnew.MessagesPtr(
+			return errnew.Messages.Many(
 				errtype.File,
 				"fsinternal.WriteFile",
 				err.Error())
@@ -33,7 +33,7 @@ func WriteFile(filePath string, content []byte) *errorwrapper.Wrapper {
 			chmod)
 
 		if writeErr != nil {
-			return errnew.MessagesPtr(
+			return errnew.Messages.Many(
 				errtype.FileWrite,
 				"fsinternal.WriteFile",
 				filePath,
@@ -41,7 +41,7 @@ func WriteFile(filePath string, content []byte) *errorwrapper.Wrapper {
 				writeErr.Error())
 		}
 
-		return errnew.EmptyPtr
+		return nil
 	}
 
 	writeErr := ioutil.WriteFile(
@@ -50,7 +50,7 @@ func WriteFile(filePath string, content []byte) *errorwrapper.Wrapper {
 		filemode.X644)
 
 	if writeErr != nil {
-		return errnew.MessagesPtr(
+		return errnew.Messages.Many(
 			errtype.FileWrite,
 			"fsinternal.WriteFile",
 			filePath,
@@ -58,5 +58,5 @@ func WriteFile(filePath string, content []byte) *errorwrapper.Wrapper {
 			writeErr.Error())
 	}
 
-	return errnew.EmptyPtr
+	return nil
 }

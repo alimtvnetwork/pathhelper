@@ -13,7 +13,7 @@ func ParseRwxOwnerGroupOtherToRwxWrapper(
 	rwxOwnerGroupOther *chmodins.RwxOwnerGroupOther,
 ) (*chmodhelper.RwxWrapper, *errorwrapper.Wrapper) {
 	if rwxOwnerGroupOther == nil {
-		return nil, errnew.MessagesPtr(
+		return nil, errnew.Messages.Many(
 			errtype.EmptyPointerOrNullPointer,
 			"cannot process empty or nil pointer of chmodins.RwxOwnerGroupOther")
 	}
@@ -30,5 +30,5 @@ func ParseRwxOwnerGroupOtherToRwxWrapper(
 			rwxOwnerGroupOther.String())
 	}
 
-	return varWrapper.ToCompileFixedPtr(), errnew.EmptyPtr
+	return varWrapper.ToCompileFixedPtr(), nil
 }

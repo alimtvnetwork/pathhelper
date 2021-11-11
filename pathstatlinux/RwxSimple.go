@@ -19,7 +19,7 @@ func InvalidRwxSimple() *RwxSimple {
 	return &RwxSimple{
 		HyphenedRwxValue: constants.EmptyString,
 		RwxWrapper:       nil,
-		ErrorWrapper:     errnew.NewType(errtype.ChmodInvalid),
+		ErrorWrapper:     errnew.Type.Create(errtype.ChmodInvalid),
 		IsRwxValid:       false,
 	}
 }

@@ -59,7 +59,7 @@ func DetailedResultOfRequestAsync(
 				request.Files...)
 		},
 		func() {
-			mappedFileToHexChecksum = corestr.NewHashmap(len(eachChecksumValues))
+			mappedFileToHexChecksum = corestr.New.Hashmap.Cap(len(eachChecksumValues))
 
 			if isGenerateChecksum && len(eachChecksumValues) > 0 {
 				for i, fullFilePath := range request.Files {
@@ -70,7 +70,7 @@ func DetailedResultOfRequestAsync(
 			}
 		})
 
-	mergedErr := errnew.Merge(
+	mergedErr := errnew.Merge.New(
 		hexOfListing.ErrorWrapper,
 		wholeChecksum.ErrorWrapper)
 

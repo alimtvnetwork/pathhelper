@@ -11,10 +11,12 @@ import (
 
 func SingleOnExist(location string) *errorwrapper.Wrapper {
 	if !fsinternal.IsPathExists(location) {
-		return errnew.EmptyPtr
+		return nil
 	}
 
 	err := os.Remove(location)
 
-	return errnew.Path(errtype.DeletePathFailed, err, location)
+	return errnew.
+		Path.
+		Error(errtype.DeletePathFailed, err, location)
 }

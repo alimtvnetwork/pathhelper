@@ -2,7 +2,6 @@ package pathscreateinsexec
 
 import (
 	"gitlab.com/evatix-go/errorwrapper"
-	"gitlab.com/evatix-go/errorwrapper/errnew"
 	"gitlab.com/evatix-go/errorwrapper/errwrappers"
 	"gitlab.com/evatix-go/pathhelper/pathchmod"
 	"gitlab.com/evatix-go/pathhelper/pathinsfmt"
@@ -13,7 +12,7 @@ func applyRwxOnPathCreators(
 	errorCollection *errwrappers.Collection,
 ) *errorwrapper.Wrapper {
 	if pathsCreator == nil || pathsCreator.ApplyRwx == nil {
-		return errnew.EmptyPtr
+		return nil
 	}
 
 	fileMode, errWp := pathchmod.ParseRwxOwnerGroupOtherToFileMode(

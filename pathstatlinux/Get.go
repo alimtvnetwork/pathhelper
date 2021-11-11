@@ -16,13 +16,15 @@ func Get(location string) *Info {
 	if osconsts.IsWindows {
 		return InvalidInfoUsingErr(
 			location,
-			errnew.PathMessages(
-				errtype.NotSupportInWindows,
-				location,
-				"pathstatlinux package is not supported in windows."))
+			errnew.
+				Path.
+				Messages(
+					errtype.NotSupportInWindows,
+					location,
+					"pathstatlinux package is not supported in windows."))
 	}
 
-	pathStat := errcmd.BashArgs("stat", location)
+	pathStat := errcmd.New.BashScript.ArgsDefault("stat", location)
 	errorWrapper := pathStat.CompiledErrorWrapper()
 
 	if errorWrapper.HasError() {

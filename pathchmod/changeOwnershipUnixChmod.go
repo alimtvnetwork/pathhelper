@@ -16,7 +16,9 @@ func changeOwnershipUnixChmod(
 		group)
 
 	return errcmd.
-		BashArgsErrorWrapper(
+		New.
+		BashScript.
+		ArgsErr(
 			chownUser,
 			location)
 }

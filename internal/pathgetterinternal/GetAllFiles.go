@@ -17,17 +17,19 @@ func GetAllFiles(
 	rootPath string,
 ) *errstr.Results {
 	if rootPath == constants.EmptyString {
-		return errstr.EmptyResults()
+		return errstr.Empty.Results()
 	}
 
 	fileInfos, err := ioutil.ReadDir(rootPath)
 
 	if err != nil {
-		return errstr.EmptyResultsWithError(
-			errnew.Path(
-				errtype.PathStatusCannotRead,
-				err,
-				rootPath))
+		return errstr.New.Results.ErrorWrapper(
+			errnew.
+				Path.
+				Error(
+					errtype.PathStatusCannotRead,
+					err,
+					rootPath))
 	}
 
 	slice := make(
@@ -56,6 +58,6 @@ func GetAllFiles(
 			currentPath)
 	}
 
-	return errstr.EmptyErrorResults(
-		slice...)
+	return errstr.New.Results.Strings(
+		slice)
 }

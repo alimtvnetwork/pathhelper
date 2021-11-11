@@ -4,7 +4,6 @@ import (
 	"gitlab.com/evatix-go/core/constants"
 	"gitlab.com/evatix-go/errorwrapper"
 	"gitlab.com/evatix-go/errorwrapper/errcmd"
-	"gitlab.com/evatix-go/errorwrapper/errnew"
 	"gitlab.com/evatix-go/errorwrapper/errtype"
 )
 
@@ -22,12 +21,13 @@ func applyCmdOnPathsReturnOnErr(
 			constants.Space +
 			currentPath
 
-		errWrapper := errcmd.BashArgsErrorWrapper(pathCmd)
+		errWrapper := errcmd.
+			New.BashScript.ArgsErr(pathCmd)
 
 		if errWrapper.HasError() {
 			return errWrapper
 		}
 	}
 
-	return errnew.EmptyPtr
+	return nil
 }

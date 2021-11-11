@@ -13,11 +13,11 @@ func SetEnvPath(compiledPath string) *errorwrapper.Wrapper {
 	err := os.Setenv(constants.Path, compiledPath)
 
 	if err != nil {
-		return errnew.MessagesPtr(
+		return errnew.Messages.Many(
 			errtype.EditFailed,
 			"Failed to Add or Update environment paths.",
 			compiledPath)
 	}
 
-	return errnew.EmptyPtr
+	return nil
 }

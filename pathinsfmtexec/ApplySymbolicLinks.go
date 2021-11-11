@@ -2,7 +2,6 @@ package pathinsfmtexec
 
 import (
 	"gitlab.com/evatix-go/errorwrapper"
-	"gitlab.com/evatix-go/errorwrapper/errnew"
 	"gitlab.com/evatix-go/errorwrapper/errwrappers"
 	"gitlab.com/evatix-go/pathhelper/pathinsfmt"
 	"gitlab.com/evatix-go/pathhelper/symlink"
@@ -10,7 +9,7 @@ import (
 
 func ApplySymbolicLinks(symLinks *pathinsfmt.SymbolicLinks) *errorwrapper.Wrapper {
 	if symLinks == nil || symLinks.IsEmpty() {
-		return errnew.EmptyPtr
+		return nil
 	}
 
 	if symLinks.IsContinueOnError {
@@ -32,5 +31,5 @@ func ApplySymbolicLinks(symLinks *pathinsfmt.SymbolicLinks) *errorwrapper.Wrappe
 		}
 	}
 
-	return errnew.EmptyPtr
+	return nil
 }

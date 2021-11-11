@@ -22,10 +22,10 @@ func EachFilesChecksumList(
 		}
 
 		if hexFileChecksumResult.HasError() {
-			return errstr.EmptyResultsWithError(
+			return errstr.New.Results.ErrorWrapper(
 				hexFileChecksumResult.ErrorWrapper)
 		}
 	}
 
-	return errstr.EmptyErrorResults(checkSumSlice...)
+	return errstr.New.Results.Strings(checkSumSlice)
 }

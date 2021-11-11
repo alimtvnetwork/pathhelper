@@ -21,10 +21,12 @@ func copyExistingFile(
 			dstFileInfo.Name(),
 			dstFileInfo.Mode().String())
 
-		return errnew.Path(
-			errtype.Copy,
-			cannotCopyErr,
-			srcPath)
+		return errnew.
+			Path.
+			Error(
+				errtype.Copy,
+				cannotCopyErr,
+				srcPath)
 	}
 
 	chownCopyErr := copyChmodChownInternal(
@@ -37,17 +39,19 @@ func copyExistingFile(
 	}
 
 	if os.SameFile(sourceFileInfo, dstFileInfo) {
-		return errnew.EmptyPtr
+		return nil
 	}
 
 	linkErr := os.Link(srcPath, dstPath)
 
 	if linkErr != nil {
-		return errnew.PathMessages(
-			errtype.PathCopy,
-			linkErr.Error(),
-			"Source:"+srcPath+", Destination:"+dstPath)
+		return errnew.
+			Path.
+			Messages(
+				errtype.PathCopy,
+				linkErr.Error(),
+				"Source:"+srcPath+", Destination:"+dstPath)
 	}
 
-	return errnew.EmptyPtr
+	return nil
 }

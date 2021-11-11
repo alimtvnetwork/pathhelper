@@ -26,8 +26,10 @@ func AllRecurse(
 		return nil
 	}
 
-	return errnew.Path(
-		errtype.Directory,
-		err,
-		path)
+	return errnew.
+		Path.
+		Error(
+			errtype.Directory,
+			err,
+			path)
 }

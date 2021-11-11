@@ -4,7 +4,6 @@ import (
 	"os"
 
 	"gitlab.com/evatix-go/errorwrapper"
-	"gitlab.com/evatix-go/errorwrapper/errnew"
 	"gitlab.com/evatix-go/pathhelper/internal/fsinternal"
 )
 
@@ -15,5 +14,5 @@ func AllUptoParentMany(mode os.FileMode, locations ...string) *errorwrapper.Wrap
 		}
 	}
 
-	return errnew.EmptyPtr
+	return nil
 }

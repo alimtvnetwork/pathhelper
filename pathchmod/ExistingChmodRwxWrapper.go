@@ -13,10 +13,12 @@ func ExistingChmodRwxWrapper(
 	existingChmod, err := chmodhelper.GetExistingChmodRwxWrapperPtr(location)
 
 	if err != nil {
-		return existingChmod, errnew.Path(
-			errtype.ExistingChmodReadFailed,
-			err,
-			location)
+		return existingChmod, errnew.
+			Path.
+			Error(
+				errtype.ExistingChmodReadFailed,
+				err,
+				location)
 	}
 
 	return existingChmod, nil

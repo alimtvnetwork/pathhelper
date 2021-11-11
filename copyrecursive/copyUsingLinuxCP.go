@@ -44,9 +44,8 @@ func copyUsingLinuxCP(opts Options, src, dst string) *errorwrapper.Wrapper {
 	args = append(args, src)
 	args = append(args, dst)
 
-	return errcmd.NewCmdOnce(
-		false,
-		false,
-		cpCommand, args...,
+	return errcmd.New.NoOutput.CreateErrorVerbose(
+		cpCommand,
+		args...,
 	).CompiledErrorWrapper()
 }

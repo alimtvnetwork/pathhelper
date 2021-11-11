@@ -24,7 +24,7 @@ func EachFilesChecksumListAsync(
 	length := len(fullFilePaths)
 
 	if length == 0 {
-		return errstr.EmptyResults()
+		return errstr.Empty.Results()
 	}
 
 	if length <= consts.NonAsyncSafeRange {
@@ -74,13 +74,13 @@ func EachFilesChecksumListAsync(
 	err := errcore.SliceToError(sliceErr)
 
 	if err == nil {
-		return errstr.EmptyErrorResults(checkSumSlice...)
+		return errstr.New.Results.Strings(checkSumSlice)
 	}
 
-	errWp := errnew.NewPtr(
+	errWp := errnew.Type.Error(
 		errtype.CheckSumCorrupted,
 		err)
 
 	// has error
-	return errstr.NewResults(errWp, checkSumSlice...)
+	return errstr.New.Results.Create(errWp, checkSumSlice)
 }

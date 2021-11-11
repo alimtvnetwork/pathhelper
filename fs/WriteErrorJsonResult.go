@@ -14,7 +14,7 @@ func WriteErrorJsonResult(
 	location string,
 ) *errorwrapper.Wrapper {
 	if isSkipErrorOnNilOrEmpty && errJsonResult == nil {
-		return errnew.EmptyPtr
+		return nil
 	}
 
 	hasExistingErrorWrapper := errJsonResult.ErrorWrapper != nil &&
@@ -28,10 +28,12 @@ func WriteErrorJsonResult(
 		errJsonResult.Result.Error != nil
 
 	if hasExistingError {
-		return errnew.Path(
-			errtype.WriteFailed,
-			errJsonResult.Result.Error,
-			location)
+		return errnew.
+			Path.
+			Error(
+				errtype.WriteFailed,
+				errJsonResult.Result.Error,
+				location)
 	}
 
 	return WriteJsonResult(

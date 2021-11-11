@@ -3,7 +3,6 @@ package pathinsfmt
 import (
 	"gitlab.com/evatix-go/core/constants"
 	"gitlab.com/evatix-go/errorwrapper/errcmd"
-	"gitlab.com/evatix-go/errorwrapper/errnew"
 	"gitlab.com/evatix-go/errorwrapper/errwrappers"
 )
 
@@ -67,7 +66,7 @@ func (b *BaseExecutableProcessors) ExecuteAllOutputs() *ProcessorExecOutputs {
 	if b.IsEmptyProcessor() {
 		return &ProcessorExecOutputs{
 			Outputs:       outputs,
-			CompiledError: errnew.EmptyPtr,
+			CompiledError: nil,
 		}
 	}
 

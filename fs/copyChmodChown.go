@@ -15,11 +15,11 @@ func CopyChmodChown(
 	srcFileInfo, err := os.Stat(srcPath)
 
 	if IsNotPathExistsUsing(srcFileInfo, err) {
-		return errnew.SourceDestinationMessages(
+		return errnew.SrcDst.Error(
 			errtype.ChownUserOrGroupApplyIssue,
+			err,
 			srcPath,
 			dstPath,
-			err.Error(),
 		)
 	}
 

@@ -55,7 +55,7 @@ func TestGetSlug(t *testing.T) {
 	for i, testCase := range slugWrappers {
 		{
 			// Arrange
-			testCaseMessage := fmt.Sprintf("[getWindowsBuild] inputs (%s, %s) expects (%s)", testCase.inputPath, testCase.inputSeparator, testCase.expectedMessage)
+			testCaseMessage := fmt.Sprintf("[getWindowsBuild] inputs (%s, %v) expects (%s)", testCase.inputPath, testCase.inputSeparator, testCase.expectedMessage)
 
 			Convey(testCaseMessage, t, func() {
 				// Act

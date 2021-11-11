@@ -46,8 +46,8 @@ func changeOwnershipWindowsRecursive(path, userName, groupName string) *errorwra
 	})
 
 	if err != nil {
-		return errnew.NewPtr(errtype.ChmodApplyFailed, err)
+		return errnew.Type.Error(errtype.ChmodApplyFailed, err)
 	}
 
-	return errnew.EmptyPtr
+	return nil
 }

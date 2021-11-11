@@ -6,6 +6,7 @@ import (
 )
 
 func InstallAria() *errorwrapper.Wrapper {
-	return errcmd.BashArgsErrorWrapper(
+	return errcmd.
+		New.BashScript.ArgsErr(
 		installAriaBash)
 }

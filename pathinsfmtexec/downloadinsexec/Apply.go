@@ -3,18 +3,16 @@ package downloadinsexec
 import (
 	"gitlab.com/evatix-go/errorwrapper"
 	"gitlab.com/evatix-go/errorwrapper/errcmd"
-	"gitlab.com/evatix-go/errorwrapper/errnew"
-
 	"gitlab.com/evatix-go/pathhelper/pathinsfmt"
 )
 
 func Apply(download *pathinsfmt.Download) *errorwrapper.Wrapper {
 	if download == nil {
-		return errnew.EmptyPtr
+		return nil
 	}
 
 	if download.IsSkipOnExist && download.PathStat().IsExist {
-		return errnew.EmptyPtr
+		return nil
 	}
 
 	createErr := download.
@@ -28,7 +26,7 @@ func Apply(download *pathinsfmt.Download) *errorwrapper.Wrapper {
 	bashCommandArg := aria2cBashCommandArg(download)
 
 	scriptRunningErr := errcmd.
-		BashScriptsErrorWrapper(bashCommandArg)
+		New.BashScript.ArgsErr(bashCommandArg)
 
 	if scriptRunningErr.HasError() {
 		return scriptRunningErr

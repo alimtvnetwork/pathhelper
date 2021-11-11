@@ -7,7 +7,8 @@ import (
 )
 
 func LinuxTouchFile(fullPath string) *errorwrapper.Wrapper {
-	return errcmd.BashArgsErrorWrapper(
+	return errcmd.
+		New.BashScript.ArgsErr(
 		cmdprefix.Touch,
 		fullPath,
 	)

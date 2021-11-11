@@ -3,7 +3,6 @@ package fileinfo
 import (
 	"gitlab.com/evatix-go/core/coreutils/stringutil"
 	"gitlab.com/evatix-go/errorwrapper"
-	"gitlab.com/evatix-go/errorwrapper/errnew"
 )
 
 type FileNamesCollection struct {
@@ -20,7 +19,7 @@ func NewFileNames(rootPath string, capacity int) *FileNamesCollection {
 	return &FileNamesCollection{
 		RootPath:       rootPath,
 		names:          paths,
-		Error:          errnew.EmptyPtr,
+		Error:          nil,
 		parentWrappers: nil,
 	}
 }
@@ -30,7 +29,7 @@ func NewFileNamesUsingWrappers(wrappers *Wrappers) *FileNamesCollection {
 		return &FileNamesCollection{
 			RootPath:       "",
 			names:          nil,
-			Error:          errnew.EmptyPtr,
+			Error:          nil,
 			parentWrappers: wrappers,
 		}
 	}

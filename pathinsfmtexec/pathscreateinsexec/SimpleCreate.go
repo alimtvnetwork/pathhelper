@@ -4,7 +4,6 @@ import (
 	"os"
 
 	"gitlab.com/evatix-go/errorwrapper"
-	"gitlab.com/evatix-go/errorwrapper/errnew"
 	"gitlab.com/evatix-go/pathhelper/createpath"
 	"gitlab.com/evatix-go/pathhelper/deletepaths"
 	"gitlab.com/evatix-go/pathhelper/pathchmod"
@@ -43,5 +42,5 @@ func SimpleCreate(
 			userGroupName.GroupName)
 	}
 
-	return file, errnew.EmptyPtr
+	return file, nil
 }

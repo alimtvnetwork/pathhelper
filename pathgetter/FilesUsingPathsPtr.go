@@ -14,10 +14,10 @@ func FilesUsingPathsPtr(
 	separator string,
 	exploringPaths []string,
 ) *errstr.Results {
-	length := corestr.LengthOfStrings(exploringPaths)
+	length := len(exploringPaths)
 
 	if length == 0 {
-		return errstr.EmptyResults()
+		return errstr.Empty.Results()
 	}
 
 	if length == 1 {
@@ -32,7 +32,7 @@ func FilesUsingPathsPtr(
 	}
 
 	linkedCollections :=
-		corestr.NewLinkedCollections()
+		corestr.Empty.LinkedCollections()
 	wg := &sync.WaitGroup{}
 	wg.Add(length)
 	errWrappers := errwrappers.NewCap2()
@@ -53,8 +53,9 @@ func FilesUsingPathsPtr(
 
 		linkedCollections.AddStringsPtrAsync(
 			wg,
+			false,
 			allPaths.SafeValuesPtr(),
-			false)
+		)
 	}
 
 	wg.Wait()

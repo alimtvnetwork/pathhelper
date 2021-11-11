@@ -34,7 +34,9 @@ func ChmodLinuxCmdApply(
 				currentPath)
 
 			errWp := errcmd.
-				BashArgsErrorWrapper(command)
+				New.
+				BashScript.
+				ArgsErr(command)
 
 			if errWp.HasError() {
 				return errCollection.AddWrapperPtr(errWp)
@@ -46,12 +48,13 @@ func ChmodLinuxCmdApply(
 
 	for _, currentPath := range paths {
 		command := errcmd.ArgsJoin(chmodPrefix, currentPath)
-		compiledResult := errcmd.
-			BashScripts(command).
-			CompiledResult()
+		errorWrapper := errcmd.
+			New.
+			BashScript.
+			LinesResult(command).
+			ErrorWrapper()
 
-		errCollection.AddWrapperPtr(
-			compiledResult.ErrorWrapper())
+		errCollection.AddWrapperPtr(errorWrapper)
 	}
 
 	return errCollection

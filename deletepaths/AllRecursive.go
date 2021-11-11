@@ -2,12 +2,11 @@ package deletepaths
 
 import (
 	"gitlab.com/evatix-go/errorwrapper"
-	"gitlab.com/evatix-go/errorwrapper/errnew"
 )
 
 func AllRecursive(locations []string) *errorwrapper.Wrapper {
 	if len(locations) == 0 {
-		return errnew.EmptyPtr
+		return nil
 	}
 
 	for _, location := range locations {
@@ -18,5 +17,5 @@ func AllRecursive(locations []string) *errorwrapper.Wrapper {
 		}
 	}
 
-	return errnew.EmptyPtr
+	return nil
 }

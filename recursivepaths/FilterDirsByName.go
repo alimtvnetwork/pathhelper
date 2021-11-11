@@ -12,10 +12,10 @@ func FilterDirsByName(
 	acceptingDirNames ...string,
 ) *errstr.Results {
 	if len(acceptingDirNames) == 0 {
-		return errstr.EmptyResults()
+		return errstr.Empty.Results()
 	}
 
-	hashset := corestr.NewHashsetUsingStrings(&acceptingDirNames)
+	hashset := corestr.New.Hashset.StringsPtr(&acceptingDirNames)
 	dirNameFilterFunc := func(fullPath string) (isTake bool, err error) {
 		dirName := splitinternal.GetName(fullPath)
 

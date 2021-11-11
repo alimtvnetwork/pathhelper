@@ -18,8 +18,10 @@ func CreateDirectoryAll(
 		return nil
 	}
 
-	return errnew.Path(
-		errtype.CreateDirectoryFailed,
-		err,
-		location)
+	return errnew.
+		Path.
+		Error(
+			errtype.CreateDirectoryFailed,
+			err,
+			location)
 }

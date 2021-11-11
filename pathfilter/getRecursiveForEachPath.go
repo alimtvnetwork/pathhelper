@@ -22,7 +22,7 @@ func getRecursiveForEachPath(
 			eachPathExtWrapper.IsFile()
 
 	if isPossibilityOfMatchingExtensionAndFile {
-		return errstr.EmptyErrorResults(eachPath)
+		return errstr.New.Results.SpreadValuesOnly(eachPath)
 	}
 
 	isMatchesWithAnyExtension :=
@@ -32,7 +32,7 @@ func getRecursiveForEachPath(
 				filter.ExtensionsLength())
 
 	if isMatchesWithAnyExtension {
-		return errstr.EmptyErrorResults(eachPath)
+		return errstr.New.Results.SpreadValuesOnly(eachPath)
 	}
 
 	// get all files in the dir.
@@ -59,16 +59,16 @@ func getRecursiveForEachPath(
 		return files
 	}
 
-	collection := corestr.NewCollectionUsingStrings(
+	collection := corestr.New.Collection.Strings(
 		files.Values,
-		false)
+	)
 
 	results := getFilteredFilesByExtensions(
 		collection,
 		filter)
 
 	return &errstr.Results{
-		Values:       *results,
+		Values:       results,
 		ErrorWrapper: files.ErrorWrapper,
 	}
 }

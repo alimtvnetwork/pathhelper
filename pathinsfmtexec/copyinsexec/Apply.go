@@ -2,14 +2,13 @@ package copyinsexec
 
 import (
 	"gitlab.com/evatix-go/errorwrapper"
-	"gitlab.com/evatix-go/errorwrapper/errnew"
 	"gitlab.com/evatix-go/pathhelper/pathinsfmt"
 	"gitlab.com/evatix-go/pathhelper/pathinsfmtexec/pathmodifier"
 )
 
 func Apply(copyPath *pathinsfmt.CopyPath) *errorwrapper.Wrapper {
 	if copyPath == nil {
-		return errnew.EmptyPtr
+		return nil
 	}
 
 	copyErr := copyPath.LazyCopier().Copy()
@@ -24,5 +23,5 @@ func Apply(copyPath *pathinsfmt.CopyPath) *errorwrapper.Wrapper {
 			copyPath.DestinationFixedPath())
 	}
 
-	return errnew.EmptyPtr
+	return nil
 }

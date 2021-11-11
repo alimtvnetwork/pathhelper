@@ -15,10 +15,12 @@ func CreateParentDirWithChmodChown(srcPath string, dstPath string) *errorwrapper
 	srcBaseDirInfo, err := os.Stat(srcDir)
 
 	if IsNotPathExistsUsing(srcBaseDirInfo, err) {
-		return errnew.Path(
-			errtype.Copy,
-			err,
-			srcDir)
+		return errnew.
+			Path.
+			Error(
+				errtype.Copy,
+				err,
+				srcDir)
 	}
 
 	dstParentDir := filepath.Dir(dstPath)

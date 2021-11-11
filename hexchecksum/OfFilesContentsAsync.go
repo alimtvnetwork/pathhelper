@@ -13,7 +13,7 @@ func OfFilesContentsAsync(
 ) *errstr.Result {
 	length := len(filesPaths)
 	if length == 0 {
-		return errstr.Empty()
+		return errstr.Empty.Result()
 	}
 
 	sortIf(isSortFileName, filesPaths)
@@ -23,7 +23,7 @@ func OfFilesContentsAsync(
 		filesPaths...)
 
 	if eachFilesChecksum.HasError() {
-		return errstr.ErrorWrapper(eachFilesChecksum.ErrorWrapper)
+		return errstr.New.Result.ErrorWrapper(eachFilesChecksum.ErrorWrapper)
 	}
 
 	checkSumValuesSlice := eachFilesChecksum.SafeValues()

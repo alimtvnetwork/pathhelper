@@ -20,7 +20,11 @@ func getFilesForEachPath(
 			eachPathExtWrapper.IsFile()
 
 	if isPossibilityOfMatchingExtensionAndFile {
-		return errstr.EmptyErrorResults(eachPath)
+		return errstr.
+			New.
+			Results.
+			SpreadValuesOnly(
+				eachPath)
 	}
 
 	isMatchesWithAnyExtension :=
@@ -30,7 +34,7 @@ func getFilesForEachPath(
 				filter.ExtensionsLength())
 
 	if isMatchesWithAnyExtension {
-		return errstr.EmptyErrorResults(eachPath)
+		return errstr.New.Results.SpreadValuesOnly(eachPath)
 	}
 
 	// get all files in the dir.
@@ -59,13 +63,13 @@ func getFilesForEachPath(
 		return files
 	}
 
-	collection := corestr.NewCollectionUsingStrings(
+	collection := corestr.New.Collection.Strings(
 		files.Values,
-		false)
+	)
 
 	results := getFilteredFilesByExtensions(
 		collection,
 		filter)
 
-	return errstr.EmptyErrorResults(*results...)
+	return errstr.New.Results.Strings(results)
 }

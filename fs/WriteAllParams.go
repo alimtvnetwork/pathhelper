@@ -19,11 +19,11 @@ func WriteAllParams(
 	contents []byte,
 ) *errorwrapper.Wrapper {
 	if isSkipOnNilObject && contents == nil {
-		return errnew.EmptyPtr
+		return nil
 	}
 
 	if contents == nil {
-		return errnew.MessagesPtr(
+		return errnew.Messages.Many(
 			errtype.NullOrEmptyReference,
 			"Cannot write nil contents (bytes) to the file.",
 			filePath)
@@ -43,7 +43,7 @@ func WriteAllParams(
 	}
 
 	// new
-	createDirErr := errnew.EmptyPtr
+	var createDirErr *errorwrapper.Wrapper
 	if isCreateParentDir {
 		createDirErr = createdir.AllUptoParent(filePath, dirCreateMod)
 	}

@@ -16,8 +16,10 @@ func MoveFile(srcPath, dstPath string) *errorwrapper.Wrapper {
 		return nil
 	}
 
-	return errnew.Path(
-		errtype.PathMove,
-		err,
-		srcPath)
+	return errnew.
+		Path.
+		Error(
+			errtype.PathMove,
+			err,
+			srcPath)
 }

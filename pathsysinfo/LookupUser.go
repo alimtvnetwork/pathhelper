@@ -5,7 +5,6 @@ import (
 
 	"gitlab.com/evatix-go/core/codestack"
 	"gitlab.com/evatix-go/errorwrapper"
-	"gitlab.com/evatix-go/errorwrapper/errnew"
 	"gitlab.com/evatix-go/errorwrapper/errtype"
 )
 
@@ -21,5 +20,5 @@ func LookupUser(userName string) (userResult *user.User, errorWrapper *errorwrap
 			userName)
 	}
 
-	return userObj, errnew.EmptyPtr
+	return userObj, nil
 }

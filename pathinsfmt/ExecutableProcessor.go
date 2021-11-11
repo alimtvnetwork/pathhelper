@@ -33,7 +33,6 @@ func (e *ExecutableProcessor) GetExecuteOutputByExecuting(
 		CmdOnce:             cmdOnce,
 		ConsoleResult:       cmdOnce.CompiledResult(),
 		ExecutableProcessor: e,
-		CustomMessage:       cmdOnce.CustomMessage,
 	}
 
 	if e.IsDisplayToConsole {
@@ -81,15 +80,11 @@ func (e *ExecutableProcessor) CreateCmdOnce() *errcmd.CmdOnce {
 		argsCompiled)
 	hasOutput := e.IsDisplayToConsole || e.IsWriteToFile
 
-	cmdOnce := errcmd.NewCmdOnceUsingScriptType(
+	cmdOnce := errcmd.New.Script.Args(
 		hasOutput,
-		e.IsSecure, e.ScriptType,
+		e.IsSecure,
+		e.ScriptType,
 		script)
-
-	cmdOnce.CustomMessage = &errcmd.CustomMessage{
-		Success: e.SuccessMessage,
-		Failed:  e.FailedMessage,
-	}
 
 	return cmdOnce
 }

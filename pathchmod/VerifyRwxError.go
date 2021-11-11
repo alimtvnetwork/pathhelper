@@ -17,20 +17,22 @@ func VerifyRwxErrorLocations(
 	locations []string,
 ) *errorwrapper.Wrapper {
 	if len(locations) == 0 || instruction == nil {
-		return errnew.EmptyPtr
+		return nil
 	}
 
 	executor, err := chmodhelper.
 		ParseRwxInstructionToExecutor(instruction)
 
 	if err != nil {
-		return errnew.Path(
-			errtype.ChmodInvalid,
-			err,
-			strings.Join(locations, constants.CommaSpace))
+		return errnew.
+			Path.
+			Error(
+				errtype.ChmodInvalid,
+				err,
+				strings.Join(locations, constants.CommaSpace))
 	}
 
 	err2 := executor.VerifyRwxModifiers(isRecursiveErrorIgnore, locations)
 
-	return errnew.NewPtr(errtype.ChmodMismatch, err2)
+	return errnew.Type.Error(errtype.ChmodMismatch, err2)
 }

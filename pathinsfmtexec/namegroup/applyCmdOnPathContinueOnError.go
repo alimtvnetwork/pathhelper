@@ -13,7 +13,7 @@ func applyCmdOnPathContinueOnError(
 	cmdPrefix string,
 	paths []string,
 ) *errorwrapper.Wrapper {
-	pathIssues := corestr.NewCollection(constants.Zero)
+	pathIssues := corestr.New.Collection.Cap(constants.Zero)
 
 	for _, currentPath := range paths {
 		if currentPath == "" {
@@ -27,7 +27,8 @@ func applyCmdOnPathContinueOnError(
 			constants.Space +
 			currentPath
 
-		errWrapper := errcmd.BashArgsErrorWrapper(pathCmd)
+		errWrapper := errcmd.
+			New.BashScript.ArgsErr(pathCmd)
 
 		if errWrapper.HasError() {
 			pathIssues.Add(pathCmd + " -- failed")
@@ -35,10 +36,10 @@ func applyCmdOnPathContinueOnError(
 	}
 
 	if pathIssues.IsEmpty() {
-		return errnew.EmptyPtr
+		return nil
 	}
 
-	return errnew.MessagesPtr(
+	return errnew.Messages.Many(
 		errtype.PathRelatedIssue,
 		"Failed to execute cmd prefix :"+cmdPrefix,
 		pathIssues.Join(constants.CommaSpace))

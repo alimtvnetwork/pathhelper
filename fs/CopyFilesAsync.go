@@ -15,7 +15,7 @@ func CopyFilesAsync(
 	sourceToDestination map[string]string,
 ) *errorwrapper.Wrapper {
 	if len(sourceToDestination) == 0 {
-		return errnew.EmptyPtr
+		return nil
 	}
 
 	locker := sync.Mutex{}
@@ -61,8 +61,10 @@ func CopyFilesAsync(
 		return nil
 	}
 
-	return errnew.Path(
-		errtype.Copy,
-		err,
-		constants.EmptyString)
+	return errnew.
+		Path.
+		Error(
+			errtype.Copy,
+			err,
+			constants.EmptyString)
 }

@@ -29,7 +29,7 @@ func CopySameRootFilesUsingRootReplaceAsync(
 	destinationRootPath string,
 ) *errorwrapper.Wrapper {
 	if len(sourcePaths) == 0 {
-		return errnew.EmptyPtr
+		return nil
 	}
 
 	deleteErr := deletepaths.RecursiveOnExistIf(
@@ -104,8 +104,10 @@ func CopySameRootFilesUsingRootReplaceAsync(
 		return nil
 	}
 
-	return errnew.Path(
-		errtype.Copy,
-		err,
-		constants.EmptyString)
+	return errnew.
+		Path.
+		Error(
+			errtype.Copy,
+			err,
+			constants.EmptyString)
 }

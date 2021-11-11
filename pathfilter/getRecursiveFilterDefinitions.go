@@ -10,7 +10,7 @@ func getRecursiveFilterDefinitions(
 	arg *recursiveFilterGetterParam,
 ) []string {
 	linkedCollection :=
-		corestr.NewLinkedCollections()
+		corestr.Empty.LinkedCollections()
 	wg := &sync.WaitGroup{}
 	wg.Add(arg.additionalFiltersLength)
 
@@ -26,8 +26,9 @@ func getRecursiveFilterDefinitions(
 
 		linkedCollection.AddStringsPtrAsync(
 			wg,
+			false,
 			&newFilters,
-			false)
+		)
 	}
 
 	wg.Wait()

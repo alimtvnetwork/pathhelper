@@ -16,11 +16,13 @@ func ExistingRwxWrapperWithError(location string) *RwxWrapperWithError {
 
 	rwxWrapper, err := chmodhelper.GetExistingChmodRwxWrapperPtr(location)
 	if err != nil {
-		pathErr := errnew.PathMessages(
-			errtype.File,
-			location,
-			"ExistingRwxWrapperWithError",
-			err.Error())
+		pathErr := errnew.
+			Path.
+			Messages(
+				errtype.File,
+				location,
+				"ExistingRwxWrapperWithError",
+				err.Error())
 
 		return &RwxWrapperWithError{
 			RwxWrapper: nil,
@@ -30,6 +32,6 @@ func ExistingRwxWrapperWithError(location string) *RwxWrapperWithError {
 
 	return &RwxWrapperWithError{
 		RwxWrapper: rwxWrapper,
-		ErrWrapper: errnew.EmptyPtr,
+		ErrWrapper: nil,
 	}
 }

@@ -12,7 +12,7 @@ func SetEnv(variable, value string) *errorwrapper.Wrapper {
 	err := os.Setenv(variable, value)
 
 	if err != nil {
-		return errnew.MessagesPtr(
+		return errnew.Messages.Many(
 			errtype.EditFailed,
 			"Failed add or update env variable.",
 			"Variable, Value : ",
@@ -20,5 +20,5 @@ func SetEnv(variable, value string) *errorwrapper.Wrapper {
 			value)
 	}
 
-	return errnew.EmptyPtr
+	return nil
 }

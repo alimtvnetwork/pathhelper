@@ -11,12 +11,12 @@ import (
 
 func downloadChecksumVerify(download *pathinsfmt.Download) *errorwrapper.Wrapper {
 	if download.ChecksumVerify == constants.EmptyString {
-		return errnew.EmptyPtr
+		return nil
 	}
 
 	downloadPath := download.FullPath()
 	if downloadPath == constants.EmptyString {
-		return errnew.MessagesPtr(
+		return errnew.Messages.Many(
 			errtype.CheckSum,
 			"checksum cannot be verified, file :"+
 				downloadPath+
@@ -30,7 +30,7 @@ func downloadChecksumVerify(download *pathinsfmt.Download) *errorwrapper.Wrapper
 	}
 
 	if hashedStrResult.Value != download.ChecksumVerify {
-		return errnew.MessagesPtr(
+		return errnew.Messages.Many(
 			errtype.CheckSum,
 			"checksum mismatch -> file : "+
 				downloadPath+
@@ -39,5 +39,5 @@ func downloadChecksumVerify(download *pathinsfmt.Download) *errorwrapper.Wrapper
 		)
 	}
 
-	return errnew.EmptyPtr
+	return nil
 }

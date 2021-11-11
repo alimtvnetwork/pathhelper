@@ -10,7 +10,7 @@ import (
 func getFilteredFilesByExtensions(
 	collection *corestr.Collection,
 	filter *Query,
-) *[]string {
+) []string {
 	return collection.Filter(
 		func(currentFilePath string, index int) (
 			finalCurrentPath string,

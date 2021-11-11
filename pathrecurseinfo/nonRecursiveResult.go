@@ -20,9 +20,11 @@ func nonRecursiveResult(
 ) *Result {
 	fileInfos, err := ioutil.ReadDir(normalizedRoot)
 	if err != nil {
-		errW := errnew.PathMessages(
-			errtype.PathExpand,
-			normalizedRoot)
+		errW := errnew.
+			Path.
+			Messages(
+				errtype.PathExpand,
+				normalizedRoot)
 
 		return InvalidResult(
 			normalizedRoot,
@@ -42,13 +44,13 @@ func nonRecursiveResult(
 			PathStat:        stat,
 			IsInvalidResult: false,
 			PathsResult: &PathsResult{
-				ExpandingPaths: corestr.EmptySimpleSlice(),
+				ExpandingPaths: corestr.Empty.SimpleSlice(),
 				IsExist:        true,
 				IsFile:         false,
 				IsDir:          true,
 			},
 			IsRelative:   instruction.IsRelativePath,
-			ErrorWrapper: errnew.EmptyPtr,
+			ErrorWrapper: nil,
 		}
 	}
 
@@ -109,12 +111,12 @@ func nonRecursiveResult(
 		PathStat:        stat,
 		IsInvalidResult: !stat.IsExist,
 		PathsResult: &PathsResult{
-			ExpandingPaths: corestr.NewSimpleSliceUsing(false, paths...),
+			ExpandingPaths: corestr.New.SimpleSlice.Strings(paths),
 			IsExist:        true,
 			IsFile:         false,
 			IsDir:          true,
 		},
 		IsRelative:   instruction.IsRelativePath,
-		ErrorWrapper: errnew.EmptyPtr,
+		ErrorWrapper: nil,
 	}
 }

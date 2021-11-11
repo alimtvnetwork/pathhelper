@@ -23,13 +23,15 @@ func JsonReadUnmarshal(
 		unmarshallObjectRef)
 
 	if err != nil {
-		return errnew.PathMessages(
-			errtype.Unmarshalling,
-			filePath,
-			err.Error(),
-			"Contents:\n",
-			readContents.String())
+		return errnew.
+			Path.
+			Messages(
+				errtype.Unmarshalling,
+				filePath,
+				err.Error(),
+				"Contents:\n",
+				readContents.String())
 	}
 
-	return errnew.EmptyPtr
+	return nil
 }

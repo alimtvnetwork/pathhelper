@@ -15,11 +15,13 @@ func ExistingChmodWithError(location string) *ChmodWithError {
 
 	chmod, err := chmodhelper.GetExistingChmod(location)
 	if err != nil {
-		pathErr := errnew.PathMessages(
-			errtype.File,
-			location,
-			"ExistingChmodWithError",
-			err.Error())
+		pathErr := errnew.
+			Path.
+			Messages(
+				errtype.File,
+				location,
+				"ExistingChmodWithError",
+				err.Error())
 
 		return &ChmodWithError{
 			Chmod:      0,
@@ -29,6 +31,6 @@ func ExistingChmodWithError(location string) *ChmodWithError {
 
 	return &ChmodWithError{
 		Chmod:      chmod,
-		ErrWrapper: errnew.EmptyPtr,
+		ErrWrapper: nil,
 	}
 }

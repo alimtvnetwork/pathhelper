@@ -1,5 +1,5 @@
 package unipaths
 
 const (
-	nonFinalizePathsCannotBeRetrievedMessage = "Non finalized paths cannot be retrieved."
+	nonFinalizePathsCannotBeRetrievedMessage = "non finalized paths cannot be retrieved"
 )
