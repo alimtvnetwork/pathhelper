@@ -21,8 +21,8 @@ func Get(
 ) *errstr.ResultsWithErrorCollection {
 	if filter == nil {
 		return errstr.
-			NewResultsWithErrorCollectionUsingTypePtr(
-				errtype.NullOrEmptyReference)
+			New.ResultsWithErrorCollection.ErrorType(
+			errtype.NullOrEmptyReference)
 	}
 
 	if filter.ExtensionsLength() == 0 {
@@ -49,7 +49,8 @@ func Get(
 	}
 
 	linkedCollections := corestr.
-		NewLinkedCollections()
+		Empty.
+		LinkedCollections()
 	wg := &sync.WaitGroup{}
 	wg.Add(filterLength)
 	errWrappers := errwrappers.NewCap2()
@@ -65,22 +66,23 @@ func Get(
 			filter)
 
 		if results.HasError() {
-			errWrappers.AddCollections(
-				results.ErrorWrappers)
+			errWrappers.AddWrapperPtr(
+				results.ErrorWrapper)
 			wg.Done()
 			continue
 		}
 
 		linkedCollections.AddStringsPtrAsync(
 			wg,
-			results.Values,
-			false)
+			false,
+			results.SafeValuesPtr(),
+		)
 	}
 
 	wg.Wait()
 
 	return &errstr.ResultsWithErrorCollection{
-		Values:        linkedCollections.ListPtr(),
+		Values:        *linkedCollections.ListPtr(),
 		ErrorWrappers: errWrappers,
 	}
 }
