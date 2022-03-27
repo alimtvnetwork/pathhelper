@@ -2,7 +2,7 @@ package knowndir
 
 import (
 	"gitlab.com/evatix-go/core/constants"
-	"gitlab.com/evatix-go/core/osarchs"
+	"gitlab.com/evatix-go/enum/osarchs"
 	"gitlab.com/evatix-go/core/osconsts"
 	"gitlab.com/evatix-go/core/ostype"
 	"gitlab.com/evatix-go/errorwrapper"

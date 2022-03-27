@@ -19,7 +19,7 @@ func main() {
 	//
 	// sha1 := hashas.Sha1
 	//
-	// rs := sha1.HexOfJsonResult(corejson.NewFromAny(samplePath2))
+	// rs := sha1.HexOfJsonResult(corejson.New(samplePath2))
 	//
 	// fmt.Println(rs.Value)
 	//

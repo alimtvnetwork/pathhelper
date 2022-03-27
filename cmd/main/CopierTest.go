@@ -15,7 +15,7 @@ func CopierTest() {
 	srcDir := filepath.Join(filepath.Dir(b), "..", "..")
 	fmt.Println("to", tmpDir)
 	fmt.Println("from", srcDir)
-	errW := copyrecursive.NewCopier(
+	errWrap := copyrecursive.NewCopier(
 		srcDir, tmpDir, copyrecursive.Options{
 			IsSkipOnExist:      false,
 			IsRecursive:        false,
@@ -25,5 +25,5 @@ func CopierTest() {
 		},
 	).Copy()
 
-	errW.HandleError()
+	errWrap.HandleError()
 }

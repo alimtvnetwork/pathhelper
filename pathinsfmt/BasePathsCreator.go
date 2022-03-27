@@ -249,5 +249,5 @@ func (it *BasePathsCreator) GetFilesInfoMap(
 	return chmodhelper.
 		GetExistsFilteredPathFileInfoMap(
 			isSkipOnInvalid,
-			*files)
+			*files...)
 }

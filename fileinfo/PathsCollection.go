@@ -300,18 +300,18 @@ func (it *PathsCollection) JsonModelAny() interface{} {
 }
 
 func (it PathsCollection) Json() corejson.Result {
-	return corejson.NewFromAny(it)
+	return corejson.New(it)
 }
 
 func (it PathsCollection) JsonPtr() *corejson.Result {
-	return corejson.NewFromAnyPtr(it)
+	return corejson.NewPtr(it)
 }
 
 func (it *PathsCollection) ParseInjectUsingJson(
 	jsonResult *corejson.Result,
 ) (*PathsCollection, error) {
 	if jsonResult == nil || jsonResult.IsEmptyJsonBytes() {
-		return nil, defaulterr.UnMarshallingFailedDueToNilOrEmpty
+		return nil, defaulterr.UnmarshallingFailedDueToNilOrEmpty
 	}
 
 	err := json.Unmarshal(jsonResult.Bytes, &it)

@@ -35,12 +35,12 @@ func ApplyPathsCreatorUsingErrorCollection(
 
 	// paths create
 	if pathsCreator.HasRwx() {
-		fileMode, errWp := pathchmod.ParseRwxOwnerGroupOtherToFileMode(
+		fileMode, errWrap := pathchmod.ParseRwxOwnerGroupOtherToFileMode(
 			pathsCreator.ApplyRwx)
 
-		errorCollection.AddWrapperPtr(errWp)
+		errorCollection.AddWrapperPtr(errWrap)
 
-		if errWp.HasError() {
+		if errWrap.HasError() {
 			return false
 		}
 
@@ -73,13 +73,13 @@ func ApplyPathsCreatorUsingErrorCollection(
 
 	// apply groups
 	if pathsCreator.HasUserGroup() && osconsts.IsUnixGroup {
-		errWp := namegroup.Apply(
+		errWrap := namegroup.Apply(
 			true,
 			false,
 			pathsCreator.ApplyUserGroup,
 			pathsCreator.RootDir)
 
-		errorCollection.AddWrapperPtr(errWp)
+		errorCollection.AddWrapperPtr(errWrap)
 	}
 
 	return errCount == errorCollection.Length()

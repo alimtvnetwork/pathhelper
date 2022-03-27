@@ -8,9 +8,9 @@ import (
 )
 
 func fileStateTest01() {
-	info, errWp := filestate.NewInfoDefault(pathsconst.RootDir)
+	info, errWrap := filestate.NewInfoDefault(pathsconst.RootDir)
 
-	errWp.HandleError()
+	errWrap.HandleError()
 
 	fmt.Println(info.String())
 }

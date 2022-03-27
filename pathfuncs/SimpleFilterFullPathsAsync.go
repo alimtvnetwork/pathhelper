@@ -99,13 +99,13 @@ func SimpleFilterFullPathsAsync(
 		errSlice)
 
 	if err != nil {
-		errWp := errnew.Type.Error(
+		errWrap := errnew.Type.Error(
 			errtype.PathIssue,
 			err,
 		)
 
 		return errstr.New.Results.Create(
-			errWp,
+			errWrap,
 			finalItems)
 	}
 

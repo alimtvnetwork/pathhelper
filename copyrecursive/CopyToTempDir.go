@@ -22,7 +22,7 @@ func CopyToTempDir(root string) (string, *errorwrapper.Wrapper) {
 			errtype.Copy, err, root)
 	}
 
-	errW := NewCopier(root, tmpRoot, Options{
+	errWrap := NewCopier(root, tmpRoot, Options{
 		IsSkipOnExist:      false,
 		IsRecursive:        true,
 		IsClearDestination: false,
@@ -31,5 +31,5 @@ func CopyToTempDir(root string) (string, *errorwrapper.Wrapper) {
 		IsExpandVar:        false,
 	}).Copy()
 
-	return tmpRoot, errW
+	return tmpRoot, errWrap
 }

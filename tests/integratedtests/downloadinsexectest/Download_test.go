@@ -6,6 +6,7 @@ import (
 	"testing"
 
 	"github.com/smartystreets/goconvey/convey"
+	"gitlab.com/evatix-go/core/coretests"
 
 	"gitlab.com/evatix-go/pathhelper/fs"
 	"gitlab.com/evatix-go/pathhelper/pathinsfmt"
@@ -13,7 +14,9 @@ import (
 )
 
 func Test_Download(t *testing.T) {
-	// 0. Setup
+	coretests.SkipOnWindows(t)
+
+	// Arrange
 	tempFile, buff := createTempFile(t)
 
 	// spin up the server
@@ -23,12 +26,14 @@ func Test_Download(t *testing.T) {
 
 	defer ts.Close()
 
+	// Act
 	download := pathinsfmt.NewDownload(ts.URL, filePath)
-	errW := downloadinsexec.Apply(download)
-	errW.HandleError()
+	errWrap := downloadinsexec.Apply(download)
+	errWrap.HandleError()
 
+	// Assert
 	convey.Convey("Download ErrorWrapper Should Return False", t, func() {
-		convey.So(errW.HasError(), convey.ShouldBeFalse)
+		convey.So(errWrap.HasError(), convey.ShouldBeFalse)
 	})
 
 	convey.Convey("Download Content Should Resemble Temp Content", t, func() {

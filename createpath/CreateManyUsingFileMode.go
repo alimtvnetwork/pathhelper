@@ -34,14 +34,14 @@ func CreateManyUsingFileMode(
 				continue
 			}
 
-			file, errWp := CreateSingleUsingFileMode(
+			file, errWrap := CreateSingleUsingFileMode(
 				false,
 				mode,
 				filePath,
 			)
 
-			if errWp.HasError() {
-				return slice, errWp
+			if errWrap.HasError() {
+				return slice, errWrap
 			}
 
 			slice = append(slice, file)
@@ -52,14 +52,14 @@ func CreateManyUsingFileMode(
 
 	// no checking create
 	for _, filePath := range files {
-		file, errWp := CreateSingleUsingFileMode(
+		file, errWrap := CreateSingleUsingFileMode(
 			false,
 			mode,
 			filePath,
 		)
 
-		if errWp.HasError() {
-			return slice, errWp
+		if errWrap.HasError() {
+			return slice, errWrap
 		}
 
 		slice = append(slice, file)

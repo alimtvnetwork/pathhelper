@@ -53,15 +53,15 @@ func (it *FilesResult) HasFilesListChecksum() bool {
 }
 
 func (it FilesResult) Json() corejson.Result {
-	return corejson.NewFromAny(it)
+	return corejson.New(it)
 }
 
 func (it FilesResult) JsonPtr() *corejson.Result {
-	return corejson.NewFromAnyPtr(it)
+	return corejson.NewPtr(it)
 }
 
 func (it FilesResult) JsonString() string {
-	return corejson.NewFromAny(it).JsonString()
+	return corejson.New(it).JsonString()
 }
 
 func (it *FilesResult) HasContentsChecksum() bool {

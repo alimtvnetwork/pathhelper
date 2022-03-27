@@ -47,7 +47,7 @@ func SimpleFilterFullPaths(
 	err := errcore.SliceToError(errSlice)
 
 	if err != nil {
-		errWp := errnew.
+		errWrap := errnew.
 			Path.
 			Error(
 				errtype.PathIssue,
@@ -55,7 +55,7 @@ func SimpleFilterFullPaths(
 				"")
 
 		return errstr.New.Results.Create(
-			errWp,
+			errWrap,
 			foundItems)
 	}
 

@@ -90,7 +90,7 @@ func (it *OsFile) ClearFileContents() *errorwrapper.Wrapper {
 
 func (it *OsFile) WriteString(
 	writingString string,
-) (hasWrittenSuccessfully bool, errWp *errorwrapper.Wrapper) {
+) (hasWrittenSuccessfully bool, errWrap *errorwrapper.Wrapper) {
 	writtenLen, writingError := it.OsFile.WriteString(writingString)
 
 	if writingError != nil {
@@ -108,7 +108,7 @@ func (it *OsFile) WriteString(
 
 func (it *OsFile) WriteBytes(
 	writingBytes []byte,
-) (hasWrittenSuccessfully bool, errWp *errorwrapper.Wrapper) {
+) (hasWrittenSuccessfully bool, errWrap *errorwrapper.Wrapper) {
 	writtenLen, writingError := it.OsFile.Write(writingBytes)
 
 	if writingError != nil {

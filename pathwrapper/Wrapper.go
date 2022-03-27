@@ -140,10 +140,10 @@ func (it *Wrapper) GetAllPathsDefault() *errstr.Results {
 
 // GetAllPaths Get all paths on that root path only, no nested or recursive visit.
 func (it *Wrapper) GetAllPaths(separator string) *errstr.Results {
-	fileInfos, errW := it.GetDirFileInfos()
-	if errW.HasError() {
+	fileInfos, errWrap := it.GetDirFileInfos()
+	if errWrap.HasError() {
 		return errstr.New.Results.ErrorWrapper(
-			errW)
+			errWrap)
 	}
 
 	rootPath := it.GetDirectory().Value
@@ -161,10 +161,10 @@ func (it *Wrapper) GetAllPaths(separator string) *errstr.Results {
 
 // GetDirectories Get all directory on that root path only, no nested or recursive visit.
 func (it *Wrapper) GetDirectories(separator string) *errstr.Results {
-	fileInfos, errW := it.GetDirFileInfos()
-	if errW.HasError() {
+	fileInfos, errWrap := it.GetDirFileInfos()
+	if errWrap.HasError() {
 		return errstr.New.Results.ErrorWrapper(
-			errW)
+			errWrap)
 	}
 
 	rootPath := it.GetDirectory().Value
@@ -208,11 +208,11 @@ func (it *Wrapper) GetNestedDirectories(
 	separator string,
 	nesting ...string,
 ) *errstr.Results {
-	fileInfos, errW := it.GetDirFileInfos()
-	if errW.HasError() {
+	fileInfos, errWrap := it.GetDirFileInfos()
+	if errWrap.HasError() {
 		return &errstr.Results{
 			Values:       nil,
-			ErrorWrapper: errW,
+			ErrorWrapper: errWrap,
 		}
 	}
 
@@ -243,10 +243,10 @@ func (it *Wrapper) GetFilesDefault() *errstr.Results {
 
 // GetFiles Get all files on that root path only, no nested or recursive visit.
 func (it *Wrapper) GetFiles(separator string) *errstr.Results {
-	fileInfos, errW := it.GetDirFileInfos()
-	if errW.HasError() {
+	fileInfos, errWrap := it.GetDirFileInfos()
+	if errWrap.HasError() {
 		return errstr.New.Results.ErrorWrapper(
-			errW)
+			errWrap)
 	}
 
 	rootPath := it.

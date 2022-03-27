@@ -199,13 +199,13 @@ func (it *UserGroupId) String() string {
 	}
 
 	if it.HasError() {
-		return errcore.Var3NoType(
+		return errcore.VarThreeNoType(
 			"UserId", it.UserId,
 			"GroupId", it.GroupId,
 			"Error", it.Error)
 	}
 
-	return errcore.Var2NoType(
+	return errcore.VarTwoNoType(
 		"UserId", it.UserId,
 		"GroupId", it.GroupId,
 	)

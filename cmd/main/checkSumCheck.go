@@ -22,6 +22,6 @@ func checkSumCheck() {
 
 	rs := pathsysinfo.GetPathUserGroupId("cmd/main")
 
-	fmt.Println(converters.AnyToFullNameValueString(rs))
+	fmt.Println(converters.Any.ToFullNameValueString(rs))
 	fmt.Println(rs.Error)
 }

@@ -17,9 +17,9 @@ func ApplySymbolicLinksUsingErrorCollection(
 	errCount := errorCollection.Length()
 	if symLinks.IsContinueOnError {
 		for _, symLink := range symLinks.SymbolicLinks {
-			errW := symlink.CreateUsingSymbolicLink(&symLink)
+			errWrap := symlink.CreateUsingSymbolicLink(&symLink)
 
-			errorCollection.AddWrapperPtr(errW)
+			errorCollection.AddWrapperPtr(errWrap)
 		}
 
 		return errorCollection.Length() == errCount
@@ -27,10 +27,10 @@ func ApplySymbolicLinksUsingErrorCollection(
 
 	// immediate exit
 	for _, symLink := range symLinks.SymbolicLinks {
-		errW := symlink.CreateUsingSymbolicLink(&symLink)
+		errWrap := symlink.CreateUsingSymbolicLink(&symLink)
 
-		if errW.HasError() {
-			errorCollection.AddWrapperPtr(errW)
+		if errWrap.HasError() {
+			errorCollection.AddWrapperPtr(errWrap)
 
 			return false
 		}

@@ -4,9 +4,8 @@ import (
 	"os"
 
 	"gitlab.com/evatix-go/errorwrapper"
-	"gitlab.com/evatix-go/errorwrapper/errnew"
-	"gitlab.com/evatix-go/errorwrapper/errtype"
 	"gitlab.com/evatix-go/pathhelper/createdir"
+	"gitlab.com/evatix-go/pathhelper/internal/fsinternal"
 )
 
 func WriteAllParams(
@@ -23,9 +22,7 @@ func WriteAllParams(
 	}
 
 	if contents == nil {
-		return errnew.Messages.Many(
-			errtype.NullOrEmptyReference,
-			"Cannot write nil contents (bytes) to the file.",
+		return fsinternal.NullContentErrorWrap(
 			filePath)
 	}
 

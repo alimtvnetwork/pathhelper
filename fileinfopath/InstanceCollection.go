@@ -882,11 +882,11 @@ func (it *InstanceCollection) JsonModelAny() interface{} {
 }
 
 func (it InstanceCollection) Json() corejson.Result {
-	return corejson.NewFromAny(it)
+	return corejson.New(it)
 }
 
 func (it InstanceCollection) JsonPtr() *corejson.Result {
-	return corejson.NewFromAnyPtr(it)
+	return corejson.NewPtr(it)
 }
 
 func (it *InstanceCollection) ParseInjectUsingJson(

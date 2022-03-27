@@ -134,11 +134,11 @@ func (it *Wrappers) IsNameContains(
 }
 
 func (it Wrappers) Json() corejson.Result {
-	return corejson.NewFromAny(it)
+	return corejson.New(it)
 }
 
 func (it Wrappers) JsonPtr() *corejson.Result {
-	return corejson.NewFromAnyPtr(it)
+	return corejson.NewPtr(it)
 }
 
 func (it *Wrappers) JsonModel() *Wrappers {

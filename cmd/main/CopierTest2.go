@@ -12,10 +12,10 @@ func CopierTest2() {
 	tmpDir, _ := ioutil.TempDir("", "ttt")
 
 	fmt.Println(pathsconst.RootDir)
-	errW := copyrecursive.Do(
+	errWrap := copyrecursive.Do(
 		false,
 		pathsconst.RootDir,
 		tmpDir)
 
-	errW.HandleError()
+	errWrap.HandleError()
 }

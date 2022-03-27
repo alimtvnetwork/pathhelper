@@ -14,7 +14,9 @@ func ApplyLinuxRecursiveChmodOnPathUsingFileMode(
 	rootDir string,
 ) *errorwrapper.Wrapper {
 	fileMode := chmodhelper.
-		NewUsingFileMode(mode)
+		New.
+		RwxWrapper.
+		UsingFileMode(mode)
 
 	chmodErr := fileMode.
 		LinuxApplyRecursive(false, rootDir)

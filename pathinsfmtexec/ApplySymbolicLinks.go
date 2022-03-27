@@ -16,18 +16,18 @@ func ApplySymbolicLinks(symLinks *pathinsfmt.SymbolicLinks) *errorwrapper.Wrappe
 		errCollection := errwrappers.Empty()
 
 		for _, symLink := range symLinks.SymbolicLinks {
-			errW := symlink.CreateUsingSymbolicLink(&symLink)
+			errWrap := symlink.CreateUsingSymbolicLink(&symLink)
 
-			errCollection.AddWrapperPtr(errW)
+			errCollection.AddWrapperPtr(errWrap)
 		}
 
 		return errCollection.GetAsErrorWrapperPtr()
 	}
 
 	for _, symLink := range symLinks.SymbolicLinks {
-		errW := symlink.CreateUsingSymbolicLink(&symLink)
-		if errW.HasError() {
-			return errW
+		errWrap := symlink.CreateUsingSymbolicLink(&symLink)
+		if errWrap.HasError() {
+			return errWrap
 		}
 	}
 

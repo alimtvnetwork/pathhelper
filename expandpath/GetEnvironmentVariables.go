@@ -16,7 +16,7 @@ func GetEnvironmentVariables(
 	}
 
 	envVariableRawKeys :=
-		GetDollarOrPercentSymbolIdentifierEnvInfos(
+		GetDollarOrPercentSymbolIdentifierEnvInfoItems(
 			pathContainsEnvVarStartingDollarSymbol)
 
 	simpleVars := stringslice.MakeLen(len(envVariableRawKeys))

@@ -12,17 +12,17 @@ func GetLocationsRwxWrappers(
 	locations []string,
 ) (
 	filePathToRwxWrapper map[string]*chmodhelper.RwxWrapper,
-	errWp *errorwrapper.Wrapper,
+	errWrap *errorwrapper.Wrapper,
 ) {
 	resultMap, err := chmodhelper.GetExistingChmodRwxWrappers(
 		isContinueOnError, locations...)
 
 	if err != nil {
-		return *resultMap, errnew.Error.Type(
+		return resultMap, errnew.Error.Type(
 			errtype.ExistingChmodReadFailed,
 			err,
 		)
 	}
 
-	return *resultMap, nil
+	return resultMap, nil
 }

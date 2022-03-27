@@ -8,7 +8,7 @@ import (
 func CopyFileContents(
 	srcPath,
 	dstPath string,
-) (errWp *errorwrapper.Wrapper) {
+) (errWrap *errorwrapper.Wrapper) {
 	if srcPath == dstPath {
 		return nil
 	}

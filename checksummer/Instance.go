@@ -7,7 +7,7 @@ import (
 
 	"gitlab.com/evatix-go/core/chmodhelper"
 	"gitlab.com/evatix-go/core/coredata/corestr"
-	"gitlab.com/evatix-go/errorwrapper/errinf"
+	"gitlab.com/evatix-go/errorwrapper"
 	"gitlab.com/evatix-go/errorwrapper/errnew"
 	"gitlab.com/evatix-go/errorwrapper/errtype"
 	"gitlab.com/evatix-go/errorwrapper/errwrappers"
@@ -28,7 +28,7 @@ type Instance struct {
 	singleHash                    *string
 	stringHashes                  *corestr.SimpleSlice
 	hashesHashset                 *corestr.Hashset
-	errinf.ErrWrapper
+	ErrorWrapper                  *errorwrapper.Wrapper
 }
 
 func New(
@@ -57,7 +57,7 @@ func New(
 		root,
 		hashType)
 
-	errWp := errnew.
+	errWrap := errnew.
 		Path.
 		Error(
 			errtype.PathMissingOrInvalid,
@@ -65,12 +65,12 @@ func New(
 			root)
 
 	instance := &Instance{
-		rawHashes:   checkSumMap,
-		rootPath:    root,
-		isRecursive: isRecursive,
-		isFile:      isFile,
-		hashType:    hashType,
-		ErrWrapper:  errWp,
+		rawHashes:    checkSumMap,
+		rootPath:     root,
+		isRecursive:  isRecursive,
+		isFile:       isFile,
+		hashType:     hashType,
+		ErrorWrapper: errWrap,
 	}
 
 	return instance
@@ -103,10 +103,10 @@ func Invalid(
 			root)
 
 	return &Instance{
-		hashType:    hashType,
-		isRecursive: isRecursive,
-		rootPath:    root,
-		ErrWrapper:  pathErr,
+		hashType:     hashType,
+		isRecursive:  isRecursive,
+		rootPath:     root,
+		ErrorWrapper: pathErr,
 	}
 }
 
@@ -196,8 +196,8 @@ func (it *Instance) RawSingleHash() []byte {
 		return it.rawSingleHash
 	}
 
-	hashGen, errW := it.hashType.NewHash()
-	errW.HandleError()
+	hashGen, errWrap := it.hashType.NewHash()
+	errWrap.HandleError()
 
 	for _, rawHash := range it.rawHashes {
 		hashGen.Write(rawHash)
@@ -479,9 +479,9 @@ func (it *Instance) VerifyError(
 			errtype.ValidationMismatch,
 			"Either one of the instance has existing error.",
 			"Source:",
-			it.ErrWrapper.String(),
+			it.ErrorWrapper.String(),
 			"other:",
-			other.ErrWrapper.String())
+			other.ErrorWrapper.String())
 	}
 
 	if len(it.rawHashes) != len(other.rawHashes) {
@@ -519,4 +519,8 @@ func (it *Instance) Length() int {
 
 func (it *Instance) IsEmpty() bool {
 	return it.Length() == 0
+}
+
+func (it *Instance) HasError() bool {
+	return it != nil && it.ErrorWrapper.HasError()
 }

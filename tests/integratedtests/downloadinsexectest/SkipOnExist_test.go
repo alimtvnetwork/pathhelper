@@ -14,7 +14,7 @@ import (
 )
 
 func Test_SkipOnExist(t *testing.T) {
-	// 0. Setup
+	// Arrange
 	tempFile, buff := createTempFile(t)
 
 	// spin up the server
@@ -37,10 +37,12 @@ func Test_SkipOnExist(t *testing.T) {
 		FileModeDir:   consts.DefaultDirectoryFileMode,
 	}
 
-	errW := downloadinsexec.Apply(download)
+	// Act
+	errWrap := downloadinsexec.Apply(download)
 
+	// Assert
 	convey.Convey("Download ErrorWrapper Should Return False", t, func() {
-		convey.So(errW.HasError(), convey.ShouldBeFalse)
+		convey.So(errWrap.HasError(), convey.ShouldBeFalse)
 	})
 
 	convey.Convey("Download Content Should Not Resemble Temp Content", t, func() {

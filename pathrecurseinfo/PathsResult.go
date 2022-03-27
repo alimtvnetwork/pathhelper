@@ -47,7 +47,7 @@ func (it *PathsResult) IsEqualOnlyItems(another *PathsResult) bool {
 		return false
 	}
 
-	return corecmp.StringsEqual(
+	return corecmp.IsStringsEqual(
 		it.ExpandingPaths.Items,
 		another.ExpandingPaths.Items)
 }

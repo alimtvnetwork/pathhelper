@@ -169,10 +169,12 @@ func Test_ApplyPathVerifierErrorsWindows(t *testing.T) {
 			},
 		},
 	}
+
 	errCollection := errwrappers.Empty()
 
 	// Act
-	isSuccess := pathmodifierverify.ApplyVerifier(true,
+	isSuccess := pathmodifierverify.ApplyVerifier(
+		true,
 		true,
 		false,
 		true,

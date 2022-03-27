@@ -13,7 +13,7 @@ import (
 )
 
 func checksumTest04() {
-	files := append(pkgRootFiles(), "/something ewrong")
+	files := append(pkgRootFiles())
 	var detailedResult *hexchecksum.DetailedResult
 	var fileStateMappedInfoItems *filestate.MappedInfoItems
 	errCollection := errwrappers.Empty()

@@ -15,7 +15,7 @@ func OfFilesListIf(
 		return errstr.Empty.Result()
 	}
 
-	jsonResult := corejson.NewFromAnyPtr(files)
+	jsonResult := corejson.NewPtr(files)
 
 	return hashMethod.
 		HexOfJsonResult(jsonResult)

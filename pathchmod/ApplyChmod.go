@@ -15,7 +15,7 @@ func ApplyChmod(
 	changeFileMode os.FileMode,
 	location string,
 ) (*chmodhelper.RwxWrapper, *errorwrapper.Wrapper) {
-	changingChmodRwxWrapper := chmodhelper.NewUsingFileMode(changeFileMode)
+	changingChmodRwxWrapper := chmodhelper.New.RwxWrapper.UsingFileMode(changeFileMode)
 
 	if isRecursive {
 		err := changingChmodRwxWrapper.LinuxApplyRecursive(isSkipOnInvalid, location)

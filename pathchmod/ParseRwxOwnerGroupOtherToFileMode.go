@@ -12,10 +12,10 @@ import (
 func ParseRwxOwnerGroupOtherToFileMode(
 	rwxOwnerGroupOther *chmodins.RwxOwnerGroupOther,
 ) (os.FileMode, *errorwrapper.Wrapper) {
-	rwxWrapper, errWp := ParseRwxOwnerGroupOtherToRwxWrapper(rwxOwnerGroupOther)
+	rwxWrapper, errWrap := ParseRwxOwnerGroupOtherToRwxWrapper(rwxOwnerGroupOther)
 
-	if errWp.HasError() {
-		return 0, errWp
+	if errWrap.HasError() {
+		return 0, errWrap
 	}
 
 	if rwxWrapper == nil {

@@ -207,8 +207,8 @@ func (it *NginxDir) DisableSite(siteName string) *errorwrapper.Wrapper {
 func (it *NginxDir) DisableAllSites() *errwrappers.Collection {
 	errC := errwrappers.Empty()
 	for _, enabledSitePath := range it.AllUserEnabledSitesNoError() {
-		if errW := fsinternal.SafeRemove(enabledSitePath); errW.HasError() {
-			errC.AddWrapperPtr(errW)
+		if errWrap := fsinternal.SafeRemove(enabledSitePath); errWrap.HasError() {
+			errC.AddWrapperPtr(errWrap)
 		}
 	}
 
@@ -221,12 +221,12 @@ func (it *NginxDir) EnableSiteAddConfExt(siteName string) *errorwrapper.Wrapper 
 
 func (it *NginxDir) EnableSite(siteName string) *errorwrapper.Wrapper {
 	destinationSiteFilePath := it.AbsPathOfEnabledSite(siteName)
-	errW := fsinternal.CreateDirectoryAllUptoParent(
+	errWrap := fsinternal.CreateDirectoryAllUptoParent(
 		destinationSiteFilePath,
 		DefaultDirChmod)
 
-	if errW.HasError() {
-		return errW
+	if errWrap.HasError() {
+		return errWrap
 	}
 
 	sourceSitePath := it.AbsPathOfAvailableSite(siteName)
@@ -370,15 +370,15 @@ func (it *NginxDir) UsersEnabledSites() *errstr.Results {
 }
 
 func (it NginxDir) Json() corejson.Result {
-	return corejson.NewFromAny(it)
+	return corejson.New(it)
 }
 
 func (it NginxDir) JsonPtr() *corejson.Result {
-	return corejson.NewFromAnyPtr(it)
+	return corejson.NewPtr(it)
 }
 
 func (it NginxDir) JsonString() string {
-	return corejson.NewFromAnyPtr(it).JsonString()
+	return corejson.NewPtr(it).JsonString()
 }
 
 func (it NginxDir) JsonModelAny() interface{} {

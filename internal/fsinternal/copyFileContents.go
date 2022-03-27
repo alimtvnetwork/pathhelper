@@ -10,7 +10,7 @@ import (
 	"gitlab.com/evatix-go/errorwrapper/errtype"
 )
 
-func CopyFileContents(srcPath, dstPath string) (errWp *errorwrapper.Wrapper) {
+func CopyFileContents(srcPath, dstPath string) (errWrap *errorwrapper.Wrapper) {
 	if srcPath == dstPath {
 		return nil
 	}
@@ -19,7 +19,7 @@ func CopyFileContents(srcPath, dstPath string) (errWp *errorwrapper.Wrapper) {
 
 	defer errdefer.CloseFile(
 		srcPath,
-		errWp,
+		errWrap,
 		inFile)
 
 	if errOpen != nil {
@@ -35,7 +35,7 @@ func CopyFileContents(srcPath, dstPath string) (errWp *errorwrapper.Wrapper) {
 
 	defer errdefer.CloseFile(
 		dstPath,
-		errWp,
+		errWrap,
 		outFile)
 
 	if errCreate != nil {

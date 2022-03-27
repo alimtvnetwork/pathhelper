@@ -173,9 +173,9 @@ func (it *Wrapper) IsValid() bool {
 		return false
 	}
 
-	_, errW := it.GetFileInfo()
+	_, errWrap := it.GetFileInfo()
 
-	return errW.IsEmpty()
+	return errWrap.IsEmpty()
 }
 
 func (it *Wrapper) IsEqual(wrapper *Wrapper) bool {
@@ -352,9 +352,9 @@ func (it *Wrapper) GetBaseDirFileInfo() (os.FileInfo, *errorwrapper.Wrapper) {
 }
 
 func (it *Wrapper) IsBaseDirExists() bool {
-	currentFileInfo, errW := it.GetBaseDirFileInfo()
+	currentFileInfo, errWrap := it.GetBaseDirFileInfo()
 
-	if errW.HasError() {
+	if errWrap.HasError() {
 		return false
 	}
 
@@ -362,9 +362,9 @@ func (it *Wrapper) IsBaseDirExists() bool {
 }
 
 func (it *Wrapper) IsFileExists() bool {
-	currentFileInfo, errW := it.GetFileInfo()
+	currentFileInfo, errWrap := it.GetFileInfo()
 
-	if errW.HasError() {
+	if errWrap.HasError() {
 		return false
 	}
 

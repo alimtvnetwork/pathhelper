@@ -25,15 +25,15 @@ func NewCompiledCollectionModel(
 }
 
 func (it CompiledCollectionModel) Json() corejson.Result {
-	return corejson.NewFromAny(it)
+	return corejson.New(it)
 }
 
 func (it CompiledCollectionModel) JsonPtr() *corejson.Result {
-	return corejson.NewFromAnyPtr(it)
+	return corejson.NewPtr(it)
 }
 
 func (it CompiledCollectionModel) JsonString() string {
-	return corejson.NewFromAnyPtr(it).JsonString()
+	return corejson.NewPtr(it).JsonString()
 }
 
 func (it CompiledCollectionModel) JsonModelAny() interface{} {

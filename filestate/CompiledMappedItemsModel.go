@@ -44,15 +44,15 @@ func NewCompiledMappedInfoItemsModel(
 }
 
 func (it CompiledMappedItemsModel) Json() corejson.Result {
-	return corejson.NewFromAny(it)
+	return corejson.New(it)
 }
 
 func (it CompiledMappedItemsModel) JsonPtr() *corejson.Result {
-	return corejson.NewFromAnyPtr(it)
+	return corejson.NewPtr(it)
 }
 
 func (it CompiledMappedItemsModel) JsonString() string {
-	return corejson.NewFromAnyPtr(it).JsonString()
+	return corejson.NewPtr(it).JsonString()
 }
 
 func (it CompiledMappedItemsModel) JsonModelAny() interface{} {

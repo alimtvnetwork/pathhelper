@@ -5,7 +5,7 @@ import (
 	"gitlab.com/evatix-go/core/regexnew"
 )
 
-func GetDollarOrPercentSymbolIdentifierEnvInfos(
+func GetDollarOrPercentSymbolIdentifierEnvInfoItems(
 	stringToCheck string,
 ) []EnvKeyInfo {
 	envVariableRawKeys := regexnew.
@@ -14,27 +14,28 @@ func GetDollarOrPercentSymbolIdentifierEnvInfos(
 			stringToCheck,
 			constants.MinusOne)
 
-	var envInfos []EnvKeyInfo
+	var envInfoItems []EnvKeyInfo
 
 	if len(envVariableRawKeys) > 0 {
-		envInfos = GetEnvInfosKeyNames(
+		envInfoItems = GetEnvInfoItemsKeyNames(
 			envVariableRawKeys)
 	}
 
-	envVariableRawKeys2 := regexnew.
+	envVariableRawKeysNext := regexnew.
 		PercentIdentifierRegex.
 		FindAllString(
 			stringToCheck, constants.MinusOne)
 
-	if len(envVariableRawKeys2) > 0 {
-		envInfos2 := GetEnvInfosKeyNames(envVariableRawKeys2)
+	if len(envVariableRawKeysNext) > 0 {
+		envInfoItemsCopy := GetEnvInfoItemsKeyNames(
+			envVariableRawKeysNext)
 
-		for _, envInfo := range envInfos2 {
-			envInfos = append(
-				envInfos,
+		for _, envInfo := range envInfoItemsCopy {
+			envInfoItems = append(
+				envInfoItems,
 				envInfo)
 		}
 	}
 
-	return envInfos
+	return envInfoItems
 }

@@ -15,8 +15,10 @@ func getRwxSimpleFromPathStatLines(splits []string, filePath string) *RwxSimple 
 		return InvalidRwxSimple()
 	}
 
-	rwxWrapper, err := chmodhelper.NewUsingHyphenedRwxFullString(
-		leftRight.Right)
+	rwxWrapper, err := chmodhelper.
+		New.
+		RwxWrapper.
+		RwxFullString(leftRight.Right)
 
 	if err == nil {
 		return &RwxSimple{

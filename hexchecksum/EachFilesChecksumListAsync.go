@@ -77,10 +77,10 @@ func EachFilesChecksumListAsync(
 		return errstr.New.Results.Strings(checkSumSlice)
 	}
 
-	errWp := errnew.Type.Error(
+	errWrap := errnew.Type.Error(
 		errtype.CheckSumCorrupted,
 		err)
 
 	// has error
-	return errstr.New.Results.Create(errWp, checkSumSlice)
+	return errstr.New.Results.Create(errWrap, checkSumSlice)
 }

@@ -9,8 +9,8 @@ func CreateDirectoryAllUptoParentMany(paths ...string) *errorwrapper.Wrapper {
 	defer readWriteMutex.Unlock()
 
 	for _, path := range paths {
-		if errW := CreateDirectoryAllUptoParent(path); errW.HasError() {
-			return errW
+		if errWrap := CreateDirectoryAllUptoParent(path); errWrap.HasError() {
+			return errWrap
 		}
 	}
 

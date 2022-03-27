@@ -573,18 +573,18 @@ func (it *PathCollection) UnmarshalJSON(
 }
 
 func (it PathCollection) Json() corejson.Result {
-	return corejson.NewFromAny(it)
+	return corejson.New(it)
 }
 
 func (it PathCollection) JsonPtr() *corejson.Result {
-	return corejson.NewFromAnyPtr(it)
+	return corejson.NewPtr(it)
 }
 
 func (it *PathCollection) ParseInjectUsingJson(
 	jsonResult *corejson.Result,
 ) (*PathCollection, error) {
 	if jsonResult == nil || jsonResult.IsEmptyJsonBytes() {
-		return EmptyPathCollection(), defaulterr.UnMarshallingFailedDueToNilOrEmpty
+		return EmptyPathCollection(), defaulterr.UnmarshallingFailedDueToNilOrEmpty
 	}
 
 	err := json.Unmarshal(jsonResult.Bytes, &it)

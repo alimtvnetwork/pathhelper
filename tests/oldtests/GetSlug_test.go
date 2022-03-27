@@ -28,13 +28,13 @@ var slugWrappers = []getSlugTestCaseWrapper{
 	{
 		inputPath:       "_20971-b21-2987_",
 		inputSeparator:  constants.UnderscoreRune,
-		expected:        "_20971-b21-2987_",
+		expected:        "_20971_b21_2987_",
 		expectedMessage: "non-empty return",
 	},
 	{
 		inputPath:       "_20971-b21-2987_",
 		inputSeparator:  constants.UnderscoreRune,
-		expected:        "_20971-b21-2987_",
+		expected:        "_20971_b21_2987_",
 		expectedMessage: "_20971-b21-2987_",
 	},
 	{
@@ -55,7 +55,11 @@ func TestGetSlug(t *testing.T) {
 	for i, testCase := range slugWrappers {
 		{
 			// Arrange
-			testCaseMessage := fmt.Sprintf("[getWindowsBuild] inputs (%s, %v) expects (%s)", testCase.inputPath, testCase.inputSeparator, testCase.expectedMessage)
+			testCaseMessage := fmt.Sprintf(
+				"[getWindowsBuild] inputs (%q, %v) expects (%q)",
+				testCase.inputPath,
+				testCase.inputSeparator,
+				testCase.expectedMessage)
 
 			Convey(testCaseMessage, t, func() {
 				// Act

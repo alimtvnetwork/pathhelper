@@ -29,10 +29,10 @@ func ApplyChmodRwxOwnerGroupOther(
 		return err
 	}
 
-	_, errWp := ApplyChmodOnFilesUsingCondition(
+	_, errWrap := ApplyChmodOnFilesUsingCondition(
 		condition,
 		fileMode,
 		paths...)
 
-	return errWp
+	return errWrap
 }

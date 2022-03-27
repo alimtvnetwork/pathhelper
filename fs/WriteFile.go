@@ -2,8 +2,7 @@ package fs
 
 import (
 	"gitlab.com/evatix-go/errorwrapper"
-	"gitlab.com/evatix-go/errorwrapper/errnew"
-	"gitlab.com/evatix-go/errorwrapper/errtype"
+	"gitlab.com/evatix-go/pathhelper/internal/fsinternal"
 )
 
 func WriteFile(
@@ -12,9 +11,7 @@ func WriteFile(
 	content []byte,
 ) *errorwrapper.Wrapper {
 	if content == nil {
-		return errnew.Messages.Many(
-			errtype.NullOrEmptyReference,
-			"Cannot write nil contents (bytes) to the file.",
+		return fsinternal.NullContentErrorWrap(
 			filePath)
 	}
 

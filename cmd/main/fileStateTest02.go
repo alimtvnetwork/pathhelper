@@ -17,12 +17,12 @@ func fileStateTest02() {
 		nil,
 		pathsconst.RootDir)
 
-	info, errWp := filestate.NewInfoCollectionUsingFilePathsAsync(
+	info, errWrap := filestate.NewInfoCollectionUsingFilePathsAsync(
 		hashas.DefaultFastHashMethod,
 		true,
 		files.Values...)
 
-	errWp.HandleError()
+	errWrap.HandleError()
 
 	fmt.Println(info.String())
 }
