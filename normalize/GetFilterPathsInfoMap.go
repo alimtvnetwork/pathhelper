@@ -14,5 +14,5 @@ func GetFilterPathsInfoMap(
 
 	return chmodhelper.GetExistsFilteredPathFileInfoMap(
 		isSkipOnInvalid,
-		locationsNormalized)
+		locationsNormalized...)
 }

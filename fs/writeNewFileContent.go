@@ -12,7 +12,9 @@ func writeNewFileContent(
 ) *errorwrapper.Wrapper {
 	return writeNewFileContentUsingFileMode(
 		isCreateParentDir,
+		consts.DefaultDirMode,
+		consts.DefaultFileMode,
 		filePath,
 		content,
-		consts.DefaultFileMode)
+	)
 }

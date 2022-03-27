@@ -715,7 +715,7 @@ func (it *Path) ChmodCondition() *chmodins.Condition {
 func (it *Path) ApplyFileMode(mode os.FileMode) *errorwrapper.Wrapper {
 	condition := it.ChmodCondition()
 
-	err := chmodhelper.FileModeApplyChmod(
+	err := chmodhelper.ChmodApply.PathsUsingFileModeConditions(
 		mode,
 		condition,
 		it.Path)

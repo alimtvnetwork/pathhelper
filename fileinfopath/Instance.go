@@ -269,16 +269,16 @@ func (it *Instance) String() string {
 	return it.compiledToString.GetPlusSetOnUninitialized(toString)
 }
 
-func (it Instance) Json() corejson.Result {
-	return corejson.NewFromAny(it)
+func (it *Instance) Json() corejson.Result {
+	return corejson.New(it)
 }
 
-func (it Instance) JsonPtr() *corejson.Result {
-	return corejson.NewFromAnyPtr(it)
+func (it *Instance) JsonPtr() *corejson.Result {
+	return corejson.NewPtr(it)
 }
 
 func (it Instance) JsonString() string {
-	return corejson.NewFromAnyPtr(it).JsonString()
+	return corejson.NewPtr(it).JsonString()
 }
 
 func (it Instance) JsonModelAny() interface{} {

@@ -25,14 +25,14 @@ func SimpleCreate(
 		return nil, removeErr
 	}
 
-	file, errWp := createpath.CreateSingleUsingFileMode(
+	file, errWrap := createpath.CreateSingleUsingFileMode(
 		isLock,
 		mode,
 		filePath,
 	)
 
-	if errWp.HasError() {
-		return file, errWp
+	if errWrap.HasError() {
+		return file, errWrap
 	}
 
 	if userGroupName != nil {

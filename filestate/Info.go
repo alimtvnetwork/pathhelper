@@ -133,15 +133,15 @@ func (it *Info) ReadCurrentHexChecksumString() string {
 }
 
 func (it Info) Json() corejson.Result {
-	return corejson.NewFromAny(it)
+	return corejson.New(it)
 }
 
 func (it Info) JsonPtr() *corejson.Result {
-	return corejson.NewFromAnyPtr(it)
+	return corejson.NewPtr(it)
 }
 
 func (it Info) JsonString() string {
-	return corejson.NewFromAnyPtr(it).JsonString()
+	return corejson.NewPtr(it).JsonString()
 }
 
 func (it Info) JsonModelAny() interface{} {
@@ -202,8 +202,10 @@ func (it *Info) IsEqual(
 }
 
 func (it *Info) RwxWrapper() *chmodhelper.RwxWrapper {
-	return chmodhelper.NewUsingFileModePtr(
-		it.Chmod)
+	return chmodhelper.
+		New.
+		RwxWrapper.
+		UsingFileModePtr(it.Chmod)
 }
 
 func (it *Info) chmodString() string {

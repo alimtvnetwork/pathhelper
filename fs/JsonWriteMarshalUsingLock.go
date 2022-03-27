@@ -10,7 +10,7 @@ func JsonWriteMarshalUsingLock(
 	isCreateParentDir,
 	isSkipOnNilObject bool,
 	isKeepExistingFileModeOnExist bool,
-	fileMod os.FileMode,
+	dirMode, fileMode os.FileMode,
 	filePath string,
 	marshallingObjectRef interface{},
 ) *errorwrapper.Wrapper {
@@ -21,7 +21,8 @@ func JsonWriteMarshalUsingLock(
 		isCreateParentDir,
 		isSkipOnNilObject,
 		isKeepExistingFileModeOnExist,
-		fileMod,
+		dirMode,
+		fileMode,
 		filePath,
 		marshallingObjectRef)
 }

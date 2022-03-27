@@ -139,10 +139,10 @@ func (it *Result) FilterResults(
 		errCollection,
 		filter)
 
-	var errWp *errorwrapper.Wrapper
+	var errWrap *errorwrapper.Wrapper
 
 	if stateTracker.IsFailed() {
-		errWp = errnew.Messages.Many(
+		errWrap = errnew.Messages.Many(
 			errtype.AlreadyDefined,
 			"errors are already collected in the error collection.")
 	}
@@ -158,7 +158,7 @@ func (it *Result) FilterResults(
 			IsFile:         it.PathsResult.IsFile,
 			IsDir:          it.PathsResult.IsDir,
 		},
-		ErrorWrapper: errWp,
+		ErrorWrapper: errWrap,
 	}
 }
 

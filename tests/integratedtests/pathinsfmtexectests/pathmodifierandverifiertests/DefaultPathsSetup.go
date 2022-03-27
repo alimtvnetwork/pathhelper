@@ -12,7 +12,7 @@ func DefaultPathsSetup() {
 		pathinsfmtexectestwrappers.PathTwoTextFile,
 	).HandleError()
 
-	_, errW := createpath.CreateMany(
+	_, errWrap := createpath.CreateMany(
 		true,
 		true,
 		[]string{
@@ -21,5 +21,5 @@ func DefaultPathsSetup() {
 		},
 	)
 
-	errW.HandleError()
+	errWrap.HandleError()
 }

@@ -9,15 +9,16 @@ import (
 func WriteStringToFileUsingLockFileMode(
 	isCreateParentDir,
 	isKeepExistingFileModeOnExist bool,
+	dirMode, fileMode os.FileMode,
 	filePath string,
 	content string,
-	fileMode os.FileMode,
 ) *errorwrapper.Wrapper {
 	return WriteFileUsingFileMode(
 		isCreateParentDir,
 		isKeepExistingFileModeOnExist,
+		dirMode,
+		fileMode,
 		filePath,
 		[]byte(content),
-		fileMode,
 	)
 }

@@ -52,13 +52,13 @@ func (it *RemoveInstruction) applyUsingRecursive(
 			it.LazyPathsIf(isLazyPaths))
 	}
 
-	errWp := deletepaths.AllRecursiveOnExistIf(
+	errWrap := deletepaths.AllRecursiveOnExistIf(
 		it.IsRemoveOnlyOnExist,
 		it.LazyPathsIf(isLazyPaths))
 
-	errorCollection.AddWrapperPtr(errWp)
+	errorCollection.AddWrapperPtr(errWrap)
 
-	return errWp.IsEmpty()
+	return errWrap.IsEmpty()
 }
 
 func (it *RemoveInstruction) applyUsingNonRecursive(
@@ -74,11 +74,11 @@ func (it *RemoveInstruction) applyUsingNonRecursive(
 			it.LazyPathsIf(isLazyPaths))
 	}
 
-	errWp := deletepaths.AllOnExistIf(
+	errWrap := deletepaths.AllOnExistIf(
 		it.IsRemoveOnlyOnExist,
 		it.LazyPathsIf(isLazyPaths)...)
 
-	errorCollection.AddWrapperPtr(errWp)
+	errorCollection.AddWrapperPtr(errWrap)
 
-	return errWp.IsEmpty()
+	return errWrap.IsEmpty()
 }

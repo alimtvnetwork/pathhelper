@@ -4,21 +4,18 @@ import (
 	"os"
 
 	"gitlab.com/evatix-go/errorwrapper"
-	"gitlab.com/evatix-go/errorwrapper/errnew"
-	"gitlab.com/evatix-go/errorwrapper/errtype"
+	"gitlab.com/evatix-go/pathhelper/internal/fsinternal"
 )
 
 func WriteFileUsingFileMode(
 	isCreateParentDir,
 	isKeepExistingFileModeOnExist bool,
+	dirMode, fileMode os.FileMode,
 	filePath string,
 	content []byte,
-	mode os.FileMode,
 ) *errorwrapper.Wrapper {
 	if content == nil {
-		return errnew.Messages.Many(
-			errtype.NullOrEmptyReference,
-			"Cannot write empty or nil contents to the file.",
+		return fsinternal.NullContentErrorWrap(
 			filePath)
 	}
 
@@ -33,13 +30,15 @@ func WriteFileUsingFileMode(
 		return writeExistingFileContentUsingFileMode(
 			filePath,
 			content,
-			mode)
+			fileMode)
 	}
 
 	// new content
 	return writeNewFileContentUsingFileMode(
 		isCreateParentDir,
+		dirMode,
+		fileMode,
 		filePath,
 		content,
-		mode)
+	)
 }

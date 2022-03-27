@@ -2,8 +2,7 @@ package fs
 
 import (
 	"gitlab.com/evatix-go/errorwrapper"
-	"gitlab.com/evatix-go/errorwrapper/errnew"
-	"gitlab.com/evatix-go/errorwrapper/errtype"
+	"gitlab.com/evatix-go/pathhelper/internal/fsinternal"
 )
 
 func AppendFile(
@@ -12,9 +11,7 @@ func AppendFile(
 	content []byte,
 ) *errorwrapper.Wrapper {
 	if content == nil {
-		return errnew.Messages.Many(
-			errtype.NullOrEmptyReference,
-			"Cannot write empty or nil contents to the file.",
+		return fsinternal.NullContentErrorWrap(
 			filePath)
 	}
 

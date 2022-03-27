@@ -66,18 +66,19 @@ func NewInfoCollectionUsingFilePathsAsync(
 	adderFunc := func(index int, filePath string) {
 		defer wg.Done()
 
-		info, errWp := NewInfo(
+		info, errWrap := NewInfo(
 			hashMethod,
 			isNormalize,
 			filePath)
 
 		slice[index] = info
 
-		if errWp.HasError() {
+		if errWrap.HasError() {
 			locker.Lock()
 
-			errCollection.AddWrapperPtr(errWp)
-			errCollection.AddRef1(errtype.MissingPathsOrInvalidPaths,
+			errCollection.AddWrapperPtr(errWrap)
+			errCollection.AddRefOne(
+				errtype.MissingPathsOrInvalidPaths,
 				"Remaining info couldn't process",
 				filePaths[index+1:])
 
@@ -1191,11 +1192,11 @@ func (it *InfoCollection) JsonModelAny() interface{} {
 }
 
 func (it InfoCollection) Json() corejson.Result {
-	return corejson.NewFromAny(it)
+	return corejson.New(it)
 }
 
 func (it InfoCollection) JsonPtr() *corejson.Result {
-	return corejson.NewFromAnyPtr(it)
+	return corejson.NewPtr(it)
 }
 
 func (it *InfoCollection) ParseInjectUsingJson(

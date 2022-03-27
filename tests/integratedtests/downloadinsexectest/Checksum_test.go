@@ -6,6 +6,7 @@ import (
 	"testing"
 
 	"github.com/smartystreets/goconvey/convey"
+	"gitlab.com/evatix-go/core/coretests"
 
 	"gitlab.com/evatix-go/pathhelper/checksummer"
 	"gitlab.com/evatix-go/pathhelper/hashas"
@@ -15,7 +16,9 @@ import (
 )
 
 func Test_Checksum(t *testing.T) {
-	// 0. Setup
+	coretests.SkipOnWindows(t)
+
+	// Arrange
 	tempFile, _ := createTempFile(t)
 
 	// spin up the server
@@ -35,10 +38,12 @@ func Test_Checksum(t *testing.T) {
 		ChecksumVerify:       "469e01d115cb913ad709c749df1c5666",
 	}
 
-	errW := downloadinsexec.Apply(download)
+	// Act
+	errWrap := downloadinsexec.Apply(download)
 
+	// Assert
 	convey.Convey("Download ErrorWrapper Should Return False", t, func() {
-		convey.So(errW.HasError(), convey.ShouldBeFalse)
+		convey.So(errWrap.HasError(), convey.ShouldBeFalse)
 	})
 
 	convey.Convey("Downloaded Content's Checksum Should Match", t, func() {

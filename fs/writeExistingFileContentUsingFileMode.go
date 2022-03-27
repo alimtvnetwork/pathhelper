@@ -12,12 +12,12 @@ import (
 func writeExistingFileContentUsingFileMode(
 	filePath string,
 	content []byte,
-	mode os.FileMode,
+	fileMode os.FileMode,
 ) *errorwrapper.Wrapper {
 	writeErr := ioutil.WriteFile(
 		filePath,
 		content,
-		mode)
+		fileMode)
 
 	if writeErr != nil {
 		return errnew.

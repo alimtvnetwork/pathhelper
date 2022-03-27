@@ -25,15 +25,15 @@ func (it *DetailedResult) IsInvalidResult() bool {
 }
 
 func (it DetailedResult) Json() corejson.Result {
-	return corejson.NewFromAny(it)
+	return corejson.New(it)
 }
 
 func (it DetailedResult) JsonPtr() *corejson.Result {
-	return corejson.NewFromAnyPtr(it)
+	return corejson.NewPtr(it)
 }
 
 func (it DetailedResult) JsonString() string {
-	return corejson.NewFromAny(it).JsonString()
+	return corejson.New(it).JsonString()
 }
 
 func EmptyDetailedResult() *DetailedResult {
@@ -51,7 +51,7 @@ func EmptyDetailedResult() *DetailedResult {
 
 func EmptyDetailedResultWithErr(
 	hashMethod hashas.Variant,
-	errWp *errorwrapper.Wrapper,
+	errWrap *errorwrapper.Wrapper,
 ) *DetailedResult {
 	return &DetailedResult{
 		FilesResult: FilesResult{
@@ -59,7 +59,7 @@ func EmptyDetailedResultWithErr(
 			HexFilesContentsChecksum: "",
 			FilesCount:               0,
 			Method:                   hashMethod,
-			ErrorWrapper:             errWp,
+			ErrorWrapper:             errWrap,
 		},
 		Hashmap: corestr.Empty.Hashmap(),
 	}

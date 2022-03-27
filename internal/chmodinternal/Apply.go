@@ -18,7 +18,7 @@ func Apply(
 	rootDir string,
 	filePaths []string,
 ) *errorwrapper.Wrapper {
-	fileMode := chmodhelper.NewUsingFileMode(mode)
+	fileMode := chmodhelper.New.RwxWrapper.UsingFileMode(mode)
 
 	if osconsts.IsLinux {
 		chmodErr := fileMode.

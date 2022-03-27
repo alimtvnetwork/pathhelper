@@ -3,8 +3,8 @@ package pathinsfmt
 import (
 	"log"
 
-	"gitlab.com/evatix-go/core/enums/scripttype"
 	"gitlab.com/evatix-go/core/osconsts"
+	"gitlab.com/evatix-go/enum/scripttype"
 	"gitlab.com/evatix-go/errorwrapper/errcmd"
 	"gitlab.com/evatix-go/errorwrapper/errwrappers"
 	"gitlab.com/evatix-go/pathhelper/internal/fsinternal"

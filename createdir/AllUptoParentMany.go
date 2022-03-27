@@ -9,8 +9,8 @@ import (
 
 func AllUptoParentMany(mode os.FileMode, locations ...string) *errorwrapper.Wrapper {
 	for _, path := range locations {
-		if errW := fsinternal.CreateDirectoryAllUptoParent(path, mode); errW.HasError() {
-			return errW
+		if errWrap := fsinternal.CreateDirectoryAllUptoParent(path, mode); errWrap.HasError() {
+			return errWrap
 		}
 	}
 

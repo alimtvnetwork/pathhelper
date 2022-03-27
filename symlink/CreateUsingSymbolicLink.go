@@ -35,10 +35,10 @@ func CreateUsingSymbolicLink(symLink *pathinsfmt.SymbolicLink) *errorwrapper.Wra
 	}
 
 	if symLink.IsClearBefore {
-		errW := fsinternal.SafeRemove(symLink.Dst)
+		errWrap := fsinternal.SafeRemove(symLink.Dst)
 
-		if errW.HasError() {
-			return errW
+		if errWrap.HasError() {
+			return errWrap
 		}
 	}
 
@@ -47,11 +47,11 @@ func CreateUsingSymbolicLink(symLink *pathinsfmt.SymbolicLink) *errorwrapper.Wra
 	}
 
 	if symLink.IsMkDirAll {
-		errW := fsinternal.CreateDirectoryAllUptoParentDefault(
+		errWrap := fsinternal.CreateDirectoryAllUptoParentDefault(
 			symLink.Dst)
 
-		if errW.HasError() {
-			return errW
+		if errWrap.HasError() {
+			return errWrap
 		}
 	}
 

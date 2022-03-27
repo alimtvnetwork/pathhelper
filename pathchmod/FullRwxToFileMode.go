@@ -7,10 +7,10 @@ import (
 )
 
 func FullRwxToFileMode(rwxFull string) (os.FileMode, *errorwrapper.Wrapper) {
-	rwxWrapper, errWp := FullRwxToRwxWrapper(rwxFull)
+	rwxWrapper, errWrap := FullRwxToRwxWrapper(rwxFull)
 
-	if errWp.HasError() {
-		return 0, errWp
+	if errWrap.HasError() {
+		return 0, errWrap
 	}
 
 	return rwxWrapper.

@@ -21,6 +21,6 @@ func downloadChecksumTest() {
 		ChecksumVerify: "b6af836b2662f21081091e0bd851d92b2507abb94ece340b663db7e4019f8c7c",
 	}
 
-	errW := downloadinsexec.Apply(download)
-	errW.HandleError()
+	errWrap := downloadinsexec.Apply(download)
+	errWrap.HandleError()
 }

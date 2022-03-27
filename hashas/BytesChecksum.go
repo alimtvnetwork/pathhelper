@@ -9,16 +9,16 @@ import (
 func BytesChecksum(method Variant, inputBytes []byte) *errbyte.Results {
 	if inputBytes == nil {
 		return errbyte.New.Results.ErrorWrapper(
-			errnew.Messages.Many(
-				errtype.EmptyPointerOrNullPointer,
-				"Cannot perform SumOf on Nil Pointer!"))
+			errnew.Null.WithMessage(
+				"cannot perform BytesChecksum on null pointer!",
+				inputBytes))
 	}
 
-	hashWriter, errWp := method.NewHash()
+	hashWriter, errWrap := method.NewHash()
 
-	if errWp.HasError() {
+	if errWrap.HasError() {
 		return errbyte.New.Results.ErrorWrapper(
-			errWp)
+			errWrap)
 	}
 
 	_, err := hashWriter.Write(inputBytes)

@@ -33,13 +33,13 @@ func CreateMany(
 				continue
 			}
 
-			file, errWp := CreateSingle(
+			file, errWrap := CreateSingle(
 				false,
 				filePath,
 			)
 
-			if errWp.HasError() {
-				return slice, errWp
+			if errWrap.HasError() {
+				return slice, errWrap
 			}
 
 			slice = append(slice, file)
@@ -50,13 +50,13 @@ func CreateMany(
 
 	// no checking create
 	for _, filePath := range files {
-		file, errWp := CreateSingle(
+		file, errWrap := CreateSingle(
 			false,
 			filePath,
 		)
 
-		if errWp.HasError() {
-			return slice, errWp
+		if errWrap.HasError() {
+			return slice, errWrap
 		}
 
 		slice = append(slice, file)

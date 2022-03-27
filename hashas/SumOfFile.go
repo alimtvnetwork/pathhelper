@@ -31,10 +31,10 @@ func SumOfFile(method Variant, filePath string) *errbyte.Results {
 					"File path either invalid or has permission issue or a folder for hash-checksum."))
 	}
 
-	hashWriter, errWp := method.NewHash()
+	hashWriter, errWrap := method.NewHash()
 
-	if errWp.HasError() {
-		return errbyte.New.Results.ErrorWrapper(errWp)
+	if errWrap.HasError() {
+		return errbyte.New.Results.ErrorWrapper(errWrap)
 	}
 
 	file, errOpen := os.Open(filePath)

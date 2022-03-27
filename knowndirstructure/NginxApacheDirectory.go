@@ -127,15 +127,15 @@ func (it *NginxApacheDirectory) MkDirAllDefault() *errwrappers.Collection {
 }
 
 func (it NginxApacheDirectory) Json() corejson.Result {
-	return corejson.NewFromAny(it)
+	return corejson.New(it)
 }
 
 func (it NginxApacheDirectory) JsonPtr() *corejson.Result {
-	return corejson.NewFromAnyPtr(it)
+	return corejson.NewPtr(it)
 }
 
 func (it NginxApacheDirectory) JsonString() string {
-	return corejson.NewFromAnyPtr(it).JsonString()
+	return corejson.NewPtr(it).JsonString()
 }
 
 func (it NginxApacheDirectory) JsonModelAny() interface{} {

@@ -15,13 +15,13 @@ func applyRwxOnPathCreators(
 		return nil
 	}
 
-	fileMode, errWp := pathchmod.ParseRwxOwnerGroupOtherToFileMode(
+	fileMode, errWrap := pathchmod.ParseRwxOwnerGroupOtherToFileMode(
 		pathsCreator.ApplyRwx)
 
-	errorCollection.AddWrapperPtr(errWp)
+	errorCollection.AddWrapperPtr(errWrap)
 
-	if errWp.HasError() {
-		return errWp
+	if errWrap.HasError() {
+		return errWrap
 	}
 
 	chmodApplyErr := pathchmod.ApplyLinuxRecursiveChmodOnPathUsingFileMode(

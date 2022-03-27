@@ -15,13 +15,13 @@ func applyUserNameGroupNameOnPathCreators(
 		return nil
 	}
 
-	errWp := namegroup.Apply(
+	errWrap := namegroup.Apply(
 		true,
 		false,
 		pathsCreator.ApplyUserGroup,
 		pathsCreator.RootDir)
 
-	errorCollection.AddWrapperPtr(errWp)
+	errorCollection.AddWrapperPtr(errWrap)
 
-	return errWp
+	return errWrap
 }

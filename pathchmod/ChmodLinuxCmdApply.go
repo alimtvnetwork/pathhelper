@@ -33,13 +33,13 @@ func ChmodLinuxCmdApply(
 				chmodPrefix,
 				currentPath)
 
-			errWp := errcmd.
+			errWrap := errcmd.
 				New.
 				BashScript.
 				ArgsErr(command)
 
-			if errWp.HasError() {
-				return errCollection.AddWrapperPtr(errWp)
+			if errWrap.HasError() {
+				return errCollection.AddWrapperPtr(errWrap)
 			}
 		}
 

@@ -32,8 +32,8 @@ var absolutePathTestCaseWrappers = []absolutePathTestCaseWrapper{
 	{
 		basePath:               "c:\\Windows\\//",
 		inputRelativePath:      "\\whatever",
-		expected:               "c:\\Windows\\whatever",
-		expectedMessage:        "non-empty return of (c:\\Windows\\whatever)",
+		expected:               `\\?\c:\Windows\whatever`,
+		expectedMessage:        "non-empty return of (\\\\?\\c:\\Windows\\whatever)",
 		operatingSystemMessage: "Windows OS",
 		operatingSystem:        ostype.Windows,
 		isNormalize:            true,
@@ -42,8 +42,8 @@ var absolutePathTestCaseWrappers = []absolutePathTestCaseWrapper{
 	{
 		basePath:               "c:\\\\Windows///",
 		inputRelativePath:      "whatever",
-		expected:               "c:\\Windows\\whatever",
-		expectedMessage:        "non-empty return of (c:\\Windows\\whatever)",
+		expected:               `\\?\c:\Windows\whatever`,
+		expectedMessage:        "non-empty return of (\\\\?\\c:\\Windows\\whatever)",
 		operatingSystemMessage: "Windows OS",
 		operatingSystem:        ostype.Windows,
 		isNormalize:            true,
@@ -74,22 +74,32 @@ var absolutePathTestCaseWrappers = []absolutePathTestCaseWrapper{
 func TestGetAbsolutePath_Windows(t *testing.T) {
 	SkipOnUnix(t)
 
-	for i, testCase := range absolutePathTestCaseWrappers {
+	for testCaseIndex, testCase := range absolutePathTestCaseWrappers {
 		// Arrange
 		if mics.IsUnixCase(testCase.operatingSystem) {
 			continue
 		}
 
-		testCaseMessage := fmt.Sprintf("(%s) [GetAbsolutePath] inputs (%s, %s) expects (%s)", testCase.operatingSystemMessage, testCase.basePath, testCase.inputRelativePath, testCase.expectedMessage)
+		testCaseMessage := fmt.Sprintf(
+			"(%q) [GetAbsolutePath] inputs (%q, %q) expects (%q)",
+			testCase.operatingSystemMessage,
+			testCase.basePath,
+			testCase.inputRelativePath,
+			testCase.expectedMessage)
 
-		executeTestForGetAbsolutePath(t, testCaseMessage, testCase, i)
+		executeTestForGetAbsolutePath(
+			t,
+			testCaseIndex,
+			testCaseMessage,
+			testCase,
+		)
 	}
 }
 
 func TestGetAbsolutePath_Unix(t *testing.T) {
 	SkipOnWindows(t)
 
-	for i, testCase := range absolutePathTestCaseWrappers {
+	for caseIndex, testCase := range absolutePathTestCaseWrappers {
 		// Arrange
 		if mics.IsWindowsCase(testCase.operatingSystem) {
 			continue
@@ -97,11 +107,20 @@ func TestGetAbsolutePath_Unix(t *testing.T) {
 
 		testCaseMessage := fmt.Sprintf("(%s) [GetAbsolutePath] inputs (%s, %s) expects (%s)", testCase.operatingSystemMessage, testCase.basePath, testCase.inputRelativePath, testCase.expectedMessage)
 
-		executeTestForGetAbsolutePath(t, testCaseMessage, testCase, i)
+		executeTestForGetAbsolutePath(
+			t,
+			caseIndex,
+			testCaseMessage,
+			testCase)
 	}
 }
 
-func executeTestForGetAbsolutePath(t *testing.T, testCaseMessage string, testCase absolutePathTestCaseWrapper, i int) {
+func executeTestForGetAbsolutePath(
+	t *testing.T,
+	caseIndex int,
+	testCaseMessage string,
+	testCase absolutePathTestCaseWrapper,
+) {
 	Convey(testCaseMessage, t, func() {
 		// Act
 		actual := pathhelper.GetAbsolutePath(
@@ -111,7 +130,7 @@ func executeTestForGetAbsolutePath(t *testing.T, testCaseMessage string, testCas
 			testCase.isNormalize)
 
 		// Assert
-		Convey(GetAssertMessage(actual, testCase.expected, i), func() {
+		Convey(GetAssertMessage(actual, testCase.expected, caseIndex), func() {
 			So(actual, ShouldNotBeNil)
 			So(actual, ShouldEqual, testCase.expected)
 		})

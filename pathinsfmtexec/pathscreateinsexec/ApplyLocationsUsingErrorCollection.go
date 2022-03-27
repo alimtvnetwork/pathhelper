@@ -55,13 +55,13 @@ func ApplyLocationsUsingErrorCollection(
 
 	// apply groups
 	if applyNameGroup != nil && osconsts.IsUnixGroup {
-		errWp := namegroup.Apply(
+		errWrap := namegroup.Apply(
 			true,
 			false,
 			&applyNameGroup.UserGroupName,
 			locations...)
 
-		errorCollection.AddWrapperPtr(errWp)
+		errorCollection.AddWrapperPtr(errWrap)
 	}
 
 	return errCount == errorCollection.Length()

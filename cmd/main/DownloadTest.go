@@ -20,6 +20,6 @@ func DownloadTest() {
 		FileModeDir:      filemode.X666,
 	}
 
-	errW := downloadinsexec.Apply(ins)
-	fmt.Println(errW)
+	errWrap := downloadinsexec.Apply(ins)
+	fmt.Println(errWrap)
 }

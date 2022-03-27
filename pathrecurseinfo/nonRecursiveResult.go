@@ -20,7 +20,7 @@ func nonRecursiveResult(
 ) *Result {
 	fileInfos, err := ioutil.ReadDir(normalizedRoot)
 	if err != nil {
-		errW := errnew.
+		errWrap := errnew.
 			Path.
 			Messages(
 				errtype.PathExpand,
@@ -28,7 +28,7 @@ func nonRecursiveResult(
 
 		return InvalidResult(
 			normalizedRoot,
-			errW,
+			errWrap,
 			stat)
 	}
 

@@ -12,14 +12,15 @@ import (
 
 func writeNewFileContentUsingFileMode(
 	isCreateParentDir bool,
+	dirMode, fileMode os.FileMode,
 	filePath string,
 	content []byte,
-	mode os.FileMode,
 ) *errorwrapper.Wrapper {
 	var createDirErr *errorwrapper.Wrapper
 	if isCreateParentDir {
-		createDirErr = createdir.AllUptoParentDefault(
-			filePath)
+		createDirErr = createdir.AllUptoParent(
+			filePath,
+			dirMode)
 	}
 
 	if createDirErr.HasError() {
@@ -29,11 +30,10 @@ func writeNewFileContentUsingFileMode(
 	writeErr := ioutil.WriteFile(
 		filePath,
 		content,
-		mode)
+		fileMode)
 
 	if writeErr != nil {
-		return errnew.
-			Path.
+		return errnew.Path.
 			Messages(
 				errtype.FileWrite,
 				filePath,

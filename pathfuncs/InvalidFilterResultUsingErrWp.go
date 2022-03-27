@@ -4,10 +4,10 @@ import "gitlab.com/evatix-go/errorwrapper"
 
 func InvalidFilterResultUsingErrWp(
 	fullPath string,
-	errWp *errorwrapper.Wrapper,
+	errWrap *errorwrapper.Wrapper,
 ) *FilterResult {
 	return &FilterResult{
 		FullPath:     fullPath,
-		ErrorWrapper: errWp,
+		ErrorWrapper: errWrap,
 	}
 }

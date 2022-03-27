@@ -2,10 +2,10 @@ package pathchmod
 
 import (
 	"gitlab.com/evatix-go/core/chmodhelper"
-	"gitlab.com/evatix-go/errorwrapper/errinf"
+	"gitlab.com/evatix-go/errorwrapper"
 )
 
 type RwxWrapperWithError struct {
 	RwxWrapper *chmodhelper.RwxWrapper
-	errinf.ErrWrapper
+	errorwrapper.ErrWrapper
 }

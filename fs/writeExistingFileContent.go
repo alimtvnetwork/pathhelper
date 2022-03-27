@@ -13,7 +13,8 @@ func writeExistingFileContent(
 	filePath string,
 	content []byte,
 ) *errorwrapper.Wrapper {
-	chmod, err := chmodhelper.GetExistingChmod(filePath)
+	chmod, err := chmodhelper.GetExistingChmod(
+		filePath)
 	if err != nil {
 		return errnew.
 			Path.
@@ -29,8 +30,7 @@ func writeExistingFileContent(
 		chmod)
 
 	if writeErr != nil {
-		return errnew.
-			Path.
+		return errnew.Path.
 			Messages(
 				errtype.FileWrite,
 				filePath,

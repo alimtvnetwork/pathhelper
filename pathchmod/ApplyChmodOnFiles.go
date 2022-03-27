@@ -23,7 +23,7 @@ func ApplyChmodOnFiles(
 		return &chmodins.RwxInstruction{}, nil
 	}
 
-	changingChmodRwxWrapper := chmodhelper.NewUsingFileMode(changeFileMode)
+	changingChmodRwxWrapper := chmodhelper.New.RwxWrapper.UsingFileMode(changeFileMode)
 	rwxOwnerGroupOther := changingChmodRwxWrapper.ToRwxOwnerGroupOther()
 	rwxInstruction := &chmodins.RwxInstruction{
 		RwxOwnerGroupOther: *rwxOwnerGroupOther,

@@ -36,7 +36,7 @@ func GetInstructionResult(instruction *Instruction) *Result {
 		normalizedRoot)
 
 	if pathStat.HasError() {
-		errW := errnew.
+		errWrap := errnew.
 			Path.
 			Error(
 				errtype.MissingPathsOrInvalidPaths,
@@ -45,13 +45,13 @@ func GetInstructionResult(instruction *Instruction) *Result {
 
 		return InvalidResult(
 			normalizedRoot,
-			errW,
+			errWrap,
 			pathStat)
 	}
 
 	if !pathStat.IsExist {
 		// not exist
-		errW := errnew.
+		errWrap := errnew.
 			Path.
 			Messages(
 				errtype.MissingPathsOrInvalidPaths,
@@ -59,7 +59,7 @@ func GetInstructionResult(instruction *Instruction) *Result {
 
 		return InvalidResult(
 			normalizedRoot,
-			errW,
+			errWrap,
 			pathStat)
 	}
 

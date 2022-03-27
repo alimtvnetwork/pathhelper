@@ -21,9 +21,8 @@ import (
 
 func TestCopierRecursive(t *testing.T) {
 	// Arrange
-	root, errW := copyrecursive.CopyToTempDir(TestIsRecursiveDir)
-
-	errW.HandleError()
+	root, errWrap := copyrecursive.CopyToTempDir(TestIsRecursiveDir)
+	errWrap.HandleError()
 
 	defer os.RemoveAll(root)
 
@@ -74,9 +73,9 @@ func TestCopierRecursive(t *testing.T) {
 func TestCopierNonRecursive(t *testing.T) {
 	convey.Convey("Testing copier non recursive", t, func() {
 		// Arrange
-		root, errW := copyrecursive.CopyToTempDir(TestIsRecursiveDir)
-		if errW.HasError() {
-			t.Error(errW.Error())
+		root, errWrap := copyrecursive.CopyToTempDir(TestIsRecursiveDir)
+		if errWrap.HasError() {
+			t.Error(errWrap.Error())
 		}
 
 		defer os.RemoveAll(root)
@@ -130,9 +129,9 @@ func TestCopierNonRecursive(t *testing.T) {
 
 func TestCopierSkipOnExist(t *testing.T) {
 	// Arrange
-	root, errW := copyrecursive.CopyToTempDir(TestSkipOnExistDir)
-	if errW.HasError() {
-		t.Error(errW.Error())
+	root, errWrap := copyrecursive.CopyToTempDir(TestSkipOnExistDir)
+	if errWrap.HasError() {
+		t.Error(errWrap.Error())
 	}
 
 	defer os.RemoveAll(root)
@@ -197,9 +196,9 @@ func TestCopierSkipOnExist(t *testing.T) {
 
 func TestCopierOverwrite(t *testing.T) {
 	// Arrange
-	root, errW := copyrecursive.CopyToTempDir(TestSkipOnExistDir)
-	if errW.HasError() {
-		t.Error(errW.Error())
+	root, errWrap := copyrecursive.CopyToTempDir(TestSkipOnExistDir)
+	if errWrap.HasError() {
+		t.Error(errWrap.Error())
 	}
 
 	defer os.RemoveAll(root)
@@ -249,9 +248,9 @@ func TestCopierOverwrite(t *testing.T) {
 
 func TestCopierMove(t *testing.T) {
 	// Arrange
-	root, errW := copyrecursive.CopyToTempDir(TestIsRecursiveDir)
-	if errW.HasError() {
-		t.Error(errW.Error())
+	root, errWrap := copyrecursive.CopyToTempDir(TestIsRecursiveDir)
+	if errWrap.HasError() {
+		t.Error(errWrap.Error())
 	}
 
 	defer os.RemoveAll(root)
@@ -288,9 +287,9 @@ func TestCopierMove(t *testing.T) {
 func TestCopierRecursiveShell(t *testing.T) {
 	coretests.SkipOnWindows(t)
 	// Arrange
-	root, errW := copyrecursive.CopyToTempDir(TestIsRecursiveDir)
-	if errW.HasError() {
-		t.Error(errW.Error())
+	root, errWrap := copyrecursive.CopyToTempDir(TestIsRecursiveDir)
+	if errWrap.HasError() {
+		t.Error(errWrap.Error())
 	}
 
 	defer os.RemoveAll(root)
@@ -342,9 +341,9 @@ func TestCopierRecursiveShell(t *testing.T) {
 func TestCopierMoveShell(t *testing.T) {
 	coretests.SkipOnWindows(t)
 	// Arrange
-	root, errW := copyrecursive.CopyToTempDir(TestIsRecursiveDir)
-	if errW.HasError() {
-		t.Error(errW.Error())
+	root, errWrap := copyrecursive.CopyToTempDir(TestIsRecursiveDir)
+	if errWrap.HasError() {
+		t.Error(errWrap.Error())
 	}
 
 	defer os.RemoveAll(root)
