@@ -68,7 +68,7 @@ func (it *Path) Join(location string) string {
 }
 
 func (it *Path) Join2(location1, location2 string) string {
-	return pathjoin.JoinSimple3(
+	return pathjoin.JoinSimpleThree(
 		it.CompiledPath(),
 		location1,
 		location2)

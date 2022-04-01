@@ -11,8 +11,8 @@ func WriteJsonResultUsingLock(
 	jsonResult *corejson.Result,
 	location string,
 ) *errorwrapper.Wrapper {
-	readWriteMutex.Lock()
-	defer readWriteMutex.Unlock()
+	globalMutex.Lock()
+	defer globalMutex.Unlock()
 
 	return WriteJsonResult(
 		isCreateParentDir,

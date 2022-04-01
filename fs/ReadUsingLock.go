@@ -8,8 +8,8 @@ import (
 func ReadUsingLock(location string, filename string) *errbyte.Results {
 	compiledFilePath := pathjoin.JoinNormalized(location, filename)
 
-	readWriteMutex.Lock()
-	defer readWriteMutex.Unlock()
+	globalMutex.Lock()
+	defer globalMutex.Unlock()
 
 	return ReadFile(compiledFilePath)
 }

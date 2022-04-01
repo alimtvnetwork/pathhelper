@@ -2,15 +2,15 @@ package pathjoin
 
 import "gitlab.com/evatix-go/pathhelper/normalize"
 
-func JoinFixed3(
-	path1,
-	path2,
-	path3 string,
+func JoinFixedThree(
+	first,
+	second,
+	third string,
 ) string {
-	joined := JoinSimple3(
-		path1,
-		path2,
-		path3)
+	joined := JoinSimpleThree(
+		first,
+		second,
+		third)
 
 	return normalize.Path(joined)
 }

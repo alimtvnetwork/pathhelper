@@ -9,8 +9,8 @@ func ReadJsonParseSelfInjectorUsingLock(
 	filePath string,
 	jsonParseSelfInjector corejson.JsonParseSelfInjector,
 ) *errorwrapper.Wrapper {
-	readWriteMutex.Lock()
-	defer readWriteMutex.Unlock()
+	globalMutex.Lock()
+	defer globalMutex.Unlock()
 
 	return ReadJsonParseSelfInjector(
 		filePath,

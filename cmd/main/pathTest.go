@@ -12,7 +12,7 @@ import (
 func pathTest() {
 	a := "/tmp/dbapi/backup-storage//path-backup///alim-key1-dbapi/1/\\"
 	b := "/dbmodel/\\webserverstoremodel/\\\\ServerWithSSL.go"
-	joined3 := pathjoin.JoinConditionalNormalized3ExpandIf(
+	joined3 := pathjoin.JoinConditionalNormalizedThreeExpandIf(
 		true,
 		false,
 		a,

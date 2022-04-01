@@ -17,7 +17,7 @@ func TrimReplacePrefixRootJoinSuffix(
 		source,
 		trimRootPrefix)
 
-	joined := JoinSimple3(
+	joined := JoinSimpleThree(
 		rootReplacer,
 		relativeWithoutRoot,
 		suffixJoin)

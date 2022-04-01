@@ -9,8 +9,8 @@ func CheckSumFileStringUsingLock(
 	hashType hashas.Variant,
 	location string,
 ) *errstr.Result {
-	readWriteMutex.Lock()
-	defer readWriteMutex.Unlock()
+	globalMutex.Lock()
+	defer globalMutex.Unlock()
 
 	return CheckSumFileString(hashType, location)
 }

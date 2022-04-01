@@ -15,8 +15,8 @@ func WriteAllParamsLock(
 	filePath string,
 	contents []byte,
 ) *errorwrapper.Wrapper {
-	readWriteMutex.Lock()
-	defer readWriteMutex.Unlock()
+	globalMutex.Lock()
+	defer globalMutex.Unlock()
 
 	return WriteAllParams(
 		isCreateParentDir,

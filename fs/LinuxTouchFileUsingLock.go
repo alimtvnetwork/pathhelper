@@ -7,8 +7,8 @@ import (
 )
 
 func LinuxTouchFileUsingLock(fullPath string) *errorwrapper.Wrapper {
-	readWriteMutex.Lock()
-	defer readWriteMutex.Unlock()
+	globalMutex.Lock()
+	defer globalMutex.Unlock()
 
 	return errcmd.
 		New.BashScript.ArgsErr(

@@ -9,7 +9,7 @@ import (
 func JoinNormalizedExpandThree(
 	first, second, third string,
 ) string {
-	joined := JoinSimple3(first, second, third)
+	joined := JoinSimpleThree(first, second, third)
 	expand := expandpath.ExpandVariables(joined)
 
 	return normalize.Path(expand)

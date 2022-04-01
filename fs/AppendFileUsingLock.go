@@ -7,8 +7,8 @@ func AppendFileUsingLock(
 	filePath string,
 	content []byte,
 ) *errorwrapper.Wrapper {
-	readWriteMutex.Lock()
-	defer readWriteMutex.Unlock()
+	globalMutex.Lock()
+	defer globalMutex.Unlock()
 
 	return AppendFile(
 		isCreateParentDir,

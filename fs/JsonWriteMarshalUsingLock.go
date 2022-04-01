@@ -14,8 +14,8 @@ func JsonWriteMarshalUsingLock(
 	filePath string,
 	marshallingObjectRef interface{},
 ) *errorwrapper.Wrapper {
-	readWriteMutex.Lock()
-	defer readWriteMutex.Unlock()
+	globalMutex.Lock()
+	defer globalMutex.Unlock()
 
 	return JsonWriteMarshal(
 		isCreateParentDir,

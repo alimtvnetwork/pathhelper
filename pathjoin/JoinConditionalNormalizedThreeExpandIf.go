@@ -6,16 +6,16 @@ import (
 	"gitlab.com/evatix-go/pathhelper/normalize"
 )
 
-// JoinConditionalNormalized3ExpandIf normalized or expand or both apply based on condition
-func JoinConditionalNormalized3ExpandIf(
+// JoinConditionalNormalizedThreeExpandIf normalized or expand or both apply based on condition
+func JoinConditionalNormalizedThreeExpandIf(
 	isNormalizePlusLongPathFix,
 	isExpand bool,
-	path1, path2, path3 string,
+	first, second, third string,
 ) string {
 	combined := normalize.SimpleJoinPath3(
-		path1,
-		path2,
-		path3)
+		first,
+		second,
+		third)
 
 	expand := expandpath.ExpandVariablesIf(
 		isExpand,

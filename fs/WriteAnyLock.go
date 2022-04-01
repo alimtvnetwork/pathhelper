@@ -17,8 +17,8 @@ func WriteAnyLock(
 	anyToString := stringutil.AnyToString(
 		content)
 
-	readWriteMutex.Lock()
-	defer readWriteMutex.Unlock()
+	globalMutex.Lock()
+	defer globalMutex.Unlock()
 
 	return WriteFile(
 		isCreateParentDir,

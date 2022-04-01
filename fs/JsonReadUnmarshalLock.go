@@ -6,8 +6,8 @@ func JsonReadUnmarshalLock(
 	filePath string,
 	unmarshallObjectRef interface{},
 ) *errorwrapper.Wrapper {
-	readWriteMutex.Lock()
-	defer readWriteMutex.Unlock()
+	globalMutex.Lock()
+	defer globalMutex.Unlock()
 
 	return JsonReadUnmarshal(
 		filePath,

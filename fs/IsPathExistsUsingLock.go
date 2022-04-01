@@ -3,8 +3,8 @@ package fs
 import "os"
 
 func IsPathExistsUsingLock(location string) bool {
-	readWriteMutex.Lock()
-	defer readWriteMutex.Unlock()
+	globalMutex.Lock()
+	defer globalMutex.Unlock()
 
 	_, err := os.Stat(location)
 

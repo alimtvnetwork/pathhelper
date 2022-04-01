@@ -40,12 +40,16 @@ func ApplyChmodOnFiles(
 		return rwxInstruction, errnew.Type.Error(errtype.Conversion, err)
 	}
 
-	err2 := executor.ApplyOnPaths(locations)
+	finalErr := executor.ApplyOnPaths(locations)
+
+	if finalErr == nil {
+		return rwxInstruction, nil
+	}
 
 	return rwxInstruction, errorwrapper.NewRefs(
 		codestack.SkipNone,
 		errtype.ChmodApplyFailed,
-		err2,
+		finalErr,
 		ref.Value{
 			Variable: "locations",
 			Value:    locations,

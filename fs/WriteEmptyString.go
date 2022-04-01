@@ -1,19 +1,16 @@
 package fs
 
 import (
+	"gitlab.com/evatix-go/core/constants"
 	"gitlab.com/evatix-go/errorwrapper"
 )
 
-func WriteFileLock(
+func WriteEmptyString(
 	isCreateParentDir bool,
 	filePath string,
-	content []byte,
 ) *errorwrapper.Wrapper {
-	globalMutex.Lock()
-	defer globalMutex.Unlock()
-
 	return WriteFile(
 		isCreateParentDir,
 		filePath,
-		content)
+		[]byte(constants.EmptyString))
 }
