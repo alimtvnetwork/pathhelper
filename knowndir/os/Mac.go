@@ -1,8 +1,8 @@
 package os
 
 import (
-	"gitlab.com/evatix-go/enum/osarchs"
 	"gitlab.com/evatix-go/core/osconsts"
+	"gitlab.com/evatix-go/enum/osarchs"
 )
 
 type Mac struct {

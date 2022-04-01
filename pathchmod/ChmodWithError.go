@@ -4,7 +4,6 @@ import (
 	"os"
 
 	"gitlab.com/evatix-go/errorwrapper"
-
 )
 
 type ChmodWithError struct {
