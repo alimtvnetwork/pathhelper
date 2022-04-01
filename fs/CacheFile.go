@@ -54,7 +54,7 @@ func (it *CacheFile) GetOnce(toPtr interface{}) *errorwrapper.Wrapper {
 	// not generated yet
 	// check in file first
 	var readFromFileErrWrap *errorwrapper.Wrapper
-	isFileExist := it.IsFileExist()
+	isFileExist := it.isFileExistInternal()
 	if it.IsFileExist() {
 		// read from it
 		readFromFileErrWrap = it.readFromFileInternal(
@@ -83,7 +83,7 @@ func (it *CacheFile) GetOnce(toPtr interface{}) *errorwrapper.Wrapper {
 	}
 
 	// clear, save
-	savingErrorWrap := it.Save(toPtr)
+	savingErrorWrap := it.saveInternal(toPtr)
 	if it.IsCollectWriteError && savingErrorWrap.HasError() {
 		return savingErrorWrap
 	}
@@ -108,7 +108,7 @@ func (it *CacheFile) ReadFromFile(
 		defer globalMutex.Unlock()
 	}
 
-	if it.IsNotFileExist() {
+	if !it.isFileExistInternal() {
 		return errnew.Path.TypeMsg(
 			errtype.FileNotExist,
 			"file not exist to read and unmarshal",
@@ -127,6 +127,15 @@ func (it *CacheFile) readFromFileInternal(
 }
 
 func (it *CacheFile) IsFileExist() bool {
+	if it.IsAcquireLock {
+		globalMutex.Lock()
+		defer globalMutex.Unlock()
+	}
+
+	return it.isFileExistInternal()
+}
+
+func (it *CacheFile) isFileExistInternal() bool {
 	return chmodhelper.IsPathExists(it.AbsFilePath)
 }
 
@@ -149,15 +158,52 @@ func (it *CacheFile) IsErrorOnNull() bool {
 		!it.IsWriteEmptyOnNull
 }
 
+// Save
+//
+//  Casting happens:
+//  - self or self pointer returns directly
+//  - []Bytes to Result
+//  - string (json) to Result
+//  - Jsoner to Result
+//  - bytesSerializer to Result
+//  - error to Result
+//  - AnyItem
 func (it *CacheFile) Save(
-	toPtr interface{},
+	fromAny interface{},
 ) *errorwrapper.Wrapper {
-	isNull := isany.Null(toPtr)
+	if it == nil {
+		return errnew.Null.Simple(it)
+	}
+
+	if it.IsAcquireLock {
+		globalMutex.Lock()
+		defer globalMutex.Unlock()
+	}
+
+	return it.saveInternal(fromAny)
+}
+
+// saveInternal
+//
+//  no lock
+//
+//  Casting happens:
+//  - self or self pointer returns directly
+//  - []Bytes to Result
+//  - string (json) to Result
+//  - Jsoner to Result
+//  - bytesSerializer to Result
+//  - error to Result
+//  - AnyItem
+func (it *CacheFile) saveInternal(
+	fromAnyItem interface{},
+) *errorwrapper.Wrapper {
+	isNull := isany.Null(fromAnyItem)
 
 	if it.IsErrorOnNull() && isNull {
 		return errnew.Null.WithMessage(
 			"cannot save cache data on nil given",
-			toPtr)
+			fromAnyItem)
 	}
 
 	// can be null
@@ -173,7 +219,10 @@ func (it *CacheFile) Save(
 			[]byte(""))
 	}
 
-	toJsonResult := corejson.NewPtr(toPtr)
+	toJsonResult := corejson.
+		AnyTo.
+		SerializedJsonResult(
+			fromAnyItem)
 	if toJsonResult.HasError() {
 		return errnew.Error.Default(
 			errtype.Serialize,
