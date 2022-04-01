@@ -10,7 +10,7 @@ func IsPrefixValid(
 	isVerifyExistence bool,
 	homeDirPrefix, currentFullPath string,
 ) (fixedPath string, isValid bool) {
-	prefixFix := normalize.Path(homeDirPrefix)
+	prefix := normalize.Path(homeDirPrefix)
 	currentPathFix := normalize.Path(currentFullPath)
 
 	if isVerifyExistence && ispath.NotExists(currentPathFix) {
@@ -18,7 +18,7 @@ func IsPrefixValid(
 		return constants.EmptyString, false
 	}
 
-	if normalize.HasPrefix(prefixFix, currentPathFix) {
+	if normalize.HasPrefix(prefix, currentPathFix) {
 		return currentPathFix, true
 	}
 

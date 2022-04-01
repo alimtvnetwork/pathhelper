@@ -11,7 +11,7 @@ import (
 func nginxPathTest01() {
 	nginxRoot := pathsconst.TempDir + "/nginx-test01/"
 
-	nginxDir := nginxlinuxpath.NewNginxDir(
+	nginxDir := nginxlinuxpath.NewNginxDirDefaultChmod(
 		true,
 		nginxRoot,
 		"alim")
@@ -44,7 +44,7 @@ func nginxPathTest01() {
 	fmt.Println(nginxDir.UsersAvailableSites())
 	fmt.Println(nginxDir.UsersEnabledSites())
 
-	nginxDir2 := nginxlinuxpath.NewNginxDir(
+	nginxDir2 := nginxlinuxpath.NewNginxDirDefaultChmod(
 		true,
 		nginxRoot,
 		"alim2")

@@ -16,22 +16,19 @@ func CheckSumFileBytes(
 
 	if !isExist {
 		return errbyte.New.Results.ErrorWrapper(
-			errnew.
-				Path.
-				Messages(
-					errtype.PathMissingOrInvalid,
-					location,
-					"cannot hash non readable file."))
+			errnew.Path.Messages(
+				errtype.PathMissingOrInvalid,
+				location,
+				"cannot hash non readable file."))
 	}
 
 	if fileInfo.IsDir() {
-		return errbyte.New.Results.ErrorWrapper(
-			errnew.
-				Path.
-				Messages(
-					errtype.UnexpectedDirectory,
-					location,
-					"cannot hash directory (use checksummer)."))
+		return errbyte.New.
+			Results.ErrorWrapper(
+			errnew.Path.Messages(
+				errtype.UnexpectedDirectory,
+				location,
+				"cannot hash directory (use checksummer)."))
 	}
 
 	readBytes := ReadFile(location)

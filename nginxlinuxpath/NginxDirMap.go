@@ -2,6 +2,7 @@ package nginxlinuxpath
 
 import (
 	"log"
+	"os"
 	"sync"
 
 	"gitlab.com/evatix-go/core/constants"
@@ -163,13 +164,15 @@ func (it *NginxDirMap) IsMissingKey(key string) bool {
 	return !has
 }
 
-func (it *NginxDirMap) GetOrAddByUsername(
+func (it *NginxDirMap) GetSet(
 	isNormalize bool,
+	dirChmod os.FileMode,
 	userName string,
 ) *NginxDir {
 	if it == nil {
 		return NewNginxDir(
 			isNormalize,
+			dirChmod,
 			it.currentNginxRoot,
 			userName)
 	}
@@ -182,6 +185,7 @@ func (it *NginxDirMap) GetOrAddByUsername(
 
 	newNginxDir := NewNginxDir(
 		isNormalize,
+		dirChmod,
 		it.currentNginxRoot,
 		userName)
 
@@ -190,12 +194,39 @@ func (it *NginxDirMap) GetOrAddByUsername(
 		newNginxDir)
 }
 
-func (it *NginxDirMap) GetOrAddByUsernameLock(
+func (it *NginxDirMap) GetSetLock(
+	isNormalize bool,
+	dirChmod os.FileMode,
+	userName string,
+) *NginxDir {
+	it.Lock()
+	defer it.Unlock()
+
+	return it.GetSet(
+		isNormalize,
+		dirChmod,
+		userName)
+}
+
+func (it *NginxDirMap) GetSetDefault(
+	isNormalize bool,
+	userName string,
+) *NginxDir {
+	return it.GetSet(
+		isNormalize,
+		DefaultDirChmod,
+		userName)
+}
+
+func (it *NginxDirMap) GetSetDefaultLock(
 	isNormalize bool,
 	userName string,
 ) *NginxDir {
 	it.Lock()
 	defer it.Unlock()
 
-	return it.GetOrAddByUsername(isNormalize, userName)
+	return it.GetSet(
+		isNormalize,
+		DefaultDirChmod,
+		userName)
 }
