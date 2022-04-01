@@ -8,7 +8,9 @@ import (
 	"gitlab.com/evatix-go/pathhelper/knowndirget"
 )
 
-// returns /etc/nginx/modules-enabled as a string
+// GetModulesEnabled
+//
+//  returns /etc/nginx/modules-enabled as a string
 func GetModulesEnabled() string {
 	if osconsts.IsWindows {
 		return constants.EmptyString

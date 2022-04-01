@@ -2,9 +2,9 @@ package knowndir
 
 import (
 	"gitlab.com/evatix-go/core/constants"
-	"gitlab.com/evatix-go/enum/osarchs"
 	"gitlab.com/evatix-go/core/osconsts"
 	"gitlab.com/evatix-go/core/ostype"
+	"gitlab.com/evatix-go/enum/osarchs"
 	"gitlab.com/evatix-go/errorwrapper"
 	"gitlab.com/evatix-go/errorwrapper/errnew"
 
@@ -86,7 +86,7 @@ func (a *AliasStruct) GetDirSpecifier(
 
 		return nil,
 			errnew.NotSupportedOption(
-				"ostype",
+				"os-type",
 				osType.String(),
 				msg)
 	}

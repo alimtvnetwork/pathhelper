@@ -45,7 +45,7 @@ func (e *ExecutableProcessor) GetExecuteOutputByExecuting(
 			osconsts.PathSeparator,
 			e.OutputToFile)
 
-		writeErr := fsinternal.WriteFile(
+		writeErr := fsinternal.WriteFileDefault(
 			normalizePath,
 			output.ConsoleResult.OutputBytes())
 

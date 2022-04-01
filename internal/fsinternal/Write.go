@@ -5,8 +5,15 @@ import (
 	"gitlab.com/evatix-go/pathhelper/pathjoin"
 )
 
-func Write(location string, filename string, content []byte) *errorwrapper.Wrapper {
-	compileFilePath := pathjoin.JoinNormalized(location, filename)
+func Write(
+	location string,
+	filename string,
+	content []byte,
+) *errorwrapper.Wrapper {
+	compileFilePath := pathjoin.JoinNormalized(
+		location,
+		filename) // todo check how to remove this reference
 
-	return WriteFile(compileFilePath, content)
+	return WriteFileDefault(
+		compileFilePath, content)
 }

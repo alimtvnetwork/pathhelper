@@ -33,7 +33,7 @@ func (it DetailedResult) JsonPtr() *corejson.Result {
 }
 
 func (it DetailedResult) JsonString() string {
-	return corejson.New(it).JsonString()
+	return corejson.NewPtr(it).JsonString()
 }
 
 func EmptyDetailedResult() *DetailedResult {

@@ -8,7 +8,7 @@ func JoinNormalized3If(
 	path1, path2, path3 string,
 ) string {
 	if isNormalize {
-		return JoinNormalized3(path1, path2, path3)
+		return JoinNormalizedThree(path1, path2, path3)
 	}
 
 	finalPath := path1 +

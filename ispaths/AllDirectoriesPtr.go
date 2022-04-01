@@ -9,10 +9,10 @@ func AllDirectoriesPtr(fullPaths *[]string) bool {
 		return false
 	}
 
-	convertedFileInfos := fileinfogetter.Get(
+	convertedFileInfoItems := fileinfogetter.Get(
 		fullPaths)
 
-	for _, wrapper := range *convertedFileInfos {
+	for _, wrapper := range *convertedFileInfoItems {
 		isAnyNotDir := wrapper == nil ||
 			!wrapper.IsDir()
 

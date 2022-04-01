@@ -20,8 +20,9 @@ func GetRecursive(
 ) *errstr.ResultsWithErrorCollection {
 	if filter == nil {
 		return errstr.
-			New.ResultsWithErrorCollection.ErrorType(
-			errtype.NullOrEmptyReference)
+			New.ResultsWithErrorCollection.ErrorWrapperUsingTypeMsg(
+			errtype.Null,
+			"filter is nil")
 	}
 
 	if filter.ExtensionsLength() == 0 {

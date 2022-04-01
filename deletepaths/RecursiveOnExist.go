@@ -21,8 +21,7 @@ func RecursiveOnExist(location string) *errorwrapper.Wrapper {
 
 	return errnew.
 		Path.
-		Error(
-			errtype.DeletePathFailed,
+		Error(errtype.DeletePathFailed,
 			err,
 			location+"->recursive remove failed.")
 }

@@ -14,7 +14,7 @@ func getFilterForEachFilterPath(
 	arg *recursiveFilterGetterParam,
 ) []string {
 	if arg == nil {
-		errtype.NullOrEmptyReference.
+		errtype.Null.
 			PanicNoRefs("args")
 	}
 

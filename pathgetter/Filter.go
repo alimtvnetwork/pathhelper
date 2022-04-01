@@ -13,12 +13,12 @@ func Filter(
 	isIgnoreOnError bool,
 	filter pathfuncs.Filter,
 ) []*pathfuncs.FilterResult {
-	rootPath2 := normalize.PathUsingSeparatorUsingSingleIf(
+	compiledRootPath := normalize.PathUsingSeparatorUsingSingleIf(
 		isNormalize,
 		separator,
 		rootPath)
 
-	allPaths, err := ioutil.ReadDir(rootPath2)
+	allPaths, err := ioutil.ReadDir(compiledRootPath)
 
 	if err != nil {
 		empty := make([]*pathfuncs.FilterResult, 0)
@@ -35,7 +35,7 @@ func Filter(
 
 		isDir := fileInfo.IsDir()
 		name := fileInfo.Name()
-		combinedPath := rootPath2 +
+		combinedPath := compiledRootPath +
 			separator +
 			name
 

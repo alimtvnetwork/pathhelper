@@ -10,8 +10,8 @@ func WriteAllParamsLock(
 	isCreateParentDir,
 	isSkipOnNilObject bool,
 	isKeepExistingFileModeOnExist bool,
-	fileMod os.FileMode,
-	dirCreateMod os.FileMode,
+	dirCreateMode os.FileMode,
+	fileMode os.FileMode,
 	filePath string,
 	contents []byte,
 ) *errorwrapper.Wrapper {
@@ -22,8 +22,8 @@ func WriteAllParamsLock(
 		isCreateParentDir,
 		isSkipOnNilObject,
 		isKeepExistingFileModeOnExist,
-		fileMod,
-		dirCreateMod,
+		dirCreateMode,
+		fileMode,
 		filePath,
 		contents)
 }

@@ -7,15 +7,15 @@ import (
 
 // JoinNormalized normalized applied auto
 func JoinNormalized(
-	path1, path2 string,
+	first, second string,
 ) string {
-	if path2 == "" {
-		return normalize.Path(path1)
+	if second == "" {
+		return normalize.Path(first)
 	}
 
-	finalPath := path1 +
+	finalPath := first +
 		osconsts.PathSeparator +
-		path2
+		second
 
 	return normalize.Path(finalPath)
 }

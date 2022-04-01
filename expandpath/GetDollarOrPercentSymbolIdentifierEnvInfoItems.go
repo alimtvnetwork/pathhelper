@@ -10,6 +10,7 @@ func GetDollarOrPercentSymbolIdentifierEnvInfoItems(
 ) []EnvKeyInfo {
 	envVariableRawKeys := regexnew.
 		DollarIdentifierRegex.
+		CompileMust().
 		FindAllString(
 			stringToCheck,
 			constants.MinusOne)
@@ -23,6 +24,7 @@ func GetDollarOrPercentSymbolIdentifierEnvInfoItems(
 
 	envVariableRawKeysNext := regexnew.
 		PercentIdentifierRegex.
+		CompileMust().
 		FindAllString(
 			stringToCheck, constants.MinusOne)
 

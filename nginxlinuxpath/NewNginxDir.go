@@ -2,6 +2,7 @@ package nginxlinuxpath
 
 import (
 	"gitlab.com/evatix-go/asynchelper/syncparallel"
+	"gitlab.com/evatix-go/core/coreinstruction"
 	"gitlab.com/evatix-go/core/extensionsconst"
 	"gitlab.com/evatix-go/pathhelper/internal/normalizeinternal"
 	"gitlab.com/evatix-go/pathhelper/knowndirstructure"
@@ -25,6 +26,7 @@ func NewNginxDir(
 		func() {
 			nginxRoot = GetFullDirStructure(
 				isNormalize,
+				DefaultDirChmod,
 				currentNginxRoot)
 		},
 		func() {
@@ -41,10 +43,12 @@ func NewNginxDir(
 
 			userDir = GetFullDirStructure(
 				isNormalize,
+				DefaultDirChmod,
 				specificUserRoot)
 		})
 
 	return &NginxDir{
+		BaseUsername:          *coreinstruction.NewUsername(username),
 		Root:                  nginxRoot,
 		User:                  userDir,
 		AllUsersRoot:          allUsersRoot,

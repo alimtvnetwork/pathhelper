@@ -52,16 +52,16 @@ func (it *FilesResult) HasFilesListChecksum() bool {
 	return it != nil && it.HexFilesListChecksum != ""
 }
 
-func (it FilesResult) Json() corejson.Result {
+func (it *FilesResult) Json() corejson.Result {
 	return corejson.New(it)
 }
 
-func (it FilesResult) JsonPtr() *corejson.Result {
+func (it *FilesResult) JsonPtr() *corejson.Result {
 	return corejson.NewPtr(it)
 }
 
-func (it FilesResult) JsonString() string {
-	return corejson.New(it).JsonString()
+func (it *FilesResult) JsonString() string {
+	return corejson.NewPtr(it).JsonString()
 }
 
 func (it *FilesResult) HasContentsChecksum() bool {

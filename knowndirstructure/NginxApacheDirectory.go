@@ -4,7 +4,6 @@ import (
 	"os"
 
 	"gitlab.com/evatix-go/core/coredata/corejson"
-	"gitlab.com/evatix-go/core/filemode"
 	"gitlab.com/evatix-go/core/osconsts"
 	"gitlab.com/evatix-go/errorwrapper"
 	"gitlab.com/evatix-go/errorwrapper/errdata/errstr"
@@ -16,18 +15,19 @@ import (
 )
 
 type NginxApacheDirectory struct {
-	Root             string `json:"Root,omitempty"`
-	RootConfigFile   string `json:"RootConfigFile,omitempty"`
-	ConfigAvailable  string `json:"ConfigAvailable,omitempty"`
-	ConfigEnabled    string `json:"ConfigEnabled,omitempty"`
-	SitesBackup      string `json:"SitesBackup,omitempty"`
-	SitesAvailable   string `json:"SitesAvailable,omitempty"`
-	SitesEnabled     string `json:"SitesEnabled,omitempty"`
-	ExtraConfig      string `json:"ExtraConfig,omitempty"`
-	ModulesAvailable string `json:"ModulesAvailable,omitempty"`
-	ModulesEnabled   string `json:"ModulesEnabled,omitempty"`
-	ApachePorts      string `json:"ApachePorts,omitempty"`   // root + ports.conf
-	ApacheEnvVars    string `json:"ApacheEnvVars,omitempty"` // root + envvars
+	DirChmod         os.FileMode // todo fix for apache
+	Root             string      `json:"Root,omitempty"`
+	RootConfigFile   string      `json:"RootConfigFile,omitempty"`
+	ConfigAvailable  string      `json:"ConfigAvailable,omitempty"`
+	ConfigEnabled    string      `json:"ConfigEnabled,omitempty"`
+	SitesBackup      string      `json:"SitesBackup,omitempty"`
+	SitesAvailable   string      `json:"SitesAvailable,omitempty"`
+	SitesEnabled     string      `json:"SitesEnabled,omitempty"`
+	ExtraConfig      string      `json:"ExtraConfig,omitempty"`
+	ModulesAvailable string      `json:"ModulesAvailable,omitempty"`
+	ModulesEnabled   string      `json:"ModulesEnabled,omitempty"`
+	ApachePorts      string      `json:"ApachePorts,omitempty"`   // root + ports.conf
+	ApacheEnvVars    string      `json:"ApacheEnvVars,omitempty"` // root + env-vars
 }
 
 func (it *NginxApacheDirectory) IsRootExist() bool {
@@ -123,7 +123,7 @@ func (it *NginxApacheDirectory) MkDirAll(mode os.FileMode) *errwrappers.Collecti
 }
 
 func (it *NginxApacheDirectory) MkDirAllDefault() *errwrappers.Collection {
-	return it.MkDirAll(filemode.X644)
+	return it.MkDirAll(it.DirChmod)
 }
 
 func (it NginxApacheDirectory) Json() corejson.Result {

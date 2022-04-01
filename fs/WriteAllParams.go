@@ -12,8 +12,8 @@ func WriteAllParams(
 	isCreateParentDir,
 	isSkipOnNilObject bool,
 	isKeepExistingFileModeOnExist bool,
-	fileMod os.FileMode,
 	dirCreateMod os.FileMode,
+	fileMod os.FileMode,
 	filePath string,
 	contents []byte,
 ) *errorwrapper.Wrapper {
@@ -42,7 +42,9 @@ func WriteAllParams(
 	// new
 	var createDirErr *errorwrapper.Wrapper
 	if isCreateParentDir {
-		createDirErr = createdir.AllUptoParent(filePath, dirCreateMod)
+		createDirErr = createdir.AllUptoParent(
+			filePath,
+			dirCreateMod)
 	}
 
 	if createDirErr.HasError() {

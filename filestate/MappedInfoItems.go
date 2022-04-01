@@ -1026,7 +1026,7 @@ func (it *MappedInfoItems) JsonString() string {
 		return constants.EmptyString
 	}
 
-	return it.Json().JsonString()
+	return it.JsonPtr().JsonString()
 }
 
 func (it MappedInfoItems) String() string {

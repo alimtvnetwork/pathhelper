@@ -8,11 +8,21 @@ import (
 	"gitlab.com/evatix-go/pathhelper/knowndirget"
 )
 
+// GetMimeTypes
+//
 // returns /etc/nginx/mime.types as a string
 func GetMimeTypes() string {
 	if osconsts.IsWindows {
 		return constants.EmptyString
 	}
 
-	return knowndir.MimeTypes.CombineWith(knowndirget.NginxLinuxPath())
+	if defaultMimeTypesPath.IsInitialized() {
+		return defaultMimeTypesPath.String()
+	}
+
+	mimePath := knowndir.MimeTypes.CombineWith(
+		knowndirget.NginxLinuxPath())
+
+	return defaultMimeTypesPath.GetPlusSetOnUninitialized(
+		mimePath)
 }

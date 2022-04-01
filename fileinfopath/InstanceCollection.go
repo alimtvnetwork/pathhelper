@@ -846,7 +846,7 @@ func (it *InstanceCollection) JsonString() string {
 		return constants.EmptyString
 	}
 
-	return it.Json().JsonString()
+	return it.JsonPtr().JsonString()
 }
 
 func (it InstanceCollection) String() string {

@@ -8,7 +8,9 @@ import (
 	"gitlab.com/evatix-go/pathhelper/knowndirget"
 )
 
-// GetSitesAvailable returns /etc/nginx/sites-available as a string
+// GetSitesAvailable
+//
+//  returns /etc/nginx/sites-available as a string
 func GetSitesAvailable() string {
 	if osconsts.IsWindows {
 		return constants.EmptyString

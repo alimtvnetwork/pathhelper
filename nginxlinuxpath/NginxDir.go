@@ -1,11 +1,15 @@
 package nginxlinuxpath
 
 import (
+	"fmt"
 	"os"
 	"path/filepath"
 
 	"gitlab.com/evatix-go/core/coredata/corejson"
+	"gitlab.com/evatix-go/core/coredata/corestr"
+	"gitlab.com/evatix-go/core/coreinstruction"
 	"gitlab.com/evatix-go/core/extensionsconst"
+	"gitlab.com/evatix-go/core/filemode"
 	"gitlab.com/evatix-go/core/osconsts"
 	"gitlab.com/evatix-go/errorwrapper"
 	"gitlab.com/evatix-go/errorwrapper/errdata/errstr"
@@ -21,10 +25,12 @@ import (
 )
 
 type NginxDir struct {
-	Root, User            *knowndirstructure.NginxApacheDirectory
-	SpecificUserRoot      string // /etc/nginx/conf.d/users/userName
-	AllUsersRoot          string // /etc/nginx/conf.d/users
-	CurrentUserRootConfig string // /etc/nginx/conf.d/users/userName/username.conf
+	coreinstruction.BaseUsername
+	Root, User                           *knowndirstructure.NginxApacheDirectory
+	SpecificUserRoot                     string                   // /etc/nginx/conf.d/users/{user-name}
+	AllUsersRoot                         string                   // /etc/nginx/conf.d/users
+	CurrentUserRootConfig                string                   // /etc/nginx/conf.d/users/{user-name}/username.conf
+	currentUserIncludeConfigRootFilePath corestr.SimpleStringOnce // /etc/nginx/conf.d/users/{user-name}.conf
 }
 
 func (it NginxDir) MkDir(
@@ -136,18 +142,24 @@ func (it *NginxDir) UserSitesEnableDir() string {
 	return it.User.SitesEnabled
 }
 
-func (it *NginxDir) SiteNameAddConfExt(siteName string) string {
+func (it *NginxDir) SiteNameAddConfExt(
+	siteName string,
+) string {
 	return siteName + extensionsconst.DotConf
 }
 
-func (it *NginxDir) AbsPathOfAvailableSiteAddConfExt(siteName string) string {
+func (it *NginxDir) AbsPathOfAvailableSiteAddConfExt(
+	siteName string,
+) string {
 	return normalizeinternal.JoinFixIf(
 		true,
 		it.UserSitesAvailableDir(),
 		it.SiteNameAddConfExt(siteName))
 }
 
-func (it *NginxDir) CopyCurrentUserRootConfigTo(newLocation string) *errorwrapper.Wrapper {
+func (it *NginxDir) CopyCurrentUserRootConfigTo(
+	newLocation string,
+) *errorwrapper.Wrapper {
 	return fsinternal.CopyFile(
 		it.CurrentUserRootConfig,
 		newLocation,
@@ -157,7 +169,9 @@ func (it *NginxDir) CopyCurrentUserRootConfigTo(newLocation string) *errorwrappe
 // CopyCurrentUserRootConfigToTempRel
 //
 // Returns final copied path
-func (it *NginxDir) CopyCurrentUserRootConfigToTempRel(tempRelativePath string) *errstr.Result {
+func (it *NginxDir) CopyCurrentUserRootConfigToTempRel(
+	tempRelativePath string,
+) *errstr.Result {
 	finalPath := normalizeinternal.JoinFixIf(
 		true,
 		pathsconst.TempDir,
@@ -369,20 +383,83 @@ func (it *NginxDir) UsersEnabledSites() *errstr.Results {
 		it.UserSitesEnableDir())
 }
 
-func (it NginxDir) Json() corejson.Result {
+func (it *NginxDir) Json() corejson.Result {
 	return corejson.New(it)
 }
 
-func (it NginxDir) JsonPtr() *corejson.Result {
+func (it *NginxDir) JsonPtr() *corejson.Result {
 	return corejson.NewPtr(it)
 }
 
-func (it NginxDir) JsonString() string {
+func (it *NginxDir) JsonString() string {
 	return corejson.NewPtr(it).JsonString()
 }
 
-func (it NginxDir) JsonModelAny() interface{} {
+func (it *NginxDir) JsonModelAny() interface{} {
 	return it
+}
+
+// CurrentUserIncludeConfigRootFilePath
+//
+//  using format : userRootConfigFilePathFormat
+//  sample : /etc/nginx/conf.d/users/{user-name}.conf
+func (it *NginxDir) CurrentUserIncludeConfigRootFilePath() string {
+	if it.currentUserIncludeConfigRootFilePath.IsInitialized() {
+		return it.currentUserIncludeConfigRootFilePath.String()
+	}
+
+	joinedPath := fmt.Sprintf(
+		userRootConfigFilePathFormat,
+		it.AllUsersRoot,
+		it.Username)
+
+	fixedPath := normalizeinternal.Fix(
+		joinedPath,
+	)
+
+	return it.currentUserIncludeConfigRootFilePath.GetPlusSetOnUninitialized(
+		fixedPath)
+}
+
+// WriteUserRootEnableIncludeConfigFile
+//
+//  Writes enable config file to file system for the specific user.
+//  It will write user root config, include statement only
+//
+// Content Sample:
+//  - includeFormatted : "include /etc/nginx/conf.d/users/{username}/enabled/*.conf;"
+//
+// Default file location:
+//  - CurrentUserIncludeConfigRootFilePath() : "/etc/nginx/conf.d/users/{user-name}.conf"
+//
+// Reference:
+//  - How directories are organized: https://prnt.sc/x79d2-AINSDf
+func (it *NginxDir) WriteUserRootEnableIncludeConfigFile(
+	dirChmod, fileChmod os.FileMode,
+) *errorwrapper.Wrapper {
+	includeContent := fmt.Sprintf(
+		includeFormatted,
+		it.UsersEnabledGlobConf())
+
+	return fsinternal.WriteFileString(
+		dirChmod,
+		fileChmod,
+		it.CurrentUserIncludeConfigRootFilePath(),
+		includeContent,
+	)
+}
+
+// WriteUserRootEnableIncludeConfigFileDefaultChmod
+//
+//  Writes enable config file to file system for the specific user
+//  using WriteUserRootEnableIncludeConfigFile
+//
+// DefaultChmod:
+//  - DefaultDirChmod, filemode.FileDefault
+func (it *NginxDir) WriteUserRootEnableIncludeConfigFileDefaultChmod() *errorwrapper.Wrapper {
+	return it.WriteUserRootEnableIncludeConfigFile(
+		DefaultDirChmod,
+		filemode.FileDefault)
 }
 
 func (it *NginxDir) JsonParseSelfInject(jsonResult *corejson.Result) error {

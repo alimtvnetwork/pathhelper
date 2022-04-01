@@ -76,7 +76,7 @@ func GetExcept(
 		exceptFilesHashset)
 
 	return &errstr.ResultsWithErrorCollection{
-		Values:        *finalResult,
+		Values:        finalResult,
 		ErrorWrappers: selectedFilesResults.ErrorWrappers,
 	}
 }

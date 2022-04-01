@@ -8,11 +8,14 @@ import (
 	"gitlab.com/evatix-go/pathhelper/knowndirget"
 )
 
-// returns /etc/nginx/modules-available as a string
+// GetModulesAvailable
+//
+//  returns /etc/nginx/modules-available as a string
 func GetModulesAvailable() string {
 	if osconsts.IsWindows {
 		return constants.EmptyString
 	}
 
-	return knowndir.ModulesAvailable.CombineWith(knowndirget.NginxLinuxPath())
+	return knowndir.ModulesAvailable.CombineWith(
+		knowndirget.NginxLinuxPath())
 }

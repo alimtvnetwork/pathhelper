@@ -5,12 +5,14 @@ import (
 	"gitlab.com/evatix-go/errorwrapper/errdata/errstr"
 )
 
-func FilesDefault(
+func FirstOrDefaultDir(
 	isNormalize bool,
-	location string,
-) *errstr.Results {
-	return Files(
-		isNormalize,
+	rootPath string,
+) *errstr.Result {
+	results := Dirs(
 		osconsts.PathSeparator,
-		location)
+		rootPath,
+		isNormalize)
+
+	return results.FirstOrDefaultResult()
 }

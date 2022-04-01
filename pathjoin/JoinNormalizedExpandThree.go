@@ -5,11 +5,11 @@ import (
 	"gitlab.com/evatix-go/pathhelper/normalize"
 )
 
-// JoinNormalizedExpand3 normalized and expand applied auto
-func JoinNormalizedExpand3(
-	path1, path2, path3 string,
+// JoinNormalizedExpandThree normalized and expand applied auto
+func JoinNormalizedExpandThree(
+	first, second, third string,
 ) string {
-	joined := JoinSimple3(path1, path2, path3)
+	joined := JoinSimple3(first, second, third)
 	expand := expandpath.ExpandVariables(joined)
 
 	return normalize.Path(expand)
