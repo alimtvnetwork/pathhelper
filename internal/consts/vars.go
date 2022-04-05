@@ -1,10 +1,13 @@
 package consts
 
 import (
+	"sync"
+
 	"gitlab.com/evatix-go/core/constants"
 )
 
 var (
+	GlobalMutex = &sync.Mutex{}
 	SlugForbiddenArray = [256]rune{
 		constants.ExclamationChar:    constants.One,
 		'`':                          constants.One,

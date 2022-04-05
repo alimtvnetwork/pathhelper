@@ -1,6 +1,8 @@
 package fs
 
-import "os"
+import (
+	"os"
+)
 
 const (
 	FlagAppend                = os.O_APPEND
