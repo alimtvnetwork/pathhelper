@@ -9,17 +9,21 @@ import (
 	"gitlab.com/evatix-go/pathhelper/internal/fsinternal"
 )
 
-func SingleOnExist(location string) *errorwrapper.Wrapper {
+func SingleAllOnExist(location string) *errorwrapper.Wrapper {
 	if !fsinternal.IsPathExists(location) {
 		return nil
 	}
 
-	err := os.Remove(location)
+	err := os.RemoveAll(location)
+
 	if err == nil {
 		return nil
 	}
 
 	return errnew.
 		Path.
-		Error(errtype.DeletePathFailed, err, location)
+		Error(
+			errtype.DeletePathFailed,
+			err,
+			location)
 }

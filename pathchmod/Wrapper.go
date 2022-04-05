@@ -10,6 +10,7 @@ import (
 	"gitlab.com/evatix-go/core/filemode"
 	"gitlab.com/evatix-go/errorwrapper"
 	"gitlab.com/evatix-go/errorwrapper/errnew"
+	"gitlab.com/evatix-go/errorwrapper/ref"
 )
 
 type Wrapper struct {
@@ -60,6 +61,39 @@ func (it *Wrapper) Condition() *chmodins.Condition {
 		IsSkipOnInvalid:   it.IsSkipOnInvalid,
 		IsContinueOnError: it.IsContinueOnError,
 		IsRecursive:       it.IsRecursive,
+	}
+}
+
+func (it *Wrapper) DirChmodDisplay() string {
+	if it == nil {
+		return ""
+	}
+
+	return chmodhelper.FileModeFriendlyString(it.DirChmod)
+}
+
+func (it *Wrapper) FileChmodDisplay() string {
+	if it == nil {
+		return ""
+	}
+
+	return chmodhelper.FileModeFriendlyString(it.FileChmod)
+}
+
+func (it *Wrapper) References() []ref.Value {
+	if it == nil {
+		return []ref.Value{}
+	}
+
+	return []ref.Value{
+		{
+			Variable: "ParentDirChmod",
+			Value:    it.DirChmodDisplay(),
+		},
+		{
+			Variable: "FileChmod",
+			Value:    it.FileChmodDisplay(),
+		},
 	}
 }
 

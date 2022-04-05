@@ -1,7 +1,9 @@
 package fs
 
-import "sync"
+import (
+	"gitlab.com/evatix-go/pathhelper/internal/consts"
+)
 
 var (
-	globalMutex = &sync.Mutex{}
+	globalMutex = consts.GlobalMutex
 )

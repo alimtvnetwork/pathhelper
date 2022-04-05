@@ -80,8 +80,11 @@ func main() {
 	// checksumTest03()
 	// fileInfoWithPathTest01()
 	// fileInfoWithPathTest02()
-	checksumTest04()
+	// checksumTest04()
 	// nginxPathTest01()
 
 	// testPathWithVerifier()
+	// hashsetReadWriteCache01()
+	// mapStringAnyReadWriteCache01()
+	hashmapReadWriteTest02()
 }

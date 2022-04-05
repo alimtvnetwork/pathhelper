@@ -6,6 +6,8 @@ import (
 	"gitlab.com/evatix-go/pathhelper/knowndir"
 )
 
+// ProgramFiles64
+//
 // Returns Program Files directory on windows with OS architecture x64
 //
 // Program files for x64 bit is always `Program Files`,

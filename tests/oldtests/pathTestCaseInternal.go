@@ -36,7 +36,6 @@ func pathTestCaseInternalFromWrappers(
 	actualFuncCall func() string,
 ) {
 	for _, testCase := range testData {
-		fmt.Println(testCase)
 		getPathTestCommonMethodLinux(
 			t,
 			testCase,
