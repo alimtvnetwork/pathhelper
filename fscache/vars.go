@@ -42,4 +42,13 @@ var (
 			return errnew.Reflect.SetFromTo(map[string]string{}, toPtr)
 		},
 	}
+
+	stringsOnInvalidDefaultFunc = &errfunc.OnInvalidGenerator{
+		NameInfo: &coretaskinfo.Info{
+			RootName: "Strings Cache file",
+		},
+		OnInvalidGenFunc: func(toPtr interface{}) *errorwrapper.Wrapper {
+			return errnew.Reflect.SetFromTo([]string{}, toPtr)
+		},
+	}
 )

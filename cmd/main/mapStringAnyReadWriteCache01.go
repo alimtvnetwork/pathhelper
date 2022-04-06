@@ -14,7 +14,6 @@ func mapStringAnyReadWriteCache01() {
 	cacheFile := fscache.MapStringAnyCacheFile{
 		CacheFile: fscache.CacheFile{
 			ChmodWrapper: pathchmod.Wrapper{},
-			AbsParentDir: "",
 			AbsFilePath: pathjoin.WithTempPlusDefaults(
 				"cache-file-testing",
 				"MapStringAnyCacheFile.conf"),

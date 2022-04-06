@@ -23,7 +23,7 @@ import (
 
 type CacheFile struct {
 	ChmodWrapper                   pathchmod.Wrapper           // user input
-	AbsParentDir, AbsFilePath      string                      // user input
+	AbsFilePath                    string                      // user input
 	IsAcquireLock                  bool                        // user input
 	IsCollectReadError             bool                        // user input
 	IsCollectWriteError            bool                        // user input
@@ -309,7 +309,6 @@ func (it *CacheFile) References() *refs.Collection {
 	references := refs.NewUsingInfo(
 		it.RootNameInfo())
 
-	references.Add("AbsParentDir", it.AbsParentDir)
 	references.Add("AbsFilePath", it.AbsFilePath)
 	references.Adds(it.ChmodWrapper.References()...)
 	it.lazyReferences = references

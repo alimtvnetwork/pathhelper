@@ -17,6 +17,24 @@ type StringsCacheFile struct {
 	items []string
 }
 
+func (it *StringsCacheFile) CoreStringSlice() (*corestr.SimpleSlice, *errorwrapper.Wrapper) {
+	return it.ReadSlice()
+}
+
+func (it *StringsCacheFile) ReadSlice() (*corestr.SimpleSlice, *errorwrapper.Wrapper) {
+	if it == nil {
+		return corestr.Empty.SimpleSlice(), errnew.Null.Simple(it)
+	}
+
+	slice, errWrap := it.Read()
+
+	if errWrap.HasAnyError() {
+		return corestr.Empty.SimpleSlice(), errWrap
+	}
+
+	return corestr.New.SimpleSlice.Strings(slice), nil
+}
+
 func (it *StringsCacheFile) Read() ([]string, *errorwrapper.Wrapper) {
 	if it == nil {
 		return []string{}, errnew.
@@ -33,7 +51,6 @@ func (it *StringsCacheFile) Read() ([]string, *errorwrapper.Wrapper) {
 
 	// generate
 	var items []string
-
 	errWrap := it.GetOnce(&items)
 	it.items = items
 
@@ -275,5 +292,5 @@ func (it *StringsCacheFile) setDefaultGeneratorOnInvalidFunc() {
 		return
 	}
 
-	it.GetSetInvalidGeneratorOnEmpty(hashmapOnInvalidDefaultFunc)
+	it.GetSetInvalidGeneratorOnEmpty(stringsOnInvalidDefaultFunc)
 }

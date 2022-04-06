@@ -43,7 +43,7 @@ func Test_UnixOsSpecificPathSelect(t *testing.T) {
 		"\t\"BackupRoot\": \"/var/opt/cimux/backups/\",",
 		"\t\"ArchiveRoot\": \"/var/opt/cimux/archived/\",",
 		"\t\"ZipsRoot\": \"/var/opt/cimux/compressed/\",",
-		"\t\"DefaultConfigFilePath\": \"/etc/cimux/config/config/default-config.json\"",
+		"\t\"DefaultConfigFilePath\": \"/etc/cimux/config/default-config.json\"",
 		"}",
 	}
 

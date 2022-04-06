@@ -29,5 +29,5 @@ var UnixOs = Specific{
 	BackupRoot:               unixVarAppRoot + DefaultSuffix.BackupRoot,
 	ArchiveRoot:              unixVarAppRoot + DefaultSuffix.ArchiveRoot,
 	ZipsRoot:                 unixVarAppRoot + DefaultSuffix.ZipsRoot,
-	DefaultConfigFilePath:    unixConfigRoot + DefaultSuffix.DefaultConfigFilePath,
+	DefaultConfigFilePath:    etcApp + DefaultSuffix.DefaultConfigFilePath,
 }
