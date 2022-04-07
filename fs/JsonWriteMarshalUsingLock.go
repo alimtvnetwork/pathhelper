@@ -8,6 +8,7 @@ import (
 
 func JsonWriteMarshalUsingLock(
 	isCreateParentDir,
+	isApplyChmodOnMismatchOnly bool,
 	isSkipOnNilObject bool,
 	isKeepExistingFileModeOnExist bool,
 	dirMode, fileMode os.FileMode,
@@ -19,6 +20,7 @@ func JsonWriteMarshalUsingLock(
 
 	return JsonWriteMarshal(
 		isCreateParentDir,
+		isApplyChmodOnMismatchOnly,
 		isSkipOnNilObject,
 		isKeepExistingFileModeOnExist,
 		dirMode,

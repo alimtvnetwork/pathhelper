@@ -1,8 +1,10 @@
 package pathsconst
 
+import "gitlab.com/evatix-go/core/appname"
+
 const (
-	AppName                 = "Cimux"
-	AppNameLower            = "cimux"
+	AppName                 = appname.Cimux
+	AppNameLower            = appname.CimuxLower
 	VarOpt                  = "/var/opt/"
 	Etc                     = "/etc/"
 	VarLog                  = "/var/log/"

@@ -16,12 +16,10 @@ func writeExistingFileContent(
 	chmod, err := chmodhelper.GetExistingChmod(
 		filePath)
 	if err != nil {
-		return errnew.
-			Path.
-			Error(
-				errtype.File,
-				err,
-				filePath)
+		return errnew.Path.Error(
+			errtype.ExistingChmodReadFailed,
+			err,
+			filePath)
 	}
 
 	writeErr := ioutil.WriteFile(

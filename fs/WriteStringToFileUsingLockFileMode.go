@@ -8,16 +8,18 @@ import (
 
 func WriteStringToFileUsingLockFileMode(
 	isCreateParentDir,
+	isApplyChmodOnMismatch bool, // or else always apply
 	isKeepExistingFileModeOnExist bool,
-	dirMode, fileMode os.FileMode,
+	dirChmod, fileChmod os.FileMode,
 	filePath string,
 	content string,
 ) *errorwrapper.Wrapper {
 	return WriteFileUsingFileMode(
 		isCreateParentDir,
+		isApplyChmodOnMismatch,
 		isKeepExistingFileModeOnExist,
-		dirMode,
-		fileMode,
+		dirChmod,
+		fileChmod,
 		filePath,
 		[]byte(content),
 	)

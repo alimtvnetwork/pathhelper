@@ -4,12 +4,15 @@ import (
 	"io/ioutil"
 	"os"
 
+	"gitlab.com/evatix-go/core/osconsts"
 	"gitlab.com/evatix-go/errorwrapper"
 	"gitlab.com/evatix-go/errorwrapper/errnew"
 	"gitlab.com/evatix-go/errorwrapper/errtype"
+	"gitlab.com/evatix-go/pathhelper/pathchmod"
 )
 
 func writeExistingFileContentUsingFileMode(
+	isApplyChmodOnMismatchOnly bool,
 	filePath string,
 	content []byte,
 	fileMode os.FileMode,
@@ -30,5 +33,14 @@ func writeExistingFileContentUsingFileMode(
 				writeErr.Error())
 	}
 
-	return nil
+	if osconsts.IsWindows {
+		return nil
+	}
+
+	return pathchmod.ApplyOnOptions(
+		true,
+		false,
+		isApplyChmodOnMismatchOnly,
+		fileMode,
+		filePath)
 }

@@ -1,9 +1,9 @@
 package fs
 
 import (
-	"encoding/json"
 	"os"
 
+	"gitlab.com/evatix-go/core/coredata/corejson"
 	"gitlab.com/evatix-go/errorwrapper"
 	"gitlab.com/evatix-go/errorwrapper/errnew"
 	"gitlab.com/evatix-go/errorwrapper/errtype"
@@ -11,6 +11,7 @@ import (
 
 func JsonWriteMarshal(
 	isCreateParentDir,
+	isApplyChmodOnMismatchOnly bool,
 	isSkipOnNilObject bool,
 	isKeepExistingFileModeOnExist bool,
 	dirMode, fileMode os.FileMode,
@@ -21,20 +22,20 @@ func JsonWriteMarshal(
 		return nil
 	}
 
-	allBytes, err := json.Marshal(marshallingObjectRef)
+	allBytes, err := corejson.Serialize.Raw(marshallingObjectRef)
 
 	if err != nil {
-		return errnew.
-			Path.
-			Messages(
-				errtype.Marshalling,
-				filePath,
-				err.Error(),
-			)
+		return errnew.Path.Error(
+			errtype.Marshalling,
+			err,
+			filePath,
+		)
 	}
 
+	// new content, apply chmod any way as new
 	return WriteFileUsingFileMode(
 		isCreateParentDir,
+		isApplyChmodOnMismatchOnly,
 		isKeepExistingFileModeOnExist,
 		dirMode,
 		fileMode,

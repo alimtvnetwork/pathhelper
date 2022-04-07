@@ -7,7 +7,7 @@ import (
 )
 
 var (
-	GlobalMutex = &sync.Mutex{}
+	GlobalMutex        = &sync.Mutex{}
 	SlugForbiddenArray = [256]rune{
 		constants.ExclamationChar:    constants.One,
 		'`':                          constants.One,

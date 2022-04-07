@@ -8,10 +8,12 @@ import (
 
 func WriteAllParamsLock(
 	isCreateParentDir,
+	isApplyChmodMust,
+	isApplyChmodOnMismatchOnly,
 	isSkipOnNilObject bool,
 	isKeepExistingFileModeOnExist bool,
-	dirCreateMode os.FileMode,
-	fileMode os.FileMode,
+	parentDirChmod os.FileMode,
+	fileChmod os.FileMode,
 	filePath string,
 	contents []byte,
 ) *errorwrapper.Wrapper {
@@ -20,10 +22,12 @@ func WriteAllParamsLock(
 
 	return WriteAllParams(
 		isCreateParentDir,
+		isApplyChmodMust,
+		isApplyChmodOnMismatchOnly,
 		isSkipOnNilObject,
 		isKeepExistingFileModeOnExist,
-		dirCreateMode,
-		fileMode,
+		parentDirChmod,
+		fileChmod,
 		filePath,
 		contents)
 }

@@ -9,6 +9,7 @@ import (
 
 func WriteFileUsingFileMode(
 	isCreateParentDir,
+	isApplyChmodOnMismatch bool, // or else always apply
 	isKeepExistingFileModeOnExist bool,
 	dirMode, fileMode os.FileMode,
 	filePath string,
@@ -28,6 +29,7 @@ func WriteFileUsingFileMode(
 			content)
 	} else if isExist && !isKeepExistingFileModeOnExist {
 		return writeExistingFileContentUsingFileMode(
+			isApplyChmodOnMismatch,
 			filePath,
 			content,
 			fileMode)
@@ -36,6 +38,8 @@ func WriteFileUsingFileMode(
 	// new content
 	return writeNewFileContentUsingFileMode(
 		isCreateParentDir,
+		true,
+		isApplyChmodOnMismatch,
 		dirMode,
 		fileMode,
 		filePath,

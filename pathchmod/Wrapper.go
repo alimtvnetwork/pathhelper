@@ -28,6 +28,13 @@ func DefaultWrapper() Wrapper {
 	}
 }
 
+func NewWrapperFile(changeFileMode os.FileMode) Wrapper {
+	return Wrapper{
+		DirChmod:  filemode.DirDefault,
+		FileChmod: changeFileMode,
+	}
+}
+
 func DefaultWrapperRecursive() Wrapper {
 	return Wrapper{
 		DirChmod:    filemode.DirDefault,
@@ -246,4 +253,49 @@ func (it *Wrapper) ApplyFiles(
 		it.IsContinueOnError,
 		it.DirChmod,
 		filePaths...)
+}
+
+func (it *Wrapper) ApplyFileOptions(
+	isApply,
+	isApplyOnMismatch bool,
+	changeFileMode os.FileMode,
+	location string,
+) (errWrap *errorwrapper.Wrapper) {
+	if !isApply {
+		return nil
+	}
+
+	if it == nil {
+		return errnew.Null.WithMessage(
+			"location chmod apply failed : "+
+				location,
+			it)
+	}
+
+	if isApplyOnMismatch {
+		return ApplyOnMismatch(
+			it.IsSkipOnInvalid,
+			changeFileMode,
+			location)
+	}
+
+	_, errWrap = ApplyChmod(
+		it.IsRecursive,
+		it.IsSkipOnInvalid,
+		changeFileMode,
+		location)
+
+	return errWrap
+}
+
+func (it *Wrapper) ToNonPtr() Wrapper {
+	if it == nil {
+		return Wrapper{}
+	}
+
+	return *it
+}
+
+func (it Wrapper) ToPtr() *Wrapper {
+	return &it
 }

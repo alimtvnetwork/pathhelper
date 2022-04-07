@@ -10,10 +10,12 @@ import (
 
 func WriteAllParams(
 	isCreateParentDir,
+	isApplyChmodMust,
+	isApplyChmodOnMismatchOnly,
 	isSkipOnNilObject bool,
 	isKeepExistingFileModeOnExist bool,
-	dirCreateMod os.FileMode,
-	fileMod os.FileMode,
+	dirCreateChmod os.FileMode,
+	fileChmod os.FileMode,
 	filePath string,
 	contents []byte,
 ) *errorwrapper.Wrapper {
@@ -34,9 +36,10 @@ func WriteAllParams(
 			contents)
 	} else if isExist && !isKeepExistingFileModeOnExist {
 		return writeExistingFileContentUsingFileMode(
+			isApplyChmodOnMismatchOnly,
 			filePath,
 			contents,
-			fileMod)
+			fileChmod)
 	}
 
 	// new
@@ -44,15 +47,20 @@ func WriteAllParams(
 	if isCreateParentDir {
 		createDirErr = createdir.AllUptoParent(
 			filePath,
-			dirCreateMod)
+			dirCreateChmod)
 	}
 
 	if createDirErr.HasError() {
 		return createDirErr
 	}
 
-	return WriteFile(
-		false,
+	return writeNewFileContentUsingFileMode(
+		isCreateParentDir,
+		isApplyChmodMust,
+		isApplyChmodOnMismatchOnly,
+		dirCreateChmod,
+		fileChmod,
 		filePath,
-		contents)
+		contents,
+	)
 }

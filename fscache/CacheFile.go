@@ -566,12 +566,13 @@ func (it *CacheFile) saveInternal(
 				toJsonResult.SafeValues()))
 	}
 
-	return it.writeToFile(
-		toJsonResult.Bytes)
+	return it.writeToFile(toJsonResult.Bytes)
 }
 
 func (it *CacheFile) writeToFile(rawBytes []byte) *errorwrapper.Wrapper {
 	writeErrWrap := fs.WriteAllParams(
+		true,
+		true,
 		true,
 		it.ChmodWrapper.IsSkipOnInvalid,
 		it.ChmodWrapper.IsKeepExistingChmod,

@@ -1,8 +1,6 @@
 package pathcompiler
 
-import (
-	"gitlab.com/evatix-go/pathhelper/pathsconst"
-)
+import "gitlab.com/evatix-go/pathhelper/pathsconst"
 
 const (
 	AppName                 = pathsconst.AppName
