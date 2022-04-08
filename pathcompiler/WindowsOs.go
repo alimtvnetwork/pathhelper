@@ -2,7 +2,6 @@ package pathcompiler
 
 import (
 	"gitlab.com/evatix-go/core/osconsts"
-	"gitlab.com/evatix-go/pathhelper/pathsconst"
 )
 
 var WindowsOs = Specific{
@@ -35,6 +34,6 @@ var WindowsOs = Specific{
 	ZipsRoot:                 windowsProductionDefault + DefaultSuffix.ZipsRoot,
 	DefaultConfigFilePath:    windowsProductionDefault + DefaultSuffix.DefaultConfigFilePath,
 	SnapshotsRoot:            windowsProductionDefault + "\\config" + DefaultSuffix.SnapshotsRoot,
-	PublicRoot:               pathsconst.WindowsDir + osconsts.PathSeparator + DefaultSuffix.PublicRoot,
+	PublicRoot:               osconsts.WindowsCDrive + "public_root\\" + DefaultSuffix.PublicRoot,
 	SslRoot:                  windowsProductionDefault + "\\all" + DefaultSuffix.SslRoot,
 }
