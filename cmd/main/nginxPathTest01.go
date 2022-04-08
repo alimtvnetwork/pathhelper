@@ -9,7 +9,7 @@ import (
 )
 
 func nginxPathTest01() {
-	nginxRoot := pathsconst.TempDir + "/nginx-test01/"
+	nginxRoot := pathsconst.TempPermanentDir + "/nginx-test01/"
 
 	nginxDir := nginxlinuxpath.NewNginxDirDefaultChmod(
 		true,

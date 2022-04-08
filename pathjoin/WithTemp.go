@@ -16,6 +16,6 @@ func WithTemp(
 	locations ...string,
 ) string {
 	return JoinFix(
-		pathsconst.TempDir,
+		pathsconst.TempPermanentDir,
 		locations...)
 }

@@ -3,8 +3,6 @@ package pathcompiler
 var UnixOs = Specific{
 	Name:                     "Unix",
 	Description:              "all unix(ubuntu, debian, linux, darwin ...) related os paths",
-	Url:                      "",
-	ReplacerMap:              nil,
 	SpecificPathFileLocation: unixVarAppRoot + DefaultSuffix.SpecificPathFileLocation,
 	VarAppRoot:               unixVarAppRoot,
 	EtcAppRoot:               etcApp,
@@ -30,4 +28,7 @@ var UnixOs = Specific{
 	ArchiveRoot:              unixVarAppRoot + DefaultSuffix.ArchiveRoot,
 	ZipsRoot:                 unixVarAppRoot + DefaultSuffix.ZipsRoot,
 	DefaultConfigFilePath:    etcApp + DefaultSuffix.DefaultConfigFilePath,
+	SnapshotsRoot:            unixVarAppRoot + DefaultSuffix.SnapshotsRoot,
+	PublicRoot:               "/var/" + DefaultSuffix.PublicRoot,
+	SslRoot:                  unixVarAppRoot + DefaultSuffix.SslRoot,
 }

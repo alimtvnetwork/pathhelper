@@ -16,7 +16,7 @@ func WithTempPlusDefaults(
 		true,
 		osconsts.PathSeparator,
 		normalize.SimpleJoinPath(
-			pathsconst.TempDir,
+			pathsconst.TempPermanentDir,
 			baseDir),
 		locations...)
 }

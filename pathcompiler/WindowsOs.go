@@ -1,5 +1,10 @@
 package pathcompiler
 
+import (
+	"gitlab.com/evatix-go/core/osconsts"
+	"gitlab.com/evatix-go/pathhelper/pathsconst"
+)
+
 var WindowsOs = Specific{
 	Name:                     "Windows",
 	Description:              "all windows related os paths",
@@ -9,15 +14,15 @@ var WindowsOs = Specific{
 	EtcAppRoot:               windowsProductionDefault,
 	EtcAppConfigRoot:         windowsProductionDefault + DefaultSuffix.EtcAppConfigRoot,
 	AppDbRoot:                windowsProductionDefault + DefaultSuffix.AppDbRoot,
-	TempRoot:                 TempAppRoot,
-	UserTempRoot:             TempAppRoot + DefaultSuffix.UserTempRoot,
-	CacheTempRoot:            TempAppRoot + DefaultSuffix.CacheTempRoot,
-	InstructionTempRoot:      TempAppRoot + DefaultSuffix.InstructionTempRoot,
-	MigrationCacheRoot:       TempAppRoot + DefaultSuffix.MigrationCacheRoot,
-	PackageTempRoot:          TempAppRoot + DefaultSuffix.PackageTempRoot,
+	TempRoot:                 AppWindowsUserSpecificTempRoot,
+	UserTempRoot:             AppWindowsUserSpecificTempRoot + DefaultSuffix.UserTempRoot,
+	CacheTempRoot:            AppWindowsUserSpecificTempRoot + DefaultSuffix.CacheTempRoot,
+	InstructionTempRoot:      AppWindowsUserSpecificTempRoot + DefaultSuffix.InstructionTempRoot,
+	MigrationCacheRoot:       AppWindowsUserSpecificTempRoot + DefaultSuffix.MigrationCacheRoot,
+	PackageTempRoot:          AppWindowsUserSpecificTempRoot + DefaultSuffix.PackageTempRoot,
 	LogAppRoot:               windowsProductionDefault + "\\logs",
 	VarCacheRoot:             windowsProductionDefault + DefaultSuffix.VarCacheRoot,
-	DownloadsRoot:            windowsProductionDefault + DefaultSuffix.DownloadsRoot,
+	DownloadsRoot:            TempAppRoot + DefaultSuffix.DownloadsRoot,
 	ScriptsRoot:              windowsProductionDefault + DefaultSuffix.ScriptsRoot,
 	DecompressRoot:           TempAppRoot + DefaultSuffix.DecompressRoot,
 	PackagesRoot:             windowsProductionDefault + DefaultSuffix.PackagesRoot,
@@ -29,4 +34,7 @@ var WindowsOs = Specific{
 	ArchiveRoot:              windowsProductionDefault + DefaultSuffix.ArchiveRoot,
 	ZipsRoot:                 windowsProductionDefault + DefaultSuffix.ZipsRoot,
 	DefaultConfigFilePath:    windowsProductionDefault + DefaultSuffix.DefaultConfigFilePath,
+	SnapshotsRoot:            windowsProductionDefault + "\\config" + DefaultSuffix.SnapshotsRoot,
+	PublicRoot:               pathsconst.WindowsDir + osconsts.PathSeparator + DefaultSuffix.PublicRoot,
+	SslRoot:                  windowsProductionDefault + "\\all" + DefaultSuffix.SslRoot,
 }

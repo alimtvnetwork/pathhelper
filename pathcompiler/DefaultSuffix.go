@@ -2,6 +2,8 @@ package pathcompiler
 
 var DefaultSuffix = Suffixes{
 	Specific{
+		Name:                     "Suffix map",
+		Description:              "Only suffix",
 		SpecificPathFileLocation: "/defined-paths/paths.json",
 		VarAppRoot:               AppNameLower,
 		EtcAppRoot:               AppNameLower,
@@ -27,5 +29,8 @@ var DefaultSuffix = Suffixes{
 		ArchiveRoot:              "/archived/",
 		ZipsRoot:                 "/compressed/",
 		DefaultConfigFilePath:    defaultConfigRootSuffix + "/default-config.json",
+		SnapshotsRoot:            "-snapshots/",
+		PublicRoot:               "www/",
+		SslRoot:                  "-ssl/",
 	},
 }

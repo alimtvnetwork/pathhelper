@@ -174,7 +174,7 @@ func (it *NginxDir) CopyCurrentUserRootConfigToTempRel(
 ) *errstr.Result {
 	finalPath := normalizeinternal.JoinFixIf(
 		true,
-		pathsconst.TempDir,
+		pathsconst.TempPermanentDir,
 		tempRelativePath+osconsts.PathSeparator+it.CurrentUserRootConfigName())
 
 	return errstr.New.Result.Create(

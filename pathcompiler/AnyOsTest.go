@@ -32,4 +32,7 @@ var AnyOsTest = Specific{
 	ArchiveRoot:              TempAppTestRoot + DefaultSuffix.ArchiveRoot,
 	ZipsRoot:                 TempAppTestRoot + DefaultSuffix.ZipsRoot,
 	DefaultConfigFilePath:    TempAppTestRoot + DefaultSuffix.DefaultConfigFilePath,
+	SnapshotsRoot:            TempAppTestRoot + "/all" + DefaultSuffix.SnapshotsRoot,
+	PublicRoot:               "/var/" + DefaultSuffix.PublicRoot,
+	SslRoot:                  unixVarAppRoot + "/all" + DefaultSuffix.SslRoot,
 }

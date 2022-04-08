@@ -24,6 +24,6 @@ func WithTempPlus(
 		isExpandEnvVar,
 		isNormalizeLongPathFix,
 		osconsts.PathSeparator,
-		JoinSimple(pathsconst.TempDir, baseDir),
+		JoinSimple(pathsconst.TempPermanentDir, baseDir),
 		locations...)
 }

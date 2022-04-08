@@ -20,7 +20,7 @@ type ExistPathWrapper struct {
 var ExistPathTestCases = []ExistPathWrapper{
 	// {
 	// 	Header:  "",
-	// 	BaseDir: os.TempDir(),
+	// 	BaseDir: os.TempPermanentDir(),
 	// 	RelPath: "",
 	// 	OsType:  ostype.Windows,
 	// 	Options: expandnormalize.Options{
@@ -34,7 +34,7 @@ var ExistPathTestCases = []ExistPathWrapper{
 	// {
 	// 	Header:  "",
 	// 	OsType:  ostype.Windows,
-	// 	BaseDir: os.TempDir(),
+	// 	BaseDir: os.TempPermanentDir(),
 	// 	RelPath: "/random-something/random-date/16-20-20-20/2",
 	// 	Options: expandnormalize.Options{
 	// 		IsNormalize:    true,

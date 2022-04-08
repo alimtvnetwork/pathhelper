@@ -8,11 +8,13 @@ import (
 )
 
 var (
-	TempAppTestRoot          = pathsconst.TempAppTestRoot // /tmp/{app-name}-test-env/
-	TempAppRoot              = pathsconst.TempAppRoot
+	TempAppTestRoot                = pathsconst.TempAppTestRoot                // /tmp/{app-name}-test-env/
+	TempAppRoot                    = pathsconst.TempAppRoot                    // /var/tmp/{app-name}
+	AppWindowsUserSpecificTempRoot = pathsconst.AppWindowsUserSpecificTempRoot // %temp%\{app-name}
+
 	windowsProductionDefault = pathjoin.JoinNormalized(
 		knowndirget.ProgramFiles(),
-		AppName)
+		AppName) // c:\program-files\{app-name}
 
 	CurrentOsType = osmixtype.CurrentOsMixType()
 

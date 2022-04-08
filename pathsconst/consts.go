@@ -16,4 +16,5 @@ const (
 	UnixVarAppRoot          = VarOpt + AppNameLower
 	EtcApp                  = Etc + AppNameLower
 	UnixConfigRoot          = EtcApp + DefaultConfigRootSuffix
+	WindowsDir              = "c:\\Windows"
 )

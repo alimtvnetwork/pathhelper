@@ -22,7 +22,7 @@ type Specific struct {
 	EtcAppRoot               string            // eg. unix : "/etc/{app-name}"
 	EtcAppConfigRoot         string            // eg. unix : "/etc/{app-name}/config"
 	AppDbRoot                string            // eg. unix : "/var/opt/{app-name}/databases"
-	TempRoot                 string            // eg. unix : TempAppRoot => TempDir + AppNameLower => "/{os-temp}/{app-name}"
+	TempRoot                 string            // eg. unix : TempAppRoot => TempPermanentDir + AppNameLower => "/{os-temp}/{app-name}"
 	UserTempRoot             string            // eg. unix : "/{os-temp}/{app-name}/users/"
 	CacheTempRoot            string            // eg. unix : "/{os-temp}/{app-name}/cache/"
 	InstructionTempRoot      string            // eg. unix : "/{os-temp}/{app-name}/instructions/"
@@ -42,6 +42,9 @@ type Specific struct {
 	ArchiveRoot              string            // eg. unix : pathsconst.UnixVarAppRoot + "/archived/" => "/var/opt/{app-name}/archived/"
 	ZipsRoot                 string            // eg. unix : pathsconst.UnixVarAppRoot + "/compressed/" => "/var/opt/{app-name}/compressed/"
 	DefaultConfigFilePath    string            // eg. unix : pathsconst.UnixVarAppRoot + "/config/default-config.json" => "/var/opt/{app-name}/config/default-config.json"
+	SnapshotsRoot            string            // eg. unix : "/var/opt/{app-name}-snapshots/"
+	PublicRoot               string            // eg. unix : "/var/www"
+	SslRoot                  string            // eg. unix : "/var/opt/{app-name}-ssl/"
 }
 
 func (it *Specific) IsNull() bool {
@@ -166,7 +169,7 @@ func (it *Specific) JoinWithTempWithoutApp(
 	relativePaths ...string,
 ) string {
 	return it.JoinNormalized(
-		pathsconst.TempDir,
+		pathsconst.TempPermanentDir,
 		relativePaths...)
 }
 
@@ -314,6 +317,30 @@ func (it *Specific) JoinWithZipsRoot(
 		relativePaths...)
 }
 
+func (it *Specific) JoinWithSnapshotsRoot(
+	relativePaths ...string,
+) string {
+	return it.JoinNormalized(
+		it.SnapshotsRoot,
+		relativePaths...)
+}
+
+func (it *Specific) JoinWithPublicRoot(
+	relativePaths ...string,
+) string {
+	return it.JoinNormalized(
+		it.PublicRoot,
+		relativePaths...)
+}
+
+func (it *Specific) JoinWithSslRoot(
+	relativePaths ...string,
+) string {
+	return it.JoinNormalized(
+		it.SslRoot,
+		relativePaths...)
+}
+
 func (it *Specific) ExecutableDirPath() string {
 	return pathsconst.ExecutableDir
 }
@@ -375,6 +402,9 @@ func (it *Specific) ClonePtr() *Specific {
 		ArchiveRoot:              it.ArchiveRoot,
 		ZipsRoot:                 it.ZipsRoot,
 		DefaultConfigFilePath:    it.DefaultConfigFilePath,
+		SnapshotsRoot:            it.SnapshotsRoot,
+		PublicRoot:               it.PublicRoot,
+		SslRoot:                  it.SslRoot,
 	}
 }
 
