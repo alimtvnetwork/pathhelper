@@ -35,6 +35,13 @@ func NewWrapperFile(changeFileMode os.FileMode) Wrapper {
 	}
 }
 
+func NewWrapperDir(changeDirMode os.FileMode) Wrapper {
+	return Wrapper{
+		DirChmod:  changeDirMode,
+		FileChmod: filemode.FileDefault,
+	}
+}
+
 func DefaultWrapperRecursive() Wrapper {
 	return Wrapper{
 		DirChmod:    filemode.DirDefault,
@@ -59,9 +66,20 @@ func NewWrapper(
 	}
 }
 
+func NewWrapperDirFile(
+	dirChmod,
+	fileChmod os.FileMode,
+) Wrapper {
+	return Wrapper{
+		DirChmod:            dirChmod,
+		FileChmod:           fileChmod,
+		IsKeepExistingChmod: true,
+	}
+}
+
 func (it *Wrapper) Condition() *chmodins.Condition {
 	if it == nil {
-		return nil
+		return &chmodins.Condition{}
 	}
 
 	return &chmodins.Condition{
@@ -69,6 +87,34 @@ func (it *Wrapper) Condition() *chmodins.Condition {
 		IsContinueOnError: it.IsContinueOnError,
 		IsRecursive:       it.IsRecursive,
 	}
+}
+
+func (it *Wrapper) OnInvalidFileMode(
+	fileChmod os.FileMode,
+) *Wrapper {
+	if it == nil {
+		return NewWrapperFile(fileChmod).ToPtr()
+	}
+
+	if it.FileChmod == 0 {
+		it.FileChmod = fileChmod
+	}
+
+	return it
+}
+
+func (it *Wrapper) OnInvalidDirMode(
+	dirChmod os.FileMode,
+) *Wrapper {
+	if it == nil {
+		return NewWrapperDir(dirChmod).ToPtr()
+	}
+
+	if it.DirChmod == 0 {
+		it.DirChmod = dirChmod
+	}
+
+	return it
 }
 
 func (it *Wrapper) DirChmodDisplay() string {
@@ -190,6 +236,30 @@ func (it *Wrapper) UnmarshalJSON(rawJsonBytes []byte) error {
 	}
 
 	return err
+}
+
+func (it *Wrapper) FriendlyChmodOfDirFiles(
+	location string,
+) string {
+	return FriendlyChmod.OfDirFiles(location)
+}
+
+func (it *Wrapper) LogFriendlyChmodOfDirFiles(
+	location string,
+) {
+	FriendlyChmod.LogOfDirFiles(location)
+}
+
+func (it *Wrapper) FriendlyChmodOfPath(
+	location string,
+) string {
+	return FriendlyChmod.OfPath(location)
+}
+
+func (it *Wrapper) LogFriendlyChmodOfPath(
+	location string,
+) {
+	FriendlyChmod.LogOfPath(location)
 }
 
 func (it *Wrapper) Json() corejson.Result {

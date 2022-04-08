@@ -4,6 +4,7 @@ import (
 	"gitlab.com/evatix-go/core/coredata/coredynamic"
 	"gitlab.com/evatix-go/core/coredata/corejson"
 	"gitlab.com/evatix-go/core/coreinterface/enuminf"
+	"gitlab.com/evatix-go/enum/envtype"
 	"gitlab.com/evatix-go/enum/osmixtype"
 	"gitlab.com/evatix-go/errorwrapper"
 	"gitlab.com/evatix-go/errorwrapper/errnew"
@@ -42,6 +43,30 @@ func (it *Basic) By(
 		osType)
 }
 
+func (it *Basic) ByEnvOs(
+	envVariant envtype.Variant,
+	osType osmixtype.Variant,
+) *Specific {
+	return it.ByEnvFlagOs(
+		envVariant.IsAnyTestEnv(),
+		osType)
+}
+
+func (it *Basic) ByEnvFlagOs(
+	isTestEnv bool,
+	osType osmixtype.Variant,
+) *Specific {
+	if isTestEnv {
+		return it.selectByOsType(
+			it.TestMap,
+			osType)
+	}
+
+	return it.selectByOsType(
+		it.ProductionMap,
+		osType)
+}
+
 func (it *Basic) TestBy(
 	osType osmixtype.Variant,
 ) *Specific {
@@ -62,10 +87,28 @@ func (it *Basic) selectByOsType(
 	case osmixtype.Ubuntu,
 		osmixtype.Debian,
 		osmixtype.ArchLinux,
-		osmixtype.MacOs,
 		osmixtype.RedHatEnterpriseLinux,
-		osmixtype.Linux,
 		osmixtype.Centos:
+		specific, has := projectionMap[osType]
+
+		if has {
+			return specific
+		}
+
+		return it.selectByOsType(
+			projectionMap,
+			osmixtype.Linux)
+	case osmixtype.Linux:
+		specific, has := projectionMap[osType]
+
+		if has {
+			return specific
+		}
+
+		return it.selectByOsType(
+			projectionMap,
+			osmixtype.Unix)
+	case osmixtype.MacOs:
 		specific, has := projectionMap[osType]
 
 		if has {
