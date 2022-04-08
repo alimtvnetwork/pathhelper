@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 
+	"gitlab.com/evatix-go/core/filemode"
 	"gitlab.com/evatix-go/errorwrapper"
 	"gitlab.com/evatix-go/pathhelper/fscache"
 	"gitlab.com/evatix-go/pathhelper/pathchmod"
@@ -13,7 +14,7 @@ import (
 func hashmapReadWriteTest02() {
 	cacheFile := fscache.HashmapCacheFile{
 		CacheFile: fscache.CacheFile{
-			ChmodWrapper: pathchmod.Wrapper{},
+			ChmodWrapper: pathchmod.NewWrapperDirFile(filemode.AllExecute, filemode.FullAccess),
 			AbsFilePath: pathjoin.WithTempPlusDefaults(
 				"cache-file-testing",
 				"hashmap.conf"),
@@ -78,15 +79,20 @@ func hashmapReadWriteTest02() {
 	fmt.Println("is any added", isAnyAdded2, nextSlice)
 	errWrap.MustBeSafe()
 
-	isAnyAdded, errWrap2 := cacheFile.AddOrUpdateMapSave(map[string]string{
-		"some key":  "val 1",
-		"some key2": "2",
-		"some key3": "so",
-		"some key4": "val 4",
-	})
+	isAnyAdded, errWrap2 := cacheFile.AddOrUpdateMapSave(
+		map[string]string{
+			"some key":  "val 1",
+			"some key2": "2",
+			"some key3": "so",
+			"some key4": "val 4",
+		})
 
 	errWrap2.MustBeSafe()
 
 	fmt.Println("isAnyAdded", isAnyAdded)
 	fmt.Println("Final", cacheFile.Strings())
+	fmt.Println("FinalPath", cacheFile.AbsFilePath)
+	fmt.Println(
+		"FinalPath ls -lah \n\n",
+		cacheFile.ChmodWrapper.FriendlyChmodOfDirFiles(cacheFile.AbsFilePath))
 }

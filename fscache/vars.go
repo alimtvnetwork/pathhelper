@@ -9,6 +9,7 @@ import (
 )
 
 var (
+	New         = newCreator{}
 	globalMutex = consts.GlobalMutex
 	CacheStates = cacheFileStates{
 		ReadState:               "Read",

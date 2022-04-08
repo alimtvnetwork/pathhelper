@@ -3,6 +3,7 @@ package fs
 import (
 	"strings"
 
+	"gitlab.com/evatix-go/core/chmodhelper"
 	"gitlab.com/evatix-go/core/constants"
 	"gitlab.com/evatix-go/core/coredata/corejson"
 	"gitlab.com/evatix-go/errorwrapper"
@@ -198,4 +199,16 @@ func (it *Writer) appendEofLine(isAppendEof bool, line string) string {
 	}
 
 	return line + constants.DefaultLine
+}
+
+func (it *Writer) IsEmptyLocation() bool {
+	return it == nil || it.Location == ""
+}
+
+func (it *Writer) IsPathInvalid() bool {
+	return chmodhelper.IsPathInvalid(it.Location)
+}
+
+func (it *Writer) IsPathExists() bool {
+	return chmodhelper.IsPathExists(it.Location)
 }

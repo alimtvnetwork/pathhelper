@@ -41,6 +41,35 @@ type CacheFile struct {
 	lazyReferences                 *refs.Collection
 }
 
+func (it *CacheFile) FsWriter() *fs.Writer {
+	if it == nil {
+		return &fs.Writer{}
+	}
+
+	return &fs.Writer{
+		ChmodWrapper:            it.ChmodWrapper.ToNonPtr(),
+		Location:                it.AbsFilePath,
+		IsApplyChmodMust:        true,
+		IsApplyChmodOnMismatch:  true,
+		IsWriteEmptyOnNull:      it.IsWriteEmptyOnNull,
+		IsKeepExistingFileChmod: true,
+	}
+}
+
+func (it *CacheFile) SetChmodWrapper(
+	chmodWrapper *pathchmod.Wrapper,
+) *CacheFile {
+	if it == nil {
+		return &CacheFile{
+			ChmodWrapper: chmodWrapper.ToNonPtr(),
+		}
+	}
+
+	it.ChmodWrapper = chmodWrapper.ToNonPtr()
+
+	return it
+}
+
 func (it *CacheFile) ReadCacheOrDirectJsonResult() *errjson.Result {
 	if it.IsCompiled() {
 		return it.cacheJsonResult

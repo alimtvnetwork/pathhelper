@@ -1,13 +1,15 @@
 package pathsconst
 
 import (
+	"path"
+
 	"gitlab.com/evatix-go/core/chmodhelper"
 	"gitlab.com/evatix-go/core/osconsts"
 )
 
 var (
-	DefaultTemp                    = chmodhelper.TempDirDefault                // eg. unix : /tmp, windows: %temp%
-	TempPermanentDir               = chmodhelper.TempDirGetter.TempPermanent() // /var/tmp/
+	DefaultTemp                    = chmodhelper.TempDirDefault                            // eg. unix : /tmp, windows: %temp%
+	TempPermanentDir               = path.Clean(chmodhelper.TempDirGetter.TempPermanent()) // /var/tmp/
 	DefaultTempTestDir             = TempPermanentDir + "/pkg-testing/"
 	UnixTemp                       = "/tmp/"
 	RootRelativeDir                = ".."
