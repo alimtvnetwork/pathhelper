@@ -61,7 +61,10 @@ func CopyFile(srcPath, dstPath string) *errorwrapper.Wrapper {
 	dstFileInfo, dstErr := os.Stat(dstPath)
 	isExist := IsPathExistsUsing(dstFileInfo, dstErr)
 	if isExist && !dstFileInfo.IsDir() {
-		return deletepaths.Recursive(dstPath)
+		errWrap := deletepaths.Recursive(dstPath)
+		if errWrap.HasError() {
+			return errWrap
+		}
 	} else if isExist && dstFileInfo.IsDir() {
 		return errnew.SrcDst.Messages(
 			errtype.PathCopy,
