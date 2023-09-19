@@ -15,7 +15,7 @@ var (
 	RootRelativeDir                = ".."
 	RootDir                        = getRoot()
 	ExecutableDir                  = getExecutableDirectory()
-	AppWindowsUserSpecificTempRoot = DefaultTemp + osconsts.PathSeparator + AppNameLower               // %temp%\{app-name}
-	TempAppRoot                    = TempPermanentDir + osconsts.PathSeparator + AppNameLower          // /var/tmp/{app-name}
-	TempAppTestRoot                = DefaultTemp + osconsts.PathSeparator + AppNameLower + "-test-env" // /tmp/{app-name}-test-env
+	AppWindowsUserSpecificTempRoot = DefaultTemp + osconsts.PathSeparator + AppTemplateName               // %temp%\{app-name}
+	TempAppRoot                    = TempPermanentDir + osconsts.PathSeparator + AppTemplateName          // /var/tmp/{app-name}
+	TempAppTestRoot                = DefaultTemp + osconsts.PathSeparator + AppTemplateName + "-test-env" // /tmp/{app-name}-test-env
 )

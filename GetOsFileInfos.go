@@ -9,9 +9,9 @@ import (
 )
 
 func GetOsFileInfos(
-	allPaths *[]string,
+	allPaths []string,
 ) (
-	infos *[]os.FileInfo,
+	infos []os.FileInfo,
 	errsCollection *errwrappers.Collection,
 ) {
 	return fileinfogetter.GetWithErrors(allPaths)

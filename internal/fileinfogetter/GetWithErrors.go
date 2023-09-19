@@ -8,24 +8,26 @@ import (
 	"gitlab.com/auk-go/errorwrapper/errwrappers"
 )
 
+// GetWithErrors
+//
 // For each path converted to file info wrapper and finally returns as an array.
 func GetWithErrors(
-	fullPaths *[]string,
+	fullPaths []string,
 ) (
-	*[]os.FileInfo,
+	[]os.FileInfo,
 	*errwrappers.Collection,
 ) {
 	errsCollection := errwrappers.Empty()
 	errMutex := sync.Mutex{}
 	if fullPaths == nil {
-		return &[]os.FileInfo{}, errsCollection
+		return []os.FileInfo{}, errsCollection
 	}
 
-	length := len(*fullPaths)
+	length := len(fullPaths)
 	list := make([]os.FileInfo, length)
 
 	if length == 0 {
-		return &list, errsCollection
+		return list, errsCollection
 	}
 
 	wg := &sync.WaitGroup{}
@@ -48,11 +50,11 @@ func GetWithErrors(
 		}
 	}
 
-	for i, fullPath := range *fullPaths {
+	for i, fullPath := range fullPaths {
 		go processor(i, fullPath)
 	}
 
 	wg.Wait()
 
-	return &list, errsCollection
+	return list, errsCollection
 }

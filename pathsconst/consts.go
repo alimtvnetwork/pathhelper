@@ -8,4 +8,5 @@ const (
 	PackagesDirName         = "/packages/"
 	InstructionDirName      = "/instructions/"
 	WindowsDir              = "c:\\Windows"
+	AppTemplateName         = "{app-name}"
 )

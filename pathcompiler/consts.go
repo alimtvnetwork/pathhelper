@@ -4,7 +4,7 @@ import "gitlab.com/auk-go/pathhelper/pathsconst"
 
 const (
 	AppName                 = pathsconst.AppName
-	AppNameLower            = pathsconst.AppNameLower
+	AppNameLower            = pathsconst.AppTemplateName
 	defaultConfigRootSuffix = pathsconst.DefaultConfigRootSuffix // "/config"
 	packagesDirName         = pathsconst.PackagesDirName         // "/packages/"
 	instructionDirName      = pathsconst.InstructionDirName      // "/instructions/"
