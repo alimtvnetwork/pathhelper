@@ -24,7 +24,12 @@ func TestCopierRecursive(t *testing.T) {
 	root, errWrap := copyrecursive.CopyToTempDir(TestIsRecursiveDir)
 	errWrap.HandleError()
 
-	defer os.RemoveAll(root)
+	defer func(path string) {
+		err := os.RemoveAll(path)
+		if err != nil {
+			panic(err)
+		}
+	}(root)
 
 	srcRoot := filepath.Join(root, "src")
 	dstRoot := filepath.Join(root, "dst")
@@ -78,7 +83,12 @@ func TestCopierNonRecursive(t *testing.T) {
 			t.Error(errWrap.Error())
 		}
 
-		defer os.RemoveAll(root)
+		defer func(path string) {
+			err := os.RemoveAll(path)
+			if err != nil {
+				panic(err)
+			}
+		}(root)
 
 		srcRoot := filepath.Join(root, "src")
 		dstRoot := filepath.Join(root, "dst")

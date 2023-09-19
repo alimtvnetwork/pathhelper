@@ -1,6 +1,7 @@
 package pathscreateinsexec
 
 import (
+	"gitlab.com/auk-go/core/osconsts"
 	"gitlab.com/auk-go/errorwrapper"
 	"gitlab.com/auk-go/errorwrapper/errwrappers"
 	"gitlab.com/auk-go/pathhelper/pathchmod"
@@ -12,6 +13,10 @@ func applyRwxOnPathCreators(
 	errorCollection *errwrappers.Collection,
 ) *errorwrapper.Wrapper {
 	if pathsCreator == nil || pathsCreator.ApplyRwx == nil {
+		return nil
+	}
+
+	if osconsts.IsWindows {
 		return nil
 	}
 

@@ -1,6 +1,7 @@
 package pathmodifierverify
 
 import (
+	"gitlab.com/auk-go/core/osconsts"
 	"gitlab.com/auk-go/errorwrapper/errwrappers"
 	"gitlab.com/auk-go/pathhelper/normalize"
 	"gitlab.com/auk-go/pathhelper/pathinsfmt"
@@ -16,6 +17,10 @@ func ApplyVerifier(
 	locations []string,
 ) (isSuccess bool) {
 	if verifier == nil || len(locations) == 0 {
+		return true
+	}
+
+	if osconsts.IsWindows {
 		return true
 	}
 

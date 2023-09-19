@@ -8,7 +8,7 @@ import (
 )
 
 func GetOsFileInfosCollection(
-	allPaths *[]string,
+	allPaths []string,
 ) (
 	infos *osfileinfos.Collection,
 	errsCollection *errwrappers.Collection,

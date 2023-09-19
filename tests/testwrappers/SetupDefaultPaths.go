@@ -13,8 +13,8 @@ func SetupDefaultPathsUnix() []string {
 		PathsCreateInstructionsUnix)
 
 	if errCollection.HasError() {
-		errCollection.HandleWithMsg(
-			"Failed to create default paths." + AllPathsString)
+		trace := errCollection.FullStringWithTraces()
+		panic("Failed to create default paths." + AllPathsString + trace)
 	}
 
 	return DefaultWorkingPaths
