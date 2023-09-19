@@ -3,12 +3,12 @@ package pathinsfmt
 import (
 	"log"
 
-	"gitlab.com/evatix-go/core/osconsts"
-	"gitlab.com/evatix-go/enum/scripttype"
-	"gitlab.com/evatix-go/errorwrapper/errcmd"
-	"gitlab.com/evatix-go/errorwrapper/errwrappers"
-	"gitlab.com/evatix-go/pathhelper/internal/fsinternal"
-	"gitlab.com/evatix-go/pathhelper/normalize"
+	"gitlab.com/auk-go/core/osconsts"
+	"gitlab.com/auk-go/enum/scripttype"
+	"gitlab.com/auk-go/errorwrapper/errcmd"
+	"gitlab.com/auk-go/errorwrapper/errwrappers"
+	"gitlab.com/auk-go/pathhelper/internal/fsinternal"
+	"gitlab.com/auk-go/pathhelper/normalize"
 )
 
 type ExecutableProcessor struct {

@@ -1,8 +1,8 @@
 package fs
 
 import (
-	"gitlab.com/evatix-go/errorwrapper/errdata/errbyte"
-	"gitlab.com/evatix-go/pathhelper/pathjoin"
+	"gitlab.com/auk-go/errorwrapper/errdata/errbyte"
+	"gitlab.com/auk-go/pathhelper/pathjoin"
 )
 
 func ReadUsingLock(location string, filename string) *errbyte.Results {

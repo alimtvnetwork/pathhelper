@@ -1,7 +1,7 @@
 package envpath
 
 import (
-	normalize "gitlab.com/evatix-go/pathhelper/expandpath"
+	normalize "gitlab.com/auk-go/pathhelper/expandpath"
 )
 
 func GetExecutableEnvironmentPathCollection() *ExecutableEnvironmentPathCollection {

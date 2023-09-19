@@ -1,8 +1,8 @@
 package pathgetter
 
 import (
-	"gitlab.com/evatix-go/pathhelper/fileinfo"
-	"gitlab.com/evatix-go/pathhelper/normalize"
+	"gitlab.com/auk-go/pathhelper/fileinfo"
+	"gitlab.com/auk-go/pathhelper/normalize"
 )
 
 func AllOfSinglePathInfoWrappers(

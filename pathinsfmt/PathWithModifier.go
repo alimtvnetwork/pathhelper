@@ -1,6 +1,6 @@
 package pathinsfmt
 
-import "gitlab.com/evatix-go/core/chmodhelper/chmodins"
+import "gitlab.com/auk-go/core/chmodhelper/chmodins"
 
 type PathWithModifier struct {
 	PathWithOptions

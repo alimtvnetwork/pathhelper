@@ -1,6 +1,6 @@
 package pathjoin
 
-import "gitlab.com/evatix-go/pathhelper/normalize"
+import "gitlab.com/auk-go/pathhelper/normalize"
 
 func DbPath(first, second string) string {
 	simpleJoin := JoinSimple(first, second)

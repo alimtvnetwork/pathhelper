@@ -5,7 +5,7 @@ import (
 	"testing"
 
 	. "github.com/smartystreets/goconvey/convey"
-	"gitlab.com/evatix-go/pathhelper/normalize"
+	"gitlab.com/auk-go/pathhelper/normalize"
 )
 
 type longPathFixedTestCaseDataWrapper struct {

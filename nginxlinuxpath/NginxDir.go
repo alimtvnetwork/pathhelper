@@ -5,23 +5,23 @@ import (
 	"os"
 	"path/filepath"
 
-	"gitlab.com/evatix-go/core/coredata/corejson"
-	"gitlab.com/evatix-go/core/coredata/corestr"
-	"gitlab.com/evatix-go/core/coreinstruction"
-	"gitlab.com/evatix-go/core/extensionsconst"
-	"gitlab.com/evatix-go/core/filemode"
-	"gitlab.com/evatix-go/core/osconsts"
-	"gitlab.com/evatix-go/errorwrapper"
-	"gitlab.com/evatix-go/errorwrapper/errdata/errstr"
-	"gitlab.com/evatix-go/errorwrapper/errnew"
-	"gitlab.com/evatix-go/errorwrapper/errtype"
-	"gitlab.com/evatix-go/errorwrapper/errwrappers"
-	"gitlab.com/evatix-go/pathhelper/internal/createdirinternal"
-	"gitlab.com/evatix-go/pathhelper/internal/fsinternal"
-	"gitlab.com/evatix-go/pathhelper/internal/normalizeinternal"
-	"gitlab.com/evatix-go/pathhelper/internal/pathgetterinternal"
-	"gitlab.com/evatix-go/pathhelper/knowndirstructure"
-	"gitlab.com/evatix-go/pathhelper/pathsconst"
+	"gitlab.com/auk-go/core/coredata/corejson"
+	"gitlab.com/auk-go/core/coredata/corestr"
+	"gitlab.com/auk-go/core/coreinstruction"
+	"gitlab.com/auk-go/core/extensionsconst"
+	"gitlab.com/auk-go/core/filemode"
+	"gitlab.com/auk-go/core/osconsts"
+	"gitlab.com/auk-go/errorwrapper"
+	"gitlab.com/auk-go/errorwrapper/errdata/errstr"
+	"gitlab.com/auk-go/errorwrapper/errnew"
+	"gitlab.com/auk-go/errorwrapper/errtype"
+	"gitlab.com/auk-go/errorwrapper/errwrappers"
+	"gitlab.com/auk-go/pathhelper/internal/createdirinternal"
+	"gitlab.com/auk-go/pathhelper/internal/fsinternal"
+	"gitlab.com/auk-go/pathhelper/internal/normalizeinternal"
+	"gitlab.com/auk-go/pathhelper/internal/pathgetterinternal"
+	"gitlab.com/auk-go/pathhelper/knowndirstructure"
+	"gitlab.com/auk-go/pathhelper/pathsconst"
 )
 
 type NginxDir struct {
@@ -210,8 +210,9 @@ func (it *NginxDir) AbsPathOfEnabledSiteAddConfExt(siteName string) string {
 }
 
 // DisableSite disable a specific file, by removing symbolic link
-//  TODO: Disabling server will be complicated, if multiple servers
-//   present in same site file
+//
+//	TODO: Disabling server will be complicated, if multiple servers
+//	 present in same site file
 func (it *NginxDir) DisableSite(siteName string) *errorwrapper.Wrapper {
 	absPathOfEnabledSite := it.AbsPathOfEnabledSite(siteName)
 
@@ -401,8 +402,8 @@ func (it *NginxDir) JsonModelAny() interface{} {
 
 // CurrentUserIncludeConfigRootFilePath
 //
-//  using format : userRootConfigFilePathFormat
-//  sample : /etc/nginx/conf.d/users/{user-name}.conf
+//	using format : userRootConfigFilePathFormat
+//	sample : /etc/nginx/conf.d/users/{user-name}.conf
 func (it *NginxDir) CurrentUserIncludeConfigRootFilePath() string {
 	if it.currentUserIncludeConfigRootFilePath.IsInitialized() {
 		return it.currentUserIncludeConfigRootFilePath.String()
@@ -423,17 +424,17 @@ func (it *NginxDir) CurrentUserIncludeConfigRootFilePath() string {
 
 // WriteUserRootEnableIncludeConfigFile
 //
-//  Writes enable config file to file system for the specific user.
-//  It will write user root config, include statement only
+//	Writes enable config file to file system for the specific user.
+//	It will write user root config, include statement only
 //
 // Content Sample:
-//  - includeFormatted : "include /etc/nginx/conf.d/users/{username}/enabled/*.conf;"
+//   - includeFormatted : "include /etc/nginx/conf.d/users/{username}/enabled/*.conf;"
 //
 // Default file location:
-//  - CurrentUserIncludeConfigRootFilePath() : "/etc/nginx/conf.d/users/{user-name}.conf"
+//   - CurrentUserIncludeConfigRootFilePath() : "/etc/nginx/conf.d/users/{user-name}.conf"
 //
 // Reference:
-//  - How directories are organized: https://prnt.sc/x79d2-AINSDf
+//   - How directories are organized: https://prnt.sc/x79d2-AINSDf
 func (it *NginxDir) WriteUserRootEnableIncludeConfigFile(
 	dirChmod, fileChmod os.FileMode,
 ) *errorwrapper.Wrapper {
@@ -451,11 +452,11 @@ func (it *NginxDir) WriteUserRootEnableIncludeConfigFile(
 
 // WriteUserRootEnableIncludeConfigFileDefaultChmod
 //
-//  Writes enable config file to file system for the specific user
-//  using WriteUserRootEnableIncludeConfigFile
+//	Writes enable config file to file system for the specific user
+//	using WriteUserRootEnableIncludeConfigFile
 //
 // DefaultChmod:
-//  - DefaultDirChmod, filemode.FileDefault
+//   - DefaultDirChmod, filemode.FileDefault
 func (it *NginxDir) WriteUserRootEnableIncludeConfigFileDefaultChmod() *errorwrapper.Wrapper {
 	return it.WriteUserRootEnableIncludeConfigFile(
 		DefaultDirChmod,

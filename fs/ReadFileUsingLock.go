@@ -1,6 +1,6 @@
 package fs
 
-import "gitlab.com/evatix-go/errorwrapper/errdata/errbyte"
+import "gitlab.com/auk-go/errorwrapper/errdata/errbyte"
 
 func ReadFileUsingLock(filePath string) *errbyte.Results {
 	globalMutex.Lock()

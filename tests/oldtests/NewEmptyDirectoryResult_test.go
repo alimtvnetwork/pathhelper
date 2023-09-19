@@ -6,11 +6,11 @@ import (
 	"testing"
 
 	. "github.com/smartystreets/goconvey/convey"
-	"gitlab.com/evatix-go/errorwrapper"
-	"gitlab.com/evatix-go/errorwrapper/errconv"
-	"gitlab.com/evatix-go/errorwrapper/errtype"
+	"gitlab.com/auk-go/errorwrapper"
+	"gitlab.com/auk-go/errorwrapper/errconv"
+	"gitlab.com/auk-go/errorwrapper/errtype"
 
-	"gitlab.com/evatix-go/pathhelper/dirinfo"
+	"gitlab.com/auk-go/pathhelper/dirinfo"
 )
 
 var (

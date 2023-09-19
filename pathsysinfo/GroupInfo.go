@@ -4,8 +4,8 @@ import (
 	"fmt"
 	"os/user"
 
-	"gitlab.com/evatix-go/core/constants"
-	"gitlab.com/evatix-go/errorwrapper"
+	"gitlab.com/auk-go/core/constants"
+	"gitlab.com/auk-go/errorwrapper"
 )
 
 type GroupInfo struct {

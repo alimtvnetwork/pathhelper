@@ -1,9 +1,9 @@
 package copyinsexec
 
 import (
-	"gitlab.com/evatix-go/errorwrapper"
-	"gitlab.com/evatix-go/pathhelper/pathinsfmt"
-	"gitlab.com/evatix-go/pathhelper/pathinsfmtexec/pathmodifier"
+	"gitlab.com/auk-go/errorwrapper"
+	"gitlab.com/auk-go/pathhelper/pathinsfmt"
+	"gitlab.com/auk-go/pathhelper/pathinsfmtexec/pathmodifier"
 )
 
 func Apply(copyPath *pathinsfmt.CopyPath) *errorwrapper.Wrapper {

@@ -4,10 +4,10 @@ import (
 	"strings"
 	"sync"
 
-	"gitlab.com/evatix-go/core/constants"
-	"gitlab.com/evatix-go/core/osconsts"
+	"gitlab.com/auk-go/core/constants"
+	"gitlab.com/auk-go/core/osconsts"
 
-	"gitlab.com/evatix-go/pathhelper/fileinfo"
+	"gitlab.com/auk-go/pathhelper/fileinfo"
 )
 
 type ExecutableEnvironmentPath struct {

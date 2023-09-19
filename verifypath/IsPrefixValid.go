@@ -1,9 +1,9 @@
 package verifypath
 
 import (
-	"gitlab.com/evatix-go/core/constants"
-	"gitlab.com/evatix-go/pathhelper/ispath"
-	"gitlab.com/evatix-go/pathhelper/normalize"
+	"gitlab.com/auk-go/core/constants"
+	"gitlab.com/auk-go/pathhelper/ispath"
+	"gitlab.com/auk-go/pathhelper/normalize"
 )
 
 func IsPrefixValid(

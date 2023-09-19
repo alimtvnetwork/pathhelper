@@ -3,12 +3,12 @@ package fs
 import (
 	"os"
 
-	"gitlab.com/evatix-go/errorwrapper"
-	"gitlab.com/evatix-go/errorwrapper/errdefer"
-	"gitlab.com/evatix-go/errorwrapper/errnew"
-	"gitlab.com/evatix-go/errorwrapper/errtype"
-	"gitlab.com/evatix-go/pathhelper/createdir"
-	"gitlab.com/evatix-go/pathhelper/pathjoin"
+	"gitlab.com/auk-go/errorwrapper"
+	"gitlab.com/auk-go/errorwrapper/errdefer"
+	"gitlab.com/auk-go/errorwrapper/errnew"
+	"gitlab.com/auk-go/errorwrapper/errtype"
+	"gitlab.com/auk-go/pathhelper/createdir"
+	"gitlab.com/auk-go/pathhelper/pathjoin"
 )
 
 func DirFileCreate(

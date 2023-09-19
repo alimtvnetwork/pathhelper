@@ -1,10 +1,10 @@
 package pathcompiler
 
 import (
-	"gitlab.com/evatix-go/enum/osmixtype"
-	"gitlab.com/evatix-go/pathhelper/knowndirget"
-	"gitlab.com/evatix-go/pathhelper/pathjoin"
-	"gitlab.com/evatix-go/pathhelper/pathsconst"
+	"gitlab.com/auk-go/enum/osmixtype"
+	"gitlab.com/auk-go/pathhelper/knowndirget"
+	"gitlab.com/auk-go/pathhelper/pathjoin"
+	"gitlab.com/auk-go/pathhelper/pathsconst"
 )
 
 var (

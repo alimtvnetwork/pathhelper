@@ -1,6 +1,6 @@
 package envpath
 
-import "gitlab.com/evatix-go/core/osconsts"
+import "gitlab.com/auk-go/core/osconsts"
 
 func GetEnvSeparator() string {
 	if osconsts.IsWindows {

@@ -1,18 +1,18 @@
 package pathjoin
 
 import (
-	"gitlab.com/evatix-go/core/osconsts"
-	"gitlab.com/evatix-go/pathhelper/pathsconst"
+	"gitlab.com/auk-go/core/osconsts"
+	"gitlab.com/auk-go/pathhelper/pathsconst"
 )
 
 // WithTempPlus
 //
-//  skip on empty path and others optional
+//	skip on empty path and others optional
 //
-//  Windows
-//      - "%temp%\locations\..."
-//  Unix
-//      - "/tmp/locations/..."
+//	Windows
+//	    - "%temp%\locations\..."
+//	Unix
+//	    - "/tmp/locations/..."
 func WithTempPlus(
 	isNormalizeLongPathFix,
 	isExpandEnvVar bool,

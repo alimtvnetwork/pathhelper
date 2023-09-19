@@ -1,7 +1,7 @@
 package pathstatlinux
 
 import (
-	"gitlab.com/evatix-go/pathhelper/pathsysinfo"
+	"gitlab.com/auk-go/pathhelper/pathsysinfo"
 )
 
 type User struct {

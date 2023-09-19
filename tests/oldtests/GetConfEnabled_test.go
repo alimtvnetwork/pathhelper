@@ -3,7 +3,7 @@ package oldtests
 import (
 	"testing"
 
-	"gitlab.com/evatix-go/pathhelper/apachelinuxpath"
+	"gitlab.com/auk-go/pathhelper/apachelinuxpath"
 )
 
 var getConfEnabledPathTestCaseData = pathTestCaseDataWrapper{

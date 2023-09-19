@@ -3,9 +3,9 @@ package main
 import (
 	"fmt"
 
-	"gitlab.com/evatix-go/errorwrapper/errtype"
-	"gitlab.com/evatix-go/pathhelper/pathsconst"
-	"gitlab.com/evatix-go/pathhelper/recursivepaths"
+	"gitlab.com/auk-go/errorwrapper/errtype"
+	"gitlab.com/auk-go/pathhelper/pathsconst"
+	"gitlab.com/auk-go/pathhelper/recursivepaths"
 )
 
 func filterTest04() {

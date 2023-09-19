@@ -3,10 +3,10 @@ package hexchecksum
 import (
 	"strconv"
 
-	"gitlab.com/evatix-go/core/coredata/corejson"
-	"gitlab.com/evatix-go/errorwrapper"
-	"gitlab.com/evatix-go/errorwrapper/errdata/errstr"
-	"gitlab.com/evatix-go/pathhelper/hashas"
+	"gitlab.com/auk-go/core/coredata/corejson"
+	"gitlab.com/auk-go/errorwrapper"
+	"gitlab.com/auk-go/errorwrapper/errdata/errstr"
+	"gitlab.com/auk-go/pathhelper/hashas"
 )
 
 type FilesResult struct {

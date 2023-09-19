@@ -3,13 +3,13 @@ package pathinsfmt
 import (
 	"os"
 
-	"gitlab.com/evatix-go/core/chmodhelper"
-	"gitlab.com/evatix-go/core/constants"
-	"gitlab.com/evatix-go/pathhelper/createdir"
-	"gitlab.com/evatix-go/pathhelper/hashas"
-	"gitlab.com/evatix-go/pathhelper/internal/consts"
-	"gitlab.com/evatix-go/pathhelper/internal/fsinternal"
-	"gitlab.com/evatix-go/pathhelper/pathjoin"
+	"gitlab.com/auk-go/core/chmodhelper"
+	"gitlab.com/auk-go/core/constants"
+	"gitlab.com/auk-go/pathhelper/createdir"
+	"gitlab.com/auk-go/pathhelper/hashas"
+	"gitlab.com/auk-go/pathhelper/internal/consts"
+	"gitlab.com/auk-go/pathhelper/internal/fsinternal"
+	"gitlab.com/auk-go/pathhelper/pathjoin"
 )
 
 // Download Use aria2c
@@ -31,7 +31,8 @@ type Download struct {
 }
 
 // NewDownload Example :
-//  NewDownload("http://url.com/file.ext","path/to/file/file.ext")
+//
+//	NewDownload("http://url.com/file.ext","path/to/file/file.ext")
 func NewDownload(url, destination string) *Download {
 	parentDir, fileName := fsinternal.GetDirFileName(destination)
 

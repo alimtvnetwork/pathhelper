@@ -6,7 +6,7 @@ import (
 	"path/filepath"
 	"runtime"
 
-	"gitlab.com/evatix-go/pathhelper/copyrecursive"
+	"gitlab.com/auk-go/pathhelper/copyrecursive"
 )
 
 func CopierTest() {

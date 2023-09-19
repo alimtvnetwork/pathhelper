@@ -3,7 +3,7 @@ package splitinternal
 import (
 	"strings"
 
-	"gitlab.com/evatix-go/core/constants"
+	"gitlab.com/auk-go/core/constants"
 )
 
 func GetFileNameDotExt(currentPath string) (fileName string, dotExt string) {

@@ -3,11 +3,11 @@ package pathhelper
 import (
 	"strings"
 
-	"gitlab.com/evatix-go/core/errcore"
+	"gitlab.com/auk-go/core/errcore"
 
-	"gitlab.com/evatix-go/pathhelper/internal/ispathinternal"
-	"gitlab.com/evatix-go/pathhelper/normalize"
-	"gitlab.com/evatix-go/pathhelper/pathhelpercore"
+	"gitlab.com/auk-go/pathhelper/internal/ispathinternal"
+	"gitlab.com/auk-go/pathhelper/normalize"
+	"gitlab.com/auk-go/pathhelper/pathhelpercore"
 )
 
 func getCombinedPathUsingConfigInternal(

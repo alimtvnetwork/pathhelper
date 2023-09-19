@@ -4,9 +4,9 @@ import (
 	"os"
 	"time"
 
-	"gitlab.com/evatix-go/core/chmodhelper"
-	"gitlab.com/evatix-go/core/constants"
-	"gitlab.com/evatix-go/pathhelper/expandnormalize"
+	"gitlab.com/auk-go/core/chmodhelper"
+	"gitlab.com/auk-go/core/constants"
+	"gitlab.com/auk-go/pathhelper/expandnormalize"
 )
 
 // Location Don't use Path Directly but use CompiledPath

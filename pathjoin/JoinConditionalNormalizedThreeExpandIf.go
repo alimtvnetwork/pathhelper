@@ -1,9 +1,9 @@
 package pathjoin
 
 import (
-	"gitlab.com/evatix-go/core/osconsts"
-	"gitlab.com/evatix-go/pathhelper/expandpath"
-	"gitlab.com/evatix-go/pathhelper/normalize"
+	"gitlab.com/auk-go/core/osconsts"
+	"gitlab.com/auk-go/pathhelper/expandpath"
+	"gitlab.com/auk-go/pathhelper/normalize"
 )
 
 // JoinConditionalNormalizedThreeExpandIf normalized or expand or both apply based on condition

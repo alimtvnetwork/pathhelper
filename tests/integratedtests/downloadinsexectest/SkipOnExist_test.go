@@ -7,10 +7,10 @@ import (
 
 	"github.com/smartystreets/goconvey/convey"
 
-	"gitlab.com/evatix-go/pathhelper/fs"
-	"gitlab.com/evatix-go/pathhelper/internal/consts"
-	"gitlab.com/evatix-go/pathhelper/pathinsfmt"
-	"gitlab.com/evatix-go/pathhelper/pathinsfmtexec/downloadinsexec"
+	"gitlab.com/auk-go/pathhelper/fs"
+	"gitlab.com/auk-go/pathhelper/internal/consts"
+	"gitlab.com/auk-go/pathhelper/pathinsfmt"
+	"gitlab.com/auk-go/pathhelper/pathinsfmtexec/downloadinsexec"
 )
 
 func Test_SkipOnExist(t *testing.T) {

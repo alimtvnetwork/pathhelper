@@ -4,8 +4,8 @@ import (
 	"testing"
 
 	. "github.com/smartystreets/goconvey/convey"
-	"gitlab.com/evatix-go/core/coretests"
-	"gitlab.com/evatix-go/core/coreutils/stringutil"
+	"gitlab.com/auk-go/core/coretests"
+	"gitlab.com/auk-go/core/coreutils/stringutil"
 )
 
 func TestIsStartsWith(t *testing.T) {

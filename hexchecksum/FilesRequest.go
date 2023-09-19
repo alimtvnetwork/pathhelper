@@ -3,8 +3,8 @@ package hexchecksum
 import (
 	"sort"
 
-	"gitlab.com/evatix-go/core/issetter"
-	"gitlab.com/evatix-go/pathhelper/hashas"
+	"gitlab.com/auk-go/core/issetter"
+	"gitlab.com/auk-go/pathhelper/hashas"
 )
 
 type FilesRequest struct {

@@ -3,9 +3,9 @@ package pathsysinfo
 import (
 	"os/user"
 
-	"gitlab.com/evatix-go/core/codestack"
-	"gitlab.com/evatix-go/errorwrapper"
-	"gitlab.com/evatix-go/errorwrapper/errtype"
+	"gitlab.com/auk-go/core/codestack"
+	"gitlab.com/auk-go/errorwrapper"
+	"gitlab.com/auk-go/errorwrapper/errtype"
 )
 
 func LookupUser(userName string) (userResult *user.User, errorWrapper *errorwrapper.Wrapper) {

@@ -3,8 +3,8 @@ package pathstatlinux
 import (
 	"strings"
 
-	"gitlab.com/evatix-go/core/constants"
-	"gitlab.com/evatix-go/core/coreutils/stringutil"
+	"gitlab.com/auk-go/core/constants"
+	"gitlab.com/auk-go/core/coreutils/stringutil"
 )
 
 func getTimePartAsString(s string) string {

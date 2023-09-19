@@ -1,6 +1,6 @@
 package pathstatlinux
 
-import "gitlab.com/evatix-go/core/constants"
+import "gitlab.com/auk-go/core/constants"
 
 type IntIdNameValidation struct {
 	Id         int

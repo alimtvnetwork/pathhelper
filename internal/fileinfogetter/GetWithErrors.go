@@ -4,8 +4,8 @@ import (
 	"os"
 	"sync"
 
-	"gitlab.com/evatix-go/errorwrapper/errtype"
-	"gitlab.com/evatix-go/errorwrapper/errwrappers"
+	"gitlab.com/auk-go/errorwrapper/errtype"
+	"gitlab.com/auk-go/errorwrapper/errwrappers"
 )
 
 // For each path converted to file info wrapper and finally returns as an array.

@@ -3,8 +3,8 @@ package pathsconst
 import (
 	"path"
 
-	"gitlab.com/evatix-go/core/chmodhelper"
-	"gitlab.com/evatix-go/core/osconsts"
+	"gitlab.com/auk-go/core/chmodhelper"
+	"gitlab.com/auk-go/core/osconsts"
 )
 
 var (

@@ -3,9 +3,9 @@ package symlink
 import (
 	"os"
 
-	"gitlab.com/evatix-go/errorwrapper/errdata/errbool"
-	"gitlab.com/evatix-go/errorwrapper/errnew"
-	"gitlab.com/evatix-go/errorwrapper/errtype"
+	"gitlab.com/auk-go/errorwrapper/errdata/errbool"
+	"gitlab.com/auk-go/errorwrapper/errnew"
+	"gitlab.com/auk-go/errorwrapper/errtype"
 )
 
 func IsSymLink(path string) *errbool.Result {

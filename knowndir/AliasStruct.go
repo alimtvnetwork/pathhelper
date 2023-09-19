@@ -1,14 +1,14 @@
 package knowndir
 
 import (
-	"gitlab.com/evatix-go/core/constants"
-	"gitlab.com/evatix-go/core/osconsts"
-	"gitlab.com/evatix-go/core/ostype"
-	"gitlab.com/evatix-go/enum/osarchs"
-	"gitlab.com/evatix-go/errorwrapper"
-	"gitlab.com/evatix-go/errorwrapper/errnew"
+	"gitlab.com/auk-go/core/constants"
+	"gitlab.com/auk-go/core/osconsts"
+	"gitlab.com/auk-go/core/ostype"
+	"gitlab.com/auk-go/enum/osarchs"
+	"gitlab.com/auk-go/errorwrapper"
+	"gitlab.com/auk-go/errorwrapper/errnew"
 
-	"gitlab.com/evatix-go/pathhelper/knowndir/os"
+	"gitlab.com/auk-go/pathhelper/knowndir/os"
 )
 
 type AliasStruct struct {

@@ -6,14 +6,14 @@ import (
 	"path"
 	"strings"
 
-	"gitlab.com/evatix-go/core/osconsts"
-	"gitlab.com/evatix-go/errorwrapper"
-	"gitlab.com/evatix-go/errorwrapper/errdata/errbool"
-	"gitlab.com/evatix-go/errorwrapper/errdata/errstr"
-	"gitlab.com/evatix-go/errorwrapper/errnew"
-	"gitlab.com/evatix-go/errorwrapper/errtype"
-	"gitlab.com/evatix-go/pathhelper/internal/splitinternal"
-	"gitlab.com/evatix-go/pathhelper/pathext"
+	"gitlab.com/auk-go/core/osconsts"
+	"gitlab.com/auk-go/errorwrapper"
+	"gitlab.com/auk-go/errorwrapper/errdata/errbool"
+	"gitlab.com/auk-go/errorwrapper/errdata/errstr"
+	"gitlab.com/auk-go/errorwrapper/errnew"
+	"gitlab.com/auk-go/errorwrapper/errtype"
+	"gitlab.com/auk-go/pathhelper/internal/splitinternal"
+	"gitlab.com/auk-go/pathhelper/pathext"
 )
 
 type Wrapper string

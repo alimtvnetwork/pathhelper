@@ -1,8 +1,8 @@
 package pathhelper
 
 import (
-	"gitlab.com/evatix-go/core/constants"
-	"gitlab.com/evatix-go/pathhelper/ispath"
+	"gitlab.com/auk-go/core/constants"
+	"gitlab.com/auk-go/pathhelper/ispath"
 )
 
 // GetSlug from given path,

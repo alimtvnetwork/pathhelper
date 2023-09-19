@@ -1,6 +1,6 @@
 package pathinsfmt
 
-import "gitlab.com/evatix-go/errorwrapper/errcmd"
+import "gitlab.com/auk-go/errorwrapper/errcmd"
 
 type ProcessorExecOutput struct {
 	CmdOnce             *errcmd.CmdOnce

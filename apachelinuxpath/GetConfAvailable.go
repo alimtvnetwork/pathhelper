@@ -1,12 +1,12 @@
 package apachelinuxpath
 
 import (
-	"gitlab.com/evatix-go/core/constants"
-	"gitlab.com/evatix-go/core/osconsts"
-	"gitlab.com/evatix-go/errorwrapper/errtype"
+	"gitlab.com/auk-go/core/constants"
+	"gitlab.com/auk-go/core/osconsts"
+	"gitlab.com/auk-go/errorwrapper/errtype"
 
-	"gitlab.com/evatix-go/pathhelper/knowndir"
-	"gitlab.com/evatix-go/pathhelper/knowndirget"
+	"gitlab.com/auk-go/pathhelper/knowndir"
+	"gitlab.com/auk-go/pathhelper/knowndirget"
 )
 
 // GetConfAvailable returns /etc/apache/conf-available as a string

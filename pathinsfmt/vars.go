@@ -3,7 +3,7 @@ package pathinsfmt
 import (
 	"sync"
 
-	"gitlab.com/evatix-go/pathhelper/copyrecursive"
+	"gitlab.com/auk-go/pathhelper/copyrecursive"
 )
 
 var (

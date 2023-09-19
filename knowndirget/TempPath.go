@@ -3,10 +3,10 @@ package knowndirget
 import (
 	"os"
 
-	"gitlab.com/evatix-go/core/osconsts"
+	"gitlab.com/auk-go/core/osconsts"
 
-	"gitlab.com/evatix-go/pathhelper/internal/ispathinternal"
-	"gitlab.com/evatix-go/pathhelper/knowndir"
+	"gitlab.com/auk-go/pathhelper/internal/ispathinternal"
+	"gitlab.com/auk-go/pathhelper/knowndir"
 )
 
 // Returns temp directory. After checking in on all possible locations, if directory doesn't exist, then doesnt create the directory

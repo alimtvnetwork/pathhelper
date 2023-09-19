@@ -1,6 +1,6 @@
 package copyrecursive
 
-import "gitlab.com/evatix-go/pathhelper/expandnormalize"
+import "gitlab.com/auk-go/pathhelper/expandnormalize"
 
 type Options struct {
 	IsSkipOnExist      bool

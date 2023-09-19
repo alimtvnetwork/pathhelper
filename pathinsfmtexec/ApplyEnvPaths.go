@@ -1,9 +1,9 @@
 package pathinsfmtexec
 
 import (
-	"gitlab.com/evatix-go/errorwrapper"
-	"gitlab.com/evatix-go/pathhelper/envpath"
-	"gitlab.com/evatix-go/pathhelper/pathinsfmt"
+	"gitlab.com/auk-go/errorwrapper"
+	"gitlab.com/auk-go/pathhelper/envpath"
+	"gitlab.com/auk-go/pathhelper/pathinsfmt"
 )
 
 func ApplyEnvPaths(baseEnvPaths *pathinsfmt.BaseEnvPaths) *errorwrapper.Wrapper {

@@ -3,7 +3,7 @@ package pathhelper
 import (
 	"sync"
 
-	"gitlab.com/evatix-go/core"
+	"gitlab.com/auk-go/core"
 )
 
 func GetRelativePathsOfPtr(

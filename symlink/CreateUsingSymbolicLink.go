@@ -3,14 +3,14 @@ package symlink
 import (
 	"os"
 
-	"gitlab.com/evatix-go/core/osconsts"
-	"gitlab.com/evatix-go/errorwrapper"
-	"gitlab.com/evatix-go/errorwrapper/errnew"
-	"gitlab.com/evatix-go/errorwrapper/errtype"
-	"gitlab.com/evatix-go/errorwrapper/ref"
-	"gitlab.com/evatix-go/pathhelper/internal/fsinternal"
-	"gitlab.com/evatix-go/pathhelper/internal/normalizeinternal"
-	"gitlab.com/evatix-go/pathhelper/pathinsfmt"
+	"gitlab.com/auk-go/core/osconsts"
+	"gitlab.com/auk-go/errorwrapper"
+	"gitlab.com/auk-go/errorwrapper/errnew"
+	"gitlab.com/auk-go/errorwrapper/errtype"
+	"gitlab.com/auk-go/errorwrapper/ref"
+	"gitlab.com/auk-go/pathhelper/internal/fsinternal"
+	"gitlab.com/auk-go/pathhelper/internal/normalizeinternal"
+	"gitlab.com/auk-go/pathhelper/pathinsfmt"
 )
 
 func CreateUsingSymbolicLink(symLink *pathinsfmt.SymbolicLink) *errorwrapper.Wrapper {

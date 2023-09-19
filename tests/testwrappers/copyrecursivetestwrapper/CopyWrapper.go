@@ -1,10 +1,10 @@
 package copyrecursivetestwrapper
 
 import (
-	"gitlab.com/evatix-go/core/coredata/corestr"
-	"gitlab.com/evatix-go/core/enums/stringcompareas"
-	"gitlab.com/evatix-go/errorwrapper/errverify"
-	"gitlab.com/evatix-go/pathhelper/copyrecursive"
+	"gitlab.com/auk-go/core/coredata/corestr"
+	"gitlab.com/auk-go/core/enums/stringcompareas"
+	"gitlab.com/auk-go/errorwrapper/errverify"
+	"gitlab.com/auk-go/pathhelper/copyrecursive"
 )
 
 type CopyRecursiveTestWrapper struct {

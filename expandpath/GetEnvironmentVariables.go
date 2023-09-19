@@ -1,7 +1,7 @@
 package expandpath
 
 import (
-	"gitlab.com/evatix-go/core/coredata/stringslice"
+	"gitlab.com/auk-go/core/coredata/stringslice"
 )
 
 // getVariables function takes a string input and identifies every word

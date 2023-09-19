@@ -1,7 +1,7 @@
 package pathinsfmt
 
 import (
-	"gitlab.com/evatix-go/pathhelper/copyrecursive"
+	"gitlab.com/auk-go/pathhelper/copyrecursive"
 )
 
 type CopyPath struct {

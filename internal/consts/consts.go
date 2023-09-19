@@ -1,7 +1,7 @@
 package consts
 
 import (
-	"gitlab.com/evatix-go/core/filemode"
+	"gitlab.com/auk-go/core/filemode"
 )
 
 const (

@@ -1,6 +1,6 @@
 package pathhelper
 
-import "gitlab.com/evatix-go/pathhelper/internal/splitinternal"
+import "gitlab.com/auk-go/pathhelper/internal/splitinternal"
 
 func GetDotExtension(
 	currentPath string,

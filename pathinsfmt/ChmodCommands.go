@@ -1,10 +1,10 @@
 package pathinsfmt
 
 import (
-	"gitlab.com/evatix-go/core/chmodhelper/chmodins"
-	"gitlab.com/evatix-go/core/constants"
-	"gitlab.com/evatix-go/core/coredata/stringslice"
-	"gitlab.com/evatix-go/errorwrapper/errcmd"
+	"gitlab.com/auk-go/core/chmodhelper/chmodins"
+	"gitlab.com/auk-go/core/constants"
+	"gitlab.com/auk-go/core/coredata/stringslice"
+	"gitlab.com/auk-go/errorwrapper/errcmd"
 )
 
 type ChmodCommands struct {

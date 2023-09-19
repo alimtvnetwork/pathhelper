@@ -3,7 +3,7 @@ package pathjoin
 import (
 	"path/filepath"
 
-	"gitlab.com/evatix-go/core/osconsts"
+	"gitlab.com/auk-go/core/osconsts"
 )
 
 // JoinSimpleIf doesn't apply normalize

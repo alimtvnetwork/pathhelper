@@ -1,8 +1,8 @@
 package pathhelper
 
 import (
-	"gitlab.com/evatix-go/pathhelper/expandpath"
-	"gitlab.com/evatix-go/pathhelper/pathjoin"
+	"gitlab.com/auk-go/pathhelper/expandpath"
+	"gitlab.com/auk-go/pathhelper/pathjoin"
 )
 
 func PathCombineWithBase(

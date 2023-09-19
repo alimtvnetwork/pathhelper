@@ -5,14 +5,14 @@ import (
 	"regexp"
 	"strings"
 
-	"gitlab.com/evatix-go/core/constants"
-	"gitlab.com/evatix-go/core/coredata/corejson"
-	"gitlab.com/evatix-go/core/coreinterface"
-	"gitlab.com/evatix-go/core/defaulterr"
-	"gitlab.com/evatix-go/errorwrapper"
-	"gitlab.com/evatix-go/errorwrapper/errwrappers"
-	"gitlab.com/evatix-go/pathhelper/fs"
-	"gitlab.com/evatix-go/pathhelper/pathfixer"
+	"gitlab.com/auk-go/core/constants"
+	"gitlab.com/auk-go/core/coredata/corejson"
+	"gitlab.com/auk-go/core/coreinterface"
+	"gitlab.com/auk-go/core/defaulterr"
+	"gitlab.com/auk-go/errorwrapper"
+	"gitlab.com/auk-go/errorwrapper/errwrappers"
+	"gitlab.com/auk-go/pathhelper/fs"
+	"gitlab.com/auk-go/pathhelper/pathfixer"
 )
 
 type PathCollection struct {

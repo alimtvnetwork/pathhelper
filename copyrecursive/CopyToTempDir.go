@@ -3,12 +3,12 @@ package copyrecursive
 import (
 	"io/ioutil"
 
-	"gitlab.com/evatix-go/core/constants"
-	"gitlab.com/evatix-go/errorwrapper"
-	"gitlab.com/evatix-go/errorwrapper/errnew"
-	"gitlab.com/evatix-go/errorwrapper/errtype"
+	"gitlab.com/auk-go/core/constants"
+	"gitlab.com/auk-go/errorwrapper"
+	"gitlab.com/auk-go/errorwrapper/errnew"
+	"gitlab.com/auk-go/errorwrapper/errtype"
 
-	"gitlab.com/evatix-go/pathhelper/pathsconst"
+	"gitlab.com/auk-go/pathhelper/pathsconst"
 )
 
 // CopyToTempDir copies everything from root to a

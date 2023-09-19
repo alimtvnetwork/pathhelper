@@ -1,10 +1,10 @@
 package pathrecurseinfo
 
 import (
-	"gitlab.com/evatix-go/core/coredata/corestr"
-	"gitlab.com/evatix-go/core/coredata/stringslice"
-	"gitlab.com/evatix-go/errorwrapper/errdata/errstr"
-	"gitlab.com/evatix-go/pathhelper/normalize"
+	"gitlab.com/auk-go/core/coredata/corestr"
+	"gitlab.com/auk-go/core/coredata/stringslice"
+	"gitlab.com/auk-go/errorwrapper/errdata/errstr"
+	"gitlab.com/auk-go/pathhelper/normalize"
 )
 
 type Instruction struct {

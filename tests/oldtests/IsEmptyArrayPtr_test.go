@@ -6,7 +6,7 @@ import (
 
 	. "github.com/smartystreets/goconvey/convey"
 
-	"gitlab.com/evatix-go/pathhelper/internal/ispathinternal"
+	"gitlab.com/auk-go/pathhelper/internal/ispathinternal"
 )
 
 type isEmptyArrayPtrTestCaseWrapper struct {

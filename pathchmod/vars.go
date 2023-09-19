@@ -1,6 +1,6 @@
 package pathchmod
 
-import "gitlab.com/evatix-go/core/chmodhelper"
+import "gitlab.com/auk-go/core/chmodhelper"
 
 var (
 	FriendlyChmod = friendlyChmod{}

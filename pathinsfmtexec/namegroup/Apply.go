@@ -1,8 +1,8 @@
 package namegroup
 
 import (
-	"gitlab.com/evatix-go/errorwrapper"
-	"gitlab.com/evatix-go/pathhelper/pathinsfmt"
+	"gitlab.com/auk-go/errorwrapper"
+	"gitlab.com/auk-go/pathhelper/pathinsfmt"
 )
 
 func Apply(

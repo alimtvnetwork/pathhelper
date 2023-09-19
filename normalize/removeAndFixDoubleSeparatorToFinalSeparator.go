@@ -1,6 +1,6 @@
 package normalize
 
-import "gitlab.com/evatix-go/core/constants"
+import "gitlab.com/auk-go/core/constants"
 
 // Replace both double slashes to single slash (// -> /, \\ -> \) and finally all slashes to finalSeparator
 func removeAndFixDoubleSeparatorToFinalSeparator(finalSeparator, path string) string {

@@ -1,9 +1,9 @@
 package pathinsfmtexectests
 
 import (
-	"gitlab.com/evatix-go/pathhelper/createpath"
-	"gitlab.com/evatix-go/pathhelper/deletepaths"
-	"gitlab.com/evatix-go/pathhelper/tests/testwrappers/pathinsfmtexectestwrappers"
+	"gitlab.com/auk-go/pathhelper/createpath"
+	"gitlab.com/auk-go/pathhelper/deletepaths"
+	"gitlab.com/auk-go/pathhelper/tests/testwrappers/pathinsfmtexectestwrappers"
 )
 
 func DefaultPathsSetup() {

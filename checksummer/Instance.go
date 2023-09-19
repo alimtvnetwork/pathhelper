@@ -5,15 +5,15 @@ import (
 	"encoding/hex"
 	"strings"
 
-	"gitlab.com/evatix-go/core/chmodhelper"
-	"gitlab.com/evatix-go/core/coredata/corestr"
-	"gitlab.com/evatix-go/errorwrapper"
-	"gitlab.com/evatix-go/errorwrapper/errnew"
-	"gitlab.com/evatix-go/errorwrapper/errtype"
-	"gitlab.com/evatix-go/errorwrapper/errwrappers"
+	"gitlab.com/auk-go/core/chmodhelper"
+	"gitlab.com/auk-go/core/coredata/corestr"
+	"gitlab.com/auk-go/errorwrapper"
+	"gitlab.com/auk-go/errorwrapper/errnew"
+	"gitlab.com/auk-go/errorwrapper/errtype"
+	"gitlab.com/auk-go/errorwrapper/errwrappers"
 
-	"gitlab.com/evatix-go/pathhelper/hashas"
-	"gitlab.com/evatix-go/pathhelper/pathjoin"
+	"gitlab.com/auk-go/pathhelper/hashas"
+	"gitlab.com/auk-go/pathhelper/pathjoin"
 )
 
 type Instance struct {

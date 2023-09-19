@@ -1,7 +1,7 @@
 package pathgetter
 
 import (
-	"gitlab.com/evatix-go/pathhelper/fileinfo"
+	"gitlab.com/auk-go/pathhelper/fileinfo"
 )
 
 func AllInfoWrapperPtr(

@@ -3,22 +3,22 @@ package fscache
 import (
 	"os"
 
-	"gitlab.com/evatix-go/core/chmodhelper"
-	"gitlab.com/evatix-go/core/coredata/corejson"
-	"gitlab.com/evatix-go/core/coretaskinfo"
-	"gitlab.com/evatix-go/core/isany"
-	"gitlab.com/evatix-go/enum/strtype"
-	"gitlab.com/evatix-go/errorwrapper"
-	"gitlab.com/evatix-go/errorwrapper/errdata/errbyte"
-	"gitlab.com/evatix-go/errorwrapper/errdata/errjson"
-	"gitlab.com/evatix-go/errorwrapper/errfunc"
-	"gitlab.com/evatix-go/errorwrapper/errnew"
-	"gitlab.com/evatix-go/errorwrapper/errtype"
-	"gitlab.com/evatix-go/errorwrapper/refs"
-	"gitlab.com/evatix-go/pathhelper/deletepaths"
-	"gitlab.com/evatix-go/pathhelper/fs"
-	"gitlab.com/evatix-go/pathhelper/pathchmod"
-	"gitlab.com/evatix-go/pathhelper/pathhelpercore"
+	"gitlab.com/auk-go/core/chmodhelper"
+	"gitlab.com/auk-go/core/coredata/corejson"
+	"gitlab.com/auk-go/core/coretaskinfo"
+	"gitlab.com/auk-go/core/isany"
+	"gitlab.com/auk-go/enum/strtype"
+	"gitlab.com/auk-go/errorwrapper"
+	"gitlab.com/auk-go/errorwrapper/errdata/errbyte"
+	"gitlab.com/auk-go/errorwrapper/errdata/errjson"
+	"gitlab.com/auk-go/errorwrapper/errfunc"
+	"gitlab.com/auk-go/errorwrapper/errnew"
+	"gitlab.com/auk-go/errorwrapper/errtype"
+	"gitlab.com/auk-go/errorwrapper/refs"
+	"gitlab.com/auk-go/pathhelper/deletepaths"
+	"gitlab.com/auk-go/pathhelper/fs"
+	"gitlab.com/auk-go/pathhelper/pathchmod"
+	"gitlab.com/auk-go/pathhelper/pathhelpercore"
 )
 
 type CacheFile struct {
@@ -112,8 +112,8 @@ func (it *CacheFile) GetSetInvalidGeneratorOnEmpty(
 
 // GetOnce
 //
-//  on compile success reflect set to ToPtr
-//  on compile error returns previous compiling error
+//	on compile success reflect set to ToPtr
+//	on compile error returns previous compiling error
 func (it *CacheFile) GetOnce(
 	toPtr interface{},
 ) *errorwrapper.Wrapper {
@@ -506,14 +506,14 @@ func (it *CacheFile) IsErrorOnNull() bool {
 
 // Save
 //
-//  Casting happens:
-//  - self or self pointer returns directly
-//  - []Bytes to Result
-//  - string (json) to Result
-//  - Jsoner to Result
-//  - bytesSerializer to Result
-//  - error to Result
-//  - AnyItem
+//	Casting happens:
+//	- self or self pointer returns directly
+//	- []Bytes to Result
+//	- string (json) to Result
+//	- Jsoner to Result
+//	- bytesSerializer to Result
+//	- error to Result
+//	- AnyItem
 func (it *CacheFile) Save(
 	fromAny interface{},
 ) *errorwrapper.Wrapper {
@@ -531,16 +531,16 @@ func (it *CacheFile) Save(
 
 // saveInternal
 //
-//  no lock
+//	no lock
 //
-//  Casting happens:
-//  - self or self pointer returns directly
-//  - []Bytes to Result
-//  - string (json) to Result
-//  - Jsoner to Result
-//  - bytesSerializer to Result
-//  - error to Result
-//  - AnyItem
+//	Casting happens:
+//	- self or self pointer returns directly
+//	- []Bytes to Result
+//	- string (json) to Result
+//	- Jsoner to Result
+//	- bytesSerializer to Result
+//	- error to Result
+//	- AnyItem
 func (it *CacheFile) saveInternal(
 	fromAnyItem interface{},
 ) *errorwrapper.Wrapper {

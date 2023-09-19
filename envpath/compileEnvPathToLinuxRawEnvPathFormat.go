@@ -1,7 +1,7 @@
 package envpath
 
 import (
-	"gitlab.com/evatix-go/core/simplewrap"
+	"gitlab.com/auk-go/core/simplewrap"
 )
 
 // compileEnvPathToLinuxRawEnvPathFormat Location="...."

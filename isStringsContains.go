@@ -3,7 +3,7 @@ package pathhelper
 import (
 	"strings"
 
-	"gitlab.com/evatix-go/pathhelper/internal/ispathinternal"
+	"gitlab.com/auk-go/pathhelper/internal/ispathinternal"
 )
 
 func isStringsContains(array []string, findingItem string) bool {

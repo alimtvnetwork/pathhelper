@@ -4,7 +4,7 @@ import (
 	"path/filepath"
 	"runtime"
 
-	"gitlab.com/evatix-go/core/codestack"
+	"gitlab.com/auk-go/core/codestack"
 )
 
 func CurrentDirectory() string {

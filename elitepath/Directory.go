@@ -1,6 +1,6 @@
 package elitepath
 
-import "gitlab.com/evatix-go/pathhelper/pathfixer"
+import "gitlab.com/auk-go/pathhelper/pathfixer"
 
 type Directory struct {
 	WithPermission

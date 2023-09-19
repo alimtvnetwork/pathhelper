@@ -4,9 +4,9 @@ import (
 	"fmt"
 	"path/filepath"
 
-	"gitlab.com/evatix-go/core/osconsts"
-	"gitlab.com/evatix-go/pathhelper/normalize"
-	"gitlab.com/evatix-go/pathhelper/pathjoin"
+	"gitlab.com/auk-go/core/osconsts"
+	"gitlab.com/auk-go/pathhelper/normalize"
+	"gitlab.com/auk-go/pathhelper/pathjoin"
 )
 
 func pathTest() {

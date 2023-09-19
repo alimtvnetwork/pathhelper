@@ -3,7 +3,7 @@ package copyrecursivetests
 import (
 	"path/filepath"
 
-	"gitlab.com/evatix-go/pathhelper/tests/testwrappers/copyrecursivetestwrapper"
+	"gitlab.com/auk-go/pathhelper/tests/testwrappers/copyrecursivetestwrapper"
 )
 
 var (

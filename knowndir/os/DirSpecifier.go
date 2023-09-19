@@ -1,6 +1,6 @@
 package os
 
-import "gitlab.com/evatix-go/enum/osarchs"
+import "gitlab.com/auk-go/enum/osarchs"
 
 type DirSpecifier interface {
 	Arch32() string

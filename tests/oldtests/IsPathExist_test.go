@@ -4,12 +4,12 @@ import (
 	"fmt"
 	"testing"
 
-	"gitlab.com/evatix-go/pathhelper/ispath"
+	"gitlab.com/auk-go/pathhelper/ispath"
 
 	. "github.com/smartystreets/goconvey/convey"
-	"gitlab.com/evatix-go/core/ostype"
+	"gitlab.com/auk-go/core/ostype"
 
-	"gitlab.com/evatix-go/pathhelper/internal/mics"
+	"gitlab.com/auk-go/pathhelper/internal/mics"
 )
 
 type pathExistTestCaseWrapper struct {

@@ -1,8 +1,8 @@
 package fileinfo
 
 import (
-	"gitlab.com/evatix-go/core/coredata/corejson"
-	"gitlab.com/evatix-go/errorwrapper"
+	"gitlab.com/auk-go/core/coredata/corejson"
+	"gitlab.com/auk-go/errorwrapper"
 )
 
 type Wrappers struct {

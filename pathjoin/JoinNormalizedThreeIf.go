@@ -1,6 +1,6 @@
 package pathjoin
 
-import "gitlab.com/evatix-go/core/osconsts"
+import "gitlab.com/auk-go/core/osconsts"
 
 // JoinNormalizedThreeIf normalized applied auto
 func JoinNormalizedThreeIf(

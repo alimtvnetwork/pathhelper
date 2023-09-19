@@ -1,7 +1,7 @@
 package pathjoin
 
 import (
-	"gitlab.com/evatix-go/pathhelper/pathsconst"
+	"gitlab.com/auk-go/pathhelper/pathsconst"
 )
 
 func WithRoot(paths ...string) string {

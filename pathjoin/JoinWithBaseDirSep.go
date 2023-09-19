@@ -3,16 +3,16 @@ package pathjoin
 import (
 	"strings"
 
-	"gitlab.com/evatix-go/core/constants"
-	"gitlab.com/evatix-go/core/coredata/stringslice"
-	"gitlab.com/evatix-go/core/osconsts"
-	"gitlab.com/evatix-go/pathhelper/expandpath"
-	"gitlab.com/evatix-go/pathhelper/normalize"
+	"gitlab.com/auk-go/core/constants"
+	"gitlab.com/auk-go/core/coredata/stringslice"
+	"gitlab.com/auk-go/core/osconsts"
+	"gitlab.com/auk-go/pathhelper/expandpath"
+	"gitlab.com/auk-go/pathhelper/normalize"
 )
 
 // JoinWithBaseDirSep
 //
-//  isNormalizePlusLongPathFix if true then for windows add UNC Location fix
+//	isNormalizePlusLongPathFix if true then for windows add UNC Location fix
 func JoinWithBaseDirSep(
 	isSkipEmpty,
 	isExpandEnvVariables,

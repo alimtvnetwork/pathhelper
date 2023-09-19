@@ -1,8 +1,8 @@
 package fs
 
 import (
-	"gitlab.com/evatix-go/core/constants"
-	"gitlab.com/evatix-go/errorwrapper/errdata/errstr"
+	"gitlab.com/auk-go/core/constants"
+	"gitlab.com/auk-go/errorwrapper/errdata/errstr"
 )
 
 func ReadStringOnExistUsingLock(filePath string) *errstr.Result {

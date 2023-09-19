@@ -1,7 +1,7 @@
 package deletepaths
 
 import (
-	"gitlab.com/evatix-go/errorwrapper"
+	"gitlab.com/auk-go/errorwrapper"
 )
 
 func All(locations ...string) *errorwrapper.Wrapper {

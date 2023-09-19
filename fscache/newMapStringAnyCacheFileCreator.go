@@ -1,7 +1,7 @@
 package fscache
 
 import (
-	"gitlab.com/evatix-go/pathhelper/pathchmod"
+	"gitlab.com/auk-go/pathhelper/pathchmod"
 )
 
 type newMapStringAnyCacheFileCreator struct{}

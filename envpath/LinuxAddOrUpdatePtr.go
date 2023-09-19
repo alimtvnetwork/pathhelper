@@ -1,6 +1,6 @@
 package envpath
 
-import "gitlab.com/evatix-go/errorwrapper"
+import "gitlab.com/auk-go/errorwrapper"
 
 func LinuxAddOrUpdatePtr(envPaths []string, isApplyEnvironmentSource bool) *errorwrapper.Wrapper {
 	return linuxCrudEnvPath(

@@ -1,8 +1,8 @@
 package pathjoin
 
 import (
-	"gitlab.com/evatix-go/pathhelper/normalize"
-	"gitlab.com/evatix-go/pathhelper/pathsconst"
+	"gitlab.com/auk-go/pathhelper/normalize"
+	"gitlab.com/auk-go/pathhelper/pathsconst"
 )
 
 func WithTempTest(paths ...string) string {

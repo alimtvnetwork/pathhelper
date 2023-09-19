@@ -3,22 +3,22 @@ package unipath
 import (
 	"os"
 
-	"gitlab.com/evatix-go/core/constants"
-	"gitlab.com/evatix-go/core/coredata/corestr"
-	"gitlab.com/evatix-go/core/errcore"
-	"gitlab.com/evatix-go/errorwrapper"
-	"gitlab.com/evatix-go/errorwrapper/errdata/errstr"
-	"gitlab.com/evatix-go/errorwrapper/errnew"
-	"gitlab.com/evatix-go/errorwrapper/errtype"
+	"gitlab.com/auk-go/core/constants"
+	"gitlab.com/auk-go/core/coredata/corestr"
+	"gitlab.com/auk-go/core/errcore"
+	"gitlab.com/auk-go/errorwrapper"
+	"gitlab.com/auk-go/errorwrapper/errdata/errstr"
+	"gitlab.com/auk-go/errorwrapper/errnew"
+	"gitlab.com/auk-go/errorwrapper/errtype"
 
-	"gitlab.com/evatix-go/pathhelper/dirinfo"
-	"gitlab.com/evatix-go/pathhelper/fileinfo"
-	"gitlab.com/evatix-go/pathhelper/internal/splitinternal"
-	"gitlab.com/evatix-go/pathhelper/normalize"
-	"gitlab.com/evatix-go/pathhelper/pathext"
-	"gitlab.com/evatix-go/pathhelper/pathgetter"
-	"gitlab.com/evatix-go/pathhelper/pathwrapper"
-	"gitlab.com/evatix-go/pathhelper/recursivepaths"
+	"gitlab.com/auk-go/pathhelper/dirinfo"
+	"gitlab.com/auk-go/pathhelper/fileinfo"
+	"gitlab.com/auk-go/pathhelper/internal/splitinternal"
+	"gitlab.com/auk-go/pathhelper/normalize"
+	"gitlab.com/auk-go/pathhelper/pathext"
+	"gitlab.com/auk-go/pathhelper/pathgetter"
+	"gitlab.com/auk-go/pathhelper/pathwrapper"
+	"gitlab.com/auk-go/pathhelper/recursivepaths"
 )
 
 const (

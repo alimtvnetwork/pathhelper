@@ -1,10 +1,10 @@
 package apachelinuxpath
 
 import (
-	"gitlab.com/evatix-go/core/osconsts"
+	"gitlab.com/auk-go/core/osconsts"
 
-	"gitlab.com/evatix-go/pathhelper/knowndir"
-	"gitlab.com/evatix-go/pathhelper/knowndirget"
+	"gitlab.com/auk-go/pathhelper/knowndir"
+	"gitlab.com/auk-go/pathhelper/knowndirget"
 )
 
 // GetConfEnabled returns /etc/apache/conf-enabled as a string

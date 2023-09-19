@@ -1,8 +1,8 @@
 package fs
 
 import (
-	"gitlab.com/evatix-go/errorwrapper"
-	"gitlab.com/evatix-go/pathhelper/internal/fsinternal"
+	"gitlab.com/auk-go/errorwrapper"
+	"gitlab.com/auk-go/pathhelper/internal/fsinternal"
 )
 
 func AppendFile(

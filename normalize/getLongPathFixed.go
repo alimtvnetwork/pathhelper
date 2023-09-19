@@ -1,6 +1,6 @@
 package normalize
 
-import "gitlab.com/evatix-go/core/osconsts"
+import "gitlab.com/auk-go/core/osconsts"
 
 // getLongPathFixed
 // Adds constants.LongPathQuestionMarkPrefix if path is longer than 255 and doesn't already contain it.

@@ -3,7 +3,7 @@ package oldtests
 import (
 	"testing"
 
-	"gitlab.com/evatix-go/core/coretests"
+	"gitlab.com/auk-go/core/coretests"
 )
 
 // SkipOnUnix Skip on Unix

@@ -1,7 +1,7 @@
 package pathhelper
 
 import (
-	"gitlab.com/evatix-go/pathhelper/pathhelpercore"
+	"gitlab.com/auk-go/pathhelper/pathhelpercore"
 )
 
 // if pathConfig is nil then pathConfig gets created pathhelpercore.NewDefaultPathConfig()

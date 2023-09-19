@@ -4,7 +4,7 @@ import (
 	"path/filepath"
 	"runtime"
 
-	"gitlab.com/evatix-go/pathhelper/pathjoin"
+	"gitlab.com/auk-go/pathhelper/pathjoin"
 )
 
 var (

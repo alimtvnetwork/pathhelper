@@ -3,8 +3,8 @@ package pathcompareinternal
 import (
 	"time"
 
-	"gitlab.com/evatix-go/core/corecmp"
-	"gitlab.com/evatix-go/core/corecomparator"
+	"gitlab.com/auk-go/core/corecmp"
+	"gitlab.com/auk-go/core/corecomparator"
 )
 
 func LastModifiedPtr(

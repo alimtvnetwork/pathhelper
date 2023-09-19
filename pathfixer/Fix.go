@@ -1,8 +1,8 @@
 package pathfixer
 
 import (
-	"gitlab.com/evatix-go/pathhelper/expandpath"
-	"gitlab.com/evatix-go/pathhelper/normalize"
+	"gitlab.com/auk-go/pathhelper/expandpath"
+	"gitlab.com/auk-go/pathhelper/normalize"
 )
 
 func Fix(isExpand bool, path string) string {

@@ -3,9 +3,9 @@ package pathfilter
 import (
 	"sync"
 
-	"gitlab.com/evatix-go/core/constants"
-	"gitlab.com/evatix-go/core/coredata/corestr"
-	"gitlab.com/evatix-go/errorwrapper/errdata/errstr"
+	"gitlab.com/auk-go/core/constants"
+	"gitlab.com/auk-go/core/coredata/corestr"
+	"gitlab.com/auk-go/errorwrapper/errdata/errstr"
 )
 
 func GetExcept(

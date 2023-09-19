@@ -1,13 +1,13 @@
 package symlink
 
 import (
-	"gitlab.com/evatix-go/core/codestack"
-	"gitlab.com/evatix-go/core/constants"
-	"gitlab.com/evatix-go/core/osconsts"
-	"gitlab.com/evatix-go/errorwrapper/errcmd"
-	"gitlab.com/evatix-go/errorwrapper/errdata/errbool"
-	"gitlab.com/evatix-go/errorwrapper/errnew"
-	"gitlab.com/evatix-go/errorwrapper/errtype"
+	"gitlab.com/auk-go/core/codestack"
+	"gitlab.com/auk-go/core/constants"
+	"gitlab.com/auk-go/core/osconsts"
+	"gitlab.com/auk-go/errorwrapper/errcmd"
+	"gitlab.com/auk-go/errorwrapper/errdata/errbool"
+	"gitlab.com/auk-go/errorwrapper/errnew"
+	"gitlab.com/auk-go/errorwrapper/errtype"
 )
 
 // Creates symbolicLink of the source at the provided destination path for linux system. If destination doesn't exist it will panic.

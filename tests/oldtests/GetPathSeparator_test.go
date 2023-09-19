@@ -5,11 +5,11 @@ import (
 	"testing"
 
 	. "github.com/smartystreets/goconvey/convey"
-	"gitlab.com/evatix-go/core/ostype"
+	"gitlab.com/auk-go/core/ostype"
 
-	"gitlab.com/evatix-go/core/constants"
+	"gitlab.com/auk-go/core/constants"
 
-	"gitlab.com/evatix-go/pathhelper/internal/mics"
+	"gitlab.com/auk-go/pathhelper/internal/mics"
 )
 
 type pathSeparatorTestCaseWrapper struct {

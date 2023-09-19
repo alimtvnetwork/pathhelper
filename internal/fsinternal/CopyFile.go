@@ -3,7 +3,7 @@ package fsinternal
 import (
 	"os"
 
-	"gitlab.com/evatix-go/errorwrapper"
+	"gitlab.com/auk-go/errorwrapper"
 )
 
 // CopyFile Future ref: https://stackoverflow.com/a/21067803

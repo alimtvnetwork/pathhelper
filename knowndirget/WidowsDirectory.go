@@ -3,7 +3,7 @@ package knowndirget
 import (
 	"os"
 
-	"gitlab.com/evatix-go/pathhelper/knowndir"
+	"gitlab.com/auk-go/pathhelper/knowndir"
 )
 
 // WidowsDirectory

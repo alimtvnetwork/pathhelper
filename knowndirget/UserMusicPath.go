@@ -1,7 +1,7 @@
 package knowndirget
 
 import (
-	"gitlab.com/evatix-go/pathhelper/knowndir"
+	"gitlab.com/auk-go/pathhelper/knowndir"
 )
 
 // Returns Music directory path as a string.

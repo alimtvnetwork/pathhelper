@@ -3,12 +3,12 @@ package pathstatlinux
 import (
 	"strings"
 
-	"gitlab.com/evatix-go/core/constants"
-	"gitlab.com/evatix-go/core/coredata/corestr"
-	"gitlab.com/evatix-go/core/coredata/stringslice"
-	"gitlab.com/evatix-go/core/coreindexes"
-	"gitlab.com/evatix-go/core/errcore"
-	"gitlab.com/evatix-go/pathhelper/internal/strremove"
+	"gitlab.com/auk-go/core/constants"
+	"gitlab.com/auk-go/core/coredata/corestr"
+	"gitlab.com/auk-go/core/coredata/stringslice"
+	"gitlab.com/auk-go/core/coreindexes"
+	"gitlab.com/auk-go/core/errcore"
+	"gitlab.com/auk-go/pathhelper/internal/strremove"
 )
 
 // parentThesisWrappedSlashLeftRight : `(0755/drwxr-xr-x)  Uid` or `(left/right) whatever` data to left : 0755, right : drwxr-xr-x

@@ -1,7 +1,7 @@
 package fs
 
 import (
-	"gitlab.com/evatix-go/errorwrapper"
+	"gitlab.com/auk-go/errorwrapper"
 )
 
 // SafeRemove Reference : https://t.ly/xnAe

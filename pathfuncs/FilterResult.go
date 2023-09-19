@@ -1,7 +1,7 @@
 package pathfuncs
 
 import (
-	"gitlab.com/evatix-go/errorwrapper"
+	"gitlab.com/auk-go/errorwrapper"
 )
 
 type FilterResult struct {

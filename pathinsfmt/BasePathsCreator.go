@@ -3,15 +3,15 @@ package pathinsfmt
 import (
 	"os"
 
-	"gitlab.com/evatix-go/core/chmodhelper"
-	"gitlab.com/evatix-go/core/filemode"
-	"gitlab.com/evatix-go/errorwrapper"
-	"gitlab.com/evatix-go/errorwrapper/errdata/errstr"
-	"gitlab.com/evatix-go/errorwrapper/errnew"
-	"gitlab.com/evatix-go/errorwrapper/errtype"
-	"gitlab.com/evatix-go/pathhelper/createpath"
-	"gitlab.com/evatix-go/pathhelper/internal/normalizeinternal"
-	"gitlab.com/evatix-go/pathhelper/pathchmod"
+	"gitlab.com/auk-go/core/chmodhelper"
+	"gitlab.com/auk-go/core/filemode"
+	"gitlab.com/auk-go/errorwrapper"
+	"gitlab.com/auk-go/errorwrapper/errdata/errstr"
+	"gitlab.com/auk-go/errorwrapper/errnew"
+	"gitlab.com/auk-go/errorwrapper/errtype"
+	"gitlab.com/auk-go/pathhelper/createpath"
+	"gitlab.com/auk-go/pathhelper/internal/normalizeinternal"
+	"gitlab.com/auk-go/pathhelper/pathchmod"
 )
 
 type BasePathsCreator struct {

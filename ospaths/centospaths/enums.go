@@ -1,9 +1,9 @@
 package centospaths
 
-import "gitlab.com/evatix-go/pathhelper/pathwrapper"
+import "gitlab.com/auk-go/pathhelper/pathwrapper"
 
 //goland:noinspection ALL
 const (
-	// https://gitlab.com/evatix-go/ethernetinf/-/issues/9
+	// https://gitlab.com/auk-go/ethernetinf/-/issues/9
 	NetworkScripts pathwrapper.Wrapper = "/etc/sysconfig/network-scripts"
 )

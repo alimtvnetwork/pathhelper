@@ -1,10 +1,10 @@
 package pathrecurseinfo
 
 import (
-	"gitlab.com/evatix-go/core/corecmp"
-	"gitlab.com/evatix-go/core/coredata/corestr"
-	"gitlab.com/evatix-go/pathhelper/normalize"
-	"gitlab.com/evatix-go/pathhelper/pathjoin"
+	"gitlab.com/auk-go/core/corecmp"
+	"gitlab.com/auk-go/core/coredata/corestr"
+	"gitlab.com/auk-go/pathhelper/normalize"
+	"gitlab.com/auk-go/pathhelper/pathjoin"
 )
 
 type PathsResult struct {

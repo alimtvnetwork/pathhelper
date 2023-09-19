@@ -1,9 +1,9 @@
 package pathfilter
 
 import (
-	"gitlab.com/evatix-go/core/coredata/corestr"
+	"gitlab.com/auk-go/core/coredata/corestr"
 
-	"gitlab.com/evatix-go/pathhelper/pathext"
+	"gitlab.com/auk-go/pathhelper/pathext"
 )
 
 func getFilteredFilesByNameMatching(

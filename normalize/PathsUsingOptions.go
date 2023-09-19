@@ -1,6 +1,6 @@
 package normalize
 
-import "gitlab.com/evatix-go/core/osconsts"
+import "gitlab.com/auk-go/core/osconsts"
 
 func PathsUsingOptions(
 	options *Options,

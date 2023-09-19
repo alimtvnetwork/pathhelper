@@ -1,7 +1,7 @@
 package pathjoin
 
 import (
-	"gitlab.com/evatix-go/pathhelper/normalize"
+	"gitlab.com/auk-go/pathhelper/normalize"
 )
 
 // JoinSimpleThree Doesn't apply normalize

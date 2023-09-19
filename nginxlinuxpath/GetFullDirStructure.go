@@ -3,7 +3,7 @@ package nginxlinuxpath
 import (
 	"os"
 
-	"gitlab.com/evatix-go/pathhelper/knowndirstructure"
+	"gitlab.com/auk-go/pathhelper/knowndirstructure"
 )
 
 func GetFullDirStructure(

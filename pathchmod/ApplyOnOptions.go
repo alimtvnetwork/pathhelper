@@ -3,7 +3,7 @@ package pathchmod
 import (
 	"os"
 
-	"gitlab.com/evatix-go/errorwrapper"
+	"gitlab.com/auk-go/errorwrapper"
 )
 
 func ApplyOnOptions(

@@ -8,15 +8,15 @@ import (
 	"testing"
 
 	"github.com/smartystreets/goconvey/convey"
-	"gitlab.com/evatix-go/core/constants"
-	"gitlab.com/evatix-go/core/coretests"
-	"gitlab.com/evatix-go/errorwrapper/errverify"
+	"gitlab.com/auk-go/core/constants"
+	"gitlab.com/auk-go/core/coretests"
+	"gitlab.com/auk-go/errorwrapper/errverify"
 
-	"gitlab.com/evatix-go/pathhelper/checksummer"
-	"gitlab.com/evatix-go/pathhelper/copyrecursive"
-	"gitlab.com/evatix-go/pathhelper/deletepaths"
-	"gitlab.com/evatix-go/pathhelper/hashas"
-	"gitlab.com/evatix-go/pathhelper/tests/testwrappers/copyrecursivetestwrapper"
+	"gitlab.com/auk-go/pathhelper/checksummer"
+	"gitlab.com/auk-go/pathhelper/copyrecursive"
+	"gitlab.com/auk-go/pathhelper/deletepaths"
+	"gitlab.com/auk-go/pathhelper/hashas"
+	"gitlab.com/auk-go/pathhelper/tests/testwrappers/copyrecursivetestwrapper"
 )
 
 func TestCopierRecursive(t *testing.T) {

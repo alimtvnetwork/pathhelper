@@ -1,6 +1,6 @@
 package unipaths
 
-import "gitlab.com/evatix-go/core/constants"
+import "gitlab.com/auk-go/core/constants"
 
 const (
 	defaultCapacity = constants.N5

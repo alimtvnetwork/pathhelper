@@ -1,9 +1,9 @@
 package pathmodifierverify
 
 import (
-	"gitlab.com/evatix-go/errorwrapper/errdata/errstr"
-	"gitlab.com/evatix-go/pathhelper/normalize"
-	"gitlab.com/evatix-go/pathhelper/recursivepaths"
+	"gitlab.com/auk-go/errorwrapper/errdata/errstr"
+	"gitlab.com/auk-go/pathhelper/normalize"
+	"gitlab.com/auk-go/pathhelper/recursivepaths"
 )
 
 func recursiveOrNonRecursiveLocations(

@@ -4,15 +4,15 @@ import (
 	"os"
 	"strings"
 
-	"gitlab.com/evatix-go/core/codestack"
-	"gitlab.com/evatix-go/core/constants"
-	"gitlab.com/evatix-go/core/coreindexes"
-	"gitlab.com/evatix-go/core/coreutils/stringutil"
-	"gitlab.com/evatix-go/core/extensionsconst"
-	"gitlab.com/evatix-go/errorwrapper"
-	"gitlab.com/evatix-go/errorwrapper/errtype"
+	"gitlab.com/auk-go/core/codestack"
+	"gitlab.com/auk-go/core/constants"
+	"gitlab.com/auk-go/core/coreindexes"
+	"gitlab.com/auk-go/core/coreutils/stringutil"
+	"gitlab.com/auk-go/core/extensionsconst"
+	"gitlab.com/auk-go/errorwrapper"
+	"gitlab.com/auk-go/errorwrapper/errtype"
 
-	"gitlab.com/evatix-go/pathhelper/internal/splitinternal"
+	"gitlab.com/auk-go/pathhelper/internal/splitinternal"
 )
 
 type Wrapper struct {

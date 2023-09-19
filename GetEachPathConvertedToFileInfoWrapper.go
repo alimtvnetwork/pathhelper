@@ -3,7 +3,7 @@ package pathhelper
 import (
 	"sync"
 
-	"gitlab.com/evatix-go/pathhelper/fileinfo"
+	"gitlab.com/auk-go/pathhelper/fileinfo"
 )
 
 // For each path converted to file info wrapper and finally returns as an array.

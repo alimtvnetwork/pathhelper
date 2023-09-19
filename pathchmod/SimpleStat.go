@@ -4,15 +4,15 @@ import (
 	"os"
 	"time"
 
-	"gitlab.com/evatix-go/core/constants"
-	"gitlab.com/evatix-go/errorwrapper"
-	"gitlab.com/evatix-go/errorwrapper/errdata/errbyte"
-	"gitlab.com/evatix-go/errorwrapper/errdata/errstr"
-	"gitlab.com/evatix-go/errorwrapper/errnew"
-	"gitlab.com/evatix-go/errorwrapper/errtype"
-	"gitlab.com/evatix-go/pathhelper/hashas"
-	"gitlab.com/evatix-go/pathhelper/internal/fsinternal"
-	"gitlab.com/evatix-go/pathhelper/internal/splitinternal"
+	"gitlab.com/auk-go/core/constants"
+	"gitlab.com/auk-go/errorwrapper"
+	"gitlab.com/auk-go/errorwrapper/errdata/errbyte"
+	"gitlab.com/auk-go/errorwrapper/errdata/errstr"
+	"gitlab.com/auk-go/errorwrapper/errnew"
+	"gitlab.com/auk-go/errorwrapper/errtype"
+	"gitlab.com/auk-go/pathhelper/hashas"
+	"gitlab.com/auk-go/pathhelper/internal/fsinternal"
+	"gitlab.com/auk-go/pathhelper/internal/splitinternal"
 )
 
 type SimpleStat struct {

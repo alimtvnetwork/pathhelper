@@ -1,9 +1,9 @@
 package pathjoin
 
 import (
-	"gitlab.com/evatix-go/core/osconsts"
-	"gitlab.com/evatix-go/pathhelper/normalize"
-	"gitlab.com/evatix-go/pathhelper/pathsconst"
+	"gitlab.com/auk-go/core/osconsts"
+	"gitlab.com/auk-go/pathhelper/normalize"
+	"gitlab.com/auk-go/pathhelper/pathsconst"
 )
 
 func WithTempPlusDefaults(

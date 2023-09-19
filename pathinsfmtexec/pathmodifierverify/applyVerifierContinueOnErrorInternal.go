@@ -3,13 +3,13 @@ package pathmodifierverify
 import (
 	"strings"
 
-	"gitlab.com/evatix-go/core/chmodhelper"
-	"gitlab.com/evatix-go/core/constants"
-	"gitlab.com/evatix-go/core/osconsts"
-	"gitlab.com/evatix-go/errorwrapper/errtype"
-	"gitlab.com/evatix-go/errorwrapper/errwrappers"
-	"gitlab.com/evatix-go/pathhelper/internal/mics"
-	"gitlab.com/evatix-go/pathhelper/pathinsfmt"
+	"gitlab.com/auk-go/core/chmodhelper"
+	"gitlab.com/auk-go/core/constants"
+	"gitlab.com/auk-go/core/osconsts"
+	"gitlab.com/auk-go/errorwrapper/errtype"
+	"gitlab.com/auk-go/errorwrapper/errwrappers"
+	"gitlab.com/auk-go/pathhelper/internal/mics"
+	"gitlab.com/auk-go/pathhelper/pathinsfmt"
 )
 
 func applyVerifierContinueOnErrorInternal(

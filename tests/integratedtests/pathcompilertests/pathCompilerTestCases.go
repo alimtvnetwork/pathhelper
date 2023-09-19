@@ -3,9 +3,9 @@ package pathcompilertests
 import (
 	"reflect"
 
-	"gitlab.com/evatix-go/core/coreimpl/enumimpl"
-	"gitlab.com/evatix-go/core/coretests"
-	"gitlab.com/evatix-go/enum/osmixtype"
+	"gitlab.com/auk-go/core/coreimpl/enumimpl"
+	"gitlab.com/auk-go/core/coretests"
+	"gitlab.com/auk-go/enum/osmixtype"
 )
 
 var pathCompilerTestCases = []TestWrapper{

@@ -4,13 +4,13 @@ import (
 	"testing"
 
 	. "github.com/smartystreets/goconvey/convey"
-	"gitlab.com/evatix-go/core/coretests"
-	"gitlab.com/evatix-go/errorwrapper/errverify"
-	"gitlab.com/evatix-go/errorwrapper/errwrappers"
+	"gitlab.com/auk-go/core/coretests"
+	"gitlab.com/auk-go/errorwrapper/errverify"
+	"gitlab.com/auk-go/errorwrapper/errwrappers"
 
-	"gitlab.com/evatix-go/pathhelper/pathinsfmtexec/pathmodifier"
-	"gitlab.com/evatix-go/pathhelper/pathinsfmtexec/pathmodifierverify"
-	"gitlab.com/evatix-go/pathhelper/tests/testwrappers/pathinsfmtexectestwrappers"
+	"gitlab.com/auk-go/pathhelper/pathinsfmtexec/pathmodifier"
+	"gitlab.com/auk-go/pathhelper/pathinsfmtexec/pathmodifierverify"
+	"gitlab.com/auk-go/pathhelper/tests/testwrappers/pathinsfmtexectestwrappers"
 )
 
 func Test_PathWithModifierAndVerifierErrors(t *testing.T) {

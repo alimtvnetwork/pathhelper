@@ -1,6 +1,6 @@
 package pathcompilertests
 
-import "gitlab.com/evatix-go/core/coredata/corejson"
+import "gitlab.com/auk-go/core/coredata/corejson"
 
 func DeserializedFieldsToMap(jsonResult *corejson.Result) (
 	fieldsMap map[string]interface{},

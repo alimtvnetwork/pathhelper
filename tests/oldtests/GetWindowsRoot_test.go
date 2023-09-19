@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"testing"
 
-	"gitlab.com/evatix-go/pathhelper/knowndirget"
+	"gitlab.com/auk-go/pathhelper/knowndirget"
 
 	. "github.com/smartystreets/goconvey/convey"
 )

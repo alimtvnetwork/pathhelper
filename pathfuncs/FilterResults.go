@@ -3,9 +3,9 @@ package pathfuncs
 import (
 	"os"
 
-	"gitlab.com/evatix-go/core/conditional"
-	"gitlab.com/evatix-go/core/defaultcapacity"
-	"gitlab.com/evatix-go/errorwrapper/errwrappers"
+	"gitlab.com/auk-go/core/conditional"
+	"gitlab.com/auk-go/core/defaultcapacity"
+	"gitlab.com/auk-go/errorwrapper/errwrappers"
 )
 
 func FilterResults(

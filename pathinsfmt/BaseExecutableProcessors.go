@@ -1,9 +1,9 @@
 package pathinsfmt
 
 import (
-	"gitlab.com/evatix-go/core/constants"
-	"gitlab.com/evatix-go/errorwrapper/errcmd"
-	"gitlab.com/evatix-go/errorwrapper/errwrappers"
+	"gitlab.com/auk-go/core/constants"
+	"gitlab.com/auk-go/errorwrapper/errcmd"
+	"gitlab.com/auk-go/errorwrapper/errwrappers"
 )
 
 type BaseExecutableProcessors struct {

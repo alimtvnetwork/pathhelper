@@ -1,6 +1,6 @@
 package hashas
 
-import "gitlab.com/evatix-go/errorwrapper/errdata/errstr"
+import "gitlab.com/auk-go/errorwrapper/errdata/errstr"
 
 func HexChecksumOfRawBytes(method Variant, inputBytes []byte) *errstr.Result {
 	outputBytesResults := method.SumOf(inputBytes)

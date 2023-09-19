@@ -1,6 +1,6 @@
 package pathinsfmtexectestwrappers
 
-import "gitlab.com/evatix-go/pathhelper/pathjoin"
+import "gitlab.com/auk-go/pathhelper/pathjoin"
 
 var (
 	PathOneTextFile = pathjoin.WithTempTest("pathone/abc.txt")

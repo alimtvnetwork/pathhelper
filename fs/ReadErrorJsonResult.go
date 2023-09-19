@@ -1,7 +1,7 @@
 package fs
 
 import (
-	"gitlab.com/evatix-go/errorwrapper/errdata/errjson"
+	"gitlab.com/auk-go/errorwrapper/errdata/errjson"
 )
 
 func ReadErrorJsonResult(filePath string) *errjson.Result {

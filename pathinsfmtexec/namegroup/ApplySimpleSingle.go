@@ -1,8 +1,8 @@
 package namegroup
 
 import (
-	"gitlab.com/evatix-go/errorwrapper"
-	"gitlab.com/evatix-go/pathhelper/pathchmod"
+	"gitlab.com/auk-go/errorwrapper"
+	"gitlab.com/auk-go/pathhelper/pathchmod"
 )
 
 func ApplySimpleSingle(

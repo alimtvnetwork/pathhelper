@@ -1,9 +1,9 @@
 package downloadinsexec
 
 import (
-	"gitlab.com/evatix-go/errorwrapper"
-	"gitlab.com/evatix-go/errorwrapper/errcmd"
-	"gitlab.com/evatix-go/pathhelper/pathinsfmt"
+	"gitlab.com/auk-go/errorwrapper"
+	"gitlab.com/auk-go/errorwrapper/errcmd"
+	"gitlab.com/auk-go/pathhelper/pathinsfmt"
 )
 
 func Apply(download *pathinsfmt.Download) *errorwrapper.Wrapper {

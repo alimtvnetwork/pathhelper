@@ -3,7 +3,7 @@ package consts
 import (
 	"sync"
 
-	"gitlab.com/evatix-go/core/constants"
+	"gitlab.com/auk-go/core/constants"
 )
 
 var (

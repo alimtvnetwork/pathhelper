@@ -3,13 +3,13 @@ package main
 import (
 	"fmt"
 
-	"gitlab.com/evatix-go/asynchelper/syncparallel"
-	"gitlab.com/evatix-go/core/constants"
-	"gitlab.com/evatix-go/core/errcore"
-	"gitlab.com/evatix-go/errorwrapper/errwrappers"
-	"gitlab.com/evatix-go/pathhelper/filestate"
-	"gitlab.com/evatix-go/pathhelper/hashas"
-	"gitlab.com/evatix-go/pathhelper/hexchecksum"
+	"gitlab.com/auk-go/asynchelper/syncparallel"
+	"gitlab.com/auk-go/core/constants"
+	"gitlab.com/auk-go/core/errcore"
+	"gitlab.com/auk-go/errorwrapper/errwrappers"
+	"gitlab.com/auk-go/pathhelper/filestate"
+	"gitlab.com/auk-go/pathhelper/hashas"
+	"gitlab.com/auk-go/pathhelper/hexchecksum"
 )
 
 func checksumTest04() {

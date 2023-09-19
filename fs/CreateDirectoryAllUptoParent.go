@@ -1,7 +1,7 @@
 package fs
 
 import (
-	"gitlab.com/evatix-go/errorwrapper"
+	"gitlab.com/auk-go/errorwrapper"
 )
 
 func CreateDirectoryAllUptoParent(location string) *errorwrapper.Wrapper {

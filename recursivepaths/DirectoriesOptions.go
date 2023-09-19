@@ -1,8 +1,8 @@
 package recursivepaths
 
 import (
-	"gitlab.com/evatix-go/errorwrapper/errdata/errstr"
-	"gitlab.com/evatix-go/pathhelper/pathrecurseinfo"
+	"gitlab.com/auk-go/errorwrapper/errdata/errstr"
+	"gitlab.com/auk-go/pathhelper/pathrecurseinfo"
 )
 
 func DirectoriesOptions(

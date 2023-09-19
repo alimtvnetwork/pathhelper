@@ -1,13 +1,13 @@
 package pathinsfmtexectestwrappers
 
 import (
-	"gitlab.com/evatix-go/core/chmodhelper/chmodins"
-	"gitlab.com/evatix-go/core/coredata/corestr"
-	"gitlab.com/evatix-go/core/enums/stringcompareas"
-	"gitlab.com/evatix-go/errorwrapper/errverify"
+	"gitlab.com/auk-go/core/chmodhelper/chmodins"
+	"gitlab.com/auk-go/core/coredata/corestr"
+	"gitlab.com/auk-go/core/enums/stringcompareas"
+	"gitlab.com/auk-go/errorwrapper/errverify"
 
-	"gitlab.com/evatix-go/pathhelper/pathinsfmt"
-	"gitlab.com/evatix-go/pathhelper/tests/testwrappers"
+	"gitlab.com/auk-go/pathhelper/pathinsfmt"
+	"gitlab.com/auk-go/pathhelper/tests/testwrappers"
 )
 
 var PathWithModifyAndVerifyTestCases = []PathWithModifyAndVerifyWrapper{

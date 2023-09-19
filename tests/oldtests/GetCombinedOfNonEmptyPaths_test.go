@@ -6,7 +6,7 @@ import (
 
 	. "github.com/smartystreets/goconvey/convey"
 
-	"gitlab.com/evatix-go/pathhelper"
+	"gitlab.com/auk-go/pathhelper"
 )
 
 type combinedOfNonEmptyPathsTestCaseWrapper struct {

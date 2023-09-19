@@ -3,9 +3,9 @@ package pathhelper
 import (
 	"os"
 
-	"gitlab.com/evatix-go/errorwrapper/errwrappers"
+	"gitlab.com/auk-go/errorwrapper/errwrappers"
 
-	"gitlab.com/evatix-go/pathhelper/internal/fileinfogetter"
+	"gitlab.com/auk-go/pathhelper/internal/fileinfogetter"
 )
 
 func GetOsFileInfos(

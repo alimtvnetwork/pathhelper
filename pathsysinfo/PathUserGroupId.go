@@ -4,13 +4,13 @@ import (
 	"os"
 	"strconv"
 
-	"gitlab.com/evatix-go/core/constants"
-	"gitlab.com/evatix-go/core/errcore"
-	"gitlab.com/evatix-go/core/iserror"
-	"gitlab.com/evatix-go/errorwrapper"
-	"gitlab.com/evatix-go/errorwrapper/errnew"
-	"gitlab.com/evatix-go/errorwrapper/errtype"
-	"gitlab.com/evatix-go/pathhelper/fileinfopath"
+	"gitlab.com/auk-go/core/constants"
+	"gitlab.com/auk-go/core/errcore"
+	"gitlab.com/auk-go/core/iserror"
+	"gitlab.com/auk-go/errorwrapper"
+	"gitlab.com/auk-go/errorwrapper/errnew"
+	"gitlab.com/auk-go/errorwrapper/errtype"
+	"gitlab.com/auk-go/pathhelper/fileinfopath"
 )
 
 type PathUserGroupId struct {

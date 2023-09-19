@@ -1,9 +1,9 @@
 package pathinsfmtexectestwrappers
 
 import (
-	"gitlab.com/evatix-go/errorwrapper/errverify"
+	"gitlab.com/auk-go/errorwrapper/errverify"
 
-	"gitlab.com/evatix-go/pathhelper/pathinsfmt"
+	"gitlab.com/auk-go/pathhelper/pathinsfmt"
 )
 
 type PathWithModifyAndVerifyWrapper struct {

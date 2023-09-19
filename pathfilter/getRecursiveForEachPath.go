@@ -1,14 +1,14 @@
 package pathfilter
 
 import (
-	"gitlab.com/evatix-go/core/constants"
-	"gitlab.com/evatix-go/core/coredata/corestr"
-	"gitlab.com/evatix-go/errorwrapper/errdata/errstr"
-	"gitlab.com/evatix-go/pathhelper/recursivepaths"
+	"gitlab.com/auk-go/core/constants"
+	"gitlab.com/auk-go/core/coredata/corestr"
+	"gitlab.com/auk-go/errorwrapper/errdata/errstr"
+	"gitlab.com/auk-go/pathhelper/recursivepaths"
 
-	"gitlab.com/evatix-go/pathhelper/internal/splitinternal"
-	"gitlab.com/evatix-go/pathhelper/pathext"
-	"gitlab.com/evatix-go/pathhelper/pathgetter"
+	"gitlab.com/auk-go/pathhelper/internal/splitinternal"
+	"gitlab.com/auk-go/pathhelper/pathext"
+	"gitlab.com/auk-go/pathhelper/pathgetter"
 )
 
 func getRecursiveForEachPath(

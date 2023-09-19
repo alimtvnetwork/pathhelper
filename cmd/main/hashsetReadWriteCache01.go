@@ -3,12 +3,12 @@ package main
 import (
 	"fmt"
 
-	"gitlab.com/evatix-go/core/coredata/corestr"
-	"gitlab.com/evatix-go/errorwrapper"
-	"gitlab.com/evatix-go/pathhelper/fscache"
-	"gitlab.com/evatix-go/pathhelper/pathchmod"
-	"gitlab.com/evatix-go/pathhelper/pathhelpercore"
-	"gitlab.com/evatix-go/pathhelper/pathjoin"
+	"gitlab.com/auk-go/core/coredata/corestr"
+	"gitlab.com/auk-go/errorwrapper"
+	"gitlab.com/auk-go/pathhelper/fscache"
+	"gitlab.com/auk-go/pathhelper/pathchmod"
+	"gitlab.com/auk-go/pathhelper/pathhelpercore"
+	"gitlab.com/auk-go/pathhelper/pathjoin"
 )
 
 func hashsetReadWriteCache01() {

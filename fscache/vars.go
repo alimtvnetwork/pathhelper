@@ -1,11 +1,11 @@
 package fscache
 
 import (
-	"gitlab.com/evatix-go/core/coretaskinfo"
-	"gitlab.com/evatix-go/errorwrapper"
-	"gitlab.com/evatix-go/errorwrapper/errfunc"
-	"gitlab.com/evatix-go/errorwrapper/errnew"
-	"gitlab.com/evatix-go/pathhelper/internal/consts"
+	"gitlab.com/auk-go/core/coretaskinfo"
+	"gitlab.com/auk-go/errorwrapper"
+	"gitlab.com/auk-go/errorwrapper/errfunc"
+	"gitlab.com/auk-go/errorwrapper/errnew"
+	"gitlab.com/auk-go/pathhelper/internal/consts"
 )
 
 var (

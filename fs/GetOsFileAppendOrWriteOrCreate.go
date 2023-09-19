@@ -3,7 +3,7 @@ package fs
 import (
 	"os"
 
-	"gitlab.com/evatix-go/errorwrapper"
+	"gitlab.com/auk-go/errorwrapper"
 )
 
 // GetOsFileAppendOrWriteOrCreate defer function must be called to close the file.

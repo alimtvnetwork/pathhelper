@@ -5,13 +5,13 @@ import (
 	"testing"
 
 	"github.com/smartystreets/goconvey/convey"
-	"gitlab.com/evatix-go/core/chmodhelper"
-	"gitlab.com/evatix-go/core/constants"
-	"gitlab.com/evatix-go/core/simplewrap"
-	"gitlab.com/evatix-go/pathhelper/fs"
-	"gitlab.com/evatix-go/pathhelper/ispath"
-	"gitlab.com/evatix-go/pathhelper/ispaths"
-	"gitlab.com/evatix-go/pathhelper/tests/testwrappers/fstestwrapper"
+	"gitlab.com/auk-go/core/chmodhelper"
+	"gitlab.com/auk-go/core/constants"
+	"gitlab.com/auk-go/core/simplewrap"
+	"gitlab.com/auk-go/pathhelper/fs"
+	"gitlab.com/auk-go/pathhelper/ispath"
+	"gitlab.com/auk-go/pathhelper/ispaths"
+	"gitlab.com/auk-go/pathhelper/tests/testwrappers/fstestwrapper"
 )
 
 func Test_IsExists(t *testing.T) {

@@ -3,9 +3,9 @@ package pathhelper
 import (
 	"strings"
 
-	"gitlab.com/evatix-go/core/constants"
+	"gitlab.com/auk-go/core/constants"
 
-	"gitlab.com/evatix-go/pathhelper/urischemes"
+	"gitlab.com/auk-go/pathhelper/urischemes"
 )
 
 func whichPrefix(stringToCheck string) urischemes.Type {

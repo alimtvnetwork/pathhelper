@@ -3,7 +3,7 @@ package knowndirget
 import (
 	"strings"
 
-	"gitlab.com/evatix-go/core/constants"
+	"gitlab.com/auk-go/core/constants"
 )
 
 // Returns Windows root as a string

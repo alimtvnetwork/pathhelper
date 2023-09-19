@@ -1,8 +1,8 @@
 package pathchmod
 
 import (
-	"gitlab.com/evatix-go/errorwrapper"
-	"gitlab.com/evatix-go/pathhelper/pathsysinfo"
+	"gitlab.com/auk-go/errorwrapper"
+	"gitlab.com/auk-go/pathhelper/pathsysinfo"
 )
 
 func GetUserGroupId(userName string, groupName string) (

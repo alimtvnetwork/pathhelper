@@ -3,7 +3,7 @@ package main
 import (
 	"fmt"
 
-	"gitlab.com/evatix-go/pathhelper/fileinfopath"
+	"gitlab.com/auk-go/pathhelper/fileinfopath"
 )
 
 func fileInfoWithPathTest01() {

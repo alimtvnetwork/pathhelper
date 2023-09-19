@@ -3,7 +3,7 @@ package pathfuncs
 import (
 	"os"
 
-	"gitlab.com/evatix-go/pathhelper/pathext"
+	"gitlab.com/auk-go/pathhelper/pathext"
 )
 
 type FilterArg struct {

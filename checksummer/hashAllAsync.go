@@ -4,10 +4,10 @@ import (
 	"runtime"
 	"sync"
 
-	"gitlab.com/evatix-go/core/constants"
-	"gitlab.com/evatix-go/core/defaultcapacity"
+	"gitlab.com/auk-go/core/constants"
+	"gitlab.com/auk-go/core/defaultcapacity"
 
-	"gitlab.com/evatix-go/pathhelper/hashas"
+	"gitlab.com/auk-go/pathhelper/hashas"
 )
 
 // hashAllAsync reads all the files in the file tree rooted at root and returns a map

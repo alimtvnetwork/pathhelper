@@ -6,7 +6,7 @@ import (
 
 	. "github.com/smartystreets/goconvey/convey"
 
-	"gitlab.com/evatix-go/pathhelper/ispath"
+	"gitlab.com/auk-go/pathhelper/ispath"
 )
 
 var pathToCheck = "something/whatever"

@@ -4,9 +4,9 @@ import (
 	"os"
 	"strings"
 
-	"gitlab.com/evatix-go/core/chmodhelper/chmodins"
-	"gitlab.com/evatix-go/core/constants"
-	"gitlab.com/evatix-go/pathhelper/pathinsfmt"
+	"gitlab.com/auk-go/core/chmodhelper/chmodins"
+	"gitlab.com/auk-go/core/constants"
+	"gitlab.com/auk-go/pathhelper/pathinsfmt"
 )
 
 var (

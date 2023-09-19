@@ -3,9 +3,9 @@ package main
 import (
 	"fmt"
 
-	"gitlab.com/evatix-go/core/filemode"
-	"gitlab.com/evatix-go/pathhelper/pathinsfmt"
-	"gitlab.com/evatix-go/pathhelper/pathinsfmtexec/downloadinsexec"
+	"gitlab.com/auk-go/core/filemode"
+	"gitlab.com/auk-go/pathhelper/pathinsfmt"
+	"gitlab.com/auk-go/pathhelper/pathinsfmtexec/downloadinsexec"
 )
 
 func DownloadTest() {

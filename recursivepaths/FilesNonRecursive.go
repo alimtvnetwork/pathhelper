@@ -1,7 +1,7 @@
 package recursivepaths
 
 import (
-	"gitlab.com/evatix-go/errorwrapper/errdata/errstr"
+	"gitlab.com/auk-go/errorwrapper/errdata/errstr"
 )
 
 // FilesNonRecursive normalize, expand false

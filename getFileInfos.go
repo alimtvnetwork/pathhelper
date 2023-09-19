@@ -1,9 +1,9 @@
 package pathhelper
 
 import (
-	"gitlab.com/evatix-go/core/osconsts"
+	"gitlab.com/auk-go/core/osconsts"
 
-	"gitlab.com/evatix-go/pathhelper/fileinfo"
+	"gitlab.com/auk-go/pathhelper/fileinfo"
 )
 
 func GetFileInfoWrappersFrom(path string, isNormalize bool) *fileinfo.Wrappers {

@@ -3,7 +3,7 @@ package pathcompare
 import (
 	"os"
 
-	"gitlab.com/evatix-go/core/corecomparator"
+	"gitlab.com/auk-go/core/corecomparator"
 )
 
 func FileInfoLastModified(

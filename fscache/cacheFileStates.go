@@ -1,6 +1,6 @@
 package fscache
 
-import "gitlab.com/evatix-go/enum/strtype"
+import "gitlab.com/auk-go/enum/strtype"
 
 type cacheFileStates struct {
 	ReadState               strtype.Variant

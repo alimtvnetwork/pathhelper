@@ -1,10 +1,10 @@
 package main
 
 import (
-	"gitlab.com/evatix-go/pathhelper/hashas"
-	"gitlab.com/evatix-go/pathhelper/internal/consts"
-	"gitlab.com/evatix-go/pathhelper/pathinsfmt"
-	"gitlab.com/evatix-go/pathhelper/pathinsfmtexec/downloadinsexec"
+	"gitlab.com/auk-go/pathhelper/hashas"
+	"gitlab.com/auk-go/pathhelper/internal/consts"
+	"gitlab.com/auk-go/pathhelper/pathinsfmt"
+	"gitlab.com/auk-go/pathhelper/pathinsfmtexec/downloadinsexec"
 )
 
 func downloadChecksumTest() {

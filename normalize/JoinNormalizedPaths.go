@@ -3,7 +3,7 @@ package normalize
 import (
 	"strings"
 
-	"gitlab.com/evatix-go/core/osconsts"
+	"gitlab.com/auk-go/core/osconsts"
 )
 
 func JoinNormalizedPaths(

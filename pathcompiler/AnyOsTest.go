@@ -1,6 +1,6 @@
 package pathcompiler
 
-import "gitlab.com/evatix-go/pathhelper/pathsconst"
+import "gitlab.com/auk-go/pathhelper/pathsconst"
 
 var AnyOsTest = Specific{
 	Name:                     "AnyOs Test",

@@ -1,8 +1,8 @@
 package pathchmod
 
 import (
-	"gitlab.com/evatix-go/core/coreinterface"
-	"gitlab.com/evatix-go/core/coreutils/stringutil"
+	"gitlab.com/auk-go/core/coreinterface"
+	"gitlab.com/auk-go/core/coreutils/stringutil"
 )
 
 type SimpleStatMap struct {

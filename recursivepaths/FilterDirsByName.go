@@ -1,9 +1,9 @@
 package recursivepaths
 
 import (
-	"gitlab.com/evatix-go/core/coredata/corestr"
-	"gitlab.com/evatix-go/errorwrapper/errdata/errstr"
-	"gitlab.com/evatix-go/pathhelper/internal/splitinternal"
+	"gitlab.com/auk-go/core/coredata/corestr"
+	"gitlab.com/auk-go/errorwrapper/errdata/errstr"
+	"gitlab.com/auk-go/pathhelper/internal/splitinternal"
 )
 
 func FilterDirsByName(

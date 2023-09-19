@@ -1,10 +1,10 @@
 package knowndirget
 
 import (
-	"gitlab.com/evatix-go/core/osconsts"
+	"gitlab.com/auk-go/core/osconsts"
 
-	"gitlab.com/evatix-go/pathhelper/internal/ispathinternal"
-	"gitlab.com/evatix-go/pathhelper/knowndir"
+	"gitlab.com/auk-go/pathhelper/internal/ispathinternal"
+	"gitlab.com/auk-go/pathhelper/knowndir"
 )
 
 // Returns path to .git. Checks for it on all possible locations. If .git doesn't exist creates it.

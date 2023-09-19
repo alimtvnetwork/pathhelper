@@ -1,6 +1,6 @@
 package pathsysinfo
 
-import "gitlab.com/evatix-go/pathhelper/fileinfopath"
+import "gitlab.com/auk-go/pathhelper/fileinfopath"
 
 func GetPathUserGroupId(filePath string) *PathUserGroupId {
 	pathWithInfo := fileinfopath.New(filePath)

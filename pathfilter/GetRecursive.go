@@ -3,12 +3,12 @@ package pathfilter
 import (
 	"sync"
 
-	"gitlab.com/evatix-go/core/coredata/corestr"
-	"gitlab.com/evatix-go/errorwrapper/errdata/errstr"
-	"gitlab.com/evatix-go/errorwrapper/errtype"
-	"gitlab.com/evatix-go/errorwrapper/errwrappers"
+	"gitlab.com/auk-go/core/coredata/corestr"
+	"gitlab.com/auk-go/errorwrapper/errdata/errstr"
+	"gitlab.com/auk-go/errorwrapper/errtype"
+	"gitlab.com/auk-go/errorwrapper/errwrappers"
 
-	"gitlab.com/evatix-go/pathhelper/normalize"
+	"gitlab.com/auk-go/pathhelper/normalize"
 )
 
 func GetRecursive(

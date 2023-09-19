@@ -3,8 +3,8 @@ package normalize
 import (
 	"sync"
 
-	"gitlab.com/evatix-go/core/coredata/stringslice"
-	"gitlab.com/evatix-go/core/osconsts"
+	"gitlab.com/auk-go/core/coredata/stringslice"
+	"gitlab.com/auk-go/core/osconsts"
 )
 
 func TrimPrefixUncPaths(

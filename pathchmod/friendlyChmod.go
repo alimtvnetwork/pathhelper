@@ -4,12 +4,12 @@ import (
 	"fmt"
 	"path/filepath"
 
-	"gitlab.com/evatix-go/core/chmodhelper"
-	"gitlab.com/evatix-go/core/constants"
-	"gitlab.com/evatix-go/core/osconsts"
-	"gitlab.com/evatix-go/core/simplewrap"
-	"gitlab.com/evatix-go/errorwrapper/errcmd"
-	"gitlab.com/evatix-go/pathhelper/normalize"
+	"gitlab.com/auk-go/core/chmodhelper"
+	"gitlab.com/auk-go/core/constants"
+	"gitlab.com/auk-go/core/osconsts"
+	"gitlab.com/auk-go/core/simplewrap"
+	"gitlab.com/auk-go/errorwrapper/errcmd"
+	"gitlab.com/auk-go/pathhelper/normalize"
 )
 
 type friendlyChmod struct{}

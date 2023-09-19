@@ -3,14 +3,17 @@ package pathstatlinux
 import (
 	"strings"
 
-	"gitlab.com/evatix-go/core/constants"
-	"gitlab.com/evatix-go/core/coreindexes"
-	"gitlab.com/evatix-go/errorwrapper"
-	"gitlab.com/evatix-go/pathhelper/internal/ispathinternal"
+	"gitlab.com/auk-go/core/constants"
+	"gitlab.com/auk-go/core/coreindexes"
+	"gitlab.com/auk-go/errorwrapper"
+	"gitlab.com/auk-go/pathhelper/internal/ispathinternal"
 )
 
-/*	ProcessLinesToInfo processLinesToInfo
+/*
+	ProcessLinesToInfo processLinesToInfo
+
 ➜  ~ stat /etc/mysql
+
 	File: /etc/mysql
 	Size: 4096            Blocks: 8          IO Block: 4096   directory
 	Device: 10302h/66306d   Inode: 6293381     Links: 4

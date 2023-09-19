@@ -1,6 +1,6 @@
 package splitinternal
 
-import "gitlab.com/evatix-go/core/constants"
+import "gitlab.com/auk-go/core/constants"
 
 func GetBaseDirName(currentPath string) (baseDirName string) {
 	baseDirPath := GetBaseDir(currentPath)

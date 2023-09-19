@@ -1,10 +1,10 @@
 package pathhelper
 
 import (
-	"gitlab.com/evatix-go/errorwrapper/errwrappers"
+	"gitlab.com/auk-go/errorwrapper/errwrappers"
 
-	"gitlab.com/evatix-go/pathhelper/internal/fileinfogetter"
-	"gitlab.com/evatix-go/pathhelper/osfileinfos"
+	"gitlab.com/auk-go/pathhelper/internal/fileinfogetter"
+	"gitlab.com/auk-go/pathhelper/osfileinfos"
 )
 
 func GetOsFileInfosCollection(

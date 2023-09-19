@@ -5,8 +5,8 @@ import (
 	"os"
 	"sync"
 
-	"gitlab.com/evatix-go/core/constants"
-	"gitlab.com/evatix-go/core/coredata/coredynamic"
+	"gitlab.com/auk-go/core/constants"
+	"gitlab.com/auk-go/core/coredata/coredynamic"
 )
 
 type NginxDirMap struct {

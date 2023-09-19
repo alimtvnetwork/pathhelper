@@ -1,7 +1,7 @@
 package filestate
 
 import (
-	"gitlab.com/evatix-go/pathhelper/hashas"
+	"gitlab.com/auk-go/pathhelper/hashas"
 )
 
 func InvalidInfo(hashMethod hashas.Variant, filePath string) *Info {

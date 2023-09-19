@@ -4,12 +4,12 @@ import (
 	"io/ioutil"
 	"os"
 
-	"gitlab.com/evatix-go/errorwrapper"
-	"gitlab.com/evatix-go/errorwrapper/errnew"
-	"gitlab.com/evatix-go/errorwrapper/errtype"
+	"gitlab.com/auk-go/errorwrapper"
+	"gitlab.com/auk-go/errorwrapper/errnew"
+	"gitlab.com/auk-go/errorwrapper/errtype"
 
-	"gitlab.com/evatix-go/pathhelper/ispath"
-	"gitlab.com/evatix-go/pathhelper/normalize"
+	"gitlab.com/auk-go/pathhelper/ispath"
+	"gitlab.com/auk-go/pathhelper/normalize"
 )
 
 func New(rawPath, separator string) *Wrapper {

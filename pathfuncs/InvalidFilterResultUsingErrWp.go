@@ -1,6 +1,6 @@
 package pathfuncs
 
-import "gitlab.com/evatix-go/errorwrapper"
+import "gitlab.com/auk-go/errorwrapper"
 
 func InvalidFilterResultUsingErrWp(
 	fullPath string,

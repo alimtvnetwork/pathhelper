@@ -1,10 +1,10 @@
 package pathscreateinsexec
 
 import (
-	"gitlab.com/evatix-go/core/osconsts"
-	"gitlab.com/evatix-go/errorwrapper/errwrappers"
-	"gitlab.com/evatix-go/pathhelper/createpath"
-	"gitlab.com/evatix-go/pathhelper/pathinsfmt"
+	"gitlab.com/auk-go/core/osconsts"
+	"gitlab.com/auk-go/errorwrapper/errwrappers"
+	"gitlab.com/auk-go/pathhelper/createpath"
+	"gitlab.com/auk-go/pathhelper/pathinsfmt"
 )
 
 func ApplyPathsCreatorCollectionUsingErrorCollection(

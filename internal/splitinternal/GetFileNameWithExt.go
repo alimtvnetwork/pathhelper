@@ -1,10 +1,10 @@
 package splitinternal
 
-import "gitlab.com/evatix-go/core/constants"
+import "gitlab.com/auk-go/core/constants"
 
 // GetName
 //
-// Can be dir name, file name with ext
+// # Can be dir name, file name with ext
 //
 // reference example : https://play.golang.org/p/oT6eWNZAeEi
 func GetName(currentPath string) (fileName string) {

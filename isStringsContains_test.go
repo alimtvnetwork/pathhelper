@@ -5,7 +5,7 @@ import (
 	"testing"
 
 	. "github.com/smartystreets/goconvey/convey"
-	"gitlab.com/evatix-go/pathhelper/tests/oldtests"
+	"gitlab.com/auk-go/pathhelper/tests/oldtests"
 )
 
 type stringsContainsTestCaseWrapper struct {

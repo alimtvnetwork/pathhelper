@@ -1,7 +1,7 @@
 package envpath
 
 import (
-	"gitlab.com/evatix-go/errorwrapper"
+	"gitlab.com/auk-go/errorwrapper"
 )
 
 func RemoveEnvPaths(removeEnvPaths ...string) *errorwrapper.Wrapper {

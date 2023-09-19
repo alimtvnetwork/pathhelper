@@ -1,6 +1,6 @@
 package nginxlinuxpath
 
-import "gitlab.com/evatix-go/core/filemode"
+import "gitlab.com/auk-go/core/filemode"
 
 const (
 	DefaultRoot                  = "/etc/nginx"

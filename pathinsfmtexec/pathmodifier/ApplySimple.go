@@ -1,12 +1,12 @@
 package pathmodifier
 
 import (
-	"gitlab.com/evatix-go/errorwrapper/errwrappers"
-	"gitlab.com/evatix-go/pathhelper/pathchmod"
-	"gitlab.com/evatix-go/pathhelper/pathinsfmt"
-	"gitlab.com/evatix-go/pathhelper/pathinsfmtexec/chmodcommands"
-	"gitlab.com/evatix-go/pathhelper/pathinsfmtexec/chowninsexec"
-	"gitlab.com/evatix-go/pathhelper/pathinsfmtexec/namegroup"
+	"gitlab.com/auk-go/errorwrapper/errwrappers"
+	"gitlab.com/auk-go/pathhelper/pathchmod"
+	"gitlab.com/auk-go/pathhelper/pathinsfmt"
+	"gitlab.com/auk-go/pathhelper/pathinsfmtexec/chmodcommands"
+	"gitlab.com/auk-go/pathhelper/pathinsfmtexec/chowninsexec"
+	"gitlab.com/auk-go/pathhelper/pathinsfmtexec/namegroup"
 )
 
 func ApplySimple(

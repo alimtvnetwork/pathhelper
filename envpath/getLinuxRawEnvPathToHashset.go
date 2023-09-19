@@ -3,9 +3,9 @@ package envpath
 import (
 	"strings"
 
-	"gitlab.com/evatix-go/core/constants"
-	"gitlab.com/evatix-go/core/coredata/corestr"
-	"gitlab.com/evatix-go/core/coreindexes"
+	"gitlab.com/auk-go/core/constants"
+	"gitlab.com/auk-go/core/coredata/corestr"
+	"gitlab.com/auk-go/core/coreindexes"
 )
 
 func getLinuxRawEnvPathToHashset(existingEnvPathsWithPathEqualColonSeparator string) *corestr.Hashset {

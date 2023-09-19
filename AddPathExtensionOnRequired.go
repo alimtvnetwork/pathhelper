@@ -1,7 +1,7 @@
 package pathhelper
 
 import (
-	"gitlab.com/evatix-go/pathhelper/internal/splitinternal"
+	"gitlab.com/auk-go/pathhelper/internal/splitinternal"
 )
 
 func AddPathExtensionOnRequired(location, dotExt string) string {

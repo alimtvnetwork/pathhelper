@@ -1,8 +1,8 @@
 package pathstatlinux
 
 import (
-	"gitlab.com/evatix-go/core/constants"
-	"gitlab.com/evatix-go/core/converters"
+	"gitlab.com/auk-go/core/constants"
+	"gitlab.com/auk-go/core/converters"
 )
 
 func pathStatIndexedLineIntIdNameValidation(splits []string, index int) *IntIdNameValidation {

@@ -1,9 +1,9 @@
 package copyrecursive
 
 import (
-	"gitlab.com/evatix-go/core/constants"
-	"gitlab.com/evatix-go/errorwrapper"
-	"gitlab.com/evatix-go/errorwrapper/errcmd"
+	"gitlab.com/auk-go/core/constants"
+	"gitlab.com/auk-go/errorwrapper"
+	"gitlab.com/auk-go/errorwrapper/errcmd"
 )
 
 func moveUsingLinuxMV(opts Options, src, dst string) *errorwrapper.Wrapper {

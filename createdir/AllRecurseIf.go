@@ -3,7 +3,7 @@ package createdir
 import (
 	"os"
 
-	"gitlab.com/evatix-go/pathhelper/dirinfo"
+	"gitlab.com/auk-go/pathhelper/dirinfo"
 )
 
 func AllRecurseIf(

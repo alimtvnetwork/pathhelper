@@ -1,6 +1,6 @@
 package hexchecksum
 
-import "gitlab.com/evatix-go/pathhelper/hashas"
+import "gitlab.com/auk-go/pathhelper/hashas"
 
 type FilesCompareRequest struct {
 	Method     hashas.Variant

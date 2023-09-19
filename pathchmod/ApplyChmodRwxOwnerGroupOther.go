@@ -1,8 +1,8 @@
 package pathchmod
 
 import (
-	"gitlab.com/evatix-go/core/chmodhelper/chmodins"
-	"gitlab.com/evatix-go/errorwrapper"
+	"gitlab.com/auk-go/core/chmodhelper/chmodins"
+	"gitlab.com/auk-go/errorwrapper"
 )
 
 func ApplyChmodRwxOwnerGroupOther(

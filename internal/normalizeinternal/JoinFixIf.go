@@ -1,6 +1,6 @@
 package normalizeinternal
 
-import "gitlab.com/evatix-go/core/constants"
+import "gitlab.com/auk-go/core/constants"
 
 func JoinFixIf(isFix bool, currentPath1, currentPath2 string) string {
 	if currentPath2 == constants.EmptyString {

@@ -1,6 +1,6 @@
 package filestate
 
-import "gitlab.com/evatix-go/pathhelper/ispath"
+import "gitlab.com/auk-go/pathhelper/ispath"
 
 func IsEqual(
 	isIgnoreModifiedTimeCompare,

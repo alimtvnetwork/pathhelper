@@ -3,16 +3,17 @@ package expandpath
 import (
 	"strings"
 
-	"gitlab.com/evatix-go/core/constants"
-	"gitlab.com/evatix-go/core/coreutils/stringutil"
+	"gitlab.com/auk-go/core/constants"
+	"gitlab.com/auk-go/core/coreutils/stringutil"
 )
 
 // GetEnvInfoItemsKeyNames
 //
-//  will be retrieved from slice strings
+//	will be retrieved from slice strings
 //
 // Key Names may be formatter like:
-//  ${identifier} or $identifier or %{identifier} or %identifier
+//
+//	${identifier} or $identifier or %{identifier} or %identifier
 //
 // returns exact keys as given ${identifier} will be returns as given ${identifier}
 func GetEnvInfoItemsKeyNames(slice []string) []EnvKeyInfo {

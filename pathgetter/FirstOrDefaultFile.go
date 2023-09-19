@@ -1,6 +1,6 @@
 package pathgetter
 
-import "gitlab.com/evatix-go/errorwrapper/errdata/errstr"
+import "gitlab.com/auk-go/errorwrapper/errdata/errstr"
 
 func FirstOrDefaultFile(
 	isNormalize bool,

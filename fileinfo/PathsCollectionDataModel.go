@@ -1,6 +1,6 @@
 package fileinfo
 
-import "gitlab.com/evatix-go/errorwrapper"
+import "gitlab.com/auk-go/errorwrapper"
 
 type PathsCollectionDataModel struct {
 	RootPath       string

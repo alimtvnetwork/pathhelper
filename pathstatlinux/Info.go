@@ -3,7 +3,7 @@ package pathstatlinux
 import (
 	"os"
 
-	"gitlab.com/evatix-go/errorwrapper"
+	"gitlab.com/auk-go/errorwrapper"
 )
 
 type Info struct {

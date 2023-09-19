@@ -1,6 +1,6 @@
 package filestate
 
-import "gitlab.com/evatix-go/errorwrapper"
+import "gitlab.com/auk-go/errorwrapper"
 
 func NewInfoDefault(
 	filePath string,

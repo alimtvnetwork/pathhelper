@@ -3,10 +3,10 @@ package pathfilter
 import (
 	"strings"
 
-	"gitlab.com/evatix-go/core/constants"
-	"gitlab.com/evatix-go/errorwrapper/errtype"
+	"gitlab.com/auk-go/core/constants"
+	"gitlab.com/auk-go/errorwrapper/errtype"
 
-	"gitlab.com/evatix-go/pathhelper/pathgetter"
+	"gitlab.com/auk-go/pathhelper/pathgetter"
 )
 
 //goland:noinspection GoNilness

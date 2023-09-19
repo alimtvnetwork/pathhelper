@@ -1,9 +1,9 @@
 package pathinsfmtexectestwrappers
 
 import (
-	"gitlab.com/evatix-go/core/chmodhelper/chmodins"
-	"gitlab.com/evatix-go/core/coreinstruction"
-	"gitlab.com/evatix-go/pathhelper/pathinsfmt"
+	"gitlab.com/auk-go/core/chmodhelper/chmodins"
+	"gitlab.com/auk-go/core/coreinstruction"
+	"gitlab.com/auk-go/pathhelper/pathinsfmt"
 )
 
 var PathVerifiersWithLocationCollectionTestCases = []pathinsfmt.PathVerifiersWithLocationCollection{

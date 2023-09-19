@@ -1,10 +1,10 @@
 package pathhelpercore
 
 import (
-	"gitlab.com/evatix-go/core/coredata/corejson"
-	"gitlab.com/evatix-go/core/coretaskinfo"
-	"gitlab.com/evatix-go/enum/strtype"
-	"gitlab.com/evatix-go/errorwrapper/errdata/errbyte"
+	"gitlab.com/auk-go/core/coredata/corejson"
+	"gitlab.com/auk-go/core/coretaskinfo"
+	"gitlab.com/auk-go/enum/strtype"
+	"gitlab.com/auk-go/errorwrapper/errdata/errbyte"
 )
 
 type FileInfo struct {

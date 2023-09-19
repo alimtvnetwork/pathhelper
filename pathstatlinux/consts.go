@@ -1,6 +1,6 @@
 package pathstatlinux
 
-import "gitlab.com/evatix-go/core/coreindexes"
+import "gitlab.com/auk-go/core/coreindexes"
 
 const (
 	pathStatRwxIndex   = coreindexes.Second

@@ -1,8 +1,8 @@
 package fileinfo
 
 import (
-	"gitlab.com/evatix-go/core/coreutils/stringutil"
-	"gitlab.com/evatix-go/errorwrapper"
+	"gitlab.com/auk-go/core/coreutils/stringutil"
+	"gitlab.com/auk-go/errorwrapper"
 )
 
 type FileNamesCollection struct {

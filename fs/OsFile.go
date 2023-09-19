@@ -3,11 +3,11 @@ package fs
 import (
 	"os"
 
-	"gitlab.com/evatix-go/errorwrapper"
-	"gitlab.com/evatix-go/errorwrapper/errnew"
-	"gitlab.com/evatix-go/errorwrapper/errtype"
-	"gitlab.com/evatix-go/pathhelper/internal/splitinternal"
-	"gitlab.com/evatix-go/pathhelper/pathchmod"
+	"gitlab.com/auk-go/errorwrapper"
+	"gitlab.com/auk-go/errorwrapper/errnew"
+	"gitlab.com/auk-go/errorwrapper/errtype"
+	"gitlab.com/auk-go/pathhelper/internal/splitinternal"
+	"gitlab.com/auk-go/pathhelper/pathchmod"
 )
 
 // OsFile defer function must be called to close the file.

@@ -3,10 +3,10 @@ package main
 import (
 	"fmt"
 
-	"gitlab.com/evatix-go/core/converters"
-	"gitlab.com/evatix-go/pathhelper/hashas"
-	"gitlab.com/evatix-go/pathhelper/hexchecksum"
-	"gitlab.com/evatix-go/pathhelper/pathsysinfo"
+	"gitlab.com/auk-go/core/converters"
+	"gitlab.com/auk-go/pathhelper/hashas"
+	"gitlab.com/auk-go/pathhelper/hexchecksum"
+	"gitlab.com/auk-go/pathhelper/pathsysinfo"
 )
 
 func checkSumCheck() {

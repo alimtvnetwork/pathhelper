@@ -1,6 +1,6 @@
 package pathinsfmt
 
-import "gitlab.com/evatix-go/core/coreinstruction"
+import "gitlab.com/auk-go/core/coreinstruction"
 
 type PathVerifiersWithGenericPathsCollection struct {
 	coreinstruction.BaseSpecPlusRequestIds

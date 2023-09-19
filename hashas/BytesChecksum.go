@@ -1,9 +1,9 @@
 package hashas
 
 import (
-	"gitlab.com/evatix-go/errorwrapper/errdata/errbyte"
-	"gitlab.com/evatix-go/errorwrapper/errnew"
-	"gitlab.com/evatix-go/errorwrapper/errtype"
+	"gitlab.com/auk-go/errorwrapper/errdata/errbyte"
+	"gitlab.com/auk-go/errorwrapper/errnew"
+	"gitlab.com/auk-go/errorwrapper/errtype"
 )
 
 func BytesChecksum(method Variant, inputBytes []byte) *errbyte.Results {

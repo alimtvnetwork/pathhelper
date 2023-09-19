@@ -3,8 +3,8 @@ package pathgetter
 import (
 	"io/ioutil"
 
-	"gitlab.com/evatix-go/pathhelper/normalize"
-	"gitlab.com/evatix-go/pathhelper/pathfuncs"
+	"gitlab.com/auk-go/pathhelper/normalize"
+	"gitlab.com/auk-go/pathhelper/pathfuncs"
 )
 
 func Filter(

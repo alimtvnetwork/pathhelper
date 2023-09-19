@@ -3,8 +3,8 @@ package downloadinsexec
 import (
 	"sync"
 
-	"gitlab.com/evatix-go/errorwrapper/errwrappers"
-	"gitlab.com/evatix-go/pathhelper/pathinsfmt"
+	"gitlab.com/auk-go/errorwrapper/errwrappers"
+	"gitlab.com/auk-go/pathhelper/pathinsfmt"
 )
 
 // applyManyAsync cannot exit on immediate exit

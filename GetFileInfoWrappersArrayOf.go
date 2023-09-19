@@ -3,7 +3,7 @@ package pathhelper
 import (
 	"sync"
 
-	"gitlab.com/evatix-go/pathhelper/fileinfo"
+	"gitlab.com/auk-go/pathhelper/fileinfo"
 )
 
 // Each path can give number wrappers from GetFileInfoWrappersFrom

@@ -1,8 +1,8 @@
 package pathinsfmt
 
 import (
-	"gitlab.com/evatix-go/core/constants"
-	"gitlab.com/evatix-go/core/coreinstruction"
+	"gitlab.com/auk-go/core/constants"
+	"gitlab.com/auk-go/core/coreinstruction"
 )
 
 type PathVerifiers struct {

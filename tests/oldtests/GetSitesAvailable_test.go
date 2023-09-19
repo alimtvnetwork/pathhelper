@@ -3,7 +3,7 @@ package oldtests
 import (
 	"testing"
 
-	"gitlab.com/evatix-go/pathhelper/nginxlinuxpath"
+	"gitlab.com/auk-go/pathhelper/nginxlinuxpath"
 )
 
 var getSitesAvailablePathTestCaseData = pathTestCaseDataWrapper{

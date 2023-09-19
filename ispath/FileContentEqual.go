@@ -3,12 +3,12 @@ package ispath
 import (
 	"path/filepath"
 
-	"gitlab.com/evatix-go/pathhelper/internal/ispathinternal"
+	"gitlab.com/auk-go/pathhelper/internal/ispathinternal"
 )
 
 // FileContentEqual
 //
-// Returns false if contents are not equal at any point
+// # Returns false if contents are not equal at any point
 //
 // Reference : https://stackoverflow.com/a/30038571
 func FileContentEqual(leftFullPath string, rightFullPath string) bool {

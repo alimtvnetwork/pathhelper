@@ -1,8 +1,8 @@
 package pathgetter
 
 import (
-	"gitlab.com/evatix-go/core/osconsts"
-	"gitlab.com/evatix-go/pathhelper/pathfuncs"
+	"gitlab.com/auk-go/core/osconsts"
+	"gitlab.com/auk-go/pathhelper/pathfuncs"
 )
 
 func FilterDefault(

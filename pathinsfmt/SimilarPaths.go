@@ -3,9 +3,9 @@ package pathinsfmt
 import (
 	"os"
 
-	"gitlab.com/evatix-go/errorwrapper"
-	"gitlab.com/evatix-go/pathhelper/pathchmod"
-	"gitlab.com/evatix-go/pathhelper/pathjoin"
+	"gitlab.com/auk-go/errorwrapper"
+	"gitlab.com/auk-go/pathhelper/pathchmod"
+	"gitlab.com/auk-go/pathhelper/pathjoin"
 )
 
 type SimilarPaths struct {

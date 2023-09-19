@@ -1,6 +1,6 @@
 package recursivepaths
 
-import "gitlab.com/evatix-go/errorwrapper/errdata/errstr"
+import "gitlab.com/auk-go/errorwrapper/errdata/errstr"
 
 // DirsOfLocationsIf recursive all directories recursive locations of
 // given locations by expanding using file walk.

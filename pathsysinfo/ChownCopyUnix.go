@@ -1,8 +1,8 @@
 package pathsysinfo
 
 import (
-	"gitlab.com/evatix-go/core/osconsts"
-	"gitlab.com/evatix-go/errorwrapper"
+	"gitlab.com/auk-go/core/osconsts"
+	"gitlab.com/auk-go/errorwrapper"
 )
 
 func ChownCopyUnix(srcFullPath, dstFullPath string) *errorwrapper.Wrapper {

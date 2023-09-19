@@ -1,8 +1,8 @@
 package pathjoin
 
 import (
-	"gitlab.com/evatix-go/pathhelper/expandpath"
-	"gitlab.com/evatix-go/pathhelper/normalize"
+	"gitlab.com/auk-go/pathhelper/expandpath"
+	"gitlab.com/auk-go/pathhelper/normalize"
 )
 
 // JoinNormalizedThreeExpandIf normalized and expand applied if condition meets

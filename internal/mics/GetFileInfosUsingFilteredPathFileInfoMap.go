@@ -3,8 +3,8 @@ package mics
 import (
 	"os"
 
-	"gitlab.com/evatix-go/core/chmodhelper"
-	"gitlab.com/evatix-go/core/constants"
+	"gitlab.com/auk-go/core/chmodhelper"
+	"gitlab.com/auk-go/core/constants"
 )
 
 func GetFileInfosUsingFilteredPathFileInfoMap(

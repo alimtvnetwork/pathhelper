@@ -1,8 +1,8 @@
 package pathchmod
 
 import (
-	"gitlab.com/evatix-go/core/chmodhelper"
-	"gitlab.com/evatix-go/core/coredata/corejson"
+	"gitlab.com/auk-go/core/chmodhelper"
+	"gitlab.com/auk-go/core/coredata/corejson"
 )
 
 type wrapperModel struct {

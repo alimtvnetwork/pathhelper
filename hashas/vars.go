@@ -1,7 +1,7 @@
 package hashas
 
 import (
-	"gitlab.com/evatix-go/core/coreimpl/enumimpl"
+	"gitlab.com/auk-go/core/coreimpl/enumimpl"
 )
 
 var (

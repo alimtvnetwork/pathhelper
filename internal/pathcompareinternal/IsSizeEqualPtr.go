@@ -1,7 +1,7 @@
 package pathcompareinternal
 
 import (
-	"gitlab.com/evatix-go/core/corecmp"
+	"gitlab.com/auk-go/core/corecmp"
 )
 
 func IsSizeEqualPtr(

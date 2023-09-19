@@ -1,8 +1,8 @@
 package pathhelper
 
 import (
-	"gitlab.com/evatix-go/core/corecomparator"
-	"gitlab.com/evatix-go/pathhelper/internal/pathcompareinternal"
+	"gitlab.com/auk-go/core/corecomparator"
+	"gitlab.com/auk-go/pathhelper/internal/pathcompareinternal"
 )
 
 func SizeCompare(

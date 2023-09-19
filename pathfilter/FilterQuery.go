@@ -3,8 +3,8 @@ package pathfilter
 import (
 	"strings"
 
-	"gitlab.com/evatix-go/core"
-	"gitlab.com/evatix-go/core/constants"
+	"gitlab.com/auk-go/core"
+	"gitlab.com/auk-go/core/constants"
 )
 
 type Query struct {

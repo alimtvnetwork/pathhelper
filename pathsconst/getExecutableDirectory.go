@@ -3,7 +3,7 @@ package pathsconst
 import (
 	"os"
 
-	"gitlab.com/evatix-go/pathhelper/internal/splitinternal"
+	"gitlab.com/auk-go/pathhelper/internal/splitinternal"
 )
 
 func getExecutableDirectory() string {

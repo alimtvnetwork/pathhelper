@@ -3,13 +3,13 @@ package createdir
 import (
 	"os"
 
-	"gitlab.com/evatix-go/errorwrapper"
-	"gitlab.com/evatix-go/errorwrapper/errnew"
-	"gitlab.com/evatix-go/errorwrapper/errtype"
+	"gitlab.com/auk-go/errorwrapper"
+	"gitlab.com/auk-go/errorwrapper/errnew"
+	"gitlab.com/auk-go/errorwrapper/errtype"
 
-	"gitlab.com/evatix-go/pathhelper"
-	"gitlab.com/evatix-go/pathhelper/dirinfo"
-	"gitlab.com/evatix-go/pathhelper/performingas"
+	"gitlab.com/auk-go/pathhelper"
+	"gitlab.com/auk-go/pathhelper/dirinfo"
+	"gitlab.com/auk-go/pathhelper/performingas"
 )
 
 // New Create directory and create the final directory

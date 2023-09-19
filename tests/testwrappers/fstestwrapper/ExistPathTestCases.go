@@ -1,10 +1,10 @@
 package fstestwrapper
 
 import (
-	"gitlab.com/evatix-go/core/ostype"
-	"gitlab.com/evatix-go/pathhelper/expandnormalize"
-	"gitlab.com/evatix-go/pathhelper/normalize"
-	"gitlab.com/evatix-go/pathhelper/pathsconst"
+	"gitlab.com/auk-go/core/ostype"
+	"gitlab.com/auk-go/pathhelper/expandnormalize"
+	"gitlab.com/auk-go/pathhelper/normalize"
+	"gitlab.com/auk-go/pathhelper/pathsconst"
 )
 
 type ExistPathWrapper struct {

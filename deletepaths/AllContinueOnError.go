@@ -1,6 +1,6 @@
 package deletepaths
 
-import "gitlab.com/evatix-go/errorwrapper/errwrappers"
+import "gitlab.com/auk-go/errorwrapper/errwrappers"
 
 func AllContinueOnError(
 	errorCollection *errwrappers.Collection,

@@ -1,7 +1,7 @@
 package ispaths
 
 import (
-	"gitlab.com/evatix-go/pathhelper/internal/fileinfogetter"
+	"gitlab.com/auk-go/pathhelper/internal/fileinfogetter"
 )
 
 func AllFilesPtr(fullPaths *[]string) bool {

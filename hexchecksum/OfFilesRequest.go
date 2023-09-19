@@ -1,9 +1,9 @@
 package hexchecksum
 
 import (
-	"gitlab.com/evatix-go/core/codestack"
-	"gitlab.com/evatix-go/core/constants"
-	"gitlab.com/evatix-go/errorwrapper/errnew"
+	"gitlab.com/auk-go/core/codestack"
+	"gitlab.com/auk-go/core/constants"
+	"gitlab.com/auk-go/errorwrapper/errnew"
 )
 
 func OfFilesRequest(request *FilesRequest) *FilesResult {

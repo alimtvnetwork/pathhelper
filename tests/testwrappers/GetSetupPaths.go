@@ -1,8 +1,8 @@
 package testwrappers
 
 import (
-	"gitlab.com/evatix-go/core/coredata/corestr"
-	"gitlab.com/evatix-go/pathhelper/normalize"
+	"gitlab.com/auk-go/core/coredata/corestr"
+	"gitlab.com/auk-go/pathhelper/normalize"
 )
 
 func GetSetupPaths() []string {

@@ -1,8 +1,8 @@
 package downloadinsexec
 
 import (
-	"gitlab.com/evatix-go/errorwrapper"
-	"gitlab.com/evatix-go/errorwrapper/errcmd"
+	"gitlab.com/auk-go/errorwrapper"
+	"gitlab.com/auk-go/errorwrapper/errcmd"
 )
 
 func InstallAria() *errorwrapper.Wrapper {

@@ -3,11 +3,11 @@ package pathgetterinternal
 import (
 	"io/ioutil"
 
-	"gitlab.com/evatix-go/core/constants"
-	"gitlab.com/evatix-go/errorwrapper/errdata/errstr"
-	"gitlab.com/evatix-go/errorwrapper/errnew"
-	"gitlab.com/evatix-go/errorwrapper/errtype"
-	"gitlab.com/evatix-go/pathhelper/internal/normalizeinternal"
+	"gitlab.com/auk-go/core/constants"
+	"gitlab.com/auk-go/errorwrapper/errdata/errstr"
+	"gitlab.com/auk-go/errorwrapper/errnew"
+	"gitlab.com/auk-go/errorwrapper/errtype"
+	"gitlab.com/auk-go/pathhelper/internal/normalizeinternal"
 )
 
 func GetAllPaths(isFixPaths bool, separator, rootPath string) *errstr.Results {

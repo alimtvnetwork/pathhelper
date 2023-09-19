@@ -5,7 +5,7 @@ import (
 	"testing"
 
 	. "github.com/smartystreets/goconvey/convey"
-	"gitlab.com/evatix-go/core/ostype"
+	"gitlab.com/auk-go/core/ostype"
 )
 
 type generalizedPathWithoutInputTestCaseDataWrapper struct {

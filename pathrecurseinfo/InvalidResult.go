@@ -1,8 +1,8 @@
 package pathrecurseinfo
 
 import (
-	"gitlab.com/evatix-go/core/chmodhelper"
-	"gitlab.com/evatix-go/errorwrapper"
+	"gitlab.com/auk-go/core/chmodhelper"
+	"gitlab.com/auk-go/errorwrapper"
 )
 
 func InvalidResult(

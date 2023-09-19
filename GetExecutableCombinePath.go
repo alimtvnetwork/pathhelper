@@ -3,7 +3,7 @@ package pathhelper
 import (
 	"os"
 
-	"gitlab.com/evatix-go/core/coreindexes"
+	"gitlab.com/auk-go/core/coreindexes"
 )
 
 // Get the final path exePath + ....

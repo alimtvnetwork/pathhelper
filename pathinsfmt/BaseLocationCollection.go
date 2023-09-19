@@ -1,6 +1,6 @@
 package pathinsfmt
 
-import "gitlab.com/evatix-go/core/constants"
+import "gitlab.com/auk-go/core/constants"
 
 type BaseLocationCollection struct {
 	LocationCollection *LocationCollection `json:"LocationCollection,omitempty"`

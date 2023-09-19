@@ -1,6 +1,6 @@
 package pathinsfmt
 
-import "gitlab.com/evatix-go/core/constants"
+import "gitlab.com/auk-go/core/constants"
 
 type BaseEnvPaths struct {
 	EnvPaths []string `json:"EnvPaths,omitempty"`

@@ -3,17 +3,17 @@ package hexchecksum
 import (
 	"sync"
 
-	"gitlab.com/evatix-go/core/errcore"
-	"gitlab.com/evatix-go/errorwrapper/errdata/errstr"
-	"gitlab.com/evatix-go/errorwrapper/errnew"
-	"gitlab.com/evatix-go/errorwrapper/errtype"
-	"gitlab.com/evatix-go/pathhelper/hashas"
-	"gitlab.com/evatix-go/pathhelper/internal/consts"
+	"gitlab.com/auk-go/core/errcore"
+	"gitlab.com/auk-go/errorwrapper/errdata/errstr"
+	"gitlab.com/auk-go/errorwrapper/errnew"
+	"gitlab.com/auk-go/errorwrapper/errtype"
+	"gitlab.com/auk-go/pathhelper/hashas"
+	"gitlab.com/auk-go/pathhelper/internal/consts"
 )
 
 // EachFilesChecksumListAsync
 //
-// Returns each files checksum as slice of errstr.Results
+// # Returns each files checksum as slice of errstr.Results
 //
 // each index represents file Index => checksum index same.
 // It continues on error

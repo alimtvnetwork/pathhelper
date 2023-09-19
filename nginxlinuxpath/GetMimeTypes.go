@@ -1,11 +1,11 @@
 package nginxlinuxpath
 
 import (
-	"gitlab.com/evatix-go/core/constants"
-	"gitlab.com/evatix-go/core/osconsts"
+	"gitlab.com/auk-go/core/constants"
+	"gitlab.com/auk-go/core/osconsts"
 
-	"gitlab.com/evatix-go/pathhelper/knowndir"
-	"gitlab.com/evatix-go/pathhelper/knowndirget"
+	"gitlab.com/auk-go/pathhelper/knowndir"
+	"gitlab.com/auk-go/pathhelper/knowndirget"
 )
 
 // GetMimeTypes

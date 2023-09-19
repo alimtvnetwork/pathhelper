@@ -1,7 +1,7 @@
 package pathinsfmt
 
 import (
-	"gitlab.com/evatix-go/pathhelper/normalize"
+	"gitlab.com/auk-go/pathhelper/normalize"
 )
 
 type AllDiffPaths struct {

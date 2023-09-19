@@ -1,4 +1,4 @@
-![](https://gitlab.com/evatix-go/pathhelper/uploads/6d228f94832193e553ddbc24401f7a52/image.png)
+![](https://gitlab.com/auk-go/pathhelper/uploads/6d228f94832193e553ddbc24401f7a52/image.png)
 
 # pathhelper
 
@@ -6,7 +6,7 @@ path helper utility tool
 
 ## Git Clone
 
-`git clone https://gitlab.com/evatix-go/pathhelper.git`
+`git clone https://gitlab.com/auk-go/pathhelper.git`
 
 ### Prerequisites
 
@@ -15,7 +15,7 @@ path helper utility tool
 
 ## Installation
 
-`go get gitlab.com/evatix-go/pathhelper`
+`go get gitlab.com/auk-go/pathhelper`
 
 ## Why *pathhelper*?
 

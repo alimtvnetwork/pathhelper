@@ -1,6 +1,6 @@
 package elitepath
 
-import "gitlab.com/evatix-go/core/enums/stringcompareas"
+import "gitlab.com/auk-go/core/enums/stringcompareas"
 
 type ValueFilter struct {
 	Value           string

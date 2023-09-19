@@ -1,6 +1,6 @@
 package pathinsfmt
 
-import "gitlab.com/evatix-go/core/reqtype"
+import "gitlab.com/auk-go/core/reqtype"
 
 type EnvironmentPathsUsingFilesCollection struct {
 	BaseLocationCollection

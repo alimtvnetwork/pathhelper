@@ -1,6 +1,6 @@
 package fs
 
-import "gitlab.com/evatix-go/errorwrapper"
+import "gitlab.com/auk-go/errorwrapper"
 
 func WriteStringToFileUsingLock(
 	isCreateParentDir bool,

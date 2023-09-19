@@ -4,8 +4,8 @@ import (
 	"fmt"
 	"io/ioutil"
 
-	"gitlab.com/evatix-go/pathhelper/copyrecursive"
-	"gitlab.com/evatix-go/pathhelper/pathsconst"
+	"gitlab.com/auk-go/pathhelper/copyrecursive"
+	"gitlab.com/auk-go/pathhelper/pathsconst"
 )
 
 func CopierTest2() {

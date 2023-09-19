@@ -1,6 +1,6 @@
 package fileinfo
 
-import "gitlab.com/evatix-go/pathhelper/internal/splitinternal"
+import "gitlab.com/auk-go/pathhelper/internal/splitinternal"
 
 type SimplePathWrapper struct {
 	Path        string

@@ -1,6 +1,6 @@
 package ispath
 
-import "gitlab.com/evatix-go/pathhelper/internal/ispathinternal"
+import "gitlab.com/auk-go/pathhelper/internal/ispathinternal"
 
 func FileContentEqualWithoutCheckingPathEqual(
 	leftFullPath string,

@@ -1,6 +1,6 @@
 package checksummer
 
-import "gitlab.com/evatix-go/pathhelper/hashas"
+import "gitlab.com/auk-go/pathhelper/hashas"
 
 func hashAll(
 	isAsync bool,

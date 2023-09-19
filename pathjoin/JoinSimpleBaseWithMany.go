@@ -3,7 +3,7 @@ package pathjoin
 import (
 	"strings"
 
-	"gitlab.com/evatix-go/core/osconsts"
+	"gitlab.com/auk-go/core/osconsts"
 )
 
 // JoinSimpleBaseWithMany doesn't apply normalize

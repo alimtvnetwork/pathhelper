@@ -3,8 +3,8 @@ package pathgetter
 import (
 	"sync"
 
-	"gitlab.com/evatix-go/core/coredata/corestr"
-	"gitlab.com/evatix-go/errorwrapper/errdata/errstr"
+	"gitlab.com/auk-go/core/coredata/corestr"
+	"gitlab.com/auk-go/errorwrapper/errdata/errstr"
 )
 
 func All(

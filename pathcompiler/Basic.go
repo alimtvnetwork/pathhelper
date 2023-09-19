@@ -1,13 +1,13 @@
 package pathcompiler
 
 import (
-	"gitlab.com/evatix-go/core/coredata/coredynamic"
-	"gitlab.com/evatix-go/core/coredata/corejson"
-	"gitlab.com/evatix-go/core/coreinterface/enuminf"
-	"gitlab.com/evatix-go/enum/envtype"
-	"gitlab.com/evatix-go/enum/osmixtype"
-	"gitlab.com/evatix-go/errorwrapper"
-	"gitlab.com/evatix-go/errorwrapper/errnew"
+	"gitlab.com/auk-go/core/coredata/coredynamic"
+	"gitlab.com/auk-go/core/coredata/corejson"
+	"gitlab.com/auk-go/core/coreinterface/enuminf"
+	"gitlab.com/auk-go/enum/envtype"
+	"gitlab.com/auk-go/enum/osmixtype"
+	"gitlab.com/auk-go/errorwrapper"
+	"gitlab.com/auk-go/errorwrapper/errnew"
 )
 
 type Basic struct {
@@ -210,9 +210,9 @@ func (it *Basic) JoinWithAppConfigRoot(
 
 // DefaultConfigFilePath
 //
-//  eg. unix :
-//  pathsconst.UnixVarAppRoot + "/config/default-config.json" =>
-//  "/var/opt/{app-name}/config/default-config.json"
+//	eg. unix :
+//	pathsconst.UnixVarAppRoot + "/config/default-config.json" =>
+//	"/var/opt/{app-name}/config/default-config.json"
 func (it *Basic) DefaultConfigFilePath() string {
 	specific := it.By(CurrentOsType)
 

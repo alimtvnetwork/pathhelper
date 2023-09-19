@@ -1,8 +1,8 @@
 package fscache
 
 import (
-	"gitlab.com/evatix-go/errorwrapper/errfunc"
-	"gitlab.com/evatix-go/pathhelper/pathchmod"
+	"gitlab.com/auk-go/errorwrapper/errfunc"
+	"gitlab.com/auk-go/pathhelper/pathchmod"
 )
 
 type newCacheFileCreator struct{}

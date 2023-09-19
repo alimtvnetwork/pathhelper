@@ -3,7 +3,7 @@ package pathhelper
 import (
 	"strings"
 
-	"gitlab.com/evatix-go/pathhelper/ispath"
+	"gitlab.com/auk-go/pathhelper/ispath"
 )
 
 func GetCompiledPath(

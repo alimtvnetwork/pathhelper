@@ -1,9 +1,9 @@
 package pathsysinfo
 
 import (
-	"gitlab.com/evatix-go/core/constants"
-	"gitlab.com/evatix-go/errorwrapper/errtype"
-	"gitlab.com/evatix-go/pathhelper/fileinfopath"
+	"gitlab.com/auk-go/core/constants"
+	"gitlab.com/auk-go/errorwrapper/errtype"
+	"gitlab.com/auk-go/pathhelper/fileinfopath"
 )
 
 func GetPathUserGroupIdUsing(instance *fileinfopath.Instance) *PathUserGroupId {

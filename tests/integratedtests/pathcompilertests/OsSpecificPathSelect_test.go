@@ -4,10 +4,10 @@ import (
 	"testing"
 
 	"github.com/smartystreets/goconvey/convey"
-	"gitlab.com/evatix-go/core/coreimpl/enumimpl"
-	"gitlab.com/evatix-go/core/errcore"
-	"gitlab.com/evatix-go/enum/osmixtype"
-	"gitlab.com/evatix-go/pathhelper/pathcompiler"
+	"gitlab.com/auk-go/core/coreimpl/enumimpl"
+	"gitlab.com/auk-go/core/errcore"
+	"gitlab.com/auk-go/enum/osmixtype"
+	"gitlab.com/auk-go/pathhelper/pathcompiler"
 )
 
 func Test_UnixOsSpecificPathSelect_OnWindows(t *testing.T) {

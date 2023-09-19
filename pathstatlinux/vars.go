@@ -1,8 +1,8 @@
 package pathstatlinux
 
 import (
-	"gitlab.com/evatix-go/pathhelper/internal/deferrwrappers"
-	"gitlab.com/evatix-go/pathhelper/pathsysinfo"
+	"gitlab.com/auk-go/pathhelper/internal/deferrwrappers"
+	"gitlab.com/auk-go/pathhelper/pathsysinfo"
 )
 
 var (

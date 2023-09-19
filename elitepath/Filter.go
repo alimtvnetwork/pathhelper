@@ -3,7 +3,7 @@ package elitepath
 import (
 	"regexp"
 
-	"gitlab.com/evatix-go/core/regexnew"
+	"gitlab.com/auk-go/core/regexnew"
 )
 
 type Filter struct {

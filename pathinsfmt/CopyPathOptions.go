@@ -1,6 +1,6 @@
 package pathinsfmt
 
-import "gitlab.com/evatix-go/pathhelper/copyrecursive"
+import "gitlab.com/auk-go/pathhelper/copyrecursive"
 
 type CopyPathOptions struct {
 	IsSkipOnExist      bool          `json:"IsSkipOnExist,omitempty"` // removes all before the action

@@ -1,7 +1,7 @@
 package pathhelper
 
 import (
-	"gitlab.com/evatix-go/core"
+	"gitlab.com/auk-go/core"
 )
 
 func GetRelativePaths(

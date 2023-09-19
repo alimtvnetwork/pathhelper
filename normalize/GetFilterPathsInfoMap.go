@@ -1,6 +1,6 @@
 package normalize
 
-import "gitlab.com/evatix-go/core/chmodhelper"
+import "gitlab.com/auk-go/core/chmodhelper"
 
 func GetFilterPathsInfoMap(
 	isNormalize,

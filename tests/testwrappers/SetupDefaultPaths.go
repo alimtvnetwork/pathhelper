@@ -1,7 +1,7 @@
 package testwrappers
 
 import (
-	"gitlab.com/evatix-go/pathhelper/pathinsfmtexec/pathscreateinsexec"
+	"gitlab.com/auk-go/pathhelper/pathinsfmtexec/pathscreateinsexec"
 )
 
 func SetupDefaultPathsUnix() []string {

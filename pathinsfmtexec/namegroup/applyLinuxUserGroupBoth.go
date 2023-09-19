@@ -1,10 +1,10 @@
 package namegroup
 
 import (
-	"gitlab.com/evatix-go/errorwrapper"
-	"gitlab.com/evatix-go/pathhelper/internal/cmdprefix"
-	"gitlab.com/evatix-go/pathhelper/internal/deferrwrappers"
-	"gitlab.com/evatix-go/pathhelper/pathinsfmt"
+	"gitlab.com/auk-go/errorwrapper"
+	"gitlab.com/auk-go/pathhelper/internal/cmdprefix"
+	"gitlab.com/auk-go/pathhelper/internal/deferrwrappers"
+	"gitlab.com/auk-go/pathhelper/pathinsfmt"
 )
 
 func applyLinuxUserGroupBoth(

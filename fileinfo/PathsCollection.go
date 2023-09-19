@@ -4,14 +4,14 @@ import (
 	"encoding/json"
 	"strings"
 
-	"gitlab.com/evatix-go/core"
-	"gitlab.com/evatix-go/core/constants"
-	"gitlab.com/evatix-go/core/coredata/corejson"
-	"gitlab.com/evatix-go/core/coreindexes"
-	"gitlab.com/evatix-go/core/defaulterr"
-	"gitlab.com/evatix-go/errorwrapper"
-	"gitlab.com/evatix-go/errorwrapper/errdata/errstr"
-	"gitlab.com/evatix-go/errorwrapper/errwrappers"
+	"gitlab.com/auk-go/core"
+	"gitlab.com/auk-go/core/constants"
+	"gitlab.com/auk-go/core/coredata/corejson"
+	"gitlab.com/auk-go/core/coreindexes"
+	"gitlab.com/auk-go/core/defaulterr"
+	"gitlab.com/auk-go/errorwrapper"
+	"gitlab.com/auk-go/errorwrapper/errdata/errstr"
+	"gitlab.com/auk-go/errorwrapper/errwrappers"
 )
 
 type PathsCollection struct {
@@ -324,6 +324,7 @@ func (it *PathsCollection) ParseInjectUsingJson(
 }
 
 // Panic if error
+//
 //goland:noinspection GoLinterLocal
 func (it *PathsCollection) ParseInjectUsingJsonMust(
 	jsonResult *corejson.Result,

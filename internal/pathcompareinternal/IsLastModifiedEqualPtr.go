@@ -3,7 +3,7 @@ package pathcompareinternal
 import (
 	"time"
 
-	"gitlab.com/evatix-go/core/corecmp"
+	"gitlab.com/auk-go/core/corecmp"
 )
 
 func IsLastModifiedEqualPtr(

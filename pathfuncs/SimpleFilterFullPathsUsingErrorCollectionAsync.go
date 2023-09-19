@@ -1,6 +1,6 @@
 package pathfuncs
 
-import "gitlab.com/evatix-go/errorwrapper/errwrappers"
+import "gitlab.com/auk-go/errorwrapper/errwrappers"
 
 func SimpleFilterFullPathsUsingErrorCollectionAsync(
 	isContinueOnError bool,

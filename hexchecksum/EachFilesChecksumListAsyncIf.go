@@ -3,13 +3,13 @@ package hexchecksum
 import (
 	"sort"
 
-	"gitlab.com/evatix-go/errorwrapper/errdata/errstr"
-	"gitlab.com/evatix-go/pathhelper/hashas"
+	"gitlab.com/auk-go/errorwrapper/errdata/errstr"
+	"gitlab.com/auk-go/pathhelper/hashas"
 )
 
 // EachFilesChecksumListAsyncIf
 //
-// Returns each files checksum as slice of errstr.Results
+// # Returns each files checksum as slice of errstr.Results
 //
 // each index represents file Index => checksum index same.
 //

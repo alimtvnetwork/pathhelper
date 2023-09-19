@@ -1,8 +1,8 @@
 package pathinsfmt
 
 import (
-	"gitlab.com/evatix-go/errorwrapper/errwrappers"
-	"gitlab.com/evatix-go/pathhelper/deletepaths"
+	"gitlab.com/auk-go/errorwrapper/errwrappers"
+	"gitlab.com/auk-go/pathhelper/deletepaths"
 )
 
 type RemoveInstruction struct {

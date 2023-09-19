@@ -1,7 +1,7 @@
 package recursivepaths
 
 import (
-	"gitlab.com/evatix-go/pathhelper/pathfuncs"
+	"gitlab.com/auk-go/pathhelper/pathfuncs"
 )
 
 func SimpleFilterMust(

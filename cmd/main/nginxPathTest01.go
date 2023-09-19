@@ -3,9 +3,9 @@ package main
 import (
 	"fmt"
 
-	"gitlab.com/evatix-go/pathhelper/fs"
-	"gitlab.com/evatix-go/pathhelper/nginxlinuxpath"
-	"gitlab.com/evatix-go/pathhelper/pathsconst"
+	"gitlab.com/auk-go/pathhelper/fs"
+	"gitlab.com/auk-go/pathhelper/nginxlinuxpath"
+	"gitlab.com/auk-go/pathhelper/pathsconst"
 )
 
 func nginxPathTest01() {

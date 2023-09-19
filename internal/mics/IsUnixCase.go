@@ -1,6 +1,6 @@
 package mics
 
-import "gitlab.com/evatix-go/core/ostype"
+import "gitlab.com/auk-go/core/ostype"
 
 // it returns if not windows
 func IsUnixCase(os ostype.Variation) bool {

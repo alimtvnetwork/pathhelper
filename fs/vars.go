@@ -1,7 +1,7 @@
 package fs
 
 import (
-	"gitlab.com/evatix-go/pathhelper/internal/consts"
+	"gitlab.com/auk-go/pathhelper/internal/consts"
 )
 
 var (

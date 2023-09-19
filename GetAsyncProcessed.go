@@ -3,7 +3,7 @@ package pathhelper
 import (
 	"sync"
 
-	"gitlab.com/evatix-go/pathhelper/pathfuncs"
+	"gitlab.com/auk-go/pathhelper/pathfuncs"
 )
 
 // GetAsyncProcessed Don't modify existing paths and creates new one.

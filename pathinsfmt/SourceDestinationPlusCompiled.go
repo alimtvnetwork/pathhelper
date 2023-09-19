@@ -3,8 +3,8 @@ package pathinsfmt
 import (
 	"strings"
 
-	"gitlab.com/evatix-go/core/osconsts"
-	"gitlab.com/evatix-go/pathhelper/pathfixer"
+	"gitlab.com/auk-go/core/osconsts"
+	"gitlab.com/auk-go/pathhelper/pathfixer"
 )
 
 type SourceDestinationPlusCompiled struct {

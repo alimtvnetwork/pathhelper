@@ -1,10 +1,10 @@
 package pathchmod
 
 import (
-	"gitlab.com/evatix-go/core/chmodhelper"
-	"gitlab.com/evatix-go/errorwrapper/errcmd"
-	"gitlab.com/evatix-go/errorwrapper/errwrappers"
-	"gitlab.com/evatix-go/pathhelper/internal/cmdprefix"
+	"gitlab.com/auk-go/core/chmodhelper"
+	"gitlab.com/auk-go/errorwrapper/errcmd"
+	"gitlab.com/auk-go/errorwrapper/errwrappers"
+	"gitlab.com/auk-go/pathhelper/internal/cmdprefix"
 )
 
 // ChmodLinuxCmdApply

@@ -3,7 +3,7 @@ package normalizeinternal
 import (
 	"path"
 
-	"gitlab.com/evatix-go/core/constants"
+	"gitlab.com/auk-go/core/constants"
 )
 
 func JoinPathsFixIf(isFix bool, givenPaths ...string) string {

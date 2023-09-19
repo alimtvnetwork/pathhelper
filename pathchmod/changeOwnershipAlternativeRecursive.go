@@ -5,11 +5,11 @@ import (
 	"os"
 	"path/filepath"
 
-	"gitlab.com/evatix-go/core/constants"
-	"gitlab.com/evatix-go/core/converters"
-	"gitlab.com/evatix-go/errorwrapper"
-	"gitlab.com/evatix-go/errorwrapper/errnew"
-	"gitlab.com/evatix-go/errorwrapper/errtype"
+	"gitlab.com/auk-go/core/constants"
+	"gitlab.com/auk-go/core/converters"
+	"gitlab.com/auk-go/errorwrapper"
+	"gitlab.com/auk-go/errorwrapper/errnew"
+	"gitlab.com/auk-go/errorwrapper/errtype"
 )
 
 func changeOwnershipWindowsRecursive(path, userName, groupName string) *errorwrapper.Wrapper {

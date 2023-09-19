@@ -1,8 +1,8 @@
 package envpath
 
 import (
-	"gitlab.com/evatix-go/core/coredata/corestr"
-	"gitlab.com/evatix-go/errorwrapper"
+	"gitlab.com/auk-go/core/coredata/corestr"
+	"gitlab.com/auk-go/errorwrapper"
 )
 
 func RemoveEnvPathsPtr(removeEnvPaths *[]string) *errorwrapper.Wrapper {

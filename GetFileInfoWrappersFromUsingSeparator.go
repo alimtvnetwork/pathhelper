@@ -1,6 +1,6 @@
 package pathhelper
 
-import "gitlab.com/evatix-go/pathhelper/fileinfo"
+import "gitlab.com/auk-go/pathhelper/fileinfo"
 
 func GetFileInfoWrappersFromUsingSeparator(path, separator string, isNormalize bool) *fileinfo.Wrappers {
 	return fileinfo.NewWrappersPtr(

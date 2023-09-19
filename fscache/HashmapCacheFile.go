@@ -3,14 +3,14 @@ package fscache
 import (
 	"sort"
 
-	"gitlab.com/evatix-go/core/converters"
-	"gitlab.com/evatix-go/core/coredata/coredynamic"
-	"gitlab.com/evatix-go/core/coredata/corestr"
-	"gitlab.com/evatix-go/core/coreimpl/enumimpl"
-	"gitlab.com/evatix-go/core/coreinterface/loggerinf"
-	"gitlab.com/evatix-go/errorwrapper"
-	"gitlab.com/evatix-go/errorwrapper/errnew"
-	"gitlab.com/evatix-go/errorwrapper/ref"
+	"gitlab.com/auk-go/core/converters"
+	"gitlab.com/auk-go/core/coredata/coredynamic"
+	"gitlab.com/auk-go/core/coredata/corestr"
+	"gitlab.com/auk-go/core/coreimpl/enumimpl"
+	"gitlab.com/auk-go/core/coreinterface/loggerinf"
+	"gitlab.com/auk-go/errorwrapper"
+	"gitlab.com/auk-go/errorwrapper/errnew"
+	"gitlab.com/auk-go/errorwrapper/ref"
 )
 
 type HashmapCacheFile struct {

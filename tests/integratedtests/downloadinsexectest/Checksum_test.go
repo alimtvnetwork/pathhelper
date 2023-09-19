@@ -6,13 +6,13 @@ import (
 	"testing"
 
 	"github.com/smartystreets/goconvey/convey"
-	"gitlab.com/evatix-go/core/coretests"
+	"gitlab.com/auk-go/core/coretests"
 
-	"gitlab.com/evatix-go/pathhelper/checksummer"
-	"gitlab.com/evatix-go/pathhelper/hashas"
-	"gitlab.com/evatix-go/pathhelper/internal/consts"
-	"gitlab.com/evatix-go/pathhelper/pathinsfmt"
-	"gitlab.com/evatix-go/pathhelper/pathinsfmtexec/downloadinsexec"
+	"gitlab.com/auk-go/pathhelper/checksummer"
+	"gitlab.com/auk-go/pathhelper/hashas"
+	"gitlab.com/auk-go/pathhelper/internal/consts"
+	"gitlab.com/auk-go/pathhelper/pathinsfmt"
+	"gitlab.com/auk-go/pathhelper/pathinsfmtexec/downloadinsexec"
 )
 
 func Test_Checksum(t *testing.T) {

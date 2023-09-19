@@ -1,8 +1,8 @@
 package pathinsfmt
 
 import (
-	"gitlab.com/evatix-go/core/coreinstruction"
-	"gitlab.com/evatix-go/core/reqtype"
+	"gitlab.com/auk-go/core/coreinstruction"
+	"gitlab.com/auk-go/core/reqtype"
 )
 
 type EnvironmentPathsUsingGenericPaths struct {

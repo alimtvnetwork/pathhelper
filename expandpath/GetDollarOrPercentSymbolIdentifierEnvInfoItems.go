@@ -1,8 +1,8 @@
 package expandpath
 
 import (
-	"gitlab.com/evatix-go/core/constants"
-	"gitlab.com/evatix-go/core/regexnew"
+	"gitlab.com/auk-go/core/constants"
+	"gitlab.com/auk-go/core/regexnew"
 )
 
 func GetDollarOrPercentSymbolIdentifierEnvInfoItems(

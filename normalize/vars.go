@@ -3,8 +3,8 @@ package normalize
 import (
 	"os"
 
-	"gitlab.com/evatix-go/core/constants"
-	"gitlab.com/evatix-go/pathhelper/internal/consts"
+	"gitlab.com/auk-go/core/constants"
+	"gitlab.com/auk-go/pathhelper/internal/consts"
 )
 
 var (

@@ -1,8 +1,8 @@
 package copyinsexec
 
 import (
-	"gitlab.com/evatix-go/errorwrapper/errwrappers"
-	"gitlab.com/evatix-go/pathhelper/pathinsfmt"
+	"gitlab.com/auk-go/errorwrapper/errwrappers"
+	"gitlab.com/auk-go/pathhelper/pathinsfmt"
 )
 
 func ApplyMany(

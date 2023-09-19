@@ -1,6 +1,6 @@
 package knowndirget
 
-import "gitlab.com/evatix-go/pathhelper/knowndir"
+import "gitlab.com/auk-go/pathhelper/knowndir"
 
 // Returns path to hosts on different platforms.
 func HostFilePath() string {

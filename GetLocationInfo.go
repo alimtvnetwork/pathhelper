@@ -3,8 +3,8 @@ package pathhelper
 import (
 	"strings"
 
-	"gitlab.com/evatix-go/core/constants"
-	"gitlab.com/evatix-go/pathhelper/internal/splitinternal"
+	"gitlab.com/auk-go/core/constants"
+	"gitlab.com/auk-go/pathhelper/internal/splitinternal"
 )
 
 func GetLocationInfo(location string) *LocationInfo {

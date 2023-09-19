@@ -1,6 +1,6 @@
 package ubuntupaths
 
-import "gitlab.com/evatix-go/pathhelper/pathwrapper"
+import "gitlab.com/auk-go/pathhelper/pathwrapper"
 
 //goland:noinspection ALL
 const (

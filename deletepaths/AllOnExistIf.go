@@ -1,6 +1,6 @@
 package deletepaths
 
-import "gitlab.com/evatix-go/errorwrapper"
+import "gitlab.com/auk-go/errorwrapper"
 
 func AllOnExistIf(
 	isRemoveOnExist bool,

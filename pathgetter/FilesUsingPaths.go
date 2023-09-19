@@ -1,7 +1,7 @@
 package pathgetter
 
 import (
-	"gitlab.com/evatix-go/errorwrapper/errdata/errstr"
+	"gitlab.com/auk-go/errorwrapper/errdata/errstr"
 )
 
 func FilesUsingPaths(

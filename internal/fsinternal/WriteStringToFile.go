@@ -1,6 +1,6 @@
 package fsinternal
 
-import "gitlab.com/evatix-go/errorwrapper"
+import "gitlab.com/auk-go/errorwrapper"
 
 func WriteStringToFile(
 	filePath string, content string,

@@ -3,8 +3,8 @@ package main
 import (
 	"fmt"
 
-	"gitlab.com/evatix-go/pathhelper/hashas"
-	"gitlab.com/evatix-go/pathhelper/hexchecksum"
+	"gitlab.com/auk-go/pathhelper/hashas"
+	"gitlab.com/auk-go/pathhelper/hexchecksum"
 )
 
 func checksumTest01() {

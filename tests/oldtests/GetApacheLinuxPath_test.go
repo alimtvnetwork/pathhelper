@@ -3,7 +3,7 @@ package oldtests
 import (
 	"testing"
 
-	"gitlab.com/evatix-go/pathhelper/knowndirget"
+	"gitlab.com/auk-go/pathhelper/knowndirget"
 )
 
 var getApacheLinuxPathTestCaseData = pathTestCaseDataWrapper{

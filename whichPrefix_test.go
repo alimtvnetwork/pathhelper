@@ -5,9 +5,9 @@ import (
 	"testing"
 
 	. "github.com/smartystreets/goconvey/convey"
-	"gitlab.com/evatix-go/pathhelper/tests/oldtests"
+	"gitlab.com/auk-go/pathhelper/tests/oldtests"
 
-	"gitlab.com/evatix-go/pathhelper/urischemes"
+	"gitlab.com/auk-go/pathhelper/urischemes"
 )
 
 type whichPrefixTestCaseWrapper struct {

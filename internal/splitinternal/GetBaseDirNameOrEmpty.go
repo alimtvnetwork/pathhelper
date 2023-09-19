@@ -1,6 +1,6 @@
 package splitinternal
 
-import "gitlab.com/evatix-go/core/constants"
+import "gitlab.com/auk-go/core/constants"
 
 // GetBaseDirNameOrEmpty reference example : https://play.golang.org/p/BJRR0Wk7GhJ
 func GetBaseDirNameOrEmpty(currentPath string) (baseDirName string) {

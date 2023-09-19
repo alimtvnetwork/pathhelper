@@ -3,11 +3,11 @@ package pathscreateinsexec
 import (
 	"os"
 
-	"gitlab.com/evatix-go/errorwrapper"
-	"gitlab.com/evatix-go/pathhelper/createpath"
-	"gitlab.com/evatix-go/pathhelper/deletepaths"
-	"gitlab.com/evatix-go/pathhelper/pathchmod"
-	"gitlab.com/evatix-go/pathhelper/pathinsfmt"
+	"gitlab.com/auk-go/errorwrapper"
+	"gitlab.com/auk-go/pathhelper/createpath"
+	"gitlab.com/auk-go/pathhelper/deletepaths"
+	"gitlab.com/auk-go/pathhelper/pathchmod"
+	"gitlab.com/auk-go/pathhelper/pathinsfmt"
 )
 
 func SimpleCreate(

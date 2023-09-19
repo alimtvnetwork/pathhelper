@@ -1,6 +1,6 @@
 package pathinsfmt
 
-import "gitlab.com/evatix-go/errorwrapper"
+import "gitlab.com/auk-go/errorwrapper"
 
 type ProcessorExecOutputs struct {
 	CompiledError *errorwrapper.Wrapper

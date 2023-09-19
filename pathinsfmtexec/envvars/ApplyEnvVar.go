@@ -1,11 +1,11 @@
 package envvars
 
 import (
-	"gitlab.com/evatix-go/core/constants"
-	"gitlab.com/evatix-go/errorwrapper"
-	"gitlab.com/evatix-go/errorwrapper/errcmd"
-	"gitlab.com/evatix-go/pathhelper/internal/consts"
-	"gitlab.com/evatix-go/pathhelper/pathinsfmt"
+	"gitlab.com/auk-go/core/constants"
+	"gitlab.com/auk-go/errorwrapper"
+	"gitlab.com/auk-go/errorwrapper/errcmd"
+	"gitlab.com/auk-go/pathhelper/internal/consts"
+	"gitlab.com/auk-go/pathhelper/pathinsfmt"
 )
 
 func ApplyEnvVar(

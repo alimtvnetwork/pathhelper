@@ -5,12 +5,12 @@ import (
 	"testing"
 
 	. "github.com/smartystreets/goconvey/convey"
-	"gitlab.com/evatix-go/core/osconsts"
-	"gitlab.com/evatix-go/core/ostype"
-	"gitlab.com/evatix-go/pathhelper/tests/oldtests"
+	"gitlab.com/auk-go/core/osconsts"
+	"gitlab.com/auk-go/core/ostype"
+	"gitlab.com/auk-go/pathhelper/tests/oldtests"
 
-	"gitlab.com/evatix-go/pathhelper/internal/mics"
-	"gitlab.com/evatix-go/pathhelper/pathhelpercore"
+	"gitlab.com/auk-go/pathhelper/internal/mics"
+	"gitlab.com/auk-go/pathhelper/pathhelpercore"
 )
 
 type combinedPathUsingConfigInternalTestCaseWrapper struct {

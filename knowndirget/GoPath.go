@@ -4,9 +4,9 @@ import (
 	"go/build"
 	"os"
 
-	"gitlab.com/evatix-go/core/constants"
+	"gitlab.com/auk-go/core/constants"
 
-	"gitlab.com/evatix-go/pathhelper/internal/ispathinternal"
+	"gitlab.com/auk-go/pathhelper/internal/ispathinternal"
 )
 
 // Reference: https://stackoverflow.com/a/32650077

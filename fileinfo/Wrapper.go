@@ -5,14 +5,14 @@ import (
 	"os"
 	"time"
 
-	"gitlab.com/evatix-go/core/coredata/corejson"
-	"gitlab.com/evatix-go/core/issetter"
-	"gitlab.com/evatix-go/errorwrapper"
-	"gitlab.com/evatix-go/errorwrapper/errnew"
-	"gitlab.com/evatix-go/errorwrapper/errtype"
+	"gitlab.com/auk-go/core/coredata/corejson"
+	"gitlab.com/auk-go/core/issetter"
+	"gitlab.com/auk-go/errorwrapper"
+	"gitlab.com/auk-go/errorwrapper/errnew"
+	"gitlab.com/auk-go/errorwrapper/errtype"
 
-	"gitlab.com/evatix-go/pathhelper/internal/splitinternal"
-	"gitlab.com/evatix-go/pathhelper/normalize"
+	"gitlab.com/auk-go/pathhelper/internal/splitinternal"
+	"gitlab.com/auk-go/pathhelper/normalize"
 )
 
 type Wrapper struct {
@@ -163,6 +163,7 @@ func (it *Wrapper) ParseInjectUsingJson(
 }
 
 // Panic if error
+//
 //goland:noinspection GoLinterLocal
 func (it *Wrapper) ParseInjectUsingJsonMust(
 	jsonResult *corejson.Result,

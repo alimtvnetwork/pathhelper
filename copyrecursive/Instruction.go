@@ -1,7 +1,7 @@
 package copyrecursive
 
 import (
-	"gitlab.com/evatix-go/errorwrapper"
+	"gitlab.com/auk-go/errorwrapper"
 )
 
 type Instruction struct {

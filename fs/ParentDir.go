@@ -3,7 +3,7 @@ package fs
 import (
 	"path/filepath"
 
-	"gitlab.com/evatix-go/core/constants"
+	"gitlab.com/auk-go/core/constants"
 )
 
 func ParentDir(location string) string {

@@ -1,8 +1,8 @@
 package fs
 
 import (
-	"gitlab.com/evatix-go/errorwrapper"
-	"gitlab.com/evatix-go/errorwrapper/errdata/errjson"
+	"gitlab.com/auk-go/errorwrapper"
+	"gitlab.com/auk-go/errorwrapper/errdata/errjson"
 )
 
 func WriteErrorJsonResultUsingLock(

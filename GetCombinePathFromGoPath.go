@@ -1,8 +1,8 @@
 package pathhelper
 
 import (
-	"gitlab.com/evatix-go/pathhelper/knowndirget"
-	"gitlab.com/evatix-go/pathhelper/pathhelpercore"
+	"gitlab.com/auk-go/pathhelper/knowndirget"
+	"gitlab.com/auk-go/pathhelper/pathhelpercore"
 )
 
 // By defaultPathConfig:

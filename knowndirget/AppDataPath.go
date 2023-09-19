@@ -3,9 +3,9 @@ package knowndirget
 import (
 	"os"
 
-	"gitlab.com/evatix-go/core/osconsts"
+	"gitlab.com/auk-go/core/osconsts"
 
-	"gitlab.com/evatix-go/pathhelper/knowndir"
+	"gitlab.com/auk-go/pathhelper/knowndir"
 )
 
 // AppDataPath Returns path to %AppData% in windows. If directory doesn't exist it still returns the path as a string.

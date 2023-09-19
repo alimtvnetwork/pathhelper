@@ -4,8 +4,8 @@ import (
 	"fmt"
 	"time"
 
-	"gitlab.com/evatix-go/pathhelper/checksummer"
-	"gitlab.com/evatix-go/pathhelper/hashas"
+	"gitlab.com/auk-go/pathhelper/checksummer"
+	"gitlab.com/auk-go/pathhelper/hashas"
 )
 
 func TestHashSumAsync() {
