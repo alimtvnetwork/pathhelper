@@ -5,6 +5,8 @@ import (
 	"testing"
 
 	. "github.com/smartystreets/goconvey/convey"
+	"gitlab.com/auk-go/core/coretests"
+	"gitlab.com/auk-go/core/osconsts"
 
 	"gitlab.com/auk-go/core/constants"
 
@@ -42,7 +44,65 @@ var combinedPathTestCaseWrappers = []combinedPathTestCaseWrapper{
 	},
 }
 
-func TestGetCombinedPath(t *testing.T) {
+func TestGetCombinedPath_Unix(t *testing.T) {
+	if osconsts.IsWindows {
+		coretests.SkipOnWindows(t)
+	}
+
+	for i, testCase := range combinedPathTestCaseWrappers {
+		// Arrange
+		testCaseMessage := fmt.Sprintf("[GetCombinedPath] inputs (%s, %v, %v, inputPaths:  %s, %s, %s) expects (%s)", testCase.inputSeparator, testCase.isIgnoreEmptyPath, testCase.isNormalize, testCase.inputPaths1, testCase.inputPaths2, testCase.inputPaths3, testCase.expectedMessage)
+
+		Convey(testCaseMessage, t, func() {
+			// Act
+			actual := pathhelper.GetCombinedPath(
+				testCase.inputSeparator,
+				testCase.isIgnoreEmptyPath,
+				testCase.isLongPathFix,
+				testCase.isNormalize,
+				testCase.inputPaths1,
+				testCase.inputPaths2,
+				testCase.inputPaths3)
+
+			// Assert
+			Convey(GetAssertMessage(actual, testCase.expected, i), func() {
+				So(actual, ShouldNotBeNil)
+				So(actual, ShouldEqual, testCase.expected)
+			})
+		})
+	}
+}
+
+var combinedPathTestCaseWrappers_Windows = []combinedPathTestCaseWrapper{
+	{
+		inputSeparator:    constants.BackSlash,
+		inputPaths1:       "something",
+		inputPaths2:       "more",
+		inputPaths3:       "etc",
+		isIgnoreEmptyPath: true,
+		isNormalize:       true,
+		expected:          "something\\more\\etc",
+		expectedMessage:   "something\\more\\etc",
+		isLongPathFix:     true,
+	},
+	{
+		inputSeparator:    constants.ForwardSlash,
+		inputPaths1:       "something",
+		inputPaths2:       "more",
+		inputPaths3:       "etc",
+		isIgnoreEmptyPath: true,
+		isNormalize:       true,
+		expected:          "something/more/etc",
+		expectedMessage:   "something/more/etc",
+		isLongPathFix:     true,
+	},
+}
+
+func TestGetCombinedPath_Windows(t *testing.T) {
+	if osconsts.IsUnixGroup {
+		coretests.SkipOnUnix(t)
+	}
+
 	for i, testCase := range combinedPathTestCaseWrappers {
 		// Arrange
 		testCaseMessage := fmt.Sprintf("[GetCombinedPath] inputs (%s, %v, %v, inputPaths:  %s, %s, %s) expects (%s)", testCase.inputSeparator, testCase.isIgnoreEmptyPath, testCase.isNormalize, testCase.inputPaths1, testCase.inputPaths2, testCase.inputPaths3, testCase.expectedMessage)
