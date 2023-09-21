@@ -25,22 +25,15 @@ func TestNewEmptyDirectoryResult(t *testing.T) {
 	Convey(testMessage, t, func() {
 		// Act
 		actual := dirinfo.Empty()
-		expectedReflect := reflect.ValueOf(expectedNewEmptyDirectoryResult)
+		expectedReflect := reflect.ValueOf(*expectedNewEmptyDirectoryResult)
 
 		// Assert
-		So(*actual, ShouldHaveSameTypeAs, expectedNewEmptyDirectoryResult)
+		So(*actual, ShouldHaveSameTypeAs, *expectedNewEmptyDirectoryResult)
 
 		actualValueOf := reflect.ValueOf(*actual)
 		for i := 0; i < actualValueOf.NumField(); i++ {
 			actualFieldValue := GetFieldValue(actualValueOf.Field(i))
 			expectedFieldValue := GetFieldValue(expectedReflect.Field(i))
-
-			// https://play.golang.org/p/2fEwolio_lY
-			if i == 1 {
-				AssertErrorWrapperEqual(actualFieldValue, expectedFieldValue, i)
-
-				continue
-			}
 
 			Convey(GetAssertMessage(actualFieldValue, expectedFieldValue, i), func() {
 				So(actualFieldValue, ShouldEqual, expectedFieldValue)

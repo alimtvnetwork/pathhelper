@@ -52,7 +52,6 @@ func TestNormalizePathUsingSeparatorIf(t *testing.T) {
 			// Act
 			actual := normalize.PathUsingSeparatorIf(
 				testCase.isLongPathFixed,
-
 				testCase.isLongPathFixed,
 				testCase.isNormalize,
 				testCase.inputSeparator,

@@ -17,9 +17,10 @@ var gitGlobalPathTestCaseDataWrappers = []generalizedPathWithoutInputTestCaseDat
 		operatingSystem:        ostype.Linux,
 	},
 	{
+		expected:               "C:\\Users\\Administrator\\.gitconfig",
 		operatingSystemMessage: "Windows OS",
 		funcName:               "GitGlobal",
-		expected:               "C:\\Users\\Administrator\\.gitconfig",
+		osUserName:             "\\Administrator\\",
 		operatingSystem:        ostype.Windows,
 	},
 }

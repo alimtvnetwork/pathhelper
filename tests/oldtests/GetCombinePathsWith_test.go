@@ -24,7 +24,8 @@ var combinePathsWithTestCaseWrappers = []combinePathsWithTestCaseDataWrapper{
 		inputPath3:             "otherThings",
 		operatingSystem:        ostype.Windows,
 		operatingSystemMessage: "Windows OS",
-		expected:               "something\\somethingElse\\otherThings",
+
+		expected: "\\\\?\\something\\somethingElse\\otherThings",
 	},
 	{
 		inputPath1:             "",
@@ -32,7 +33,7 @@ var combinePathsWithTestCaseWrappers = []combinePathsWithTestCaseDataWrapper{
 		inputPath3:             "",
 		operatingSystem:        ostype.Windows,
 		operatingSystemMessage: "Windows OS",
-		expected:               "\\",
+		expected:               "\\\\?\\",
 	},
 	{
 		inputPath1:             "something",

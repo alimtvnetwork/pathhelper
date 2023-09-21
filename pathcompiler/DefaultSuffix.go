@@ -11,7 +11,7 @@ var DefaultSuffix = Suffixes{
 		AppDbRoot:                "/databases/",
 		TempRoot:                 AppNameLower,
 		UserTempRoot:             "/users/",
-		CacheTempRoot:            "/cache/",
+		CacheTempRoot:            "/cache",
 		InstructionTempRoot:      instructionDirName,
 		MigrationCacheRoot:       "/migration-cache/",
 		PackageTempRoot:          packagesDirName,

@@ -11,15 +11,16 @@ import (
 
 var userMusicPathTestCaseDataWrappers = []generalizedPathWithoutInputTestCaseDataWrapper{
 	{
+		expected:               homePath + "/Music",
 		operatingSystemMessage: "Unix OS",
 		funcName:               "UserMusicPath",
-		expected:               homePath + "/Music",
 		operatingSystem:        ostype.Linux,
 	},
 	{
 		operatingSystemMessage: "Windows OS",
 		funcName:               "UserMusicPath",
 		expected:               "C:\\Users\\Administrator\\Music",
+		osUserName:             "Administrator",
 		operatingSystem:        ostype.Windows,
 	},
 }

@@ -73,7 +73,7 @@ func TestGetCombinedPath_Unix(t *testing.T) {
 	}
 }
 
-var combinedPathTestCaseWrappers_Windows = []combinedPathTestCaseWrapper{
+var combinedPathTestCaseWrappersForWindows = []combinedPathTestCaseWrapper{
 	{
 		inputSeparator:    constants.BackSlash,
 		inputPaths1:       "something",
@@ -81,8 +81,8 @@ var combinedPathTestCaseWrappers_Windows = []combinedPathTestCaseWrapper{
 		inputPaths3:       "etc",
 		isIgnoreEmptyPath: true,
 		isNormalize:       true,
-		expected:          "something\\more\\etc",
-		expectedMessage:   "something\\more\\etc",
+		expected:          "\\\\?\\something\\more\\etc",
+		expectedMessage:   "\\\\?\\something\\more\\etc",
 		isLongPathFix:     true,
 	},
 	{
@@ -93,7 +93,7 @@ var combinedPathTestCaseWrappers_Windows = []combinedPathTestCaseWrapper{
 		isIgnoreEmptyPath: true,
 		isNormalize:       true,
 		expected:          "something/more/etc",
-		expectedMessage:   "something/more/etc",
+		expectedMessage:   "for Forward slash it will behave like unix - \"something/more/etc\"",
 		isLongPathFix:     true,
 	},
 }
@@ -103,7 +103,7 @@ func TestGetCombinedPath_Windows(t *testing.T) {
 		coretests.SkipOnUnix(t)
 	}
 
-	for i, testCase := range combinedPathTestCaseWrappers {
+	for i, testCase := range combinedPathTestCaseWrappersForWindows {
 		// Arrange
 		testCaseMessage := fmt.Sprintf("[GetCombinedPath] inputs (%s, %v, %v, inputPaths:  %s, %s, %s) expects (%s)", testCase.inputSeparator, testCase.isIgnoreEmptyPath, testCase.isNormalize, testCase.inputPaths1, testCase.inputPaths2, testCase.inputPaths3, testCase.expectedMessage)
 

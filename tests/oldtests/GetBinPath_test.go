@@ -11,14 +11,16 @@ import (
 
 var binPathTestCaseDataWrappers = []generalizedPathWithoutInputTestCaseDataWrapper{
 	{
+		expected:               "/usr/bin",
 		operatingSystemMessage: "Unix OS",
 		funcName:               "BinPath",
-		expected:               "/usr/bin",
+		osUserName:             "",
 		operatingSystem:        ostype.Linux,
 	},
 	{
 		operatingSystemMessage: "Windows OS",
 		funcName:               "BinPath",
+		osUserName:             "\\Administrator\\",
 		expected:               "C:\\Users\\Administrator\\bin",
 		operatingSystem:        ostype.Windows,
 	},
