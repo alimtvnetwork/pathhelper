@@ -24,7 +24,7 @@ var pathCompilerTestCases = []TestWrapper{
 				"AppDbRoot":                "/var/opt/{app-name}/databases/",
 				"ArchiveRoot":              "/var/opt/{app-name}/archived/",
 				"BackupRoot":               "/var/opt/{app-name}/backups/",
-				"CacheTempRoot":            `c:\Windows\Temp\{app-name}/cache/`,
+				"CacheTempRoot":            `c:\Windows\Temp\{app-name}/cache`,
 				"DecompressRoot":           `c:\Windows\Temp\{app-name}/decompress/`,
 				"DefaultConfigFilePath":    "/etc/{app-name}/config/default-config.json",
 				"DefaultEnvPathRoot":       "/var/opt/{app-name}/env-paths/",
